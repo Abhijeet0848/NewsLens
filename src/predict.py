@@ -99,8 +99,9 @@ class NewsClassifierPredictor:
 
         # 3. Model Prediction
         pred_idx = int(model.predict(tfidf_vec)[0])
-        predicted_category = self.label_encoder.inverse_transform([pred_idx])[0]
-        class_names = list(self.label_encoder.classes_)
+        raw_cat = self.label_encoder.inverse_transform([pred_idx])[0]
+        predicted_category = str(raw_cat).capitalize()
+        class_names = [str(c).capitalize() for c in self.label_encoder.classes_]
 
         # 4. Score / Probability Calculation (Distinguish calibrated probabilities vs raw decision margin)
         score_info = {

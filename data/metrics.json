@@ -1,49 +1,37 @@
 {
   "naive_bayes": {
-    "accuracy": 1.0,
-    "f1_macro": 1.0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "latency_ms": 0.001,
+    "accuracy": 0.9812,
+    "f1_macro": 0.9803,
+    "precision": 0.9793,
+    "recall": 0.9817,
+    "latency_ms": 0.006,
     "confusion_matrix": [
       [
-        200,
+        97,
         0,
+        3,
         0,
-        0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
-        200,
+        72,
+        1,
         0,
-        0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
+        1,
+        79,
         0,
-        200,
-        0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
         0,
         0,
-        200,
-        0,
-        0,
-        0,
+        101,
         0
       ],
       [
@@ -51,135 +39,72 @@
         0,
         0,
         0,
-        200,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200
+        69
       ]
     ],
     "classes": [
-      "Business",
-      "Entertainment",
-      "Health",
-      "Politics",
-      "Science",
-      "Sports",
-      "Technology",
-      "World"
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
     ],
     "paradigm": "Probabilistic Generative",
     "per_class": [
       {
-        "category": "Business",
+        "category": "business",
         "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "recall": 0.9604,
+        "f1_score": 0.9798,
+        "support": 101
       },
       {
-        "category": "Entertainment",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "entertainment",
+        "precision": 0.9863,
+        "recall": 0.973,
+        "f1_score": 0.9796,
+        "support": 74
       },
       {
-        "category": "Health",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "politics",
+        "precision": 0.9518,
+        "recall": 0.9753,
+        "f1_score": 0.9634,
+        "support": 81
       },
       {
-        "category": "Politics",
+        "category": "sport",
         "precision": 1.0,
         "recall": 1.0,
         "f1_score": 1.0,
-        "support": 200
+        "support": 101
       },
       {
-        "category": "Science",
-        "precision": 1.0,
+        "category": "tech",
+        "precision": 0.9583,
         "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Sports",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Technology",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "World",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "f1_score": 0.9787,
+        "support": 69
       }
     ]
   },
   "linear_svm": {
-    "accuracy": 1.0,
-    "f1_macro": 1.0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "latency_ms": 0.002,
+    "accuracy": 0.9906,
+    "f1_macro": 0.9903,
+    "precision": 0.9892,
+    "recall": 0.9916,
+    "latency_ms": 0.005,
     "confusion_matrix": [
       [
-        200,
+        98,
+        1,
+        1,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
-        200,
-        0,
-        0,
-        0,
+        74,
         0,
         0,
         0
@@ -187,31 +112,15 @@
       [
         0,
         0,
-        200,
+        80,
         0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
         0,
         0,
-        200,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        200,
-        0,
-        0,
+        101,
         0
       ],
       [
@@ -219,305 +128,177 @@
         0,
         0,
         0,
-        0,
-        200,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200
+        69
       ]
     ],
     "classes": [
-      "Business",
-      "Entertainment",
-      "Health",
-      "Politics",
-      "Science",
-      "Sports",
-      "Technology",
-      "World"
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
     ],
     "paradigm": "Maximum-Margin Discriminative",
     "per_class": [
       {
-        "category": "Business",
+        "category": "business",
         "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "recall": 0.9703,
+        "f1_score": 0.9849,
+        "support": 101
       },
       {
-        "category": "Entertainment",
-        "precision": 1.0,
+        "category": "entertainment",
+        "precision": 0.9867,
         "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "f1_score": 0.9933,
+        "support": 74
       },
       {
-        "category": "Health",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "politics",
+        "precision": 0.9877,
+        "recall": 0.9877,
+        "f1_score": 0.9877,
+        "support": 81
       },
       {
-        "category": "Politics",
+        "category": "sport",
         "precision": 1.0,
         "recall": 1.0,
         "f1_score": 1.0,
-        "support": 200
+        "support": 101
       },
       {
-        "category": "Science",
-        "precision": 1.0,
+        "category": "tech",
+        "precision": 0.9718,
         "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Sports",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Technology",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "World",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "f1_score": 0.9857,
+        "support": 69
       }
     ]
   },
   "decision_tree": {
-    "accuracy": 1.0,
-    "f1_macro": 1.0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "latency_ms": 0.001,
+    "accuracy": 0.8404,
+    "f1_macro": 0.8363,
+    "precision": 0.8372,
+    "recall": 0.8357,
+    "latency_ms": 0.006,
     "confusion_matrix": [
       [
-        200,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        88,
+        4,
+        4,
+        1,
+        4
+      ],
+      [
+        3,
+        59,
+        1,
+        4,
+        7
+      ],
+      [
+        6,
+        4,
+        67,
+        3,
+        1
+      ],
+      [
+        4,
+        7,
+        2,
+        88,
         0
       ],
       [
-        0,
-        200,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        200,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        200,
-        0,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        200,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200
+        4,
+        2,
+        4,
+        3,
+        56
       ]
     ],
     "classes": [
-      "Business",
-      "Entertainment",
-      "Health",
-      "Politics",
-      "Science",
-      "Sports",
-      "Technology",
-      "World"
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
     ],
     "paradigm": "Hierarchical Non-Parametric",
     "per_class": [
       {
-        "category": "Business",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "business",
+        "precision": 0.8381,
+        "recall": 0.8713,
+        "f1_score": 0.8544,
+        "support": 101
       },
       {
-        "category": "Entertainment",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "entertainment",
+        "precision": 0.7763,
+        "recall": 0.7973,
+        "f1_score": 0.7867,
+        "support": 74
       },
       {
-        "category": "Health",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "politics",
+        "precision": 0.859,
+        "recall": 0.8272,
+        "f1_score": 0.8428,
+        "support": 81
       },
       {
-        "category": "Politics",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "sport",
+        "precision": 0.8889,
+        "recall": 0.8713,
+        "f1_score": 0.88,
+        "support": 101
       },
       {
-        "category": "Science",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Sports",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Technology",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "World",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "tech",
+        "precision": 0.8235,
+        "recall": 0.8116,
+        "f1_score": 0.8175,
+        "support": 69
       }
     ]
   },
   "mlp": {
-    "accuracy": 1.0,
-    "f1_macro": 1.0,
-    "precision": 1.0,
-    "recall": 1.0,
-    "latency_ms": 0.012,
+    "accuracy": 0.9859,
+    "f1_macro": 0.985,
+    "precision": 0.9838,
+    "recall": 0.9864,
+    "latency_ms": 0.083,
     "confusion_matrix": [
       [
-        200,
+        98,
+        1,
+        1,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
-        200,
+        73,
         0,
         0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
+        1,
+        79,
         0,
-        200,
-        0,
-        0,
-        0,
-        0,
-        0
+        1
       ],
       [
         0,
         0,
         0,
-        200,
-        0,
-        0,
-        0,
+        101,
         0
       ],
       [
@@ -525,109 +306,52 @@
         0,
         0,
         0,
-        200,
-        0,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200,
-        0
-      ],
-      [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        200
+        69
       ]
     ],
     "classes": [
-      "Business",
-      "Entertainment",
-      "Health",
-      "Politics",
-      "Science",
-      "Sports",
-      "Technology",
-      "World"
+      "business",
+      "entertainment",
+      "politics",
+      "sport",
+      "tech"
     ],
     "paradigm": "Artificial Neural Network",
     "per_class": [
       {
-        "category": "Business",
+        "category": "business",
         "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "recall": 0.9703,
+        "f1_score": 0.9849,
+        "support": 101
       },
       {
-        "category": "Entertainment",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "entertainment",
+        "precision": 0.9733,
+        "recall": 0.9865,
+        "f1_score": 0.9799,
+        "support": 74
       },
       {
-        "category": "Health",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "category": "politics",
+        "precision": 0.9875,
+        "recall": 0.9753,
+        "f1_score": 0.9814,
+        "support": 81
       },
       {
-        "category": "Politics",
+        "category": "sport",
         "precision": 1.0,
         "recall": 1.0,
         "f1_score": 1.0,
-        "support": 200
+        "support": 101
       },
       {
-        "category": "Science",
-        "precision": 1.0,
+        "category": "tech",
+        "precision": 0.9583,
         "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Sports",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "Technology",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
-      },
-      {
-        "category": "World",
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 200
+        "f1_score": 0.9787,
+        "support": 69
       }
     ]
   }

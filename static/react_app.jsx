@@ -5,7 +5,7 @@
 
 const { useState, useEffect, useRef, useMemo } = React;
 
-// Quick test samples across all 8 categories
+// Quick test samples across all 5 BBC categories
 const SAMPLE_ARTICLES = [
   {
     category: "Politics",
@@ -14,7 +14,7 @@ const SAMPLE_ARTICLES = [
     text: "Parliament passed a landmark electoral reform bill after extensive parliamentary debate on constitutional safeguards and democratic voting integrity. Lawmakers voted on amendments to ensure fair elections."
   },
   {
-    category: "Sports",
+    category: "Sport",
     icon: "⚽",
     title: "Championship Derby",
     text: "The premier league football champions clinched a thrilling 3-2 victory in the championship derby after scoring two sensational goals in extra time before a sold-out stadium crowd."
@@ -26,7 +26,7 @@ const SAMPLE_ARTICLES = [
     text: "The central bank held benchmark interest rates steady to control inflation pressures while monitoring corporate bond yields, quarterly revenue, and stock market exchange fluctuations."
   },
   {
-    category: "Technology",
+    category: "Tech",
     icon: "💻",
     title: "Next-Gen Microprocessor",
     text: "Semiconductor engineers unveiled a revolutionary 2nm microchip architecture featuring ultra-dense transistor gates, slashing power consumption and accelerating neural network machine learning inference."
@@ -36,37 +36,17 @@ const SAMPLE_ARTICLES = [
     icon: "🎬",
     title: "Film Festival Awards",
     text: "Acclaimed directors swept honors at the international film festival awards ceremony, receiving standing ovations for masterful cinematography, evocative screenplay, and transformative acting performances."
-  },
-  {
-    category: "Science",
-    icon: "🔬",
-    title: "Deep Space Telescope",
-    text: "Astrophysicists utilizing orbital space telescopes captured infrared observations of early cosmic galaxy clusters formed shortly after the Big Bang, expanding our understanding of quantum astrophysics."
-  },
-  {
-    category: "Health",
-    icon: "🏥",
-    title: "Immunotherapy Trial",
-    text: "Clinical oncology medical researchers reported significant tumor regression in Phase 3 oncology immunotherapy trials, demonstrating dramatic improvements in patient recovery and clinical health outcomes."
-  },
-  {
-    category: "World",
-    icon: "🌍",
-    title: "UN Climate Accord",
-    text: "The United Nations General Assembly convened a global diplomatic summit to finalize binding international climate accords, humanitarian refugee aid corridors, and multilateral peacekeeping initiatives."
   }
 ];
 
 const CATEGORY_META = {
-  Politics: { icon: "🏛️", color: "var(--cat-politics)", bg: "var(--cat-politics-bg)" },
-  Sports: { icon: "⚽", color: "var(--cat-sports)", bg: "var(--cat-sports-bg)" },
   Business: { icon: "💼", color: "var(--cat-business)", bg: "var(--cat-business-bg)" },
-  Technology: { icon: "💻", color: "var(--cat-technology)", bg: "var(--cat-technology-bg)" },
   Entertainment: { icon: "🎬", color: "var(--cat-entertainment)", bg: "var(--cat-entertainment-bg)" },
-  Science: { icon: "🔬", color: "var(--cat-science)", bg: "var(--cat-science-bg)" },
-  Health: { icon: "🏥", color: "var(--cat-health)", bg: "var(--cat-health-bg)" },
-  World: { icon: "🌍", color: "var(--cat-world)", bg: "var(--cat-world-bg)" }
+  Politics: { icon: "🏛️", color: "var(--cat-politics)", bg: "var(--cat-politics-bg)" },
+  Sport: { icon: "⚽", color: "var(--cat-sports)", bg: "var(--cat-sports-bg)" },
+  Tech: { icon: "💻", color: "var(--cat-technology)", bg: "var(--cat-technology-bg)" }
 };
+
 
 const MODELS = [
   { id: "naive_bayes", name: "Naive Bayes", badge: "Fastest", desc: "Probabilistic Bayes Theorem" },

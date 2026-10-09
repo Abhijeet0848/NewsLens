@@ -37,22 +37,28 @@ export type InputState =
 
 const AVAILABLE_MODELS = [
   {
+    id: "linear_svm",
+    name: "Linear SVM",
+    tag: "Champion",
+    desc: "Maximum-Margin Boundary",
+  },
+  {
     id: "distilbert",
     name: "DistilBERT",
     tag: "Neural",
     desc: "Transformer Attention",
   },
   {
-    id: "linear_svm",
-    name: "Linear SVM",
-    tag: "Hyperplane",
-    desc: "Maximum-Margin Boundary",
-  },
-  {
     id: "mlp",
     name: "Neural MLP",
-    tag: "Baseline",
+    tag: "Nonlinear",
     desc: "Multi-Layer Perceptron",
+  },
+  {
+    id: "naive_bayes",
+    name: "Naive Bayes",
+    tag: "Probabilistic",
+    desc: "Generative Baseline",
   },
 ];
 
@@ -429,7 +435,7 @@ export function ClassifierInput({
             CLASSIFICATION ARCHITECTURE
           </label>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {AVAILABLE_MODELS.map((m) => {
               const isSelected = selectedModel === m.id;
               return (

@@ -16,14 +16,14 @@ from src.config import SUPPORTED_CATEGORIES
 
 TEST_ARTICLES = [
     {
-        "domain": "Sports",
-        "expected": "Sports",
+        "domain": "Sport",
+        "expected": "Sport",
         "headline": "Football Championship Victory",
         "text": "The national football team won the premier league championship match with two late goals in the stadium."
     },
     {
-        "domain": "Technology",
-        "expected": "Technology",
+        "domain": "Tech",
+        "expected": "Tech",
         "headline": "AI Microprocessor Launch",
         "text": "Apple announced a new artificial intelligence microprocessor designed for next-generation laptops with neural engines."
     },
@@ -40,28 +40,10 @@ TEST_ARTICLES = [
         "text": "The international film festival premiered a blockbuster cinema release that broke all weekend box office revenue records."
     },
     {
-        "domain": "Science",
-        "expected": "Science",
-        "headline": "Space Telescope Astrophysics",
-        "text": "Astrophysicists deployed deep space telescope instrumentation to observe distant exoplanets and cosmological quantum phenomena."
-    },
-    {
-        "domain": "Health",
-        "expected": "Health",
-        "headline": "Clinical Vaccine Trial",
-        "text": "Medical researchers published clinical trial results demonstrating a novel pharmaceutical antibody vaccine for cardiovascular health."
-    },
-    {
         "domain": "Politics",
         "expected": "Politics",
         "headline": "Parliament Voting Legislation",
         "text": "The national parliament convened an emergency legislative debate to pass bipartisan election integrity and voting reform."
-    },
-    {
-        "domain": "World",
-        "expected": "World",
-        "headline": "Diplomatic Peace Summit",
-        "text": "International ambassadors convened at the United Nations diplomatic summit to negotiate a bilateral peacekeeping treaty."
     }
 ]
 

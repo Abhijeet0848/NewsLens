@@ -89,19 +89,27 @@ from src.data_loader import ensure_large_dataset_exists
 def load_and_validate_dataset(filepath: str = DATASET_PATH) -> pd.DataFrame:
     """
     Loads dataset from CSV and validates structural requirements.
-    Ensures 8,000 articles across 8 categories.
+    Loads BBC News corpus across 5 categories.
     """
-    ensure_large_dataset_exists(8000)
+
     
     if not os.path.exists(filepath):
         raise FileNotFoundError(
             f"Dataset file not found at '{filepath}'."
         )
 
-    df = pd.read_csv(filepath, encoding="utf-8")
+    try:
+        df = pd.read_csv(filepath, sep="\t", encoding="utf-8")
+        if "category" not in df.columns and "label" not in df.columns:
+            df = pd.read_csv(filepath, encoding="utf-8")
+    except Exception:
+        df = pd.read_csv(filepath, encoding="utf-8")
+
+    if "content" in df.columns and "text" not in df.columns:
+        df["text"] = df["title"].fillna("") + " " + df["content"].fillna("")
     
     # Check minimum columns
-    text_col = "text" if "text" in df.columns else None
+    text_col = "text" if "text" in df.columns else ("content" if "content" in df.columns else None)
     cat_col = "category" if "category" in df.columns else ("label" if "label" in df.columns else None)
 
     if not text_col or not cat_col:

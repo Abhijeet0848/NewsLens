@@ -14,19 +14,17 @@ os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(MODELS_DIR, exist_ok=True)
 
 # Dataset Paths
-DATASET_PATH = os.path.join(DATA_DIR, "news_dataset.csv")
+DATASET_PATH = os.path.join(DATA_DIR, "bbc-news-data.csv")
 
-# Supported Standard Categories
+# Supported Standard Categories (5 BBC News Domains)
 SUPPORTED_CATEGORIES = [
-    "Politics",
-    "Sports",
     "Business",
-    "Technology",
     "Entertainment",
-    "Science",
-    "Health",
-    "World"
+    "Politics",
+    "Sport",
+    "Tech"
 ]
+
 
 # Train / Test Splitting Parameters
 TEST_SIZE = 0.20

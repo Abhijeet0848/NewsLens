@@ -147,7 +147,7 @@ export function Footer() {
               </ul>
             </motion.div>
 
-            {/* Zone 4: Meta / Status Column (Col 2 on desktop, Col 12 on mobile) */}
+            {/* Zone 4: Corpus Info Column (Col 2 on desktop, Col 12 on mobile) */}
             <motion.div
               initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
               whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
@@ -156,16 +156,15 @@ export function Footer() {
               className="col-span-12 md:col-span-2 flex flex-col justify-start md:items-end text-left md:text-right pt-2 md:pt-0"
             >
               <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8a847d] font-mono mb-4">
-                System
+                Corpus
               </h4>
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-[#3f3d3a]">
-                  <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
-                  <span>All systems operational</span>
-                </div>
+              <div className="space-y-1 text-[12px] text-[#57534e]">
+                <p className="font-mono text-[#0f0f0e] font-medium">BBC News Dataset</p>
+                <p className="text-[11px] text-[#6b6660]">2,225 Articles &bull; 5 Domains</p>
               </div>
             </motion.div>
           </div>
+
 
           {/* Divider & Row 3: Bottom Bar */}
           <div className="mt-12 border-t border-[#e7e3dd] pt-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-[12px] text-[#6b6660]">

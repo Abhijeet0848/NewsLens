@@ -60,14 +60,14 @@ export default function AnalyticsDashboardPage() {
 
           <div className="space-y-2">
             <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#0f0f0e]">
-              No Training Metrics Yet
+              No metrics yet
             </h1>
             <p className="text-sm text-[#57534e] leading-relaxed">
-              No training metrics found. Run the training pipeline to generate{" "}
+              No metrics yet — run{" "}
               <code className="rounded bg-[#f1efeb] px-1.5 py-0.5 text-xs font-mono text-[#0f0f0e]">
-                data/metrics.json
-              </code>
-              .
+                training/train.py
+              </code>{" "}
+              to generate
             </p>
           </div>
 
@@ -120,16 +120,16 @@ export default function AnalyticsDashboardPage() {
                 <div className="space-y-3 text-xs text-[#3f3d3a] leading-relaxed">
                   <p>
                     Run the Python training script from the root of your project
-                    to train all supervised baseline classifiers and export test metrics:
+                    to train all supervised baseline classifiers and export real test metrics:
                   </p>
 
                   <div className="relative rounded-xl border border-[#e7e3dd] bg-[#0f0f0e] p-4 text-[#fdfcfb] font-mono text-xs">
                     <pre className="overflow-x-auto text-[#34d399]">
-                      python src/train.py
+                      python training/train.py
                     </pre>
                     <button
                       type="button"
-                      onClick={() => handleCopyCommand("python src/train.py")}
+                      onClick={() => handleCopyCommand("python training/train.py")}
                       aria-label="Copy training command"
                       className="absolute right-3 top-3 flex size-7 items-center justify-center rounded-md bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
                     >
@@ -138,7 +138,7 @@ export default function AnalyticsDashboardPage() {
                   </div>
 
                   <p className="text-[#6b6660]">
-                    This will split the corpus (80/20 train/test), fit TF-IDF feature representations, train Naive Bayes, Linear SVM, Decision Tree, and MLP, and automatically generate <code className="font-mono text-[#0f0f0e]">data/metrics.json</code>.
+                    This will split the BBC corpus (80/20 train/test), fit TF-IDF feature representations, train Naive Bayes, Linear SVM, and MLP, and automatically generate <code className="font-mono text-[#0f0f0e]">data/metrics.json</code>.
                   </p>
                 </div>
 
@@ -168,7 +168,7 @@ export default function AnalyticsDashboardPage() {
     badge: "Champion",
   };
 
-  // Compute per-class breakdown from confusion matrix
+  // Compute per-class breakdown from confusion matrix or per_class array
   const perClassData = (bestModelData.classes || []).map((className, idx) => {
     const row = bestModelData.confusion_matrix?.[idx] || [];
     const correct = row[idx] || 0;
@@ -198,10 +198,10 @@ export default function AnalyticsDashboardPage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div className="space-y-1">
             <span className="text-[10px] md:text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block">
-              TRAINING & EVALUATION BENCHMARK
+              TRAINING &amp; EVALUATION BENCHMARK
             </span>
             <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight text-[#0f0f0e]">
-              Performance & Evaluation Analytics
+              Performance &amp; Evaluation Analytics
             </h1>
             <p className="text-[13px] md:text-sm text-[#3f3d3a] max-w-2xl leading-relaxed">
               Real metrics loaded from held-out test split evaluation (Champion:{" "}
@@ -211,10 +211,11 @@ export default function AnalyticsDashboardPage() {
 
           <div className="flex items-center gap-2 font-mono text-xs text-[#3f3d3a]">
             <span className="size-2 rounded-full bg-[#059669]" />
-            <span>Champion: {bestMeta.name}</span>
+            <span className="font-semibold text-[#0f0f0e]">Champion: {bestMeta.name}</span>
           </div>
         </div>
       </Reveal>
+
 
       <div className="border-t border-[#e7e3dd]" />
 
@@ -261,7 +262,7 @@ export default function AnalyticsDashboardPage() {
         </StaggerItem>
       </StaggerContainer>
 
-      {/* Per-Class Accuracy Breakdown */}
+      {/* Per-Domain Accuracy Breakdown */}
       {perClassData.length > 0 && (
         <Reveal delay={0.05}>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
@@ -271,7 +272,7 @@ export default function AnalyticsDashboardPage() {
                 Per-Domain Accuracy Breakdown ({bestMeta.name})
               </h3>
               <span className="text-xs font-mono font-medium text-[#6b6660]">
-                {bestModelData.classes?.length || perClassData.length} Classes
+                {bestModelData.classes?.length || perClassData.length || 5} Domains
               </span>
             </div>
 
@@ -295,7 +296,7 @@ export default function AnalyticsDashboardPage() {
                   <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
                   <Bar
                     dataKey="accuracy"
-                    name="Class Accuracy (%)"
+                    name="Domain Accuracy (%)"
                     fill="#4f46e5"
                     radius={[6, 6, 0, 0]}
                     isAnimationActive={true}
@@ -317,11 +318,12 @@ export default function AnalyticsDashboardPage() {
               categories={bestModelData.classes}
               matrix={bestModelData.confusion_matrix}
               title={`${bestMeta.name} Confusion Matrix`}
-              description={`Contingency distribution across ${bestModelData.classes?.length || 5} categories on the test set.`}
+              description={`Contingency distribution across ${bestModelData.classes?.length || 5} news domains on the test set.`}
             />
           </div>
         </Reveal>
       )}
+
 
       {/* Model Comparison Leaderboard */}
       <Reveal delay={0.15}>

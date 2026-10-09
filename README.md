@@ -7,8 +7,9 @@ NewsSense is a functional, academic-grade Machine Learning and Natural Language 
 
 ## 🌟 Key Features
 
-1. **8 Configurable News Categories:**
-   - Politics, Sports, Business, Technology, Entertainment, Science, Health, World.
+1. **5 BBC News Domains:**
+   - Business, Entertainment, Politics, Sport, Tech.
+
 2. **4 Supervised ML Models:**
    - **Multinomial Naive Bayes** (Probabilistic Generative)
    - **Support Vector Machine** (Linear SVM with Calibrated Probabilities)
@@ -52,7 +53,7 @@ Open your browser and navigate to: **`http://localhost:8000`**
 NewsArticleClassifier/
 │
 ├── data/
-│   └── news_dataset.csv            # 600 balanced news articles across 8 categories
+│   └── bbc-news-data.csv           # 2,225 BBC news articles across 5 categories
 │
 ├── models/
 │   ├── tfidf_vectorizer.joblib     # Pre-fitted TF-IDF vectorizer (no data leakage)

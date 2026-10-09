@@ -22,25 +22,25 @@ export const MODEL_PARADIGMS: Record<
   string,
   { name: string; paradigm: string; badge?: string; desc?: string }
 > = {
-  distilbert: {
-    name: "DistilBERT (Fine-Tuned)",
-    paradigm: "Transformer Attention / Deep Learning",
+  linear_svm: {
+    name: "Linear SVM",
+    paradigm: "Maximum-Margin Hyperplane",
     badge: "⭐ Champion",
   },
-  linear_svm: {
-    name: "Linear Support Vector Machine (SVM)",
-    paradigm: "Maximum-Margin Hyperplane",
-    badge: "Fast & Optimal",
+  mlp: {
+    name: "Neural MLP",
+    paradigm: "Feedforward Neural Network",
+    badge: "Nonlinear Neural",
   },
   naive_bayes: {
     name: "Multinomial Naive Bayes",
     paradigm: "Generative Probabilistic",
     badge: "Lightweight Baseline",
   },
-  mlp: {
-    name: "Multi-Layer Perceptron (MLP)",
-    paradigm: "Feedforward Neural Network",
-    badge: "Nonlinear Neural",
+  distilbert: {
+    name: "DistilBERT (Fine-Tuned)",
+    paradigm: "Transformer Attention / Deep Learning",
+    badge: "Deep Learning SOTA",
   },
   decision_tree: {
     name: "Decision Tree",
@@ -48,6 +48,7 @@ export const MODEL_PARADIGMS: Record<
     badge: "Interpretable Tree",
   },
 };
+
 
 export const getMetrics = (): Record<string, ModelMetrics> => {
   return (metricsData || {}) as Record<string, ModelMetrics>;

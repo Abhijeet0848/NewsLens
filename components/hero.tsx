@@ -112,12 +112,13 @@ export function Hero() {
             {/* Stat 1 */}
             <div className="w-full sm:w-auto py-1 sm:py-0">
               <div className="font-heading text-lg md:text-xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-                <AnimatedCount value={totalClassifiedCount} />
+                2,225
               </div>
               <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#6b6660] mt-0.5">
-                BBC News Articles
+                Articles in Corpus
               </p>
             </div>
+
 
             {/* Mobile Horizontal Divider / Desktop Vertical Divider */}
             <div className="h-px w-12 mx-auto bg-[#e7e3dd] block sm:hidden" />

@@ -22,13 +22,13 @@ from src.config import SUPPORTED_CATEGORIES, MODEL_METADATA
 
 TEST_CORPUS = [
     {
-        "domain": "Sports",
-        "expected": "Sports",
+        "domain": "Sport",
+        "expected": "Sport",
         "text": "The national football team won the premier league championship match with two late goals in front of eighty thousand cheering fans."
     },
     {
-        "domain": "Technology",
-        "expected": "Technology",
+        "domain": "Tech",
+        "expected": "Tech",
         "text": "Apple announced a new artificial intelligence microprocessor designed for next-generation laptops with neural engine acceleration."
     },
     {
@@ -42,24 +42,9 @@ TEST_CORPUS = [
         "text": "The international film festival premiered a blockbuster cinema release that broke all weekend box office revenue records worldwide."
     },
     {
-        "domain": "Science",
-        "expected": "Science",
-        "text": "Astrophysicists deployed deep space telescope instrumentation to observe distant exoplanets and cosmological quantum gravitational waves."
-    },
-    {
-        "domain": "Health",
-        "expected": "Health",
-        "text": "Medical researchers published clinical trial results demonstrating a novel pharmaceutical antibody vaccine for cardiovascular health."
-    },
-    {
         "domain": "Politics",
         "expected": "Politics",
         "text": "The national parliament convened an emergency legislative debate to pass bipartisan election integrity and voting reform legislation."
-    },
-    {
-        "domain": "World",
-        "expected": "World",
-        "text": "International ambassadors convened at the United Nations diplomatic summit to negotiate a bilateral peacekeeping treaty and climate pact."
     }
 ]
 
@@ -195,7 +180,7 @@ def test_all_models_comparative_coverage():
         preds[m_key] = res["predicted_category"]
         assert res["predicted_category"] in SUPPORTED_CATEGORIES
     
-    assert preds["naive_bayes"] == "Sports"
-    assert preds["linear_svm"] == "Sports"
-    assert preds["decision_tree"] == "Sports"
-    assert preds["mlp"] == "Sports"
+    assert preds["naive_bayes"] == "Sport"
+    assert preds["linear_svm"] == "Sport"
+    assert preds["decision_tree"] == "Sport"
+    assert preds["mlp"] == "Sport"
