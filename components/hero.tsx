@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useClassifierStore } from "@/lib/store";
@@ -96,11 +96,13 @@ export function Hero() {
           <Link href="/classify" className="inline-flex">
             <button
               type="button"
-              className="group inline-flex items-center gap-2 h-11 px-6 rounded-lg bg-[#4f46e5] text-white text-sm font-medium shadow-[0_2px_8px_rgba(79,70,229,0.20)] hover:bg-[#4338ca] hover:shadow-[0_4px_12px_rgba(79,70,229,0.28)] hover:-translate-y-px active:translate-y-0 active:scale-[0.98] transition-all duration-200 cursor-pointer select-none"
+              className="group inline-flex items-center gap-1.5 h-11 px-6 rounded-lg bg-[#4f46e5] text-white text-sm font-medium tracking-[-0.005em] shadow-[0_1px_2px_rgba(15,15,14,0.08),0_4px_12px_rgba(79,70,229,0.15)] hover:bg-[#4338ca] hover:shadow-[0_2px_4px_rgba(15,15,14,0.10),0_6px_16px_rgba(79,70,229,0.22)] hover:-translate-y-px active:translate-y-0 active:scale-[0.98] transition-all duration-200 ease-out cursor-pointer select-none"
             >
-              <Zap className="size-4" strokeWidth={2.5} />
               <span>Open Classifier</span>
-              <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              <ArrowRight
+                className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                strokeWidth={2}
+              />
             </button>
           </Link>
         </motion.div>

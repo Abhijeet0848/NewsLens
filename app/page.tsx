@@ -175,15 +175,18 @@ export default function HomePage() {
             </p>
 
             <div className="pt-2 flex justify-center">
-              <motion.div whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-                <Link href="/classify" className="w-full block">
-                  <Button size="lg" className="w-full sm:w-auto h-11 md:h-10 px-6 rounded-xl gap-2 text-sm font-semibold shadow-[0_4px_12px_rgba(99,102,241,0.25)]">
-                    <Zap className="size-4 text-[#fdfcfb]" />
-                    <span>Open Classifier</span>
-                    <ArrowRight className="size-4" />
-                  </Button>
-                </Link>
-              </motion.div>
+              <Link href="/classify" className="inline-flex">
+                <button
+                  type="button"
+                  className="group inline-flex items-center gap-1.5 h-11 px-6 rounded-lg bg-[#4f46e5] text-white text-sm font-medium tracking-[-0.005em] shadow-[0_1px_2px_rgba(15,15,14,0.08),0_4px_12px_rgba(79,70,229,0.15)] hover:bg-[#4338ca] hover:shadow-[0_2px_4px_rgba(15,15,14,0.10),0_6px_16px_rgba(79,70,229,0.22)] hover:-translate-y-px active:translate-y-0 active:scale-[0.98] transition-all duration-200 ease-out cursor-pointer select-none"
+                >
+                  <span>Open Classifier</span>
+                  <ArrowRight
+                    className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                    strokeWidth={2}
+                  />
+                </button>
+              </Link>
             </div>
           </div>
         </section>
