@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
-  BrainCircuit,
   ArrowUpRight,
   FileText,
   BarChart3,
@@ -12,6 +11,7 @@ import {
   ArrowUp,
 } from "lucide-react";
 import { ease } from "@/lib/motion";
+import { Logo } from "@/components/Logo";
 
 export function Footer() {
   const shouldReduceMotion = useReducedMotion();
@@ -56,14 +56,7 @@ export function Footer() {
               transition={{ duration: 0.5, delay: 0, ease: ease.smooth }}
               className="col-span-12 md:col-span-5 space-y-4"
             >
-              <div className="flex items-center gap-2.5">
-                <div className="flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 text-[#fdfcfb] shadow-xs flex-shrink-0">
-                  <BrainCircuit className="size-4.5" />
-                </div>
-                <span className="text-[15px] font-semibold tracking-tight text-[#0f0f0e] font-heading leading-none">
-                  NewsScope
-                </span>
-              </div>
+              <Logo size={36} />
 
               <p className="text-[13px] text-[#57534e] leading-relaxed max-w-sm mt-4">
                 Industrial ML for sub-millisecond news classification with explainable neural attention.

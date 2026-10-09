@@ -13,11 +13,11 @@ import {
 import {
   Menu,
   X,
-  BrainCircuit,
   Search,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useClassifierStore } from "@/lib/store";
+import { Logo } from "@/components/Logo";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -51,14 +51,9 @@ export function Navbar() {
         {/* 1. Logo (Left) — 28px/32px icon, 14px/15px wordmark */}
         <Link
           href="/"
-          className="flex items-center gap-2 cursor-pointer focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] rounded-lg outline-none"
+          className="flex items-center cursor-pointer focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] rounded-lg outline-none"
         >
-          <div className="flex size-7 md:size-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 shadow-sm shadow-indigo-500/20 text-[#fdfcfb] flex-shrink-0">
-            <BrainCircuit className="size-3.5 md:size-4" />
-          </div>
-          <span className="font-heading text-sm md:text-[15px] font-semibold tracking-tight text-[#0f0f0e] leading-none">
-            NewsScope
-          </span>
+          <Logo size={32} />
         </Link>
 
         {/* 2. Nav Pill (Center) — Hidden on mobile, absolute true center */}
