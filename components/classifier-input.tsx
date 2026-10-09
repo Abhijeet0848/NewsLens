@@ -185,7 +185,7 @@ export function ClassifierInput({
                 >
                   {isActive && (
                     <motion.div
-                      layoutId="input-tab"
+                      layoutId="classifier-input-tab-pill"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                       className="absolute inset-0 rounded-md bg-[#fdfcfb] shadow-sm ring-1 ring-[#e7e3dd] -z-10"
                     />

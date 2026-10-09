@@ -25,19 +25,24 @@ export function Navbar() {
   const pathname = usePathname();
   const shouldReduceMotion = useReducedMotion();
   const [scrolled, setScrolled] = React.useState(false);
+  const scrolledRef = React.useRef(false);
   const { scrollY } = useScroll();
   const { setCommandPaletteOpen } = useClassifierStore();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest >= 20);
+    const next = latest >= 20;
+    if (next !== scrolledRef.current) {
+      scrolledRef.current = next;
+      setScrolled(next);
+    }
   });
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 w-full h-14 transition-all duration-250 ease-out",
+        "sticky top-0 z-40 w-full h-14 transition-colors duration-200",
         scrolled
-          ? "border-b border-[#e7e3dd] bg-[#f7f6f3]/85 backdrop-blur-xl shadow-[0_1px_2px_rgba(28,27,26,0.03)]"
+          ? "border-b border-[#e7e3dd] bg-[#f7f6f3]/95 backdrop-blur-md shadow-[0_1px_2px_rgba(28,27,26,0.03)]"
           : "border-b border-transparent bg-transparent"
       )}
     >
@@ -45,6 +50,7 @@ export function Navbar() {
         {/* 1. Logo (Left) */}
         <Link
           href="/"
+          prefetch={true}
           className="flex items-center cursor-pointer focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] rounded-lg outline-none"
         >
           <div className="hidden sm:block">
@@ -66,6 +72,7 @@ export function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "relative h-8 px-3 lg:px-3.5 rounded-full text-[13px] font-medium leading-none flex items-center justify-center transition-colors duration-150 z-10 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none",
@@ -76,9 +83,9 @@ export function Navbar() {
               >
                 {isActive && (
                   <motion.div
-                    layoutId={shouldReduceMotion ? undefined : "nav-active"}
+                    layoutId={shouldReduceMotion ? undefined : "desktop-nav-active-pill"}
                     className="absolute inset-0 bg-[#fdfcfb] rounded-full shadow-[0_1px_3px_rgba(28,27,26,0.08)] -z-10"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
                 <span>{item.label}</span>

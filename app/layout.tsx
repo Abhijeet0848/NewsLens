@@ -13,6 +13,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { PageTransition } from "@/components/PageTransition";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { RoutePrefetcher } from "@/components/RoutePrefetcher";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Toaster } from "sonner";
 
@@ -53,6 +54,7 @@ export default function RootLayout({
           <Footer />
         </SmoothScroll>
         <MobileBottomNav />
+        <RoutePrefetcher />
         <CommandPalette />
         <Toaster
           position="bottom-right"
