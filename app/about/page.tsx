@@ -1,13 +1,14 @@
 "use client";
 
+import * as React from "react";
 import {
   BookOpen,
   Cpu,
   Layers,
   HelpCircle,
-  Code,
 } from "lucide-react";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
+import { MathBlock } from "@/components/MathBlock";
 
 export default function AboutPage() {
   return (
@@ -109,35 +110,78 @@ export default function AboutPage() {
           </div>
         </Reveal>
 
-        {/* 2. Mathematical Formulations */}
+        {/* 2. Mathematical Formulations & Architecture Cards */}
         <Reveal delay={0.1}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-md space-y-3">
-              <div className="flex items-center gap-2 text-indigo-600 font-mono text-xs uppercase font-semibold">
-                <Code className="size-4" /> 1. Scaled Dot-Product Attention (DistilBERT)
-              </div>
-              <h3 className="text-base font-semibold text-[#0f0f0e]">Transformer Attention Formula</h3>
-              <div className="rounded-xl bg-[#f1efeb] p-4 font-mono text-xs text-[#0891b2] border border-[#e7e3dd] font-semibold">
-                Attention(Q, K, V) = softmax( (Q &bull; K^T) / √d_k ) &bull; V
-              </div>
-              <p className="text-xs text-[#3f3d3a] leading-relaxed">
-                Allows the model to dynamically weight token relevance across long contexts, capturing
-                nuanced journalistic domain markers regardless of sentence position.
-              </p>
-            </div>
+          <div className="space-y-4">
+            <h2 className="font-heading text-xl font-semibold text-[#0f0f0e]">
+              Core Mathematical Formulations
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Card 1: Scaled Dot-Product Attention */}
+              <div className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-2xl p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04)] hover:shadow-[0_4px_16px_rgba(28,27,26,0.06)] transition-shadow duration-200 flex flex-col justify-between">
+                <div>
+                  {/* Card Header Row */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="size-8 rounded-lg bg-[#eef2ff] flex items-center justify-center text-[13px] font-semibold text-[#4f46e5] shrink-0 font-mono">
+                      1
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-[15px] font-semibold text-[#0f0f0e] leading-tight truncate">
+                        Scaled Dot-Product Attention
+                      </h3>
+                      <p className="text-[11px] uppercase tracking-widest text-[#a8a29e] mt-0.5 font-mono">
+                        DistilBERT · Transformer
+                      </p>
+                    </div>
+                  </div>
 
-            <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-md space-y-3">
-              <div className="flex items-center gap-2 text-[#059669] font-mono text-xs uppercase font-semibold">
-                <Code className="size-4" /> 2. Support Vector Machine (Linear SVM)
+                  {/* Formula Section */}
+                  <div className="mt-3">
+                    <span className="text-[11px] uppercase tracking-wider text-[#a8a29e] font-mono block">
+                      Attention Formula
+                    </span>
+                    <MathBlock math={"\\text{Attention}(Q, K, V) = \\text{softmax}\\!\\left(\\frac{Q K^\\top}{\\sqrt{d_k}}\\right) V"} />
+                  </div>
+                </div>
+
+                <p className="text-[13px] text-[#57534e] leading-relaxed mt-2">
+                  Allows the model to dynamically weight token relevance across long contexts, capturing
+                  nuanced journalistic domain markers regardless of sentence position.
+                </p>
               </div>
-              <h3 className="text-base font-semibold text-[#0f0f0e]">Hyperplane Decision Function</h3>
-              <div className="rounded-xl bg-[#f1efeb] p-4 font-mono text-xs text-[#059669] border border-[#e7e3dd] font-semibold">
-                f(x) = sign( w^T &bull; Φ(x) + b ) &bull; TF-IDF(t, d)
+
+              {/* Card 2: Linear SVM */}
+              <div className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-2xl p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04)] hover:shadow-[0_4px_16px_rgba(28,27,26,0.06)] transition-shadow duration-200 flex flex-col justify-between">
+                <div>
+                  {/* Card Header Row */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="size-8 rounded-lg bg-[#ecfdf5] flex items-center justify-center text-[13px] font-semibold text-[#059669] shrink-0 font-mono">
+                      2
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-[15px] font-semibold text-[#0f0f0e] leading-tight truncate">
+                        Support Vector Machine
+                      </h3>
+                      <p className="text-[11px] uppercase tracking-widest text-[#a8a29e] mt-0.5 font-mono">
+                        Linear SVM · Max-Margin
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Formula Section */}
+                  <div className="mt-3">
+                    <span className="text-[11px] uppercase tracking-wider text-[#a8a29e] font-mono block">
+                      Hyperplane Decision Function
+                    </span>
+                    <MathBlock math={"f(x) = \\text{sign}\\!\\left(w^\\top \\cdot \\phi(x) + b\\right) \\cdot \\text{TF-IDF}(t, d)"} />
+                  </div>
+                </div>
+
+                <p className="text-[13px] text-[#57534e] leading-relaxed mt-2">
+                  Constructs optimal separating hyperplanes maximizing geometric margins between
+                  text vector clusters in sparse 5,000-dimensional vocabulary space.
+                </p>
               </div>
-              <p className="text-xs text-[#3f3d3a] leading-relaxed">
-                Constructs optimal separating hyperplanes maximizing geometric margins between
-                text vector clusters in sparse 5,000-dimensional vocabulary space.
-              </p>
             </div>
           </div>
         </Reveal>

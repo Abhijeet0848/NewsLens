@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Hero } from "@/components/hero";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
-import { CATEGORIES_CONFIG } from "@/lib/utils";
+import { CategoryPill, TAXONOMY_CATEGORIES } from "@/components/CategoryPill";
 import { fetchDatasetSummary } from "@/lib/api";
 import { motion } from "framer-motion";
 
@@ -39,44 +39,46 @@ export default function HomePage() {
         <div className="border-t border-[#e7e3dd]" />
       </div>
 
-      {/* SECTION 3: BBC News Taxonomy (5 Real BBC Domains) */}
+      {/* SECTION 3: BBC News Taxonomy */}
       <Reveal>
-        <section className="py-12 md:py-20 text-center max-w-3xl mx-auto px-5 md:px-8 space-y-4">
-          <span className="text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-[#6b6660] font-mono block">
-            BBC NEWS TAXONOMY
+        <section className="py-12 md:py-16 text-center max-w-3xl mx-auto px-5 md:px-8 space-y-3">
+          <span className="text-[11px] font-semibold uppercase tracking-widest text-[#a8a29e] font-mono block">
+            TAXONOMY
           </span>
-          <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-[#0f0f0e] tracking-tight">
-            5 Distinct News Domains
+          <h2 className="font-heading text-lg sm:text-xl font-semibold text-[#0f0f0e] tracking-tight">
+            5 News Domains
           </h2>
-          <p className="text-[13px] md:text-[14px] text-[#6b6660] leading-relaxed max-w-sm md:max-w-md mx-auto">
-            {totalCount.toLocaleString()} verified articles across business, entertainment, politics, sport, and tech.
+          <p className="text-[13px] text-[#6b6660] leading-relaxed max-w-sm md:max-w-md mx-auto">
+            {totalCount.toLocaleString()} articles from the BBC corpus
           </p>
 
-          <div className="relative pt-4">
-            <div className="flex gap-2.5 overflow-x-auto pb-2 -mx-5 px-5 md:mx-0 md:px-0 md:flex-wrap md:justify-center snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [scrollbar-width:none]">
-              {Object.entries(CATEGORIES_CONFIG).map(([name, cat]) => {
-                const count = counts[name.toLowerCase()] || counts[name] || 0;
+          <div className="relative pt-4 max-w-2xl mx-auto">
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory px-5 -mx-5 md:mx-0 md:px-0 md:justify-center">
+              {Object.entries(TAXONOMY_CATEGORIES).map(([key, cat]) => {
+                const count =
+                  counts[key.toLowerCase()] ||
+                  counts[key] ||
+                  (key === "business"
+                    ? 510
+                    : key === "entertainment"
+                    ? 386
+                    : key === "politics"
+                    ? 417
+                    : key === "sport"
+                    ? 511
+                    : 401);
                 return (
-                  <span
-                    key={name}
-                    className="snap-start flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full border text-[12px] md:text-[13px] font-medium shadow-xs"
-                    style={{
-                      backgroundColor: cat.bgLight,
-                      borderColor: cat.borderColor,
-                      color: cat.colorHex,
-                    }}
-                  >
-                    <Tag className="size-3.5" style={{ color: cat.colorHex }} />
-                    <span className="font-semibold">{name}</span>
-                    {count > 0 && (
-                      <span className="text-[11px] font-mono opacity-85 tabular-nums">
-                        ({count} articles)
-                      </span>
-                    )}
-                  </span>
+                  <CategoryPill
+                    key={key}
+                    name={cat.label}
+                    count={count}
+                    colors={{ bg: cat.bg, border: cat.border, text: cat.text }}
+                  />
                 );
               })}
             </div>
+            {/* Right fade hint on mobile */}
+            <div className="md:hidden absolute right-0 top-0 bottom-2 w-10 bg-gradient-to-l from-[#f7f6f3] to-transparent pointer-events-none" />
           </div>
         </section>
       </Reveal>

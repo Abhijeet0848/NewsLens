@@ -7,6 +7,7 @@ export const viewport: Viewport = {
 };
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "katex/dist/katex.min.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
