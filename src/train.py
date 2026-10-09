@@ -270,6 +270,26 @@ def train_models_pipeline(dataset_path: str = DATASET_PATH) -> dict:
 
     save_evaluation_results(evaluation_payload, EVALUATION_RESULTS_PATH)
 
+    # Export formatted data/metrics.json for the Next.js Analytics dashboard
+    import json
+    data_metrics_export = {}
+    for m_key, m_val in evaluation_payload["models"].items():
+        data_metrics_export[m_key] = {
+            "accuracy": m_val["accuracy"],
+            "f1_macro": m_val["f1_macro"],
+            "precision": m_val["precision_macro"],
+            "recall": m_val["recall_macro"],
+            "latency_ms": m_val.get("avg_inference_latency_ms", 1.0),
+            "confusion_matrix": m_val["confusion_matrix"],
+            "classes": class_names,
+            "paradigm": m_val.get("model_type", "Machine Learning"),
+            "per_class": m_val.get("per_class_metrics", [])
+        }
+    data_metrics_path = os.path.join(DATA_DIR, "metrics.json")
+    with open(data_metrics_path, "w", encoding="utf-8") as f:
+        json.dump(data_metrics_export, f, indent=2)
+    print(f"  - Saved Analytics Metrics: {data_metrics_path}")
+
     total_pipeline_time = time.time() - start_time
     print(f"\n>>> Stage 1 Training & Evaluation Pipeline Completed Successfully in {total_pipeline_time:.2f}s!")
     return evaluation_payload

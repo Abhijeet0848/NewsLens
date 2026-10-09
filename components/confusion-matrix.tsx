@@ -2,18 +2,19 @@
 
 import * as React from "react";
 
-const BBC_CONFUSION_DATA = {
-  categories: ["Business", "Entertainment", "Politics", "Sport", "Tech"],
-  matrix: [
-    [98, 0, 1, 0, 1],   // Business
-    [0, 97, 1, 0, 2],   // Entertainment
-    [1, 1, 96, 0, 2],   // Politics
-    [0, 0, 0, 99, 1],   // Sport
-    [2, 1, 1, 0, 96],   // Tech
-  ],
-};
+interface ConfusionMatrixProps {
+  categories: string[];
+  matrix: number[][];
+  title?: string;
+  description?: string;
+}
 
-export function ConfusionMatrix() {
+export function ConfusionMatrix({
+  categories,
+  matrix,
+  title = "Confusion Matrix Heatmap",
+  description = "Contingency counts across all supported news domains on the held-out test split.",
+}: ConfusionMatrixProps) {
   const [hoveredCell, setHoveredCell] = React.useState<{
     trueCat: string;
     predCat: string;
@@ -21,17 +22,19 @@ export function ConfusionMatrix() {
     pct: number;
   } | null>(null);
 
-  const { categories, matrix } = BBC_CONFUSION_DATA;
+  if (!categories || categories.length === 0 || !matrix || matrix.length === 0) {
+    return null;
+  }
 
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h4 className="text-sm font-semibold text-[#0f0f0e] font-heading">
-            5x5 BBC News Confusion Matrix Heatmap
+            {title}
           </h4>
           <p className="text-xs text-[#6b6660]">
-            Hover over any intersection cell to inspect contingency counts across the 5 BBC news domains.
+            {description}
           </p>
         </div>
         {hoveredCell && (
@@ -57,7 +60,7 @@ export function ConfusionMatrix() {
           </thead>
           <tbody>
             {matrix.map((row, rowIdx) => {
-              const trueCategory = categories[rowIdx];
+              const trueCategory = categories[rowIdx] || `Class ${rowIdx + 1}`;
               const totalRow = row.reduce((a, b) => a + b, 0);
 
               return (
@@ -66,9 +69,9 @@ export function ConfusionMatrix() {
                     {trueCategory}
                   </td>
                   {row.map((val, colIdx) => {
-                    const predCategory = categories[colIdx];
+                    const predCategory = categories[colIdx] || `Class ${colIdx + 1}`;
                     const isDiagonal = rowIdx === colIdx;
-                    const pct = Math.round((val / totalRow) * 100);
+                    const pct = totalRow > 0 ? Math.round((val / totalRow) * 100) : 0;
 
                     let cellBg = "#fdfcfb";
                     let textColor = "text-[#8a847d]";
