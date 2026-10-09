@@ -99,7 +99,7 @@ export default function ClassifyPage() {
           <h1 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.02em] text-[#0f0f0e]">
             News Article Classifier
           </h1>
-          <p className="text-[14px] md:text-[15px] text-[#57534e] max-w-2xl mt-2 leading-relaxed">
+          <p className="text-[14px] md:text-[15px] text-[#3f3d3a] max-w-2xl mt-2 leading-relaxed">
             Input news copy to obtain calibrated domain predictions, statistical distributions, and token saliency.
           </p>
         </div>
@@ -113,7 +113,7 @@ export default function ClassifyPage() {
               disabled={isComparing || isLoading}
               className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-lg h-9 px-4 text-[13px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center justify-center gap-2 w-full sm:w-auto shadow-sm disabled:opacity-50 disabled:pointer-events-none"
             >
-              <GitCompare className="size-4 text-[#6b6660]" />
+              <GitCompare className="size-4 text-[#57534e]" />
               <span>{isComparing ? "Benchmarking..." : "Compare 4 Models"}</span>
             </button>
           </motion.div>
@@ -157,9 +157,9 @@ export default function ClassifyPage() {
                 <button
                   type="button"
                   onClick={clearHistory}
-                  className="text-xs text-[#6b6660] hover:text-[#dc2626] transition-colors flex items-center gap-1 font-medium"
+                  className="text-[12px] text-[#6b6660] hover:text-[#dc2626] transition-colors flex items-center gap-1 font-medium"
                 >
-                  <Trash2 className="size-3" /> Clear History
+                  <Trash2 className="size-3.5" /> Clear History
                 </button>
               </div>
 
@@ -172,7 +172,7 @@ export default function ClassifyPage() {
                       whileHover={{ y: -1 }}
                       whileTap={{ scale: 0.99 }}
                       onClick={() => setCurrentText(item.textSnippet)}
-                      className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-3 text-xs text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all"
+                      className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-3 text-[13px] text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all"
                     >
                       <div className="flex items-center gap-3 truncate pr-2">
                         <span
@@ -183,7 +183,7 @@ export default function ClassifyPage() {
                           {item.textSnippet}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 flex-shrink-0 font-mono text-xs tabular-nums">
+                      <div className="flex items-center gap-2 flex-shrink-0 font-mono text-[12px] tabular-nums">
                         <span className={`px-2 py-0.5 rounded border text-[11px] font-semibold ${cfg.badgeClass}`}>
                           {item.category}
                         </span>
@@ -225,11 +225,11 @@ export default function ClassifyPage() {
                 className="rounded-2xl border border-indigo-200 bg-[#f5f3ff] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-4"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
+                  <h4 className="text-[14px] font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
                     <Cpu className="size-4 text-[#4f46e5]" />
                     Consensus Across 4 Architectures
                   </h4>
-                  <span className="text-xs font-mono font-medium text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200">
+                  <span className="text-[11px] font-mono font-semibold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200">
                     Simultaneous
                   </span>
                 </div>
@@ -244,7 +244,7 @@ export default function ClassifyPage() {
                         <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-[#6b6660] block">
                           {mKey.replace("_", " ")}
                         </span>
-                        <div className="flex items-center justify-between font-bold text-[#0f0f0e]">
+                        <div className="flex items-center justify-between font-bold text-[#0f0f0e] text-[13px]">
                           <span>{data.category}</span>
                           <span className="text-[#0891b2] font-mono tabular-nums font-semibold">{data.confidence_percentage}%</span>
                         </div>

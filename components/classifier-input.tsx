@@ -161,7 +161,7 @@ export function ClassifierInput({
               <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
                 Article Content Input
               </h3>
-              <p className="text-[12px] text-[#a8a29e] mt-0.5 max-w-xs leading-normal">
+              <p className="text-[13px] text-[#3f3d3a] mt-0.5 max-w-xs leading-relaxed">
                 Paste raw text, upload documents, or load BBC benchmark samples.
               </p>
             </div>
@@ -178,20 +178,20 @@ export function ClassifierInput({
                   type="button"
                   onClick={() => setActiveInputTab(tab.id)}
                   className={cn(
-                    "relative h-8 px-3 rounded-md flex items-center justify-center gap-1.5 text-[12px] font-medium transition-colors z-10 flex-1 sm:flex-initial",
+                    "relative h-8 px-3 rounded-md flex items-center justify-center gap-1.5 text-[12px] transition-colors z-10 flex-1 sm:flex-initial",
                     isActive
-                      ? "bg-[#fdfcfb] text-[#0f0f0e] font-semibold shadow-[0_1px_2px_rgba(28,27,26,0.06)] ring-1 ring-inset ring-[#0f0f0e]/[0.04]"
-                      : "text-[#6b6660] hover:text-[#0f0f0e]"
+                      ? "bg-[#fdfcfb] text-[#0f0f0e] font-semibold shadow-sm ring-1 ring-inset ring-[#0f0f0e]/[0.04]"
+                      : "text-[#3f3d3a] font-medium hover:text-[#0f0f0e]"
                   )}
                 >
                   {isActive && (
                     <motion.div
                       layoutId="input-tab"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                      className="absolute inset-0 rounded-md bg-[#fdfcfb] shadow-[0_1px_2px_rgba(28,27,26,0.06)] ring-1 ring-inset ring-[#0f0f0e]/[0.04] -z-10"
+                      className="absolute inset-0 rounded-md bg-[#fdfcfb] shadow-sm ring-1 ring-inset ring-[#0f0f0e]/[0.04] -z-10"
                     />
                   )}
-                  <Icon className="size-3.5 flex-shrink-0" />
+                  <Icon className={cn("size-3.5 flex-shrink-0", isActive ? "text-[#0f0f0e]" : "text-[#57534e]")} />
                   <span>{tab.label}</span>
                 </button>
               );
@@ -211,7 +211,7 @@ export function ClassifierInput({
                 exit="exit"
               >
                 <textarea
-                  className="w-full min-h-[220px] md:min-h-[260px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[14px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#a8a29e] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all duration-200 resize-y"
+                  className="w-full min-h-[220px] md:min-h-[260px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[15px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all duration-200 resize-y"
                   placeholder="Paste or type any news article text here (business, entertainment, politics, sport, tech)..."
                   value={text}
                   onChange={(e) => onChangeText(e.target.value)}
@@ -224,41 +224,41 @@ export function ClassifierInput({
                     <button
                       type="button"
                       onClick={handlePasteClipboard}
-                      className="h-8 px-3 rounded-md bg-transparent border border-[#e7e3dd] text-[12px] font-medium text-[#57534e] hover:bg-[#f1efeb] hover:text-[#0f0f0e] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+                      className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
                     >
-                      <Clipboard className="size-3.5 text-[#6b6660]" />
+                      <Clipboard className="size-3.5 text-[#57534e]" />
                       <span>Paste</span>
                     </button>
                     <button
                       type="button"
                       onClick={handleRandomSample}
-                      className="h-8 px-3 rounded-md bg-transparent border border-[#e7e3dd] text-[12px] font-medium text-[#57534e] hover:bg-[#f1efeb] hover:text-[#0f0f0e] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+                      className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
                     >
-                      <Shuffle className="size-3.5 text-[#6b6660]" />
+                      <Shuffle className="size-3.5 text-[#57534e]" />
                       <span>BBC Sample</span>
                     </button>
                     <button
                       type="button"
                       onClick={handleClear}
-                      className="h-8 px-3 rounded-md bg-transparent border border-[#e7e3dd] text-[12px] font-medium text-[#57534e] hover:bg-[#f1efeb] hover:text-[#dc2626] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+                      className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:text-[#dc2626] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
                     >
-                      <Trash2 className="size-3.5" />
+                      <Trash2 className="size-3.5 text-[#57534e]" />
                       <span>Clear</span>
                     </button>
                   </div>
 
                   {/* Right Group */}
                   <div className="flex items-center justify-between md:justify-end gap-3">
-                    <span className="text-[11px] font-mono text-[#a8a29e] tabular-nums">
+                    <span className="text-[12px] font-mono text-[#3f3d3a] tabular-nums font-medium">
                       {wordCount} words &bull; {charCount} chars
                     </span>
-                    <div className="hidden md:inline-flex items-center gap-1 text-[#a8a29e] text-[11px]">
-                      <span>&bull;</span>
-                      <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[10px] font-mono text-[#57534e]">
+                    <div className="hidden md:inline-flex items-center gap-1 text-[#3f3d3a] text-[11px] font-medium">
+                      <span className="text-[#6b6660]">&bull;</span>
+                      <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
                         ⌘
                       </kbd>
-                      <span>+</span>
-                      <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[10px] font-mono text-[#57534e]">
+                      <span className="text-[#6b6660]">+</span>
+                      <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
                         Enter
                       </kbd>
                     </div>
@@ -308,10 +308,10 @@ export function ClassifierInput({
                 <div className="flex size-11 items-center justify-center rounded-xl bg-[#fdfcfb] text-[#4f46e5] mb-3 border border-[#e7e3dd] shadow-sm">
                   <Upload className="size-5 text-[#4f46e5]" />
                 </div>
-                <p className="text-[14px] font-semibold text-[#0f0f0e]">
+                <p className="text-[15px] font-semibold text-[#0f0f0e]">
                   Drag & drop news document, or click to browse
                 </p>
-                <p className="text-[12px] text-[#a8a29e] mt-1">Supports .txt, .csv, .json text payloads</p>
+                <p className="text-[13px] text-[#6b6660] mt-1">Supports .txt, .csv, .json text payloads</p>
               </motion.div>
             )}
 
@@ -330,19 +330,19 @@ export function ClassifierInput({
                     placeholder="https://www.bbc.com/news/..."
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
-                    className="flex-1 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] px-4 py-2.5 text-[14px] text-[#0f0f0e] placeholder:text-[#a8a29e] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all"
+                    className="flex-1 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] px-4 py-2.5 text-[15px] text-[#0f0f0e] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all"
                   />
                   <Button
                     onClick={handleUrlFetch}
                     disabled={isFetchingUrl}
                     variant="secondary"
-                    className="gap-1.5 h-10 px-4 text-xs font-medium w-full sm:w-auto rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] hover:bg-[#f1efeb]"
+                    className="gap-1.5 h-10 px-4 text-xs font-medium w-full sm:w-auto rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] hover:bg-[#f1efeb] text-[#0f0f0e]"
                   >
                     <Link2 className="size-4 text-[#4f46e5]" />
                     <span>Fetch</span>
                   </Button>
                 </div>
-                <p className="text-[12px] text-[#a8a29e]">
+                <p className="text-[13px] text-[#6b6660]">
                   Enter an article URL or paste text directly.
                 </p>
               </motion.div>
@@ -352,7 +352,7 @@ export function ClassifierInput({
 
         {/* Model Selection Row */}
         <div className="border-t border-[#f1efeb] pt-5 mt-6">
-          <label className="text-[10px] uppercase tracking-[0.14em] text-[#a8a29e] font-semibold mb-3 block">
+          <label className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660] mb-3 block">
             CLASSIFICATION ARCHITECTURE
           </label>
 
@@ -365,7 +365,7 @@ export function ClassifierInput({
                   type="button"
                   onClick={() => onChangeModel(m.id)}
                   className={cn(
-                    "relative h-[72px] p-3 rounded-xl text-left flex flex-col justify-between transition-all duration-200 cursor-pointer border",
+                    "relative h-[72px] p-3 rounded-xl text-left flex flex-col items-start justify-between transition-all duration-200 cursor-pointer border",
                     isSelected
                       ? "bg-[#eef2ff] border-[#c7d2fe] ring-1 ring-[#4f46e5]/10 shadow-sm"
                       : "bg-[#faf9f6] border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] hover:-translate-y-px"
@@ -373,11 +373,11 @@ export function ClassifierInput({
                 >
                   <div className="flex w-full items-center justify-between gap-1">
                     <span className="text-[12px] font-semibold text-[#0f0f0e] leading-snug">{m.name}</span>
-                    <span className="text-[10px] font-mono text-[#a8a29e] tabular-nums flex-shrink-0">
+                    <span className="text-[11px] font-mono text-[#6b6660] tabular-nums font-medium flex-shrink-0">
                       {m.tag}
                     </span>
                   </div>
-                  <span className="text-[10px] text-[#6b6660] leading-tight line-clamp-1">
+                  <span className="text-[11px] text-[#3f3d3a] leading-tight line-clamp-1">
                     {m.desc}
                   </span>
                 </button>
