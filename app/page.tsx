@@ -2,49 +2,34 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   Zap,
   Layers,
   ShieldCheck,
   Tag,
   ArrowRight,
-  FileText,
 } from "lucide-react";
 import { Hero } from "@/components/hero";
 import { Button } from "@/components/ui/button";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
-import { useClassifierStore } from "@/lib/store";
 import { CATEGORIES_CONFIG } from "@/lib/utils";
 import { fetchDatasetSummary } from "@/lib/api";
-import type { BBCArticle } from "@/lib/types";
 import { motion } from "framer-motion";
-import { toast } from "sonner";
 
 export default function HomePage() {
-  const router = useRouter();
-  const { setCurrentText } = useClassifierStore();
-  const [samples, setSamples] = React.useState<BBCArticle[]>([]);
   const [counts, setCounts] = React.useState<Record<string, number>>({});
   const [totalCount, setTotalCount] = React.useState(2225);
 
   React.useEffect(() => {
     fetchDatasetSummary()
       .then((data) => {
-        setSamples(data.samples || []);
         setCounts(data.categoryCounts || {});
         setTotalCount(data.totalArticles || 2225);
       })
       .catch((err) => {
-        console.error("Failed to load BBC dataset:", err);
+        console.error("Failed to load BBC dataset summary:", err);
       });
   }, []);
-
-  const handleSelectSample = (sample: BBCArticle) => {
-    setCurrentText(sample.content || sample.title);
-    router.push(`/classify?sample=${encodeURIComponent(sample.category)}`);
-    toast.success(`Loaded BBC ${sample.category.toUpperCase()} article: "${sample.title.slice(0, 35)}..."`);
-  };
 
   return (
     <div className="space-y-0 pb-12">
@@ -56,47 +41,7 @@ export default function HomePage() {
         <div className="border-t border-[#e7e3dd]" />
       </div>
 
-      {/* SECTION 3: Try A Real BBC Sample */}
-      <Reveal>
-        <section className="py-10 md:py-16 text-center max-w-3xl mx-auto px-5 md:px-8 space-y-4">
-          <span className="text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-[#6b6660] font-mono block">
-            REAL BBC NEWS SAMPLES
-          </span>
-          <h2 className="font-heading text-xl sm:text-2xl font-semibold text-[#0f0f0e] tracking-tight">
-            Try a Benchmark Article
-          </h2>
-          <p className="text-[13px] md:text-[14px] text-[#6b6660] max-w-md mx-auto">
-            Click any sample from the BBC corpus to test neural categorization.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-2.5 pt-3">
-            {samples.length > 0 ? (
-              samples.map((sample) => (
-                <motion.button
-                  key={sample.id}
-                  whileHover={{ y: -1, scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  onClick={() => handleSelectSample(sample)}
-                  className="rounded-full bg-[#fdfcfb] border border-[#e7e3dd] px-4 py-2 text-[12px] md:text-[13px] font-medium text-[#3f3d3a] hover:border-indigo-300 hover:text-[#0f0f0e] hover:bg-indigo-50/30 transition-colors duration-150 shadow-xs cursor-pointer active:scale-[0.97] flex items-center gap-1.5 max-w-xs truncate"
-                >
-                  <span className="size-1.5 rounded-full bg-indigo-500 flex-shrink-0" />
-                  <span className="font-semibold capitalize text-[#0f0f0e]">{sample.category}:</span>
-                  <span className="truncate">{sample.title}</span>
-                </motion.button>
-              ))
-            ) : (
-              <div className="text-xs text-[#6b6660] font-mono py-2">Loading BBC samples...</div>
-            )}
-          </div>
-        </section>
-      </Reveal>
-
-      {/* Divider */}
-      <div className="max-w-5xl mx-auto px-5 md:px-8">
-        <div className="border-t border-[#e7e3dd]" />
-      </div>
-
-      {/* SECTION 4: Taxonomy Preview (5 Real BBC Domains) */}
+      {/* SECTION 3: BBC News Taxonomy (5 Real BBC Domains) */}
       <Reveal>
         <section className="py-12 md:py-20 text-center max-w-3xl mx-auto px-5 md:px-8 space-y-4">
           <span className="text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-[#6b6660] font-mono block">
@@ -143,7 +88,7 @@ export default function HomePage() {
         <div className="border-t border-[#e7e3dd]" />
       </div>
 
-      {/* SECTION 5: Feature Highlights */}
+      {/* SECTION 4: Feature Highlights */}
       <Reveal>
         <section className="py-12 md:py-20 max-w-5xl mx-auto px-5 md:px-8 space-y-8 md:space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -218,7 +163,7 @@ export default function HomePage() {
         <div className="border-t border-[#e7e3dd]" />
       </div>
 
-      {/* SECTION 6: Final Clean CTA */}
+      {/* SECTION 5: Final Clean CTA */}
       <Reveal>
         <section className="py-12 md:py-20 max-w-2xl mx-auto px-5 md:px-8">
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-10 text-center space-y-4 shadow-sm">
