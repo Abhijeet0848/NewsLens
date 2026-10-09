@@ -35,7 +35,7 @@ export function ModelSelector({
     setMounted(true);
   }, []);
 
-  // Update positioning relative to trigger
+  // Update positioning relative to trigger (aligning right edges)
   const updatePosition = useCallback(() => {
     if (triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
@@ -137,33 +137,33 @@ export function ModelSelector({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`Selected model: ${active.name}`}
-        className="group flex items-center gap-3 h-11 pl-3 pr-3 
-                   rounded-xl bg-[#fdfcfb] border border-[#e7e3dd] 
+        className="group flex items-center gap-3 h-11 pl-3 pr-3 rounded-lg 
+                   bg-[#fdfcfb] border border-[#e7e3dd] 
                    hover:bg-[#f1efeb] hover:border-[#d6d1c9] 
                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]/20 focus-visible:border-[#4f46e5]
-                   shadow-xs cursor-pointer select-none transition-all duration-150 shrink-0"
+                   shadow-xs cursor-pointer select-none transition-colors duration-150 shrink-0"
       >
-        {/* Model indicator dot */}
+        {/* Dot */}
         <span className="size-2.5 rounded-full bg-[#4f46e5] shrink-0" />
 
-        {/* Label Stack */}
+        {/* Label stack */}
         <div className="flex flex-col items-start text-left">
           <span className="text-[10px] uppercase tracking-wider text-[#6b6660] font-mono leading-none">
-            MODEL
+            Model
           </span>
           <span className="text-[13px] font-medium text-[#0f0f0e] leading-tight mt-0.5 whitespace-nowrap">
             {active.name}
           </span>
         </div>
 
-        {/* Accuracy Badge */}
-        <span className="text-[11px] font-mono text-[#6b6660] tabular-nums ml-1 px-2 py-0.5 bg-[#f1efeb] rounded-md border border-[#e7e3dd]/60 shrink-0">
+        {/* Accuracy badge */}
+        <span className="text-[11px] font-mono font-medium text-[#6b6660] bg-[#f1efeb] rounded-md px-2 py-1 tabular-nums ml-1 shrink-0">
           {active.metric}
         </span>
 
-        {/* Chevron (closed: rotate-0, open: rotate-180) */}
+        {/* Chevron (closed: rotate-0 points down, open: rotate-180 points up) */}
         <ChevronDown
-          className={`size-4 text-[#6b6660] ml-2 transition-transform duration-200 shrink-0 ${
+          className={`size-4 text-[#6b6660] transition-transform duration-200 shrink-0 ${
             open ? "rotate-180" : "rotate-0"
           }`}
         />
@@ -185,7 +185,7 @@ export function ModelSelector({
                   className="fixed inset-0 bg-[#0f0f0e]/30 backdrop-blur-xs z-[9998] sm:hidden"
                 />
 
-                {/* Dropdown container: fixed bottom sheet on mobile, positioned popup on desktop */}
+                {/* Dropdown container: 95% opacity, backdrop-blur-md, strong shadow */}
                 <motion.div
                   ref={dropdownRef}
                   role="listbox"
@@ -204,10 +204,9 @@ export function ModelSelector({
                   }
                   className="fixed bottom-0 left-0 right-0 z-[9999] rounded-t-2xl 
                              sm:fixed sm:bottom-auto sm:left-auto sm:top-[var(--desktop-top)] sm:right-[var(--desktop-right)] sm:w-80 sm:rounded-xl 
-                             bg-[#fdfcfb]/85 backdrop-blur-md sm:backdrop-blur-xl 
-                             backdrop-saturate-150 
-                             border border-[#e7e3dd]/80 
-                             shadow-[0_12px_32px_-8px_rgba(28,27,26,0.15),0_4px_8px_-4px_rgba(28,27,26,0.08)] 
+                             bg-[#fdfcfb]/95 backdrop-blur-md 
+                             border border-[#e7e3dd] 
+                             shadow-[0_16px_48px_-12px_rgba(28,27,26,0.20),0_8px_16px_-8px_rgba(28,27,26,0.12)] 
                              overflow-hidden"
                 >
                   {/* Mobile Sheet Header */}
@@ -227,8 +226,8 @@ export function ModelSelector({
                     </button>
                   </div>
 
-                  {/* Model Options List */}
-                  <div className="p-1.5 space-y-1 max-h-[60vh] sm:max-h-none overflow-y-auto">
+                  {/* Model Options List (Uniform padding & subtle bottom separator) */}
+                  <div className="max-h-[60vh] sm:max-h-none overflow-y-auto">
                     {MODEL_LIST.map((m, idx) => {
                       const isActive = m.id === value;
                       const isFocused = idx === focusedIndex;
@@ -244,20 +243,20 @@ export function ModelSelector({
                             triggerRef.current?.focus();
                           }}
                           onMouseEnter={() => setFocusedIndex(idx)}
-                          className={`w-full flex items-start gap-3 p-3.5 rounded-lg text-left transition-colors duration-150 cursor-pointer ${
+                          className={`w-full flex items-start gap-3 px-3.5 py-3 text-left transition-colors duration-150 cursor-pointer border-b border-[#f1efeb]/50 last:border-b-0 ${
                             isActive
                               ? "bg-[#f1efeb]/60 text-[#0f0f0e]"
                               : isFocused
-                              ? "bg-[#faf9f6]/70 text-[#0f0f0e]"
-                              : "text-[#3f3d3a] hover:bg-[#f1efeb]/70"
+                              ? "bg-[#faf9f6]/80 text-[#0f0f0e]"
+                              : "text-[#3f3d3a] hover:bg-[#f1efeb]/80"
                           }`}
                         >
-                          {/* Indicator (Check mark for active, centered dot for inactive) */}
-                          <div className="mt-0.5 shrink-0 flex items-center justify-center size-4">
+                          {/* Indicator: Check mark for active, clearly visible 1.5 dot for inactive */}
+                          <div className="mt-0.5 w-4 h-4 flex items-center justify-center shrink-0">
                             {isActive ? (
-                              <Check className="size-4 text-[#4f46e5] stroke-[2.5]" />
+                              <Check className="size-4 text-[#4f46e5]" />
                             ) : (
-                              <span className="size-1.5 rounded-full bg-[#d6d1c9]" />
+                              <span className="size-1.5 rounded-full bg-[#a8a29e]" />
                             )}
                           </div>
 
@@ -269,13 +268,13 @@ export function ModelSelector({
                                 {m.name}
                               </span>
                               {m.role === "champion" && (
-                                <span className="inline-flex items-center gap-1 bg-[#fef3c7] text-[#92400e] border border-[#fde68a] rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+                                <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide rounded-full px-2 py-0.5 leading-none border h-5 bg-[#fef3c7] text-[#92400e] border-[#fde68a]">
                                   <Sparkles className="size-3 text-[#d97706]" />
                                   Champion
                                 </span>
                               )}
                               {m.role === "default" && (
-                                <span className="inline-flex items-center bg-[#eef2ff] text-[#4f46e5] border border-[#c7d2fe] rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase">
+                                <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide rounded-full px-2 py-0.5 leading-none border h-5 bg-[#eef2ff] text-[#4f46e5] border-[#c7d2fe]">
                                   Default
                                 </span>
                               )}
@@ -306,9 +305,9 @@ export function ModelSelector({
                     })}
                   </div>
 
-                  {/* Shortened Footer Hint with frosted sub-panel */}
-                  <div className="border-t border-[#f1efeb]/70 py-2.5 px-3.5 bg-[#f1efeb]/50">
-                    <p className="text-[10px] text-[#a8a29e] leading-normal font-sans">
+                  {/* Shortened Footer Hint with generous padding */}
+                  <div className="px-3.5 py-2.5 bg-[#f1efeb]/60 border-t border-[#e7e3dd]/60">
+                    <p className="text-[10px] text-[#6b6660] leading-tight font-sans">
                       Default: Linear SVM (best speed-accuracy balance)
                     </p>
                   </div>
