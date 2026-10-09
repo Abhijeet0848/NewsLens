@@ -29,7 +29,9 @@ import {
   MODEL_PARADIGMS,
 } from "@/lib/metrics";
 import { Button } from "@/components/ui/button";
+import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { motion, AnimatePresence } from "framer-motion";
+import { variants, ease } from "@/lib/motion";
 
 export default function AnalyticsDashboardPage() {
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -192,177 +194,196 @@ export default function AnalyticsDashboardPage() {
       <div className="absolute inset-x-0 top-0 h-52 -z-10 pointer-events-none opacity-20 [background-image:radial-gradient(#d6d1c9_1px,transparent_1px)] [background-size:24px_24px] [mask-image:linear-gradient(to_bottom,black_20%,transparent_100%)]" />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block">
-            TRAINING & EVALUATION BENCHMARK
-          </span>
-          <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight text-[#0f0f0e]">
-            Performance & Evaluation Analytics
-          </h1>
-          <p className="text-[13px] md:text-sm text-[#3f3d3a] max-w-2xl leading-relaxed">
-            Real metrics loaded from held-out test split evaluation (Champion:{" "}
-            <strong className="text-[#0f0f0e]">{bestMeta.name}</strong>).
-          </p>
-        </div>
+      <Reveal>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block">
+              TRAINING & EVALUATION BENCHMARK
+            </span>
+            <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight text-[#0f0f0e]">
+              Performance & Evaluation Analytics
+            </h1>
+            <p className="text-[13px] md:text-sm text-[#3f3d3a] max-w-2xl leading-relaxed">
+              Real metrics loaded from held-out test split evaluation (Champion:{" "}
+              <strong className="text-[#0f0f0e]">{bestMeta.name}</strong>).
+            </p>
+          </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs text-[#3f3d3a]">
-          <span className="size-2 rounded-full bg-[#059669]" />
-          <span>Champion: {bestMeta.name}</span>
+          <div className="flex items-center gap-2 font-mono text-xs text-[#3f3d3a]">
+            <span className="size-2 rounded-full bg-[#059669]" />
+            <span>Champion: {bestMeta.name}</span>
+          </div>
         </div>
-      </div>
+      </Reveal>
 
       <div className="border-t border-[#e7e3dd]" />
 
-      {/* 4 Metric Cards (Champion Model) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-          <span className="text-xs font-mono font-medium text-[#6b6660]">Test Accuracy</span>
-          <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-            {formatPct(bestModelData.accuracy)}
+      {/* 4 Metric Cards (Champion Model) with Stagger */}
+      <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <StaggerItem>
+          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
+            <span className="text-xs font-mono font-medium text-[#6b6660]">Test Accuracy</span>
+            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
+              {formatPct(bestModelData.accuracy)}
+            </div>
+            <p className="text-xs text-[#6b6660] font-mono">Overall test classification</p>
           </div>
-          <p className="text-xs text-[#6b6660] font-mono">Overall test classification</p>
-        </div>
+        </StaggerItem>
 
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-          <span className="text-xs font-mono font-medium text-[#6b6660]">Macro F1 Score</span>
-          <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-            {formatPct(bestModelData.f1_macro)}
+        <StaggerItem>
+          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
+            <span className="text-xs font-mono font-medium text-[#6b6660]">Macro F1 Score</span>
+            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
+              {formatPct(bestModelData.f1_macro)}
+            </div>
+            <p className="text-xs text-[#6b6660] font-mono">Unweighted harmonic mean</p>
           </div>
-          <p className="text-xs text-[#6b6660] font-mono">Unweighted harmonic mean</p>
-        </div>
+        </StaggerItem>
 
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-          <span className="text-xs font-mono font-medium text-[#6b6660]">Macro Precision</span>
-          <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-            {formatPct(bestModelData.precision)}
+        <StaggerItem>
+          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
+            <span className="text-xs font-mono font-medium text-[#6b6660]">Macro Precision</span>
+            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
+              {formatPct(bestModelData.precision)}
+            </div>
+            <p className="text-xs text-[#6b6660] font-mono">Exactness ratio</p>
           </div>
-          <p className="text-xs text-[#6b6660] font-mono">Exactness ratio</p>
-        </div>
+        </StaggerItem>
 
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-          <span className="text-xs font-mono font-medium text-[#6b6660]">Macro Recall</span>
-          <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-            {formatPct(bestModelData.recall)}
+        <StaggerItem>
+          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
+            <span className="text-xs font-mono font-medium text-[#6b6660]">Macro Recall</span>
+            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
+              {formatPct(bestModelData.recall)}
+            </div>
+            <p className="text-xs text-[#6b6660] font-mono">Completeness ratio</p>
           </div>
-          <p className="text-xs text-[#6b6660] font-mono">Completeness ratio</p>
-        </div>
-      </div>
+        </StaggerItem>
+      </StaggerContainer>
 
       {/* Per-Class Accuracy Breakdown */}
       {perClassData.length > 0 && (
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
-              <BarChart3 className="size-4 text-indigo-600" />
-              Per-Domain Accuracy Breakdown ({bestMeta.name})
-            </h3>
-            <span className="text-xs font-mono font-medium text-[#6b6660]">
-              {bestModelData.classes?.length || perClassData.length} Classes
-            </span>
-          </div>
+        <Reveal delay={0.05}>
+          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
+                <BarChart3 className="size-4 text-indigo-600" />
+                Per-Domain Accuracy Breakdown ({bestMeta.name})
+              </h3>
+              <span className="text-xs font-mono font-medium text-[#6b6660]">
+                {bestModelData.classes?.length || perClassData.length} Classes
+              </span>
+            </div>
 
-          <div className="h-64 w-full pt-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={perClassData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e7e3dd" />
-                <XAxis dataKey="category" stroke="#6b6660" tick={{ fontSize: 11 }} />
-                <YAxis domain={[0, 100]} stroke="#6b6660" tick={{ fontSize: 11 }} unit="%" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#fdfcfb",
-                    borderColor: "#e7e3dd",
-                    borderRadius: "0.75rem",
-                    fontSize: "12px",
-                    color: "#0f0f0e",
-                    boxShadow: "0 4px 12px rgba(15, 15, 14, 0.06)",
-                  }}
-                  formatter={(val: any) => [`${val}%`, "Accuracy"]}
-                />
-                <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
-                <Bar
-                  dataKey="accuracy"
-                  name="Class Accuracy (%)"
-                  fill="#4f46e5"
-                  radius={[6, 6, 0, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="h-64 w-full pt-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={perClassData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e7e3dd" />
+                  <XAxis dataKey="category" stroke="#6b6660" tick={{ fontSize: 11 }} />
+                  <YAxis domain={[0, 100]} stroke="#6b6660" tick={{ fontSize: 11 }} unit="%" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#fdfcfb",
+                      borderColor: "#e7e3dd",
+                      borderRadius: "0.75rem",
+                      fontSize: "12px",
+                      color: "#0f0f0e",
+                      boxShadow: "0 4px 12px rgba(15, 15, 14, 0.06)",
+                    }}
+                    formatter={(val: any) => [`${val}%`, "Accuracy"]}
+                  />
+                  <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
+                  <Bar
+                    dataKey="accuracy"
+                    name="Class Accuracy (%)"
+                    fill="#4f46e5"
+                    radius={[6, 6, 0, 0]}
+                    isAnimationActive={true}
+                    animationDuration={800}
+                    animationEasing="ease-out"
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </div>
+        </Reveal>
       )}
 
       {/* Confusion Matrix Heatmap */}
       {bestModelData.confusion_matrix && (
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs">
-          <ConfusionMatrix
-            categories={bestModelData.classes}
-            matrix={bestModelData.confusion_matrix}
-            title={`${bestMeta.name} Confusion Matrix`}
-            description={`Contingency distribution across ${bestModelData.classes?.length || 5} categories on the test set.`}
-          />
-        </div>
+        <Reveal delay={0.1}>
+          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs">
+            <ConfusionMatrix
+              categories={bestModelData.classes}
+              matrix={bestModelData.confusion_matrix}
+              title={`${bestMeta.name} Confusion Matrix`}
+              description={`Contingency distribution across ${bestModelData.classes?.length || 5} categories on the test set.`}
+            />
+          </div>
+        </Reveal>
       )}
 
       {/* Model Comparison Leaderboard */}
-      <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
-            <Award className="size-5 text-[#d97706]" />
-            Architecture Comparison Leaderboard
-          </h3>
-          <span className="text-xs font-mono font-medium text-[#6b6660]">
-            {Object.keys(metrics).length} Models Evaluated
-          </span>
-        </div>
+      <Reveal delay={0.15}>
+        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
+              <Award className="size-5 text-[#d97706]" />
+              Architecture Comparison Leaderboard
+            </h3>
+            <span className="text-xs font-mono font-medium text-[#6b6660]">
+              {Object.keys(metrics).length} Models Evaluated
+            </span>
+          </div>
 
-        <div className="overflow-x-auto rounded-xl border border-[#e7e3dd]">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold">
-              <tr>
-                <th className="p-3">Model Architecture</th>
-                <th className="p-3">Paradigm</th>
-                <th className="p-3">Accuracy</th>
-                <th className="p-3">F1 Macro</th>
-                <th className="p-3">Latency</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[#e7e3dd] font-sans">
-              {Object.entries(metrics)
-                .sort((a, b) => b[1].accuracy - a[1].accuracy)
-                .map(([key, model]) => {
-                  const meta = MODEL_PARADIGMS[key] || {
-                    name: key,
-                    paradigm: model.paradigm || "Machine Learning",
-                    badge: "",
-                  };
-                  return (
-                    <tr key={key} className="hover:bg-[#f1efeb] transition-colors">
-                      <td className="p-3">
-                        <div className="font-semibold text-[#0f0f0e]">{meta.name}</div>
-                        {meta.badge && (
-                          <span className="text-[10px] text-indigo-600 font-mono font-medium">
-                            {meta.badge}
-                          </span>
-                        )}
-                      </td>
-                      <td className="p-3 text-[#3f3d3a]">{meta.paradigm}</td>
-                      <td className="p-3 font-mono font-bold text-[#059669] tabular-nums">
-                        {formatPct(model.accuracy)}
-                      </td>
-                      <td className="p-3 font-mono font-semibold text-[#0f0f0e] tabular-nums">
-                        {formatPct(model.f1_macro)}
-                      </td>
-                      <td className="p-3 font-mono text-[#0891b2] tabular-nums font-medium">
-                        {model.latency_ms !== undefined ? `${model.latency_ms} ms` : "—"}
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto rounded-xl border border-[#e7e3dd]">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold">
+                <tr>
+                  <th className="p-3">Model Architecture</th>
+                  <th className="p-3">Paradigm</th>
+                  <th className="p-3">Accuracy</th>
+                  <th className="p-3">F1 Macro</th>
+                  <th className="p-3">Latency</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[#e7e3dd] font-sans">
+                {Object.entries(metrics)
+                  .sort((a, b) => b[1].accuracy - a[1].accuracy)
+                  .map(([key, model]) => {
+                    const meta = MODEL_PARADIGMS[key] || {
+                      name: key,
+                      paradigm: model.paradigm || "Machine Learning",
+                      badge: "",
+                    };
+                    return (
+                      <tr key={key} className="hover:bg-[#f1efeb] transition-colors">
+                        <td className="p-3">
+                          <div className="font-semibold text-[#0f0f0e]">{meta.name}</div>
+                          {meta.badge && (
+                            <span className="text-[10px] text-indigo-600 font-mono font-medium">
+                              {meta.badge}
+                            </span>
+                          )}
+                        </td>
+                        <td className="p-3 text-[#3f3d3a]">{meta.paradigm}</td>
+                        <td className="p-3 font-mono font-bold text-[#059669] tabular-nums">
+                          {formatPct(model.accuracy)}
+                        </td>
+                        <td className="p-3 font-mono font-semibold text-[#0f0f0e] tabular-nums">
+                          {formatPct(model.f1_macro)}
+                        </td>
+                        <td className="p-3 font-mono text-[#0891b2] tabular-nums font-medium">
+                          {model.latency_ms !== undefined ? `${model.latency_ms} ms` : "—"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

@@ -2,44 +2,34 @@
 
 import * as React from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { fadeUp, fadeIn, scaleIn, stagger } from "@/lib/motion";
+import { variants } from "@/lib/motion";
 
 interface RevealProps {
   children: React.ReactNode;
-  className?: string;
-  variant?: "fadeUp" | "fadeIn" | "scaleIn" | "stagger";
   delay?: number;
+  className?: string;
+  variant?: keyof typeof variants;
 }
 
 export function Reveal({
   children,
+  delay = 0,
   className,
   variant = "fadeUp",
-  delay = 0,
 }: RevealProps) {
-  const shouldReduce = useReducedMotion();
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
 
-  if (shouldReduce) {
-    return <div className={className}>{children}</div>;
-  }
-
-  const selectedVariant =
-    variant === "fadeIn"
-      ? fadeIn
-      : variant === "scaleIn"
-      ? scaleIn
-      : variant === "stagger"
-      ? stagger
-      : fadeUp;
+  const selectedVariant = variants[variant] || variants.fadeUp;
 
   return (
     <motion.div
+      className={className}
       variants={selectedVariant}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
-      transition={delay ? { delay } : undefined}
-      className={className}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ delay }}
     >
       {children}
     </motion.div>
@@ -49,32 +39,22 @@ export function Reveal({
 export function StaggerContainer({
   children,
   className,
-  delay = 0.05,
+  delay = 0.1,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
 }) {
-  const shouldReduce = useReducedMotion();
-
-  if (shouldReduce) {
-    return <div className={className}>{children}</div>;
-  }
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
 
   return (
     <motion.div
-      variants={{
-        hidden: {},
-        show: {
-          transition: {
-            staggerChildren: 0.08,
-            delayChildren: delay,
-          },
-        },
-      }}
+      variants={variants.stagger}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ delayChildren: delay }}
       className={className}
     >
       {children}
@@ -89,14 +69,11 @@ export function StaggerItem({
   children: React.ReactNode;
   className?: string;
 }) {
-  const shouldReduce = useReducedMotion();
-
-  if (shouldReduce) {
-    return <div className={className}>{children}</div>;
-  }
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
 
   return (
-    <motion.div variants={fadeUp} className={className}>
+    <motion.div variants={variants.fadeUp} className={className}>
       {children}
     </motion.div>
   );
