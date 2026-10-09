@@ -39,9 +39,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    let rawUrl = (url || "").trim();
+    if (!/^https?:\/\//i.test(rawUrl)) {
+      rawUrl = `https://${rawUrl}`;
+    }
+
     let parsed: URL;
     try {
-      parsed = new URL(url.trim());
+      parsed = new URL(rawUrl);
     } catch {
       return NextResponse.json(
         { error: "Invalid URL format" },

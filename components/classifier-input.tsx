@@ -8,11 +8,15 @@ import {
   Link2,
   Trash2,
   Clipboard,
+  Loader2,
+  Check,
+  AlertCircle,
+  X,
+  CornerDownLeft,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { fetchArticleFromUrl } from "@/lib/api";
+import { detectInput, getDomain } from "@/lib/detectInput";
 import { toast } from "sonner";
-import { tabContentVariant } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface ClassifierInputProps {
@@ -23,6 +27,13 @@ interface ClassifierInputProps {
   onClassify: () => void;
   isLoading: boolean;
 }
+
+export type InputState =
+  | { kind: "empty" }
+  | { kind: "text"; text: string }
+  | { kind: "url-loading"; url: string }
+  | { kind: "url-loaded"; url: string; text: string }
+  | { kind: "url-error"; url: string; message: string };
 
 const AVAILABLE_MODELS = [
   {
@@ -53,22 +64,89 @@ export function ClassifierInput({
   onClassify,
   isLoading,
 }: ClassifierInputProps) {
-  const [activeInputTab, setActiveInputTab] = React.useState<"text" | "upload" | "url">("text");
-  const [urlInput, setUrlInput] = React.useState("");
-  const [isFetchingUrl, setIsFetchingUrl] = React.useState(false);
+  const [inputState, setInputState] = React.useState<InputState>(() =>
+    text.trim() ? { kind: "text", text } : { kind: "empty" }
+  );
+  const [isUrlTyped, setIsUrlTyped] = React.useState(false);
   const [dragOver, setDragOver] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
 
   const charCount = text.length;
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
   const isMinimumReached = charCount >= 50;
 
+  // Live detection debounce for typed URLs (500ms)
+  React.useEffect(() => {
+    if (inputState.kind === "url-loading" || inputState.kind === "url-loaded") {
+      setIsUrlTyped(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      const type = detectInput(text);
+      setIsUrlTyped(type === "url");
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [text, inputState]);
+
+  // Synchronize state when external text resets
+  React.useEffect(() => {
+    if (!text && inputState.kind !== "url-loading" && inputState.kind !== "url-error") {
+      setInputState({ kind: "empty" });
+    }
+  }, [text, inputState.kind]);
+
+  // Fetch URL and populate textarea
+  const fetchUrlAndFill = async (rawUrl: string) => {
+    const trimmed = rawUrl.trim();
+    if (!trimmed) return;
+
+    setInputState({ kind: "url-loading", url: trimmed });
+    onChangeText(""); // Clear previous text while loading
+    setIsUrlTyped(false);
+
+    try {
+      const extractedText = await fetchArticleFromUrl(trimmed);
+      setInputState({ kind: "url-loaded", url: trimmed, text: extractedText });
+      onChangeText(extractedText);
+      const extractedWords = extractedText.split(/\s+/).length;
+      toast.success(`Article extracted (${extractedWords} words)`);
+    } catch (err: any) {
+      const msg =
+        err.message ||
+        "Could not find article text on this page. The site may block automated access. Please paste the text manually.";
+      setInputState({ kind: "url-error", url: trimmed, message: msg });
+      toast.error("Failed to fetch article from URL");
+    }
+  };
+
+  // Intercept Paste events in the textarea
+  const handlePaste = async (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const pasted = e.clipboardData.getData("text");
+    const type = detectInput(pasted);
+
+    if (type === "url") {
+      e.preventDefault();
+      await fetchUrlAndFill(pasted);
+    } else {
+      // Normal text paste
+      setInputState({ kind: "text", text: pasted });
+    }
+  };
+
+  // Paste button from clipboard
   const handlePasteClipboard = async () => {
     try {
       if (navigator.clipboard && navigator.clipboard.readText) {
         const clip = await navigator.clipboard.readText();
-        if (clip) {
+        if (!clip) return;
+        const type = detectInput(clip);
+        if (type === "url") {
+          await fetchUrlAndFill(clip);
+        } else {
           onChangeText(clip);
+          setInputState({ kind: "text", text: clip });
           toast.success("Pasted text from clipboard");
         }
       }
@@ -77,32 +155,27 @@ export function ClassifierInput({
     }
   };
 
+  // Textarea Change handler
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    onChangeText(val);
+
+    if (!val.trim()) {
+      setInputState({ kind: "empty" });
+    } else if (inputState.kind !== "url-loaded") {
+      setInputState({ kind: "text", text: val });
+    }
+  };
+
+  // Clear input
   const handleClear = () => {
     onChangeText("");
+    setInputState({ kind: "empty" });
+    setIsUrlTyped(false);
     toast.info("Input cleared");
   };
 
-  const handleUrlFetch = async () => {
-    const trimmed = urlInput.trim();
-    if (!trimmed) {
-      toast.error("Please enter a valid news URL");
-      return;
-    }
-    setIsFetchingUrl(true);
-    try {
-      const extractedText = await fetchArticleFromUrl(trimmed);
-      onChangeText(extractedText);
-      setUrlInput("");
-      setActiveInputTab("text");
-      const wordCount = extractedText.split(/\s+/).length;
-      toast.success(`Article extracted (${wordCount} words)`);
-    } catch (err: any) {
-      toast.error(err.message || "Failed to fetch article from this URL");
-    } finally {
-      setIsFetchingUrl(false);
-    }
-  };
-
+  // File Upload handler
   const handleFileUpload = (file: File) => {
     if (!file) return;
     const reader = new FileReader();
@@ -110,38 +183,53 @@ export function ClassifierInput({
       const content = e.target?.result as string;
       if (content) {
         onChangeText(content);
-        setActiveInputTab("text");
+        setInputState({ kind: "text", text: content });
         toast.success(`Uploaded "${file.name}"`);
       }
     };
     reader.readAsText(file);
   };
 
-  // Keyboard shortcut: Cmd/Ctrl + Enter to classify
+  // Textarea Keydown (Enter to fetch if URL typed, Cmd/Ctrl+Enter to classify)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (isUrlTyped && e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      fetchUrlAndFill(text);
+      return;
+    }
+
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      if (isMinimumReached && !isLoading && inputState.kind !== "url-loading") {
+        e.preventDefault();
+        onClassify();
+      }
+    }
+  };
+
+  // Global shortcut: Cmd/Ctrl + Enter
   React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-        if (isMinimumReached && !isLoading) {
+        if (isMinimumReached && !isLoading && inputState.kind !== "url-loading") {
           e.preventDefault();
           onClassify();
         }
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isMinimumReached, isLoading, onClassify]);
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [isMinimumReached, isLoading, inputState.kind, onClassify]);
 
-  const tabsList = [
-    { id: "text", label: "Paste Text", icon: FileText },
-    { id: "upload", label: "Upload", icon: Upload },
-    { id: "url", label: "URL", icon: Link2 },
-  ] as const;
+  const isUrlState =
+    inputState.kind === "url-loading" ||
+    inputState.kind === "url-loaded" ||
+    inputState.kind === "url-error";
 
   return (
     <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 flex flex-col justify-between h-full">
       <div>
-        {/* Card Header (icon + title + tabs) */}
-        <div className="flex flex-col sm:flex-row items-start justify-between gap-4 mb-6">
+        {/* Card Header (Icon + Title + Description) */}
+        <div className="flex items-start justify-between gap-4 mb-5">
           <div className="flex items-start gap-3">
             <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
               <FileText className="size-4" />
@@ -150,201 +238,189 @@ export function ClassifierInput({
               <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
                 Article Content Input
               </h3>
-              <p className="text-[13px] text-[#3f3d3a] mt-0.5 max-w-xs leading-relaxed">
-                Paste raw text, upload a document, or fetch from a URL.
+              <p className="text-[13px] text-[#3f3d3a] mt-0.5 max-w-md leading-relaxed">
+                Paste raw text, upload a document, or enter a URL to classify.
               </p>
             </div>
           </div>
-
-          {/* Tab Control */}
-          <div className="bg-[#f1efeb] rounded-lg p-1 inline-flex gap-0.5 self-stretch sm:self-start flex-shrink-0">
-            {tabsList.map((tab) => {
-              const isActive = activeInputTab === tab.id;
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveInputTab(tab.id)}
-                  className={cn(
-                    "relative h-8 px-3 rounded-md flex items-center justify-center gap-1.5 text-[12px] transition-colors z-10 flex-1 sm:flex-initial",
-                    isActive
-                      ? "bg-[#fdfcfb] text-[#0f0f0e] font-semibold shadow-sm ring-1 ring-inset ring-[#0f0f0e]/[0.04]"
-                      : "text-[#3f3d3a] font-medium hover:text-[#0f0f0e]"
-                  )}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="input-tab"
-                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                      className="absolute inset-0 rounded-md bg-[#fdfcfb] shadow-sm ring-1 ring-inset ring-[#0f0f0e]/[0.04] -z-10"
-                    />
-                  )}
-                  <Icon className={cn("size-3.5 flex-shrink-0", isActive ? "text-[#0f0f0e]" : "text-[#57534e]")} />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
         </div>
 
-        {/* Input Body with AnimatePresence */}
-        <div>
-          <AnimatePresence mode="wait">
-            {activeInputTab === "text" && (
-              <motion.div
-                key="tab-text"
-                variants={tabContentVariant}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-              >
-                <textarea
-                  className="w-full min-h-[220px] md:min-h-[260px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[15px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all duration-200 resize-y"
-                  placeholder="Paste or type any news article text here (business, entertainment, politics, sport, tech)..."
-                  value={text}
-                  onChange={(e) => onChangeText(e.target.value)}
-                />
+        {/* Hidden File Input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".txt,.csv,.json,.pdf,.doc"
+          className="hidden"
+          onChange={(e) => {
+            if (e.target.files?.[0]) {
+              handleFileUpload(e.target.files[0]);
+            }
+          }}
+        />
 
-                {/* Footer Row */}
-                <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                  {/* Left Group */}
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={handlePasteClipboard}
-                      className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
-                    >
-                      <Clipboard className="size-3.5 text-[#57534e]" />
-                      <span>Paste</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleClear}
-                      className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:text-[#dc2626] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
-                    >
-                      <Trash2 className="size-3.5 text-[#57534e]" />
-                      <span>Clear</span>
-                    </button>
-                  </div>
-
-                  {/* Right Group */}
-                  <div className="flex items-center justify-between md:justify-end gap-3">
-                    <span className="text-[12px] font-mono text-[#3f3d3a] tabular-nums font-medium">
-                      {wordCount} words &bull; {charCount} chars
-                    </span>
-                    <div className="hidden md:inline-flex items-center gap-1 text-[#3f3d3a] text-[11px] font-medium">
-                      <span className="text-[#6b6660]">&bull;</span>
-                      <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
-                        ⌘
-                      </kbd>
-                      <span className="text-[#6b6660]">+</span>
-                      <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
-                        Enter
-                      </kbd>
+        {/* URL Chip Section (when URL state active) */}
+        <AnimatePresence>
+          {isUrlState && (
+            <motion.div
+              initial={{ opacity: 0, y: -6, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -6, height: 0 }}
+              transition={{ duration: 0.18 }}
+              className="mb-3 overflow-hidden"
+            >
+              <div className="flex flex-col gap-1.5">
+                <div className="flex items-center gap-2 flex-wrap">
+                  {inputState.kind === "url-loading" && (
+                    <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-[#f1efeb] border border-[#e7e3dd] text-[12px] font-medium text-[#6b6660] max-w-full">
+                      <Loader2 className="size-3.5 animate-spin text-[#4f46e5]" />
+                      <span className="truncate">
+                        Fetching {getDomain(inputState.url)}...
+                      </span>
                     </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
+                  )}
 
-            {activeInputTab === "upload" && (
-              <motion.div
-                key="tab-upload"
-                variants={tabContentVariant}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setDragOver(true);
-                }}
-                onDragLeave={() => setDragOver(false)}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  setDragOver(false);
-                  if (e.dataTransfer.files?.[0]) {
-                    handleFileUpload(e.dataTransfer.files[0]);
-                  }
-                }}
-                onClick={() => fileInputRef.current?.click()}
-                className={cn(
-                  "flex min-h-[220px] md:min-h-[260px] cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 text-center transition-all",
-                  dragOver
-                    ? "border-[#4f46e5] bg-[#eef2ff]"
-                    : "border-[#e7e3dd] bg-[#faf9f6] hover:bg-[#f1efeb]"
+                  {inputState.kind === "url-loaded" && (
+                    <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-[#ecfdf5] border border-[#a7f3d0] text-[12px] font-medium text-[#047857] max-w-full">
+                      <Check className="size-3.5 text-[#047857] flex-shrink-0" />
+                      <span className="truncate">{getDomain(inputState.url)}</span>
+                      <button
+                        type="button"
+                        onClick={handleClear}
+                        title="Remove URL"
+                        className="text-[#047857]/70 hover:text-[#047857] transition-colors p-0.5 ml-0.5 rounded-full hover:bg-[#a7f3d0]/40"
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    </div>
+                  )}
+
+                  {inputState.kind === "url-error" && (
+                    <div className="inline-flex items-center gap-2 h-7 px-3 rounded-full bg-[#fef2f2] border border-[#fecdd3] text-[12px] font-medium text-[#be123c] max-w-full">
+                      <AlertCircle className="size-3.5 text-[#be123c] flex-shrink-0" />
+                      <span className="truncate">{getDomain(inputState.url)}</span>
+                      <button
+                        type="button"
+                        onClick={handleClear}
+                        title="Dismiss error"
+                        className="text-[#be123c]/70 hover:text-[#be123c] transition-colors p-0.5 ml-0.5 rounded-full hover:bg-[#fecdd3]/50"
+                      >
+                        <X className="size-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {inputState.kind === "url-error" && (
+                  <p className="text-[12px] text-[#be123c] mt-0.5 leading-snug">
+                    {inputState.message}
+                  </p>
                 )}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".txt,.csv,.json,.pdf,.doc"
-                  className="hidden"
-                  onChange={(e) => {
-                    if (e.target.files?.[0]) {
-                      handleFileUpload(e.target.files[0]);
-                    }
-                  }}
-                />
-                <div className="flex size-11 items-center justify-center rounded-xl bg-[#fdfcfb] text-[#4f46e5] mb-3 border border-[#e7e3dd] shadow-sm">
-                  <Upload className="size-5 text-[#4f46e5]" />
-                </div>
-                <p className="text-[15px] font-semibold text-[#0f0f0e]">
-                  Drag & drop news document, or click to browse
-                </p>
-                <p className="text-[13px] text-[#6b6660] mt-1">Supports .txt, .csv, .json text payloads</p>
-              </motion.div>
-            )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-            {activeInputTab === "url" && (
+        {/* Unified Smart Textarea */}
+        <div
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragOver(false);
+            if (e.dataTransfer.files?.[0]) {
+              handleFileUpload(e.dataTransfer.files[0]);
+            }
+          }}
+          className={cn(
+            "relative rounded-xl transition-all duration-200",
+            dragOver && "ring-2 ring-[#4f46e5] ring-offset-2"
+          )}
+        >
+          <textarea
+            ref={textareaRef}
+            rows={8}
+            className={cn(
+              "w-full min-h-[200px] md:min-h-[240px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[15px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all duration-200 resize-y",
+              inputState.kind === "url-loading" && "opacity-60 cursor-wait"
+            )}
+            placeholder="Paste article text or a URL..."
+            value={text}
+            onChange={handleChange}
+            onPaste={handlePaste}
+            onKeyDown={handleKeyDown}
+            disabled={inputState.kind === "url-loading"}
+          />
+
+          {/* Live Auto-detect URL Typing Hint */}
+          <AnimatePresence>
+            {isUrlTyped && inputState.kind !== "url-loading" && (
               <motion.div
-                key="tab-url"
-                variants={tabContentVariant}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="space-y-3 py-6 min-h-[220px] md:min-h-[260px] flex flex-col justify-center"
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                className="flex items-center gap-1.5 text-[11px] text-[#6b6660] font-medium mt-1.5 px-1"
               >
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="url"
-                    placeholder="https://www.bbc.com/news/..."
-                    value={urlInput}
-                    onChange={(e) => setUrlInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !isFetchingUrl) {
-                        e.preventDefault();
-                        handleUrlFetch();
-                      }
-                    }}
-                    disabled={isFetchingUrl}
-                    className="flex-1 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] px-4 py-2.5 text-[15px] text-[#0f0f0e] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all disabled:opacity-60"
-                  />
-                  <Button
-                    onClick={handleUrlFetch}
-                    disabled={isFetchingUrl || !urlInput.trim()}
-                    variant="secondary"
-                    className="gap-1.5 h-10 px-4 text-xs font-medium w-full sm:w-auto rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] hover:bg-[#f1efeb] text-[#0f0f0e] disabled:opacity-50"
-                  >
-                    {isFetchingUrl ? (
-                      <>
-                        <span className="size-3.5 animate-spin rounded-full border-2 border-[#4f46e5] border-t-transparent" />
-                        <span>Fetching...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Link2 className="size-4 text-[#4f46e5]" />
-                        <span>Fetch</span>
-                      </>
-                    )}
-                  </Button>
-                </div>
-                <p className="text-[13px] text-[#6b6660]">
-                  Enter an article URL to extract content, or paste text directly.
-                </p>
+                <Link2 className="size-3.5 text-[#4f46e5]" />
+                <span>Detected URL — press</span>
+                <kbd className="inline-flex items-center gap-0.5 bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[10px] font-mono font-semibold text-[#0f0f0e]">
+                  Enter <CornerDownLeft className="size-2.5" />
+                </kbd>
+                <span>to fetch article</span>
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+
+        {/* Footer Row (simplified) */}
+        <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          {/* Left Actions: Paste | Upload | Clear */}
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <button
+              type="button"
+              onClick={handlePasteClipboard}
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
+            >
+              <Clipboard className="size-3.5 text-[#57534e]" />
+              <span>Paste</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
+            >
+              <Upload className="size-3.5 text-[#57534e]" />
+              <span>Upload</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleClear}
+              disabled={!text && inputState.kind === "empty"}
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:text-[#dc2626] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]"
+            >
+              <Trash2 className="size-3.5 text-[#57534e]" />
+              <span>Clear</span>
+            </button>
+          </div>
+
+          {/* Right Stats & Shortcut Hint */}
+          <div className="flex items-center justify-between md:justify-end gap-3">
+            <span className="text-[12px] font-mono text-[#3f3d3a] tabular-nums font-medium">
+              {wordCount} words &bull; {charCount} chars
+            </span>
+            <div className="hidden md:inline-flex items-center gap-1 text-[#3f3d3a] text-[11px] font-medium">
+              <span className="text-[#6b6660]">&bull;</span>
+              <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
+                ⌘
+              </kbd>
+              <span className="text-[#6b6660]">+</span>
+              <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
+                Enter
+              </kbd>
+            </div>
+          </div>
         </div>
 
         {/* Model Selection Row */}
@@ -369,7 +445,9 @@ export function ClassifierInput({
                   )}
                 >
                   <div className="flex w-full items-center justify-between gap-1">
-                    <span className="text-[12px] font-semibold text-[#0f0f0e] leading-snug">{m.name}</span>
+                    <span className="text-[12px] font-semibold text-[#0f0f0e] leading-snug">
+                      {m.name}
+                    </span>
                     <span className="text-[11px] font-mono text-[#6b6660] tabular-nums font-medium flex-shrink-0">
                       {m.tag}
                     </span>
@@ -389,7 +467,7 @@ export function ClassifierInput({
         <button
           type="button"
           onClick={onClassify}
-          disabled={!isMinimumReached || isLoading}
+          disabled={!isMinimumReached || isLoading || inputState.kind === "url-loading"}
           className="w-full h-12 rounded-xl bg-[#0f0f0e] text-white text-[14px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0"
         >
           <AnimatePresence mode="wait">
