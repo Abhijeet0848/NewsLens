@@ -144,14 +144,7 @@ export function Navbar() {
               <div className="space-y-6">
                 {/* Drawer Header with Close Button */}
                 <div className="flex items-center justify-between pb-4 border-b border-[#e7e3dd]">
-                  <div className="flex items-center gap-2">
-                    <div className="flex size-7 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500 text-[#fdfcfb]">
-                      <BrainCircuit className="size-3.5" />
-                    </div>
-                    <span className="font-heading text-sm font-semibold tracking-tight text-[#0f0f0e]">
-                      NewsScope
-                    </span>
-                  </div>
+                  <Logo size={28} />
                   <button
                     type="button"
                     onClick={() => setMobileMenuOpen(false)}
