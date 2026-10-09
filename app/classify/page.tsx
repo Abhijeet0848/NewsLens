@@ -89,50 +89,46 @@ export default function ClassifyPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-5 md:px-8 pt-8 md:pt-10 pb-16 md:pb-20 space-y-6 md:space-y-8">
+    <div className="mx-auto max-w-6xl px-5 md:px-8 pt-10 pb-16">
       {/* Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <span className="text-[10px] md:text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block">
+        <div>
+          <span className="text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block mb-2">
             INTERACTIVE CLASSIFICATION WORKSPACE
           </span>
-          <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-[#0f0f0e]">
+          <h1 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.02em] text-[#0f0f0e]">
             News Article Classifier
           </h1>
-          <p className="text-[13px] md:text-sm text-[#3f3d3a] max-w-2xl leading-relaxed">
+          <p className="text-[14px] md:text-[15px] text-[#57534e] max-w-2xl mt-2 leading-relaxed">
             Input news copy to obtain calibrated domain predictions, statistical distributions, and token saliency.
           </p>
         </div>
 
         {/* Right-aligned Toolbar button */}
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} className="w-full sm:w-auto">
-            <Button
-              variant="secondary"
-              size="sm"
+          <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+            <button
+              type="button"
               onClick={handleCompareAll}
               disabled={isComparing || isLoading}
-              className="gap-2 h-11 sm:h-10 px-4 rounded-xl text-xs font-medium border border-[#e7e3dd] shadow-sm text-[#3f3d3a] w-full sm:w-auto"
+              className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-lg h-9 px-4 text-[13px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center justify-center gap-2 w-full sm:w-auto shadow-sm disabled:opacity-50 disabled:pointer-events-none"
             >
-              <GitCompare className="size-4 text-indigo-600" />
+              <GitCompare className="size-4 text-[#6b6660]" />
               <span>{isComparing ? "Benchmarking..." : "Compare 4 Models"}</span>
-            </Button>
+            </button>
           </motion.div>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="border-t border-[#e7e3dd]" />
-
-      {/* Main Grid: 55 / 45 Split on lg+, stacked on mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 items-stretch">
-        {/* Left Column (55% -> 7 cols) */}
+      {/* Main Grid: 1.1fr / 1fr Split on lg+, stacked on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5 md:gap-6 items-stretch mt-8">
+        {/* Left Column */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          transition={{ duration: 0.4, ease: ease.smooth }}
-          className="lg:col-span-7 flex flex-col space-y-6"
+          transition={{ duration: 0.4, delay: 0, ease: ease.smooth }}
+          className="flex flex-col space-y-5"
         >
           <div className="flex-1">
             <ClassifierInput
@@ -151,11 +147,11 @@ export default function ClassifyPage() {
               variants={fadeUp}
               initial="hidden"
               animate="show"
-              className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] space-y-3"
+              className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
             >
               <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-3">
                 <span className="text-[11px] uppercase tracking-[0.14em] text-[#6b6660] font-mono flex items-center gap-1.5 font-semibold">
-                  <History className="size-3.5 text-indigo-600" />
+                  <History className="size-3.5 text-[#4f46e5]" />
                   Recent Classifications ({history.length})
                 </span>
                 <button
@@ -176,7 +172,7 @@ export default function ClassifyPage() {
                       whileHover={{ y: -1 }}
                       whileTap={{ scale: 0.99 }}
                       onClick={() => setCurrentText(item.textSnippet)}
-                      className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-3 text-xs text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all"
+                      className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-3 text-xs text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all"
                     >
                       <div className="flex items-center gap-3 truncate pr-2">
                         <span
@@ -201,13 +197,13 @@ export default function ClassifyPage() {
           )}
         </motion.div>
 
-        {/* Right Column (45% -> 5 cols) */}
+        {/* Right Column */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="show"
-          transition={{ duration: 0.4, delay: 0.1, ease: ease.smooth }}
-          className="lg:col-span-5 flex flex-col space-y-6"
+          transition={{ duration: 0.4, delay: 0.08, ease: ease.smooth }}
+          className="flex flex-col space-y-5"
         >
           <div className="flex-1">
             <AnimatePresence mode="wait">
@@ -226,11 +222,11 @@ export default function ClassifyPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                className="rounded-2xl border border-indigo-200 bg-[#f5f3ff] p-6 shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] space-y-4"
+                className="rounded-2xl border border-indigo-200 bg-[#f5f3ff] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-4"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-base font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
-                    <Cpu className="size-4 text-indigo-600" />
+                  <h4 className="text-sm font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
+                    <Cpu className="size-4 text-[#4f46e5]" />
                     Consensus Across 4 Architectures
                   </h4>
                   <span className="text-xs font-mono font-medium text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200">

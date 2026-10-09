@@ -113,14 +113,14 @@ Latency: ${result.latency_ms}ms`;
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.4, ease: ease.smooth }}
-      className="space-y-6"
+      className="space-y-5"
     >
       {/* 1. Primary Result Card */}
       <motion.div
         variants={scaleIn}
         initial="hidden"
         animate="show"
-        className={`relative overflow-hidden rounded-2xl border p-5 md:p-8 bg-[#fdfcfb] shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] transition-all duration-300 ${catConfig.borderClass}`}
+        className={`relative overflow-hidden rounded-2xl border p-6 md:p-7 bg-[#fdfcfb] shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-all duration-200 ${catConfig.borderClass}`}
       >
         <div
           className={`absolute -right-20 -top-20 h-56 w-56 rounded-full bg-gradient-to-br ${catConfig.gradient} blur-2xl -z-10`}
@@ -137,7 +137,7 @@ Latency: ${result.latency_ms}ms`;
               <Award className="size-6 md:size-7" style={{ color: catConfig.colorHex }} />
             </motion.div>
             <div>
-              <span className="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6b6660] font-mono">
+              <span className="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.14em] text-[#a8a29e] font-mono">
                 Predicted BBC Domain
               </span>
               <div className="flex items-center gap-2 mt-0.5">
@@ -154,11 +154,11 @@ Latency: ${result.latency_ms}ms`;
           </div>
 
           <div className="text-left sm:text-right">
-            <span className="text-[11px] md:text-xs font-mono font-medium text-[#6b6660]">Confidence</span>
+            <span className="text-[11px] md:text-xs font-mono font-medium text-[#a8a29e]">Confidence</span>
             <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono">
               <AnimatedConfidence value={result.confidence_percentage} />
             </div>
-            <div className="text-[11px] md:text-xs text-[#3f3d3a] font-mono font-medium flex items-center sm:justify-end gap-1 mt-0.5 tabular-nums">
+            <div className="text-[11px] md:text-xs text-[#57534e] font-mono font-medium flex items-center sm:justify-end gap-1 mt-0.5 tabular-nums">
               <Activity className="size-3 text-[#0891b2]" />
               <span>{result.latency_ms} ms</span>
             </div>
@@ -166,12 +166,12 @@ Latency: ${result.latency_ms}ms`;
         </div>
 
         {/* 2. Confidence Fill Bar */}
-        <div className="mt-5 md:mt-6 space-y-2">
-          <div className="flex justify-between text-[11px] md:text-xs font-mono font-medium text-[#3f3d3a]">
+        <div className="mt-5 space-y-2">
+          <div className="flex justify-between text-[11px] md:text-xs font-mono font-medium text-[#57534e]">
             <span>Probability Distribution</span>
             <span className="text-[#0f0f0e] font-semibold tabular-nums">{result.confidence_percentage}%</span>
           </div>
-          <div className="h-2.5 w-full overflow-hidden rounded-full bg-[#f1efeb] border border-[#e7e3dd]">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-[#f1efeb] border border-[#e7e3dd]/60">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${result.confidence_percentage}%` }}
@@ -183,34 +183,28 @@ Latency: ${result.latency_ms}ms`;
         </div>
 
         {/* Action Toolbar */}
-        <div className="mt-5 md:mt-6 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#e7e3dd] text-xs">
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#e7e3dd] text-xs">
           <div className="flex items-center gap-2">
-            <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleCopyResult}
-                className="gap-1.5 text-xs h-8 rounded-lg font-medium text-[#3f3d3a] hover:text-[#0f0f0e]"
-              >
-                {copied ? <Check className="size-3.5 text-[#059669]" /> : <Copy className="size-3.5 text-[#6b6660]" />}
-                <span>{copied ? "Copied" : "Copy"}</span>
-              </Button>
-            </motion.div>
+            <button
+              type="button"
+              onClick={handleCopyResult}
+              className="h-8 px-3 rounded-md bg-transparent border border-[#e7e3dd] text-[12px] font-medium text-[#57534e] hover:bg-[#f1efeb] hover:text-[#0f0f0e] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+            >
+              {copied ? <Check className="size-3.5 text-[#059669]" /> : <Copy className="size-3.5 text-[#6b6660]" />}
+              <span>{copied ? "Copied" : "Copy"}</span>
+            </button>
 
-            <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleDownloadJSON}
-                className="gap-1.5 text-xs h-8 rounded-lg font-medium text-[#3f3d3a] hover:text-[#0f0f0e]"
-              >
-                <Download className="size-3.5 text-[#6b6660]" />
-                <span>Export JSON</span>
-              </Button>
-            </motion.div>
+            <button
+              type="button"
+              onClick={handleDownloadJSON}
+              className="h-8 px-3 rounded-md bg-transparent border border-[#e7e3dd] text-[12px] font-medium text-[#57534e] hover:bg-[#f1efeb] hover:text-[#0f0f0e] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+            >
+              <Download className="size-3.5 text-[#6b6660]" />
+              <span>Export JSON</span>
+            </button>
           </div>
 
-          <span className="text-[#6b6660] font-mono text-[11px] md:text-xs tabular-nums">
+          <span className="text-[#a8a29e] font-mono text-[11px] md:text-xs tabular-nums">
             {result.tokens_count} tokens &bull; {result.explanation.model_version}
           </span>
         </div>
@@ -222,21 +216,34 @@ Latency: ${result.latency_ms}ms`;
         initial="hidden"
         animate="show"
         transition={{ delay: 0.1 }}
-        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-8 shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] space-y-4"
+        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200"
       >
-        <div className="flex items-center justify-between">
-          <h4 className="text-[14px] md:text-base font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
-            <Activity className="size-4 text-[#0891b2]" />
-            Category Probability Distribution
-          </h4>
-          <span className="text-[11px] text-[#6b6660] font-mono font-medium">5 Domains</span>
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div className="flex items-start gap-3">
+            <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
+              <Activity className="size-4" />
+            </div>
+            <div>
+              <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
+                Prediction Telemetry
+              </h3>
+              <p className="text-[12px] text-[#a8a29e] mt-0.5">Real-time inference probabilities</p>
+            </div>
+          </div>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#059669] bg-[#ecfdf5] rounded-full px-2.5 py-0.5 border border-[#a7f3d0]">
+            active
+          </span>
         </div>
 
-        <div className="space-y-3 md:space-y-3.5">
+        <div className="flex justify-between items-center text-[10px] uppercase tracking-[0.14em] text-[#a8a29e] font-semibold mb-4 mt-6">
+          <span>PROBABILITY DISTRIBUTION</span>
+          <span>5 DOMAINS</span>
+        </div>
+
+        <div>
           {sortedCategories.map(([category, prob], index) => {
             const cfg = getCategoryConfig(category);
             const pct = Math.round(prob * 1000) / 10;
-            const isTop = index === 0;
 
             return (
               <motion.div
@@ -244,26 +251,26 @@ Latency: ${result.latency_ms}ms`;
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.35, delay: 0.15 + index * 0.05, ease: ease.smooth }}
-                className="space-y-1.5"
+                className="mb-3"
               >
-                <div className="flex items-center justify-between text-[12px] md:text-[13px]">
-                  <span className="flex items-center gap-2 text-[#0f0f0e] font-medium">
+                <div className="flex justify-between items-center mb-1.5">
+                  <span className="flex items-center text-[12px] text-[#57534e] font-medium">
                     <span
-                      className="size-2 rounded-full"
+                      className="size-1.5 rounded-full mr-2 flex-shrink-0"
                       style={{ backgroundColor: cfg.colorHex }}
                     />
                     <span>{category}</span>
                   </span>
-                  <span className="font-mono text-[#3f3d3a] font-semibold text-[11px] md:text-xs tabular-nums">{pct}%</span>
+                  <span className="text-[11px] font-mono text-[#a8a29e] tabular-nums font-medium">{pct}%</span>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#f1efeb]">
+                <div className="h-1.5 bg-[#f1efeb] rounded-full w-full overflow-hidden">
                   <motion.div
-                    initial={{ width: 0 }}
+                    initial={{ width: "0.5%" }}
                     animate={{ width: `${pct}%` }}
-                    transition={{ duration: 0.7, delay: 0.2 + index * 0.05, ease: ease.smooth }}
-                    className="h-full rounded-full relative"
+                    transition={{ duration: 0.8, delay: 0.1 + index * 0.05, ease: ease.smooth }}
+                    className="h-full rounded-full"
                     style={{
-                      backgroundColor: isTop ? cfg.colorHex : "#b8b2a8",
+                      backgroundColor: cfg.colorHex,
                     }}
                   />
                 </div>
@@ -279,14 +286,14 @@ Latency: ${result.latency_ms}ms`;
         initial="hidden"
         animate="show"
         transition={{ delay: 0.2 }}
-        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-8 shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] space-y-3"
+        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
       >
         <div className="flex items-center justify-between">
           <h4 className="text-[14px] md:text-base font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
-            <Tag className="size-4 text-indigo-600" />
+            <Tag className="size-4 text-[#4f46e5]" />
             Top Saliency Keywords
           </h4>
-          <span className="text-[11px] text-[#6b6660] font-mono font-medium">TF-IDF Weights</span>
+          <span className="text-[10px] text-[#a8a29e] font-mono uppercase tracking-[0.14em] font-semibold">TF-IDF Weights</span>
         </div>
 
         <div className="flex flex-wrap gap-2 pt-1">
@@ -296,12 +303,12 @@ Latency: ${result.latency_ms}ms`;
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
-              whileHover={{ scale: 1.05, y: -1 }}
-              className="flex items-center gap-1.5 rounded-lg border border-[#e7e3dd] bg-[#f1efeb] px-2.5 py-1 text-xs text-[#0f0f0e] shadow-sm cursor-default"
+              whileHover={{ scale: 1.03, y: -1 }}
+              className="flex items-center gap-1.5 rounded-lg border border-[#e7e3dd] bg-[#faf9f6] px-2.5 py-1 text-xs text-[#0f0f0e] shadow-sm cursor-default"
             >
               <Flame className="size-3 text-[#d97706]" />
-              <span className="font-semibold">{kw.word}</span>
-              <span className="font-mono font-medium text-[11px] text-[#0891b2] rounded bg-[#ecfeff] px-1 py-0.2 border border-[#a5f3fc] tabular-nums">
+              <span className="font-medium text-[#0f0f0e]">{kw.word}</span>
+              <span className="font-mono font-medium text-[10px] text-[#0891b2] rounded bg-[#ecfeff] px-1 py-0.2 border border-[#a5f3fc] tabular-nums">
                 {Math.round(kw.weight * 100)}%
               </span>
             </motion.div>
@@ -315,7 +322,7 @@ Latency: ${result.latency_ms}ms`;
         initial="hidden"
         animate="show"
         transition={{ delay: 0.3 }}
-        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] overflow-hidden"
+        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 overflow-hidden"
       >
         <button
           type="button"
@@ -340,11 +347,11 @@ Latency: ${result.latency_ms}ms`;
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.25, ease: ease.smooth }}
-              className="px-5 md:px-6 pb-5 md:pb-6 space-y-3 border-t border-[#e7e3dd] pt-4 text-[13px] text-[#3f3d3a] overflow-hidden"
+              className="px-5 md:px-6 pb-5 md:pb-6 space-y-3 border-t border-[#e7e3dd] pt-4 text-[13px] text-[#57534e] overflow-hidden"
             >
               <p className="leading-relaxed">{result.explanation.summary}</p>
               <div className="space-y-1.5">
-                <span className="font-mono text-[#6b6660] uppercase tracking-[0.14em] text-[10px] md:text-[11px] font-semibold">
+                <span className="font-mono text-[#a8a29e] uppercase tracking-[0.14em] text-[10px] font-semibold">
                   Decision Factors:
                 </span>
                 <ul className="list-disc list-inside space-y-1 text-[#0f0f0e] font-medium pl-1">
@@ -364,7 +371,7 @@ Latency: ${result.latency_ms}ms`;
         initial="hidden"
         animate="show"
         transition={{ delay: 0.35 }}
-        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-8 shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] space-y-3"
+        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
       >
         <div className="flex items-center justify-between">
           <h4 className="text-[14px] md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
@@ -374,7 +381,7 @@ Latency: ${result.latency_ms}ms`;
           <Button
             size="sm"
             variant="outline"
-            className="text-xs h-7 rounded-md font-medium text-[#3f3d3a]"
+            className="text-xs h-7 rounded-md font-medium text-[#57534e] hover:text-[#0f0f0e]"
             onClick={() => setShowHeatmap(!showHeatmap)}
           >
             {showHeatmap ? "Collapse" : "Expand"}
@@ -390,7 +397,7 @@ Latency: ${result.latency_ms}ms`;
               transition={{ duration: 0.25 }}
               className="pt-2 overflow-hidden"
             >
-              <div className="p-4 rounded-xl bg-[#f1efeb] border border-[#e7e3dd] text-xs leading-loose text-[#0f0f0e] font-mono max-h-56 overflow-y-auto">
+              <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] text-xs leading-loose text-[#0f0f0e] font-mono max-h-56 overflow-y-auto">
                 {result.attention_tokens.map((t, idx) => {
                   const bg = t.isKeyword ? "#c7d2fe" : "#ecfeff";
                   return (
@@ -431,61 +438,67 @@ export function EmptyResultsSkeleton() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4, delay: 0.1, ease: ease.smooth }}
-      className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-8 shadow-[0_8px_24px_rgba(15,15,14,0.06),0_2px_6px_rgba(15,15,14,0.04)] space-y-6 select-none flex flex-col justify-between h-full min-h-[440px] md:min-h-[480px]"
+      transition={{ duration: 0.4, delay: 0.08, ease: ease.smooth }}
+      className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 select-none flex flex-col justify-between h-full min-h-[480px]"
     >
-      <div className="space-y-6">
+      <div>
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 border border-indigo-100 flex-shrink-0">
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div className="flex items-start gap-3">
+            <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
               <Activity className="size-4" />
             </div>
             <div>
-              <h3 className="text-base font-semibold text-[#0f0f0e] font-heading">
+              <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
                 Prediction Telemetry
               </h3>
-              <p className="text-[13px] text-[#6b6660] mt-0.5">Real-time inference probabilities</p>
+              <p className="text-[12px] text-[#a8a29e] mt-0.5">Real-time inference probabilities</p>
             </div>
           </div>
-          <span className="bg-[#f1efeb] text-[#6b6660] text-[10px] md:text-[11px] font-semibold uppercase tracking-wider rounded-full px-2.5 py-0.5 border border-[#e7e3dd]">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#6b6660] bg-[#f1efeb] rounded-full px-2.5 py-0.5">
             idle
           </span>
         </div>
 
-        {/* Section label "PROBABILITY DISTRIBUTION" + "5 Domains" */}
-        <div className="pt-2 space-y-3">
-          <div className="flex justify-between text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6b6660] font-mono mb-3">
-            <span>Probability Distribution</span>
-            <span>5 Domains</span>
-          </div>
+        {/* Section label "PROBABILITY DISTRIBUTION" + "5 DOMAINS" */}
+        <div className="flex justify-between items-center text-[10px] uppercase tracking-[0.14em] text-[#a8a29e] font-semibold mb-4 mt-6">
+          <span>PROBABILITY DISTRIBUTION</span>
+          <span>5 DOMAINS</span>
+        </div>
 
-          {/* 5 Real BBC Domains in Idle 0% state */}
-          <div className="space-y-3 md:space-y-3.5">
-            {bbcCategories.map((c, i) => (
-              <div key={c.name} className="space-y-1.5">
-                <div className="flex justify-between text-[12px] md:text-[13px] font-medium text-[#3f3d3a]">
-                  <span className="flex items-center gap-2">
-                    <span className="size-2 rounded-full" style={{ backgroundColor: c.color }} />
-                    <span>{c.name}</span>
-                  </span>
-                  <span className="font-mono text-[11px] md:text-xs font-medium text-[#8a847d] tabular-nums">0.0%</span>
-                </div>
-                <div className="h-1.5 w-full rounded-full bg-[#f1efeb] overflow-hidden">
-                  <div className="h-full rounded-full bg-[#e7e3dd]" style={{ width: "0%" }} />
-                </div>
+        {/* 5 Real BBC Domains in Idle state */}
+        <div>
+          {bbcCategories.map((c) => (
+            <div key={c.name} className="mb-3">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="flex items-center text-[12px] text-[#57534e] font-medium">
+                  <span className="size-1.5 rounded-full mr-2 flex-shrink-0" style={{ backgroundColor: c.color }} />
+                  <span>{c.name}</span>
+                </span>
+                {/* Hide percentage entirely when idle */}
               </div>
-            ))}
-          </div>
+              <div className="h-1.5 bg-[#f1efeb] rounded-full w-full overflow-hidden">
+                <div
+                  className="h-full rounded-full"
+                  style={{ width: "0.5%", backgroundColor: c.color }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Centered empty-state prompt */}
-      <div className="flex-1 flex flex-col items-center justify-center pt-6 md:pt-8 pb-4 text-center">
-        <Sparkles className="size-8 text-[#c8c4bd] mb-3 stroke-[1.5]" />
-        <p className="text-sm font-medium text-[#3f3d3a]">Awaiting article input</p>
-        <p className="text-[13px] text-[#6b6660] max-w-xs text-center mt-1">
-          Paste an article or pick a BBC sample to see predictions
+      <div className="flex-1 flex flex-col items-center justify-center pt-6 pb-2 text-center">
+        <motion.div
+          animate={{ opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Sparkles className="size-8 text-[#d6d1c9] mb-3 stroke-[1.5]" />
+        </motion.div>
+        <p className="text-[14px] font-medium text-[#57534e]">Awaiting input</p>
+        <p className="text-[12px] text-[#a8a29e] max-w-[240px] text-center leading-relaxed mt-1">
+          Paste an article or pick a BBC sample to see live predictions
         </p>
       </div>
     </motion.div>
