@@ -416,8 +416,8 @@ export function ClassifierInput({
         <button
           type="button"
           onClick={onClassify}
-          disabled={!isMinimumReached || isLoading || inputState.kind === "url-loading"}
-          className="flex-1 h-11 rounded-xl bg-[#0f0f0e] text-white text-[14px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] transition-all duration-200 flex items-center justify-center disabled:opacity-40 disabled:pointer-events-none disabled:hover:translate-y-0 cursor-pointer select-none"
+          disabled={!text.trim() || isLoading || inputState.kind === "url-loading"}
+          className="flex-1 h-11 sm:h-12 rounded-xl bg-[#0f0f0e] text-white text-[14px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#0f0f0e] disabled:hover:translate-y-0 transition-all duration-200 flex items-center justify-center cursor-pointer select-none"
         >
           <AnimatePresence mode="wait">
             {isLoading ? (
