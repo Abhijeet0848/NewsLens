@@ -497,8 +497,8 @@ export function EmptyResultsSkeleton() {
           <Sparkles className="size-8 text-[#d6d1c9] mb-3 stroke-[1.5]" />
         </motion.div>
         <p className="text-[14px] font-medium text-[#0f0f0e]">Awaiting input</p>
-        <p className="text-[12px] text-[#6b6660] max-w-[240px] text-center leading-relaxed mt-1">
-          Paste an article or pick a BBC sample to see live predictions
+        <p className="text-[12px] text-[#6b6660] max-w-[220px] text-center leading-relaxed mt-1">
+          Paste an article to see live predictions
         </p>
       </div>
     </motion.div>

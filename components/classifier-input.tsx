@@ -8,10 +8,9 @@ import {
   Link2,
   Trash2,
   Clipboard,
-  Shuffle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { fetchRandomSamples, fetchArticleFromUrl } from "@/lib/api";
+import { fetchArticleFromUrl } from "@/lib/api";
 import { toast } from "sonner";
 import { tabContentVariant } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -83,19 +82,6 @@ export function ClassifierInput({
     toast.info("Input cleared");
   };
 
-  const handleRandomSample = async () => {
-    try {
-      const samples = await fetchRandomSamples(1);
-      if (samples && samples.length > 0) {
-        const sample = samples[0];
-        onChangeText(sample.content || sample.title);
-        toast.success(`Loaded BBC ${sample.category.toUpperCase()}: "${sample.title.slice(0, 30)}..."`);
-      }
-    } catch {
-      toast.error("Could not load sample article");
-    }
-  };
-
   const handleUrlFetch = async () => {
     if (!urlInput.trim()) {
       toast.error("Please enter a valid news URL");
@@ -162,7 +148,7 @@ export function ClassifierInput({
                 Article Content Input
               </h3>
               <p className="text-[13px] text-[#3f3d3a] mt-0.5 max-w-xs leading-relaxed">
-                Paste raw text, upload documents, or load BBC benchmark samples.
+                Paste raw text, upload a document, or fetch from a URL.
               </p>
             </div>
           </div>
@@ -228,14 +214,6 @@ export function ClassifierInput({
                     >
                       <Clipboard className="size-3.5 text-[#57534e]" />
                       <span>Paste</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleRandomSample}
-                      className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
-                    >
-                      <Shuffle className="size-3.5 text-[#57534e]" />
-                      <span>BBC Sample</span>
                     </button>
                     <button
                       type="button"
