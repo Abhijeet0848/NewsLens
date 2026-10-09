@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Hero } from "@/components/hero";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
-import { CategoryPill, TAXONOMY_CATEGORIES } from "@/components/CategoryPill";
+import { CategoryPill, TaxonomyPills, TAXONOMY_CATEGORIES } from "@/components/CategoryPill";
 import { fetchDatasetSummary } from "@/lib/api";
 import { motion } from "framer-motion";
 
@@ -52,33 +52,8 @@ export default function HomePage() {
             {totalCount.toLocaleString()} articles from the BBC corpus
           </p>
 
-          <div className="relative pt-4 max-w-2xl mx-auto">
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory px-5 -mx-5 md:mx-0 md:px-0 md:justify-center">
-              {Object.entries(TAXONOMY_CATEGORIES).map(([key, cat]) => {
-                const count =
-                  counts[key.toLowerCase()] ||
-                  counts[key] ||
-                  (key === "business"
-                    ? 510
-                    : key === "entertainment"
-                    ? 386
-                    : key === "politics"
-                    ? 417
-                    : key === "sport"
-                    ? 511
-                    : 401);
-                return (
-                  <CategoryPill
-                    key={key}
-                    name={cat.label}
-                    count={count}
-                    colors={{ bg: cat.bg, border: cat.border, text: cat.text }}
-                  />
-                );
-              })}
-            </div>
-            {/* Right fade hint on mobile */}
-            <div className="md:hidden absolute right-0 top-0 bottom-2 w-10 bg-gradient-to-l from-[#f7f6f3] to-transparent pointer-events-none" />
+          <div className="pt-4">
+            <TaxonomyPills counts={counts} />
           </div>
         </section>
       </Reveal>
