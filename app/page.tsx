@@ -7,10 +7,8 @@ import {
   Layers,
   ShieldCheck,
   Tag,
-  ArrowRight,
 } from "lucide-react";
 import { Hero } from "@/components/hero";
-import { Button } from "@/components/ui/button";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { CATEGORIES_CONFIG } from "@/lib/utils";
 import { fetchDatasetSummary } from "@/lib/api";
@@ -178,13 +176,9 @@ export default function HomePage() {
               <Link href="/classify" className="inline-flex">
                 <button
                   type="button"
-                  className="group inline-flex items-center gap-1.5 h-11 px-6 rounded-lg bg-[#4f46e5] text-white text-sm font-medium tracking-[-0.005em] shadow-[0_1px_2px_rgba(15,15,14,0.08),0_4px_12px_rgba(79,70,229,0.15)] hover:bg-[#4338ca] hover:shadow-[0_2px_4px_rgba(15,15,14,0.10),0_6px_16px_rgba(79,70,229,0.22)] hover:-translate-y-px active:translate-y-0 active:scale-[0.98] transition-all duration-200 ease-out cursor-pointer select-none"
+                  className="inline-flex items-center justify-center h-11 px-7 rounded-full bg-[#0f0f0e] text-white text-sm font-medium hover:bg-[#2a2a28] active:scale-[0.98] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f0f0e]/20 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f7f6f3] cursor-pointer select-none"
                 >
-                  <span>Open Classifier</span>
-                  <ArrowRight
-                    className="size-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                    strokeWidth={2}
-                  />
+                  Open Classifier
                 </button>
               </Link>
             </div>
