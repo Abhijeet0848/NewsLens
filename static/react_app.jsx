@@ -28,7 +28,7 @@ const SAMPLE_ARTICLES = [
   {
     category: "Technology",
     icon: "💻",
-    title: "AI Microprocessor",
+    title: "Next-Gen Microprocessor",
     text: "Semiconductor engineers unveiled a revolutionary 2nm microchip architecture featuring ultra-dense transistor gates, slashing power consumption and accelerating neural network machine learning inference."
   },
   {

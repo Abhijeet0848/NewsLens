@@ -30,9 +30,9 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NewsScope — AI News Article Classifier | DistilBERT & Fast SVM",
+  title: "NewsScope — News Article Classifier | DistilBERT & Fast SVM",
   description:
-    "AI News Article Category Classifier with sub-millisecond inference, transparent confidence distributions, saliency keyword maps, and batch processing.",
+    "News Article Category Classifier with sub-millisecond inference, transparent confidence distributions, saliency keyword maps, and batch processing.",
 };
 
 export default function RootLayout({
