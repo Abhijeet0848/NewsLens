@@ -88,25 +88,28 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* 3. ⌘K Button (Right) — Hidden on mobile, clean KBD chips */}
+        {/* 3. Search Bar (Right) — Hidden on mobile, desktop search input control */}
         <div className="hidden md:flex items-center">
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
             type="button"
             onClick={() => setCommandPaletteOpen(true)}
-            aria-label="Open Command Palette (⌘K)"
-            className="group flex items-center gap-2 h-9 pl-3 pr-2 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs shadow-[rgba(28,27,26,0.03)] transition-all duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer"
+            aria-label="Search articles and commands (⌘K)"
+            className="group flex items-center gap-2.5 h-9 w-48 lg:w-56 pl-3 pr-2 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs shadow-[rgba(28,27,26,0.03)] transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer text-left"
           >
             <Search
-              className="size-[15px] text-[#6b6660] group-hover:text-[#3f3d3a] transition-colors"
+              className="size-4 text-[#6b6660] shrink-0 group-hover:text-[#3f3d3a] transition-colors"
               strokeWidth={2}
             />
-            <div className="flex items-center gap-0.5">
-              <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[11px] font-mono font-medium text-[#3f3d3a] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
+            <span className="flex-1 text-[13px] text-[#a8a29e] truncate font-normal">
+              Search...
+            </span>
+            <div className="flex items-center gap-0.5 shrink-0">
+              <kbd className="h-5 min-w-[18px] px-1 flex items-center justify-center rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] text-[10px] font-mono font-medium text-[#6b6660] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
                 ⌘
               </kbd>
-              <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[11px] font-mono font-medium text-[#3f3d3a] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
+              <kbd className="h-5 min-w-[18px] px-1 flex items-center justify-center rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] text-[10px] font-mono font-medium text-[#6b6660] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
                 K
               </kbd>
             </div>
