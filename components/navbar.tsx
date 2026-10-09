@@ -88,7 +88,7 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* 3. ⌘K Button (Right) — Hidden on mobile, matches h-10 nav height */}
+        {/* 3. ⌘K Button (Right) — Hidden on mobile, clean KBD chips */}
         <div className="hidden md:flex items-center">
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -96,13 +96,20 @@ export function Navbar() {
             type="button"
             onClick={() => setCommandPaletteOpen(true)}
             aria-label="Open Command Palette (⌘K)"
-            className="flex items-center gap-2.5 h-10 px-4 rounded-full bg-[#fdfcfb] border border-[#e7e3dd] text-[#3f3d3a] shadow-sm shadow-[rgba(28,27,26,0.04)] hover:bg-[#f1efeb] hover:text-[#0f0f0e] hover:border-[#d6d1c9] hover:shadow-md hover:shadow-[rgba(28,27,26,0.06)] transition-all duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer"
+            className="group flex items-center gap-2 h-9 pl-3 pr-2 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs shadow-[rgba(28,27,26,0.03)] transition-all duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer"
           >
-            <Search className="size-4 text-[#6b6660]" strokeWidth={2} />
-            <kbd className="flex items-center gap-0.5 text-[13px] font-sans font-medium tracking-normal leading-none">
-              <span className="text-[15px] leading-none">⌘</span>
-              <span>K</span>
-            </kbd>
+            <Search
+              className="size-[15px] text-[#6b6660] group-hover:text-[#3f3d3a] transition-colors"
+              strokeWidth={2}
+            />
+            <div className="flex items-center gap-0.5">
+              <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[11px] font-mono font-medium text-[#3f3d3a] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
+                ⌘
+              </kbd>
+              <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[11px] font-mono font-medium text-[#3f3d3a] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
+                K
+              </kbd>
+            </div>
           </motion.button>
         </div>
 
@@ -194,10 +201,16 @@ export function Navbar() {
                       setMobileMenuOpen(false);
                       setCommandPaletteOpen(true);
                     }}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl border border-[#e7e3dd] bg-[#f1efeb] px-4 py-3 text-sm font-medium text-[#3f3d3a] hover:bg-[#ebe8e3] hover:text-[#0f0f0e] shadow-xs transition-colors"
+                    className="w-full flex items-center justify-between gap-2 rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] px-3.5 py-2.5 text-sm font-medium text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] shadow-xs transition-colors"
                   >
-                    <Search className="size-4 text-[#6b6660]" />
-                    <span>⌘K Search</span>
+                    <div className="flex items-center gap-2">
+                      <Search className="size-4 text-[#6b6660]" strokeWidth={2} />
+                      <span className="text-[13px]">Search commands...</span>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[10px] font-mono font-medium text-[#3f3d3a]">⌘</kbd>
+                      <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[10px] font-mono font-medium text-[#3f3d3a]">K</kbd>
+                    </div>
                   </button>
                 </div>
               </div>
