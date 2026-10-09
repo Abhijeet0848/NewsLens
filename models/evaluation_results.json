@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "trained_at": "2026-10-08 16:39:13",
+    "trained_at": "2026-10-09 23:14:39",
     "dataset_stats": {
       "total_articles": 8000,
       "num_categories": 8,
@@ -408,8 +408,8 @@
         }
       },
       "classification_report_text": "               precision    recall  f1-score   support\n\n     Business       1.00      1.00      1.00       200\nEntertainment       1.00      1.00      1.00       200\n       Health       1.00      1.00      1.00       200\n     Politics       1.00      1.00      1.00       200\n      Science       1.00      1.00      1.00       200\n       Sports       1.00      1.00      1.00       200\n   Technology       1.00      1.00      1.00       200\n        World       1.00      1.00      1.00       200\n\n     accuracy                           1.00      1600\n    macro avg       1.00      1.00      1.00      1600\n weighted avg       1.00      1.00      1.00      1600\n",
-      "training_time_seconds": 0.0268,
-      "avg_inference_latency_ms": 0.003,
+      "training_time_seconds": 0.0115,
+      "avg_inference_latency_ms": 0.001,
       "model_name": "Multinomial Naive Bayes",
       "model_type": "Probabilistic Generative",
       "scoring_type": "probability"
@@ -712,7 +712,7 @@
         }
       },
       "classification_report_text": "               precision    recall  f1-score   support\n\n     Business       1.00      1.00      1.00       200\nEntertainment       1.00      1.00      1.00       200\n       Health       1.00      1.00      1.00       200\n     Politics       1.00      1.00      1.00       200\n      Science       1.00      1.00      1.00       200\n       Sports       1.00      1.00      1.00       200\n   Technology       1.00      1.00      1.00       200\n        World       1.00      1.00      1.00       200\n\n     accuracy                           1.00      1600\n    macro avg       1.00      1.00      1.00      1600\n weighted avg       1.00      1.00      1.00      1600\n",
-      "training_time_seconds": 0.7453,
+      "training_time_seconds": 0.5036,
       "avg_inference_latency_ms": 0.002,
       "model_name": "Linear Support Vector Machine",
       "model_type": "Maximum-Margin Discriminative",
@@ -1016,8 +1016,8 @@
         }
       },
       "classification_report_text": "               precision    recall  f1-score   support\n\n     Business       1.00      1.00      1.00       200\nEntertainment       1.00      1.00      1.00       200\n       Health       1.00      1.00      1.00       200\n     Politics       1.00      1.00      1.00       200\n      Science       1.00      1.00      1.00       200\n       Sports       1.00      1.00      1.00       200\n   Technology       1.00      1.00      1.00       200\n        World       1.00      1.00      1.00       200\n\n     accuracy                           1.00      1600\n    macro avg       1.00      1.00      1.00      1600\n weighted avg       1.00      1.00      1.00      1600\n",
-      "training_time_seconds": 1.7102,
-      "avg_inference_latency_ms": 0.002,
+      "training_time_seconds": 0.8516,
+      "avg_inference_latency_ms": 0.001,
       "model_name": "Decision Tree Classifier",
       "model_type": "Hierarchical Non-Parametric",
       "scoring_type": "probability"
@@ -1320,8 +1320,8 @@
         }
       },
       "classification_report_text": "               precision    recall  f1-score   support\n\n     Business       1.00      1.00      1.00       200\nEntertainment       1.00      1.00      1.00       200\n       Health       1.00      1.00      1.00       200\n     Politics       1.00      1.00      1.00       200\n      Science       1.00      1.00      1.00       200\n       Sports       1.00      1.00      1.00       200\n   Technology       1.00      1.00      1.00       200\n        World       1.00      1.00      1.00       200\n\n     accuracy                           1.00      1600\n    macro avg       1.00      1.00      1.00      1600\n weighted avg       1.00      1.00      1.00      1600\n",
-      "training_time_seconds": 86.3552,
-      "avg_inference_latency_ms": 0.04,
+      "training_time_seconds": 44.8779,
+      "avg_inference_latency_ms": 0.012,
       "model_name": "Multi-Layer Perceptron (MLP)",
       "model_type": "Artificial Neural Network",
       "scoring_type": "probability"

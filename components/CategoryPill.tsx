@@ -29,7 +29,7 @@ export function CategoryPill({ name, count, colors }: CategoryPillProps) {
       whileHover={shouldReduce ? undefined : { scale: 1.02, filter: "brightness(0.98)" }}
       whileTap={shouldReduce ? undefined : { scale: 0.98 }}
       transition={{ duration: 0.15 }}
-      className="flex items-center gap-2 h-8 px-3 rounded-full border shrink-0 snap-start transition-colors duration-150 cursor-pointer select-none"
+      className="flex items-center gap-2 h-8 px-3 rounded-full border shrink-0 transition-colors duration-150 cursor-pointer select-none"
       style={{
         backgroundColor: colors.bg,
         borderColor: colors.border,
@@ -56,10 +56,8 @@ export function CategoryPill({ name, count, colors }: CategoryPillProps) {
 
 export function TaxonomyPills({
   counts = {},
-  variant = "scroll",
 }: {
   counts?: Record<string, number>;
-  variant?: "scroll" | "wrap";
 }) {
   const items = Object.entries(TAXONOMY_CATEGORIES).map(([key, cat]) => {
     const count =
@@ -82,37 +80,16 @@ export function TaxonomyPills({
     };
   });
 
-  if (variant === "wrap") {
-    return (
-      <div className="flex flex-wrap justify-center gap-2 max-w-md md:max-w-2xl mx-auto px-5">
-        {items.map((item) => (
-          <CategoryPill
-            key={item.key}
-            name={item.label}
-            count={item.count}
-            colors={item.colors}
-          />
-        ))}
-      </div>
-    );
-  }
-
   return (
-    <div className="relative -mx-5 md:mx-0">
-      {/* Scroll track */}
-      <div className="flex gap-2 overflow-x-auto pb-2 px-5 md:px-0 md:justify-center snap-x snap-mandatory scrollbar-hide scroll-smooth">
-        {items.map((item) => (
-          <CategoryPill
-            key={item.key}
-            name={item.label}
-            count={item.count}
-            colors={item.colors}
-          />
-        ))}
-      </div>
-
-      {/* Right fade hint (mobile only) */}
-      <div className="pointer-events-none absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-[#f7f6f3] to-transparent md:hidden" />
+    <div className="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto px-5">
+      {items.map((item) => (
+        <CategoryPill
+          key={item.key}
+          name={item.label}
+          count={item.count}
+          colors={item.colors}
+        />
+      ))}
     </div>
   );
 }

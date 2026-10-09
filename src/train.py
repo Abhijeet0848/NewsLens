@@ -25,6 +25,7 @@ if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
 
 from src.config import (
+    DATA_DIR,
     DATASET_PATH,
     TEST_SIZE,
     RANDOM_STATE,
