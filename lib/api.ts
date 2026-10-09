@@ -221,19 +221,23 @@ function transformBackendResponse(data: any, originalText: string): Classificati
 }
 
 export async function fetchArticleFromUrl(url: string): Promise<string> {
-  // Fetch real content via proxy or return empty prompt if unparseable
-  try {
-    const res = await fetch(url);
-    if (res.ok) {
-      const html = await res.text();
-      // Simple text stripper
-      const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-      if (text.length > 50) return text.slice(0, 3000);
-    }
-  } catch {
-    // If CORS prevents client-side scraping
+  const res = await fetch("/api/extract-url", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url: url.trim() }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || "Failed to fetch and extract article from URL.");
   }
-  throw new Error("Unable to extract text from URL directly due to CORS. Please paste the article text.");
+
+  if (!data.text || data.text.trim().length === 0) {
+    throw new Error("No readable article text found at this URL.");
+  }
+
+  return data.text;
 }
 
 export async function processBatchCSV(

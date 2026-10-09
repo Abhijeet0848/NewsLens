@@ -83,18 +83,21 @@ export function ClassifierInput({
   };
 
   const handleUrlFetch = async () => {
-    if (!urlInput.trim()) {
+    const trimmed = urlInput.trim();
+    if (!trimmed) {
       toast.error("Please enter a valid news URL");
       return;
     }
     setIsFetchingUrl(true);
     try {
-      const extractedText = await fetchArticleFromUrl(urlInput);
+      const extractedText = await fetchArticleFromUrl(trimmed);
       onChangeText(extractedText);
+      setUrlInput("");
       setActiveInputTab("text");
-      toast.success("Article extracted from URL");
+      const wordCount = extractedText.split(/\s+/).length;
+      toast.success(`Article extracted (${wordCount} words)`);
     } catch (err: any) {
-      toast.error(err.message || "Failed to parse URL article");
+      toast.error(err.message || "Failed to fetch article from this URL");
     } finally {
       setIsFetchingUrl(false);
     }
@@ -308,20 +311,36 @@ export function ClassifierInput({
                     placeholder="https://www.bbc.com/news/..."
                     value={urlInput}
                     onChange={(e) => setUrlInput(e.target.value)}
-                    className="flex-1 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] px-4 py-2.5 text-[15px] text-[#0f0f0e] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !isFetchingUrl) {
+                        e.preventDefault();
+                        handleUrlFetch();
+                      }
+                    }}
+                    disabled={isFetchingUrl}
+                    className="flex-1 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] px-4 py-2.5 text-[15px] text-[#0f0f0e] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all disabled:opacity-60"
                   />
                   <Button
                     onClick={handleUrlFetch}
-                    disabled={isFetchingUrl}
+                    disabled={isFetchingUrl || !urlInput.trim()}
                     variant="secondary"
-                    className="gap-1.5 h-10 px-4 text-xs font-medium w-full sm:w-auto rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] hover:bg-[#f1efeb] text-[#0f0f0e]"
+                    className="gap-1.5 h-10 px-4 text-xs font-medium w-full sm:w-auto rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] hover:bg-[#f1efeb] text-[#0f0f0e] disabled:opacity-50"
                   >
-                    <Link2 className="size-4 text-[#4f46e5]" />
-                    <span>Fetch</span>
+                    {isFetchingUrl ? (
+                      <>
+                        <span className="size-3.5 animate-spin rounded-full border-2 border-[#4f46e5] border-t-transparent" />
+                        <span>Fetching...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Link2 className="size-4 text-[#4f46e5]" />
+                        <span>Fetch</span>
+                      </>
+                    )}
                   </Button>
                 </div>
                 <p className="text-[13px] text-[#6b6660]">
-                  Enter an article URL or paste text directly.
+                  Enter an article URL to extract content, or paste text directly.
                 </p>
               </motion.div>
             )}
