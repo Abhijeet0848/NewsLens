@@ -204,12 +204,14 @@ export function ModelSelector({
                   }
                   className="fixed bottom-0 left-0 right-0 z-[9999] rounded-t-2xl 
                              sm:fixed sm:bottom-auto sm:left-auto sm:top-[var(--desktop-top)] sm:right-[var(--desktop-right)] sm:w-80 sm:rounded-xl 
-                             bg-[#fdfcfb] border border-[#e7e3dd] 
-                             shadow-[0_12px_32px_-8px_rgba(28,27,26,0.12),0_4px_8px_-4px_rgba(28,27,26,0.06)] 
+                             bg-[#fdfcfb]/85 backdrop-blur-md sm:backdrop-blur-xl 
+                             backdrop-saturate-150 
+                             border border-[#e7e3dd]/80 
+                             shadow-[0_12px_32px_-8px_rgba(28,27,26,0.15),0_4px_8px_-4px_rgba(28,27,26,0.08)] 
                              overflow-hidden"
                 >
                   {/* Mobile Sheet Header */}
-                  <div className="flex sm:hidden items-center justify-between px-4 py-3 border-b border-[#e7e3dd]">
+                  <div className="flex sm:hidden items-center justify-between px-4 py-3 border-b border-[#e7e3dd]/70">
                     <div className="flex items-center gap-2">
                       <span className="size-2.5 rounded-full bg-[#4f46e5]" />
                       <span className="text-xs font-semibold uppercase tracking-wider text-[#0f0f0e] font-mono">
@@ -219,7 +221,7 @@ export function ModelSelector({
                     <button
                       type="button"
                       onClick={() => setOpen(false)}
-                      className="p-1 rounded-md text-[#6b6660] hover:bg-[#f1efeb]"
+                      className="p-1 rounded-md text-[#6b6660] hover:bg-[#f1efeb]/70"
                     >
                       <X className="size-4" />
                     </button>
@@ -244,10 +246,10 @@ export function ModelSelector({
                           onMouseEnter={() => setFocusedIndex(idx)}
                           className={`w-full flex items-start gap-3 p-3.5 rounded-lg text-left transition-colors duration-150 cursor-pointer ${
                             isActive
-                              ? "bg-[#f1efeb] text-[#0f0f0e]"
+                              ? "bg-[#f1efeb]/60 text-[#0f0f0e]"
                               : isFocused
-                              ? "bg-[#faf9f6] text-[#0f0f0e]"
-                              : "text-[#3f3d3a] hover:bg-[#f1efeb]"
+                              ? "bg-[#faf9f6]/70 text-[#0f0f0e]"
+                              : "text-[#3f3d3a] hover:bg-[#f1efeb]/70"
                           }`}
                         >
                           {/* Indicator (Check mark for active, centered dot for inactive) */}
@@ -304,8 +306,8 @@ export function ModelSelector({
                     })}
                   </div>
 
-                  {/* Shortened Footer Hint */}
-                  <div className="border-t border-[#f1efeb] py-2.5 px-3.5 bg-[#faf9f6]">
+                  {/* Shortened Footer Hint with frosted sub-panel */}
+                  <div className="border-t border-[#f1efeb]/70 py-2.5 px-3.5 bg-[#f1efeb]/50">
                     <p className="text-[10px] text-[#a8a29e] leading-normal font-sans">
                       Default: Linear SVM (best speed-accuracy balance)
                     </p>
