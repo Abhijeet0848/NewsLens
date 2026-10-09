@@ -88,15 +88,15 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* 3. Search Bar (Right) — Hidden on mobile, desktop search input control */}
+        {/* 3. Search Bar (Right) — Clean search input control */}
         <div className="hidden md:flex items-center">
           <motion.button
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.98 }}
             type="button"
             onClick={() => setCommandPaletteOpen(true)}
-            aria-label="Search articles and commands (⌘K)"
-            className="group flex items-center gap-2.5 h-9 w-48 lg:w-56 pl-3 pr-2 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs shadow-[rgba(28,27,26,0.03)] transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer text-left"
+            aria-label="Search articles and commands"
+            className="group flex items-center gap-2 h-9 w-48 lg:w-52 pl-3 pr-3 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs shadow-[rgba(28,27,26,0.03)] transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer text-left"
           >
             <Search
               className="size-4 text-[#6b6660] shrink-0 group-hover:text-[#3f3d3a] transition-colors"
@@ -105,14 +105,6 @@ export function Navbar() {
             <span className="flex-1 text-[13px] text-[#a8a29e] truncate font-normal">
               Search...
             </span>
-            <div className="flex items-center gap-0.5 shrink-0">
-              <kbd className="h-5 min-w-[18px] px-1 flex items-center justify-center rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] text-[10px] font-mono font-medium text-[#6b6660] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
-                ⌘
-              </kbd>
-              <kbd className="h-5 min-w-[18px] px-1 flex items-center justify-center rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] text-[10px] font-mono font-medium text-[#6b6660] leading-none shadow-[0_1px_0_rgba(28,27,26,0.04)]">
-                K
-              </kbd>
-            </div>
           </motion.button>
         </div>
 
@@ -204,16 +196,10 @@ export function Navbar() {
                       setMobileMenuOpen(false);
                       setCommandPaletteOpen(true);
                     }}
-                    className="w-full flex items-center justify-between gap-2 rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] px-3.5 py-2.5 text-sm font-medium text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] shadow-xs transition-colors"
+                    className="w-full flex items-center gap-2.5 rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] px-3.5 py-2.5 text-sm font-medium text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] shadow-xs transition-colors"
                   >
-                    <div className="flex items-center gap-2">
-                      <Search className="size-4 text-[#6b6660]" strokeWidth={2} />
-                      <span className="text-[13px]">Search commands...</span>
-                    </div>
-                    <div className="flex items-center gap-0.5">
-                      <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[10px] font-mono font-medium text-[#3f3d3a]">⌘</kbd>
-                      <kbd className="flex items-center justify-center h-5 min-w-[20px] px-1 rounded-[5px] bg-[#f1efeb] border border-[#e7e3dd] border-b-[#d6d1c9] text-[10px] font-mono font-medium text-[#3f3d3a]">K</kbd>
-                    </div>
+                    <Search className="size-4 text-[#6b6660]" strokeWidth={2} />
+                    <span className="text-[13px] text-[#a8a29e]">Search articles and commands...</span>
                   </button>
                 </div>
               </div>
