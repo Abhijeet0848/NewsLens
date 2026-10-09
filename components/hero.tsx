@@ -31,11 +31,11 @@ export function Hero() {
       {/* 1. Aurora Gradient Blob & 2. Dot Grid Pattern (Hero top only) */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none select-none">
         {/* Aurora radial glow */}
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[300px] md:h-[600px] w-[600px] md:w-[1200px] bg-[radial-gradient(ellipse_at_center,_rgba(139,92,246,0.14),transparent_60%)] blur-3xl" />
-        <div className="absolute left-[20%] top-[20%] h-[240px] md:h-[400px] w-[240px] md:w-[400px] bg-[radial-gradient(circle,_rgba(6,182,212,0.08),transparent_70%)] blur-3xl" />
+        <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[300px] md:h-[500px] w-[500px] md:w-[1000px] bg-[radial-gradient(ellipse_at_center,_rgba(139,92,246,0.08),transparent_60%)] blur-3xl" />
+        <div className="absolute left-[20%] top-[20%] h-[200px] md:h-[350px] w-[200px] md:w-[350px] bg-[radial-gradient(circle,_rgba(6,182,212,0.05),transparent_70%)] blur-3xl" />
 
-        {/* Fading Dot Grid pattern */}
-        <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(#d6d1c9_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
+        {/* Fading Dot Grid pattern - masked to fade cleanly */}
+        <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(#d6d1c9_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center_top,black_30%,transparent_70%)]" />
 
         {/* Fade to bottom page background */}
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#f7f6f3] to-transparent" />
@@ -91,17 +91,18 @@ export function Hero() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.5, ease: ease.smooth }}
-          className="pt-4 flex items-center justify-center"
+          className="pt-2 md:pt-4 flex items-center justify-center"
         >
-          <motion.div whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
-            <Link href="/classify" className="w-full block">
-              <Button size="lg" className="group w-full sm:w-auto min-h-12 h-12 px-8 rounded-xl gap-2.5 text-sm font-medium shadow-[0_4px_16px_rgba(99,102,241,0.28)]">
-                <Zap className="size-4 text-[#fdfcfb]" />
-                <span>Open Classifier</span>
-                <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
-              </Button>
-            </Link>
-          </motion.div>
+          <Link href="/classify" className="inline-flex">
+            <button
+              type="button"
+              className="group inline-flex items-center gap-2 h-11 px-6 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-sm font-medium tracking-normal shadow-[0_4px_14px_rgba(99,102,241,0.25)] ring-1 ring-inset ring-white/20 hover:shadow-[0_6px_20px_rgba(99,102,241,0.35)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 cursor-pointer select-none"
+            >
+              <Zap className="size-4 ml-0.5" strokeWidth={2.5} />
+              <span>Open Classifier</span>
+              <ArrowRight className="size-4 ml-1 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </button>
+          </Link>
         </motion.div>
 
         {/* Real Stats Row from BBC Dataset */}
