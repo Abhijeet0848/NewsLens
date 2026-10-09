@@ -56,7 +56,7 @@ export async function fetchRandomSamples(count = 6): Promise<BBCArticle[]> {
 
 export async function classifyArticle(
   text: string,
-  model = "distilbert"
+  model = "linear-svm"
 ): Promise<ClassificationResponse> {
   // If external FastAPI backend is reachable, call it
   if (API_BASE_URL) {
@@ -163,6 +163,7 @@ export async function classifyArticle(
     latency_ms,
     tokens_count: rawTokens.length,
     timestamp: new Date().toISOString(),
+    model_id: model,
   };
 }
 
@@ -217,6 +218,7 @@ function transformBackendResponse(data: any, originalText: string): Classificati
     latency_ms: data.inference_latency_ms || 15,
     tokens_count: rawTokens.length,
     timestamp: new Date().toISOString(),
+    model_id: data.model || "linear-svm",
   };
 }
 

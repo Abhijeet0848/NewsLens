@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import type { ClassificationResponse } from "./types";
 
+import { DEFAULT_MODEL, ModelId } from "./models";
+
 export interface HistoryItem {
   id: string;
   textSnippet: string;
@@ -11,14 +13,14 @@ export interface HistoryItem {
 
 interface ClassifierStore {
   currentText: string;
-  selectedModel: string;
+  selectedModel: ModelId;
   result: ClassificationResponse | null;
   isLoading: boolean;
   history: HistoryItem[];
   totalClassifiedCount: number;
   commandPaletteOpen: boolean;
   setCurrentText: (text: string) => void;
-  setSelectedModel: (model: string) => void;
+  setSelectedModel: (model: ModelId) => void;
   setResult: (result: ClassificationResponse | null) => void;
   setIsLoading: (loading: boolean) => void;
   addToHistory: (item: HistoryItem) => void;
@@ -30,7 +32,7 @@ interface ClassifierStore {
 
 export const useClassifierStore = create<ClassifierStore>((set) => ({
   currentText: "",
-  selectedModel: "distilbert",
+  selectedModel: DEFAULT_MODEL,
   result: null,
   isLoading: false,
   history: [],

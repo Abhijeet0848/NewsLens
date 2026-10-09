@@ -4,7 +4,7 @@ import { classifyArticle } from "@/lib/api";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { text, model = "distilbert" } = body;
+    const { text, model = "linear-svm" } = body;
 
     if (!text || typeof text !== "string" || text.trim().length === 0) {
       return NextResponse.json(

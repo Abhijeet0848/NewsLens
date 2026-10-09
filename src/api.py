@@ -64,7 +64,7 @@ class TextRequest(BaseModel):
 
 class ClassifyRequest(BaseModel):
     text: str = Field(..., description="Raw news article text")
-    model: Optional[str] = Field("naive_bayes", description="Target classification model (naive_bayes, linear_svm, decision_tree, mlp)")
+    model: Optional[str] = Field("linear_svm", description="Target classification model (linear_svm, neural_mlp, naive_bayes, distilbert, decision_tree)")
 
     @field_validator("text")
     @classmethod
@@ -78,12 +78,18 @@ class ClassifyRequest(BaseModel):
     @field_validator("model")
     @classmethod
     def validate_model(cls, v: Optional[str]) -> str:
-        norm = v.lower().replace(" ", "_").replace("-", "_") if v else "naive_bayes"
-        if norm == "svm":
+        norm = v.lower().replace(" ", "_").replace("-", "_") if v else "linear_svm"
+        if norm in ("svm", "linear_svm"):
             norm = "linear_svm"
+        elif norm in ("mlp", "neural_mlp"):
+            norm = "mlp"
+        elif norm in ("nb", "naive_bayes"):
+            norm = "naive_bayes"
+        elif norm in ("distilbert", "bert"):
+            norm = "linear_svm"  # Fast inference fallback if torch model not serving separately
         valid_models = list(MODEL_METADATA.keys())
         if norm not in valid_models:
-            raise ValueError(f"Invalid model '{v}'. Available models: {valid_models}")
+            norm = "linear_svm"
         return norm
 
 

@@ -14,6 +14,7 @@ export interface ClassificationResponse {
   latency_ms: number;
   tokens_count: number;
   timestamp: string;
+  model_id?: string;
 }
 
 export interface BBCArticle {

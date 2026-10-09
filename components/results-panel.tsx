@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import type { ClassificationResponse } from "@/lib/types";
 import { getCategoryConfig, CATEGORIES_CONFIG } from "@/lib/utils";
+import { MODELS, ModelId } from "@/lib/models";
 import { ease, fadeUp, scaleIn } from "@/lib/motion";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
@@ -106,6 +107,9 @@ Latency: ${result.latency_ms}ms`;
       return [catName, prob] as [string, number];
     })
     .sort(([, a], [, b]) => b - a);
+
+  const modelKey = (result.model_id?.replace("_", "-") || "linear-svm") as ModelId;
+  const activeModel = MODELS[modelKey] || MODELS["linear-svm"];
 
   return (
     <motion.div
@@ -218,7 +222,7 @@ Latency: ${result.latency_ms}ms`;
         transition={{ delay: 0.1 }}
         className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200"
       >
-        <div className="flex items-start justify-between gap-4 mb-6">
+        <div className="flex items-start justify-between gap-4 mb-3">
           <div className="flex items-start gap-3">
             <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
               <Activity className="size-4" />
@@ -233,6 +237,19 @@ Latency: ${result.latency_ms}ms`;
           <span className="text-[11px] font-semibold uppercase tracking-wider text-[#059669] bg-[#ecfdf5] rounded-full px-2.5 py-0.5 border border-[#a7f3d0]">
             active
           </span>
+        </div>
+
+        {/* Model attribution badge */}
+        <div className="flex items-center gap-2 text-[11px] text-[#6b6660] bg-[#faf9f6] border border-[#e7e3dd] rounded-lg px-3 py-1.5 mb-5">
+          <span className="size-1.5 rounded-full bg-[#4f46e5] shrink-0" />
+          <span>Predicted by</span>
+          <span className="font-medium text-[#0f0f0e]">
+            {activeModel.name}
+          </span>
+          <span className="text-[#a8a29e]">&bull;</span>
+          <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
+          <span className="text-[#a8a29e]">&bull;</span>
+          <span className="font-mono text-[#8a847d]">{activeModel.latency}ms latency</span>
         </div>
 
         <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660] mb-4 mt-6">

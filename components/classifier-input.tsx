@@ -19,11 +19,14 @@ import { detectInput, getDomain } from "@/lib/detectInput";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+import { ModelSelector } from "@/components/ModelSelector";
+import { ModelId, DEFAULT_MODEL } from "@/lib/models";
+
 interface ClassifierInputProps {
   text: string;
   onChangeText: (val: string) => void;
-  selectedModel: string;
-  onChangeModel: (model: string) => void;
+  selectedModel: ModelId | string;
+  onChangeModel: (model: ModelId) => void;
   onClassify: () => void;
   isLoading: boolean;
 }
@@ -34,33 +37,6 @@ export type InputState =
   | { kind: "url-loading"; url: string }
   | { kind: "url-loaded"; url: string; text: string }
   | { kind: "url-error"; url: string; message: string };
-
-const AVAILABLE_MODELS = [
-  {
-    id: "linear_svm",
-    name: "Linear SVM",
-    tag: "Champion",
-    desc: "Maximum-Margin Boundary",
-  },
-  {
-    id: "distilbert",
-    name: "DistilBERT",
-    tag: "Neural",
-    desc: "Transformer Attention",
-  },
-  {
-    id: "mlp",
-    name: "Neural MLP",
-    tag: "Nonlinear",
-    desc: "Multi-Layer Perceptron",
-  },
-  {
-    id: "naive_bayes",
-    name: "Naive Bayes",
-    tag: "Probabilistic",
-    desc: "Generative Baseline",
-  },
-];
 
 export function ClassifierInput({
   text,
@@ -429,52 +405,19 @@ export function ClassifierInput({
           </div>
         </div>
 
-        {/* Model Selection Row */}
-        <div className="border-t border-[#f1efeb] pt-5 mt-6">
-          <label className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660] mb-3 block">
-            CLASSIFICATION ARCHITECTURE
-          </label>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {AVAILABLE_MODELS.map((m) => {
-              const isSelected = selectedModel === m.id;
-              return (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => onChangeModel(m.id)}
-                  className={cn(
-                    "relative h-[72px] p-3 rounded-xl text-left flex flex-col items-start justify-between transition-all duration-200 cursor-pointer border",
-                    isSelected
-                      ? "bg-[#eef2ff] border-[#c7d2fe] ring-1 ring-[#4f46e5]/10 shadow-sm"
-                      : "bg-[#faf9f6] border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] hover:-translate-y-px"
-                  )}
-                >
-                  <div className="flex w-full items-center justify-between gap-1">
-                    <span className="text-[12px] font-semibold text-[#0f0f0e] leading-snug">
-                      {m.name}
-                    </span>
-                    <span className="text-[11px] font-mono text-[#6b6660] tabular-nums font-medium flex-shrink-0">
-                      {m.tag}
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-[#3f3d3a] leading-tight line-clamp-1">
-                    {m.desc}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
-      {/* Classify Button — Solid Black, Confident CTA */}
-      <div className="mt-5">
+      {/* Footer Actions: Model Selector + Classify Button */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-5">
+        <ModelSelector
+          value={(selectedModel as ModelId) || DEFAULT_MODEL}
+          onChange={onChangeModel}
+        />
         <button
           type="button"
           onClick={onClassify}
           disabled={!isMinimumReached || isLoading || inputState.kind === "url-loading"}
-          className="w-full h-12 rounded-xl bg-[#0f0f0e] text-white text-[14px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0"
+          className="flex-1 h-11 rounded-xl bg-[#0f0f0e] text-white text-[13px] sm:text-[14px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] transition-all duration-200 flex items-center justify-center disabled:opacity-50 disabled:pointer-events-none disabled:hover:translate-y-0 cursor-pointer select-none"
         >
           <AnimatePresence mode="wait">
             {isLoading ? (

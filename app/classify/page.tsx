@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useClassifierStore } from "@/lib/store";
 import { classifyArticle } from "@/lib/api";
 import { getCategoryConfig } from "@/lib/utils";
+import { ModelId } from "@/lib/models";
 import { toast } from "sonner";
 import { ease, fadeUp } from "@/lib/motion";
 
@@ -68,7 +69,7 @@ export default function ClassifyPage() {
     }
     setIsComparing(true);
     try {
-      const models = ["distilbert", "linear_svm", "mlp", "naive_bayes"];
+      const models: ModelId[] = ["linear-svm", "distilbert", "neural-mlp", "naive-bayes"];
       const resultsMap: Record<string, any> = {};
 
       for (const m of models) {
@@ -77,8 +78,10 @@ export default function ClassifyPage() {
       }
 
       setMultiResults(resultsMap);
-      if (resultsMap["distilbert"]) {
-        setResult(resultsMap["distilbert"]);
+      if (resultsMap[selectedModel]) {
+        setResult(resultsMap[selectedModel]);
+      } else if (resultsMap["linear-svm"]) {
+        setResult(resultsMap["linear-svm"]);
       }
       toast.success("Benchmark completed across 4 model architectures");
     } catch {
