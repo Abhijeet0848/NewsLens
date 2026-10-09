@@ -43,7 +43,7 @@ export function Footer() {
         whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.6, ease: ease.smooth }}
-        className="border-t border-[#e7e3dd] bg-[#edeae4] text-[#3f3d3a] pt-16 pb-8 transition-colors"
+        className="border-t border-[#e7e3dd] bg-[#edeae4] text-[#3f3d3a] pt-16 pb-24 md:pb-8 transition-colors"
       >
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           {/* Main 4-Column Grid */}

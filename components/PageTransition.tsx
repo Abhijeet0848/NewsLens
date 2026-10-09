@@ -10,7 +10,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   const shouldReduce = useReducedMotion();
 
   if (shouldReduce) {
-    return <main className="flex-1">{children}</main>;
+    return <main className="flex-1 pb-24 md:pb-0">{children}</main>;
   }
 
   return (
@@ -21,7 +21,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.32, ease: ease.smooth }}
-        className="flex-1"
+        className="flex-1 pb-24 md:pb-0"
       >
         {children}
       </motion.main>

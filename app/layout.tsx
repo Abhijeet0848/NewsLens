@@ -12,6 +12,7 @@ import { Footer } from "@/components/footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { PageTransition } from "@/components/PageTransition";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { CommandPalette } from "@/components/CommandPalette";
 import { Toaster } from "sonner";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
           <PageTransition>{children}</PageTransition>
           <Footer />
         </SmoothScroll>
+        <MobileBottomNav />
         <CommandPalette />
         <Toaster
           position="bottom-right"
