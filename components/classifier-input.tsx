@@ -9,7 +9,6 @@ import {
   Trash2,
   Clipboard,
   Shuffle,
-  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchRandomSamples, fetchArticleFromUrl } from "@/lib/api";
@@ -414,9 +413,8 @@ export function ClassifierInput({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex items-center"
+                className="flex items-center justify-center"
               >
-                <Zap className="size-4 mr-2 text-white" />
                 <span>Classify Article Now</span>
               </motion.div>
             )}
