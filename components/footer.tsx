@@ -108,15 +108,25 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/about"
+                    href="/architecture"
                     className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
                   >
                     <span>Architecture</span>
                     <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/viva"
+                    className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
+                  >
+                    <span>Viva Defense</span>
+                    <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
+                  </Link>
+                </li>
               </ul>
             </motion.div>
+
 
             {/* Zone 3: Tech Stack (Col 2 on desktop, Col 6 on mobile) */}
             <motion.div

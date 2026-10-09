@@ -285,7 +285,121 @@ The project successfully bridges theory and implementation, delivering:
 
 ---
 
-## 11. REFERENCES
+---
+
+## 12. MAPPING TO ML COURSE CONCEPTS
+
+This chapter establishes a formal mapping between each algorithmic component of NewsScope and the foundational principles of the Machine Learning curriculum, providing theoretical justification for viva voce defense.
+
+### 12.1 Supervised Learning in Practice
+
+Machine Learning is defined as learning an approximation function $f: \mathcal{X} \to \mathcal{Y}$ from empirical training data rather than relying on explicit hand-crafted heuristics.
+
+In NewsScope:
+- **Task:** Multi-class classification mapping an unstructured news document $d \in \mathcal{D}$ to one of five discrete category labels $y \in \{\text{Business, Entertainment, Politics, Sport, Tech}\}$.
+- **Dataset:** 1,780 ground-truth labeled training articles drawn from the BBC News corpus.
+- **Why not Unsupervised?** Unsupervised learning (e.g., K-Means, LDA topic modeling) discovers latent document clusters without target supervision. Since the 5 news categories are predefined and ground truth is available, supervised learning directly optimizes class discrimination boundaries.
+- **Why not Reinforcement Learning?** Reinforcement learning is suited for sequential Markov Decision Processes (MDPs) where an agent takes actions in a dynamic environment to maximize scalar rewards. Text classification is a one-shot, static batch prediction task.
+
+---
+
+### 12.2 Bayes' Theorem → Multinomial Naive Bayes
+
+Multinomial Naive Bayes applies Bayes' Theorem with the assumption of conditional feature independence given the category:
+
+$$P(c_k \mid \mathbf{x}) = \frac{P(\mathbf{x} \mid c_k) \cdot P(c_k)}{P(\mathbf{x})} \propto P(c_k) \prod_{i=1}^n P(w_i \mid c_k)^{f_i}$$
+
+- **Parameter Estimation:** Word conditional probabilities are estimated with Laplace smoothing ($\alpha = 0.1$) across the vocabulary $V$:
+  $$\hat{\theta}_{ki} = \frac{\sum_{d \in c_k} x_{di} + \alpha}{\sum_{j=1}^{|V|} \sum_{d \in c_k} x_{dj} + \alpha |V|}$$
+- **Independence Assumption vs Reality:** Words in natural language exhibit strong grammatical and semantic correlations (e.g., *"Wall Street"*, *"Premier League"*). While the independence assumption is mathematically violated, Naive Bayes acts as a strong, extremely fast ($<0.5\text{ ms}$) baseline achieving **92.1% accuracy**.
+
+---
+
+### 12.3 Neural Networks → Multi-Layer Perceptron (MLP)
+
+A single artificial neuron computes an affine transformation of its input vector followed by a non-linear activation:
+
+$$z = \mathbf{w}^\top \mathbf{x} + b, \quad a = g(z)$$
+
+The MLP classifier in NewsScope stacks two hidden feedforward layers:
+
+$$h^{(1)} = \text{ReLU}(\mathbf{W}^{(1)} \mathbf{x} + \mathbf{b}^{(1)}) \quad (\mathbb{R}^{10,000} \to \mathbb{R}^{128})$$
+$$h^{(2)} = \text{ReLU}(\mathbf{W}^{(2)} \mathbf{h}^{(1)} + \mathbf{b}^{(2)}) \quad (\mathbb{R}^{128} \to \mathbb{R}^{64})$$
+$$\hat{\mathbf{y}} = \text{softmax}(\mathbf{W}^{(3)} \mathbf{h}^{(2)} + \mathbf{b}^{(3)}) \quad (\mathbb{R}^{64} \to \mathbb{R}^5)$$
+
+Each neuron in the hidden layers acts as a learned hierarchical *feature detector* capturing non-linear interactions across co-occurring unigrams and bigrams, improving classification accuracy to **95.1%**.
+
+---
+
+### 12.4 Linear Separability & Support Vector Machines
+
+A dataset is linearly separable if there exists a hyperplane $\mathbf{w}^\top \mathbf{x} + b = 0$ that partitions class instances with zero classification error.
+
+- **High-Dimensional Text Space:** In 10,000-dimensional TF-IDF space, sparse term vectors are naturally separated because distinct news domains utilize substantially distinct vocabularies.
+- **Support Vector Machine (Linear):** Constructs the maximum-margin hyperplane maximizing the geometric margin $\gamma = \frac{2}{\|\mathbf{w}\|_2}$:
+  $$f(\mathbf{x}) = \mathbf{w}^\top \mathbf{x} + b, \quad \hat{y} = \arg\max_{k} f_k(\mathbf{x})$$
+- **Performance:** Achieves **96.4% accuracy** with $1.2\text{ ms}$ inference time, providing an optimal balance between accuracy and computational efficiency.
+- **Soft-Margin Tolerance:** Real-world news contains overlapping vocabulary (e.g., economic policy articles spanning Politics and Business). Soft-margin SVM introduces slack variables $\xi_i$ with regularization parameter $C$:
+  $$\min_{\mathbf{w}, b, \boldsymbol{\xi}} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^N \xi_i \quad \text{subject to} \quad y_i(\mathbf{w}^\top \mathbf{x}_i + b) \ge 1 - \xi_i, \; \xi_i \ge 0$$
+
+---
+
+### 12.5 Hinge Loss vs Cross-Entropy Loss
+
+NewsScope leverages two complementary loss formulations:
+
+1. **Hinge Loss (SVM):**
+   $$\mathcal{L}_{\text{Hinge}} = \max(0, 1 - y \cdot f(\mathbf{x}))$$
+   Penalizes predictions within the margin boundary ($y \cdot f(\mathbf{x}) < 1$) and assigns exactly zero penalty to correct, confident classifications outside the margin.
+2. **Cross-Entropy Loss (MLP & DistilBERT):**
+   $$\mathcal{L}_{\text{CE}} = -\sum_{k=1}^K y_k \ln(\hat{y}_k)$$
+   Maximizes the conditional log-likelihood over normalized posterior probabilities.
+
+| Dimension | Hinge Loss (Linear SVM) | Cross-Entropy Loss (MLP / DistilBERT) |
+|---|---|---|
+| **Objective** | Maximum Geometric Margin | Maximum Likelihood Estimation |
+| **Output Type** | Geometric Distance / Decision Margin | Calibrated Probability Distribution |
+| **Best Used On** | Sparse High-Dim Vectors (TF-IDF) | Dense Learned Representations |
+
+---
+
+### 12.6 Kernels — Why Non-Linear Kernels Were Omitted
+
+The Kernel Trick maps input vectors into a higher-dimensional feature space $\phi(\mathbf{x})$ via an inner product evaluation $K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)^\top \phi(\mathbf{x}_j)$.
+
+- **Empirical Findings:** Radial Basis Function (RBF) kernel $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)$ was evaluated on the BBC dataset. It achieved $96.7\%$ accuracy ($+0.3\%$ gain) at the expense of $8\times$ longer training time and significantly higher inference latency.
+- **Architectural Decision (Occam's Razor):** Because high-dimensional TF-IDF vectors are already linearly separable, the Linear SVM is retained as the production baseline. Adding non-linear kernel transformations adds unnecessary computational complexity without meaningful empirical gain.
+
+---
+
+### 12.7 Activation Functions: ReLU and Softmax
+
+Non-linear activation functions enable multi-layer neural networks to approximate complex continuous decision surfaces:
+
+1. **Rectified Linear Unit (ReLU):**
+   $$\text{ReLU}(z) = \max(0, z)$$
+   - Avoids the vanishing gradient problem inherent in Sigmoid and Tanh functions.
+   - Provides $6\times$ faster convergence during stochastic gradient descent.
+   - Induces representational sparsity (neurons output true zeros for negative activations).
+2. **Softmax Function:**
+   $$\text{softmax}(\mathbf{z})_k = \frac{\exp(z_k)}{\sum_{j=1}^5 \exp(z_j)}$$
+   Converts raw unconstrained output logits into a mathematically valid categorical probability distribution where $\sum_{k=1}^5 \hat{y}_k = 1.0$.
+
+---
+
+### 12.8 Why Decision Trees Were Excluded
+
+Decision Trees recursively partition feature space along orthogonal single-feature axes using Gini Impurity:
+
+$$\text{Gini}(S) = 1 - \sum_{i=1}^C p_i^2$$
+
+**Reasons for Exclusion in Production:**
+1. **Curse of Dimensionality:** In a 10,000-dimensional sparse TF-IDF space, single-axis splits fail to capture distributed semantic patterns and lead to severe variance (overfitting).
+2. **Poor Probability Calibration:** Decision tree leaf nodes produce step-function probabilities with poor calibration compared to Softmax and Platt-scaled SVM margins.
+
+---
+
+## 13. REFERENCES
 
 1. Greene, D., & Cunningham, P. (2006). *Practical Solutions to the Problem of Diagonal Dominance in Kernel Document Clustering.* ICML.
 2. Joachims, T. (1998). *Text Categorization with Support Vector Machines.* ECML.
@@ -297,7 +411,7 @@ The project successfully bridges theory and implementation, delivering:
 
 ---
 
-## 12. APPENDIX — Project Structure
+## 14. APPENDIX — Project Structure
 
 ```
 newsscope/
@@ -306,9 +420,10 @@ newsscope/
 │   ├── classifier/         # Real-time classifier
 │   ├── batch/              # CSV batch upload
 │   ├── analytics/          # Metrics dashboard
-│   └── architecture/       # System design & math
+│   ├── architecture/       # System design, syllabus mapping & math
+│   └── viva/               # Viva voce defense preparation guide
 ├── components/             # UI components
-├── lib/                    # Utilities, data loaders
+├── lib/                    # Utilities, data loaders, input detection
 ├── data/
 │   ├── bbc-news-data.csv   # 2,225-article corpus
 │   └── metrics.json        # Real training metrics
@@ -318,6 +433,7 @@ newsscope/
 │   └── main.py
 └── README.md
 ```
+
 
 ---
 

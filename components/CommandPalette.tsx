@@ -195,16 +195,28 @@ export function CommandPalette() {
                   </Command.Item>
 
                   <Command.Item
-                    onSelect={() => handleSelectRoute("/about")}
+                    onSelect={() => handleSelectRoute("/architecture")}
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <BookOpen className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
-                      <span className="font-medium">Architecture Reference</span>
+                      <span className="font-medium">Architecture &amp; ML Syllabus</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/about</span>
+                    <span className="text-xs font-mono text-[#8a847d]">/architecture</span>
+                  </Command.Item>
+
+                  <Command.Item
+                    onSelect={() => handleSelectRoute("/viva")}
+                    className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <BookOpen className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <span className="font-medium">Viva Defense Guide (Q&amp;A)</span>
+                    </div>
+                    <span className="text-xs font-mono text-[#8a847d]">/viva</span>
                   </Command.Item>
                 </Command.Group>
+
 
                 {/* Group 2: Actions & Models */}
                 <Command.Group
