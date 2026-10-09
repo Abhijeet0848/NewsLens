@@ -181,7 +181,7 @@ export function Footer() {
                 <span>API Benchmarks</span>
               </Link>
               <a
-                href="https://github.com"
+                href="https://github.com/Abhijeet0848/NewsLens"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Source code on GitHub"

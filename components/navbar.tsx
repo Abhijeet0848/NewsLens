@@ -205,7 +205,7 @@ export function Navbar() {
               {/* Bottom: GitHub & Status info */}
               <div className="pt-6 border-t border-[#e7e3dd] flex items-center justify-between text-xs text-[#6b6660]">
                 <a
-                  href="https://github.com"
+                  href="https://github.com/Abhijeet0848/NewsLens"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono hover:text-[#0f0f0e] transition-colors py-1"
