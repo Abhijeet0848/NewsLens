@@ -7,11 +7,10 @@ import {
   Download,
   Search,
   RefreshCw,
-  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { fetchRandomSamples, processBatchCSV } from "@/lib/api";
+import { processBatchCSV } from "@/lib/api";
 import { getCategoryConfig } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -35,35 +34,6 @@ export default function BatchUploadPage() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [categoryFilter, setCategoryFilter] = React.useState("All");
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
-
-  // Load real BBC sample batch dataset
-  const handleLoadDemoCSV = async () => {
-    setIsProcessing(true);
-    setProgress(0);
-    setResults([]);
-
-    try {
-      const bbcSamples = await fetchRandomSamples(10);
-      const demoRows = bbcSamples.map((s, idx) => ({
-        id: `bbc-${idx + 1}`,
-        title: s.title,
-        text: s.content || s.title,
-      }));
-
-      setTotalCount(demoRows.length);
-
-      const res = await processBatchCSV(demoRows, (completed, total) => {
-        setCompletedCount(completed);
-        setProgress(Math.round((completed / total) * 100));
-      });
-      setResults(res);
-      toast.success(`Processed ${res.length} real BBC articles!`);
-    } catch {
-      toast.error("Batch processing failed");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
@@ -147,31 +117,16 @@ export default function BatchUploadPage() {
   return (
     <div className="mx-auto max-w-7xl px-5 md:px-8 pt-8 md:pt-12 pb-16 md:pb-20 space-y-6 md:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div className="space-y-1">
-          <span className="text-[10px] md:text-[11px] uppercase tracking-widest text-[#0891b2] font-mono font-semibold block">
-            BULK PROCESSING PIPELINE
-          </span>
-          <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight text-[#0f0f0e]">
-            Batch CSV Classifier
-          </h1>
-          <p className="text-[13px] md:text-sm text-[#3f3d3a] max-w-2xl leading-relaxed">
-            Upload CSV datasets with article headlines and text columns. Process hundreds of news items simultaneously.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleLoadDemoCSV}
-            disabled={isProcessing}
-            className="gap-2 h-11 sm:h-10 px-4 rounded-xl text-xs font-medium w-full sm:w-auto border border-[#e7e3dd] shadow-sm text-[#3f3d3a]"
-          >
-            <Zap className="size-4 text-indigo-600" />
-            <span>Load Sample Dataset</span>
-          </Button>
-        </div>
+      <div className="space-y-1">
+        <span className="text-[10px] md:text-[11px] uppercase tracking-widest text-[#0891b2] font-mono font-semibold block">
+          BULK PROCESSING PIPELINE
+        </span>
+        <h1 className="font-heading text-2xl sm:text-3xl font-semibold tracking-tight text-[#0f0f0e]">
+          Batch CSV Classifier
+        </h1>
+        <p className="text-[13px] md:text-sm text-[#3f3d3a] max-w-2xl leading-relaxed">
+          Upload CSV datasets with article headlines and text columns. Process hundreds of news items simultaneously.
+        </p>
       </div>
 
       <div className="border-t border-[#e7e3dd]" />
