@@ -113,24 +113,30 @@ export async function classifyArticle(
     }
   }
 
-  const confidence = Math.min(0.99, Math.max(0.65, maxScore + 0.1));
-  normalizedScores[topCategory] = confidence;
+  // If no authentic topical keywords matched, do not inflate confidence!
+  let confidence: number;
+  if (matchedKeywords.length === 0) {
+    // Uniform uncertain distribution ~20% per class
+    confidence = 0.22;
+    for (const cat of Object.keys(normalizedScores)) {
+      normalizedScores[cat] = 0.195 + Math.round(Math.random() * 10) / 1000;
+    }
+    normalizedScores[topCategory] = confidence;
+  } else {
+    // Scaled confidence based on keyword volume and concentration
+    const keywordEvidence = Math.min(0.98, 0.45 + matchedKeywords.length * 0.12 + (maxScore - 0.2) * 0.8);
+    confidence = Math.min(0.99, Math.max(0.35, Math.round(keywordEvidence * 1000) / 1000));
+    normalizedScores[topCategory] = confidence;
 
-  const remaining = 1.0 - confidence;
-  const otherCats = Object.keys(normalizedScores).filter((c) => c !== topCategory);
-  const otherSum = otherCats.reduce((acc, c) => acc + normalizedScores[c], 0) || 1;
-  otherCats.forEach((c) => {
-    normalizedScores[c] = Math.round((normalizedScores[c] / otherSum) * remaining * 1000) / 1000;
-  });
-
-  const sortedKeywords = matchedKeywords.sort((a, b) => b.weight - a.weight).slice(0, 8);
-
-  if (sortedKeywords.length === 0) {
-    const uniqueWords = Array.from(new Set(words)).filter((w) => w.length > 4).slice(0, 5);
-    uniqueWords.forEach((w, i) => {
-      sortedKeywords.push({ word: w, weight: Number((0.75 - i * 0.08).toFixed(2)) });
+    const remaining = Math.max(0.01, 1.0 - confidence);
+    const otherCats = Object.keys(normalizedScores).filter((c) => c !== topCategory);
+    const otherSum = otherCats.reduce((acc, c) => acc + normalizedScores[c], 0) || 1;
+    otherCats.forEach((c) => {
+      normalizedScores[c] = Math.round((normalizedScores[c] / otherSum) * remaining * 1000) / 1000;
     });
   }
+
+  const sortedKeywords = matchedKeywords.sort((a, b) => b.weight - a.weight).slice(0, 8);
 
   const rawTokens = text.split(/\s+/);
   const attention_tokens = rawTokens.slice(0, 80).map((tok) => {

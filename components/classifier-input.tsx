@@ -55,8 +55,9 @@ export function ClassifierInput({
   const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
 
   const charCount = text.length;
-  const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const isMinimumReached = charCount >= 20;
+  const englishWords = text.match(/[a-zA-Z]+/g) || [];
+  const wordCount = englishWords.length;
+  const isMinimumReached = charCount >= 40 && wordCount >= 8;
 
   // Live detection debounce for typed URLs (500ms)
   React.useEffect(() => {

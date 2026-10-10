@@ -59,22 +59,35 @@ export default function ClassifyPage() {
   const [isComparing, setIsComparing] = React.useState(false);
 
   const handleClassify = async () => {
-    const { valid, reason, warning, sanitized } = validateInput(currentText);
+    const v = validateInput(currentText);
 
-    if (!valid) {
-      toast.error(reason || "Please paste or type an article before classifying.");
+    if (!v.ok) {
+      toast.error(v.reason || "Please enter an article to classify.");
       return;
     }
 
-    if (warning) {
-      toast.warning(warning);
+    if (v.warning) {
+      toast.warning(v.warning);
     }
 
-    const clean = sanitizeForApi(sanitized);
+    const clean = v.sanitized || sanitizeForApi(currentText);
     setIsLoading(true);
 
     try {
       const res = await classifyArticle(clean, selectedModel);
+
+      // Apply confidence penalty on suspicious inputs
+      if (v.confidence_penalty) {
+        const factor = 1 - v.confidence_penalty;
+        res.confidence = Math.max(0.18, Math.round(res.confidence * factor * 1000) / 1000);
+        res.confidence_percentage = Math.round(res.confidence * 1000) / 10;
+        if (res.all_scores) {
+          const remaining = (1 - res.confidence) / 4;
+          for (const key of Object.keys(res.all_scores)) {
+            res.all_scores[key] = key === res.category ? res.confidence : Math.round(remaining * 1000) / 1000;
+          }
+        }
+      }
 
       // Low confidence alert
       if (res.confidence < 0.5) {
@@ -101,18 +114,18 @@ export default function ClassifyPage() {
   };
 
   const handleCompareAll = async () => {
-    const { valid, reason, warning, sanitized } = validateInput(currentText);
+    const v = validateInput(currentText);
 
-    if (!valid) {
-      toast.error(reason || "Please paste or type an article before benchmarking.");
+    if (!v.ok) {
+      toast.error(v.reason || "Please enter an article to benchmark.");
       return;
     }
 
-    if (warning) {
-      toast.warning(warning);
+    if (v.warning) {
+      toast.warning(v.warning);
     }
 
-    const clean = sanitizeForApi(sanitized);
+    const clean = v.sanitized || sanitizeForApi(currentText);
     setIsComparing(true);
 
     try {
@@ -121,6 +134,11 @@ export default function ClassifyPage() {
 
       for (const m of models) {
         const r = await classifyArticle(clean, m);
+        if (v.confidence_penalty) {
+          const factor = 1 - v.confidence_penalty;
+          r.confidence = Math.max(0.18, Math.round(r.confidence * factor * 1000) / 1000);
+          r.confidence_percentage = Math.round(r.confidence * 1000) / 10;
+        }
         resultsMap[m] = r;
       }
 

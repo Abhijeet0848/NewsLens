@@ -38,89 +38,104 @@ function AnimatedConfidence({ value, duration = 0.8 }: { value: number; duration
   return <motion.span className="tabular-nums">{rounded}</motion.span>;
 }
 
-interface ResultsPanelProps {
-  result: ClassificationResponse;
-  originalText: string;
+// Multi-tier Confidence Badge Configuration
+function getConfidenceBadge(confidence: number) {
+  if (confidence < 0.4) {
+    return {
+      label: "Uncertain",
+      style: "text-[#92400e] bg-[#fef3c7] border-[#fde68a]",
+      icon: AlertTriangle,
+    };
+  }
+  if (confidence < 0.6) {
+    return {
+      label: "Low confidence",
+      style: "text-[#92400e] bg-[#fef3c7] border-[#fde68a]",
+      icon: AlertTriangle,
+    };
+  }
+  if (confidence < 0.8) {
+    return {
+      label: "Probable",
+      style: "text-[#0e7490] bg-[#ecfeff] border-[#a5f3fc]",
+      icon: Info,
+    };
+  }
+  return {
+    label: "Verified",
+    style: "text-[#047857] bg-[#ecfdf5] border-[#a7f3d0]",
+    icon: Check,
+  };
 }
 
-export function ResultsPanel({ result, originalText }: ResultsPanelProps) {
+export function ResultsPanel({ result }: { result: ClassificationResponse | null }) {
   const [copied, setCopied] = React.useState(false);
-  const [showExplanation, setShowExplanation] = React.useState(true);
+  const [showExplanation, setShowExplanation] = React.useState(false);
   const [showHeatmap, setShowHeatmap] = React.useState(false);
 
-  const catConfig = getCategoryConfig(result.category);
-
   React.useEffect(() => {
-    if (result.confidence >= 0.85) {
+    if (result && result.confidence >= 0.8) {
       try {
         confetti({
-          particleCount: 30,
+          particleCount: 25,
           spread: 50,
-          origin: { y: 0.7 },
-          colors: ["#6366f1", "#8b5cf6", "#0891b2", "#059669"],
+          origin: { y: 0.65 },
+          colors: ["#4f46e5", "#059669", "#d97706"],
+          disableForReducedMotion: true,
         });
       } catch {}
     }
   }, [result]);
 
-  const handleCopyResult = () => {
-    const textToCopy = `NewsScope Classification Result:
-Category: ${result.category}
-Confidence: ${result.confidence_percentage}%
-Top Keywords: ${result.keywords.map((k) => k.word).join(", ")}
-Latency: ${result.latency_ms}ms`;
+  if (!result) {
+    return <EmptyResultsSkeleton />;
+  }
 
-    navigator.clipboard.writeText(textToCopy);
+  const catConfig = getCategoryConfig(result.category);
+  const badgeInfo = getConfidenceBadge(result.confidence);
+  const BadgeIcon = badgeInfo.icon;
+
+  const activeModel =
+    MODELS[result.model_id as ModelId] || MODELS["linear-svm"];
+
+  // Ensure all 5 authentic BBC categories are displayed and sorted by probability
+  const allCategories = ["Business", "Entertainment", "Politics", "Sport", "Tech"];
+  const sortedCategories = allCategories
+    .map((cat) => [cat, result.all_scores?.[cat] ?? 0.05] as [string, number])
+    .sort((a, b) => b[1] - a[1]);
+
+  const handleCopyResult = () => {
+    const summary = `NewsScope Prediction: ${result.category} (${result.confidence_percentage}% confidence)\nModel: ${result.explanation.model_version}\nTop Saliency Keywords: ${result.keywords.map((k) => k.word).join(", ")}`;
+    navigator.clipboard.writeText(summary);
     setCopied(true);
-    toast.success("Result copied to clipboard");
+    toast.success("Classification summary copied to clipboard");
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleDownloadJSON = () => {
     const dataStr =
       "data:text/json;charset=utf-8," +
-      encodeURIComponent(
-        JSON.stringify(
-          {
-            ...result,
-            article_snippet: originalText.slice(0, 300),
-          },
-          null,
-          2
-        )
-      );
+      encodeURIComponent(JSON.stringify(result, null, 2));
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
     downloadAnchor.setAttribute(
       "download",
-      `newsscope-${result.category.toLowerCase()}-${Date.now()}.json`
+      `classification-${result.category.toLowerCase()}-${Date.now()}.json`
     );
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
-    toast.success("JSON telemetry exported");
+    toast.success("JSON telemetry downloaded");
   };
-
-  // Only the 5 authentic BBC categories
-  const sortedCategories = Object.entries(CATEGORIES_CONFIG)
-    .map(([catName]) => {
-      const prob = result.all_scores[catName] || result.all_scores[catName.toLowerCase()] || 0;
-      return [catName, prob] as [string, number];
-    })
-    .sort(([, a], [, b]) => b - a);
-
-  const modelKey = (result.model_id?.replace("_", "-") || "linear-svm") as ModelId;
-  const activeModel = MODELS[modelKey] || MODELS["linear-svm"];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -12 }}
       transition={{ duration: 0.4, ease: ease.smooth }}
       className="space-y-5"
     >
-      {/* 1. Primary Result Card */}
+      {/* 1. Unified Primary Result & Probability Distribution Card */}
       <motion.div
         variants={scaleIn}
         initial="hidden"
@@ -131,6 +146,7 @@ Latency: ${result.latency_ms}ms`;
           className={`absolute -right-20 -top-20 h-56 w-56 rounded-full bg-gradient-to-br ${catConfig.gradient} blur-2xl -z-10`}
         />
 
+        {/* Prediction Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e7e3dd] pb-5 md:pb-6">
           <div className="flex items-center gap-3 md:gap-4">
             <motion.div
@@ -149,17 +165,12 @@ Latency: ${result.latency_ms}ms`;
                 <h3 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-[#0f0f0e] tracking-tight">
                   {result.category}
                 </h3>
-                {result.confidence < 0.5 ? (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-[#92400e] bg-[#fef3c7] border border-[#fde68a] rounded-full px-2 py-0.5">
-                    <AlertTriangle className="size-3" />
-                    Uncertain
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-[#047857] bg-[#ecfdf5] border border-[#a7f3d0] rounded-full px-2 py-0.5">
-                    <Check className="size-3" />
-                    Verified
-                  </span>
-                )}
+                <span
+                  className={`inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide border rounded-full px-2 py-0.5 ${badgeInfo.style}`}
+                >
+                  <BadgeIcon className="size-3" />
+                  {badgeInfo.label}
+                </span>
               </div>
             </div>
           </div>
@@ -176,26 +187,73 @@ Latency: ${result.latency_ms}ms`;
           </div>
         </div>
 
-        {/* 2. Confidence Fill Bar */}
-        <div className="mt-5 space-y-2">
-          <div className="flex justify-between text-[12px] font-mono font-medium text-[#3f3d3a]">
+        {/* Model Attribution Strip */}
+        <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#6b6660] bg-[#faf9f6] border border-[#e7e3dd] rounded-lg px-3 py-1.5 mt-5">
+          <span className="size-1.5 rounded-full bg-[#4f46e5] shrink-0" />
+          <span>Predicted by</span>
+          <span className="font-medium text-[#0f0f0e]">{activeModel.name}</span>
+          <span className="text-[#a8a29e]">&bull;</span>
+          <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
+          <span className="text-[#a8a29e]">&bull;</span>
+          <span className="font-mono text-[#8a847d]">{activeModel.latency}ms latency</span>
+        </div>
+
+        {/* 5-Domain Probability Distribution */}
+        <div className="mt-5 space-y-3">
+          <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660]">
             <span>Probability Distribution</span>
-            <span className="text-[#0f0f0e] font-semibold tabular-nums">{result.confidence_percentage}%</span>
-          </div>
-          <div className="h-2 w-full overflow-hidden rounded-full bg-[#f1efeb] border border-[#e7e3dd]/60">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${result.confidence_percentage}%` }}
-              transition={{ duration: 0.8, ease: ease.smooth }}
-              className="h-full rounded-full"
-              style={{ backgroundColor: catConfig.colorHex }}
-            />
+            <span>5 BBC Domains</span>
           </div>
 
+          <div className="space-y-2.5 pt-1">
+            {sortedCategories.map(([category, prob], index) => {
+              const cfg = getCategoryConfig(category);
+              const pct = Math.round(prob * 1000) / 10;
+
+              return (
+                <div key={category} className="space-y-1">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="flex items-center text-[13px] text-[#3f3d3a] font-medium">
+                      <span
+                        className="size-1.5 rounded-full mr-2 flex-shrink-0"
+                        style={{ backgroundColor: cfg.colorHex }}
+                      />
+                      <span>{category}</span>
+                    </span>
+                    <span className="font-mono text-[#0f0f0e] tabular-nums font-semibold text-[12px]">
+                      {pct}%
+                    </span>
+                  </div>
+                  <div className="h-1.5 bg-[#f1efeb] rounded-full w-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: "0.5%" }}
+                      animate={{ width: `${pct}%` }}
+                      transition={{ duration: 0.8, delay: 0.05 + index * 0.04, ease: ease.smooth }}
+                      className="h-full rounded-full"
+                      style={{
+                        backgroundColor: cfg.colorHex,
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Model Uncertain Warning Banner when confidence < 30% */}
           {result.confidence < 0.3 && (
-            <div className="mt-3 p-2.5 rounded-xl bg-[#fffbeb] border border-[#fde68a] text-[12px] text-[#92400e] flex items-center gap-2">
-              <AlertTriangle className="size-4 shrink-0 text-[#d97706]" />
-              <span>The model isn&apos;t confident about this article. It may be outside the training distribution.</span>
+            <div className="rounded-xl border border-[#fde68a] bg-[#fef3c7]/50 p-3.5 mt-4">
+              <div className="flex items-start gap-2.5">
+                <AlertTriangle className="size-4 text-[#92400e] mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-[13px] font-medium text-[#92400e]">
+                    The model isn&apos;t confident about this article
+                  </p>
+                  <p className="text-[12px] text-[#a16207] mt-1 leading-relaxed">
+                    It may be outside the training distribution (not standard news text). Try a real news article for a more reliable prediction.
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -206,7 +264,7 @@ Latency: ${result.latency_ms}ms`;
             <button
               type="button"
               onClick={handleCopyResult}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
             >
               {copied ? <Check className="size-3.5 text-[#059669]" /> : <Copy className="size-3.5 text-[#57534e]" />}
               <span>{copied ? "Copied" : "Copy"}</span>
@@ -215,7 +273,7 @@ Latency: ${result.latency_ms}ms`;
             <button
               type="button"
               onClick={handleDownloadJSON}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
             >
               <Download className="size-3.5 text-[#57534e]" />
               <span>Export JSON</span>
@@ -223,100 +281,21 @@ Latency: ${result.latency_ms}ms`;
           </div>
 
           <span className="text-[#6b6660] font-mono text-[12px] tabular-nums font-medium">
-            {result.tokens_count} tokens &bull; {result.explanation.model_version}
+            {result.tokens_count > 5 ? (
+              `${result.tokens_count} tokens • ${result.explanation.model_version}`
+            ) : (
+              "Short input — prediction may be unreliable"
+            )}
           </span>
         </div>
       </motion.div>
 
-      {/* 3. 5-Domain Probability Distribution Card */}
+      {/* 2. Saliency Keywords Card */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         animate="show"
-        transition={{ delay: 0.1 }}
-        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200"
-      >
-        <div className="flex items-start justify-between gap-4 mb-3">
-          <div className="flex items-start gap-3">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
-              <Activity className="size-4" />
-            </div>
-            <div>
-              <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
-                Prediction Telemetry
-              </h3>
-              <p className="text-[13px] text-[#3f3d3a] mt-0.5">Real-time inference probabilities</p>
-            </div>
-          </div>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#059669] bg-[#ecfdf5] rounded-full px-2.5 py-0.5 border border-[#a7f3d0]">
-            active
-          </span>
-        </div>
-
-        {/* Model attribution badge */}
-        <div className="flex items-center gap-2 text-[11px] text-[#6b6660] bg-[#faf9f6] border border-[#e7e3dd] rounded-lg px-3 py-1.5 mb-5">
-          <span className="size-1.5 rounded-full bg-[#4f46e5] shrink-0" />
-          <span>Predicted by</span>
-          <span className="font-medium text-[#0f0f0e]">
-            {activeModel.name}
-          </span>
-          <span className="text-[#a8a29e]">&bull;</span>
-          <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
-          <span className="text-[#a8a29e]">&bull;</span>
-          <span className="font-mono text-[#8a847d]">{activeModel.latency}ms latency</span>
-        </div>
-
-        <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660] mb-4 mt-6">
-          <span>PROBABILITY DISTRIBUTION</span>
-          <span>5 DOMAINS</span>
-        </div>
-
-        <div>
-          {sortedCategories.map(([category, prob], index) => {
-            const cfg = getCategoryConfig(category);
-            const pct = Math.round(prob * 1000) / 10;
-
-            return (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, x: -6 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.35, delay: 0.15 + index * 0.05, ease: ease.smooth }}
-                className="mb-3"
-              >
-                <div className="flex justify-between items-center mb-1.5">
-                  <span className="flex items-center text-[13px] text-[#3f3d3a] font-medium">
-                    <span
-                      className="size-1.5 rounded-full mr-2 flex-shrink-0"
-                      style={{ backgroundColor: cfg.colorHex }}
-                    />
-                    <span>{category}</span>
-                  </span>
-                  <span className="text-[12px] font-mono text-[#0f0f0e] tabular-nums font-semibold">{pct}%</span>
-                </div>
-                <div className="h-1.5 bg-[#f1efeb] rounded-full w-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: "0.5%" }}
-                    animate={{ width: `${pct}%` }}
-                    transition={{ duration: 0.8, delay: 0.1 + index * 0.05, ease: ease.smooth }}
-                    className="h-full rounded-full"
-                    style={{
-                      backgroundColor: cfg.colorHex,
-                    }}
-                  />
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
-
-      {/* 4. Saliency Keywords Card */}
-      <motion.div
-        variants={fadeUp}
-        initial="hidden"
-        animate="show"
-        transition={{ delay: 0.2 }}
+        transition={{ delay: 0.15 }}
         className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
       >
         <div className="flex items-center justify-between">
@@ -327,32 +306,36 @@ Latency: ${result.latency_ms}ms`;
           <span className="text-[11px] text-[#6b6660] font-mono uppercase tracking-[0.12em] font-semibold">TF-IDF Weights</span>
         </div>
 
-        <div className="flex flex-wrap gap-2 pt-1">
-          {result.keywords.map((kw, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.25 + i * 0.04 }}
-              whileHover={{ scale: 1.03, y: -1 }}
-              className="flex items-center gap-1.5 rounded-lg border border-[#e7e3dd] bg-[#faf9f6] px-2.5 py-1 text-xs text-[#0f0f0e] shadow-sm cursor-default"
-            >
-              <Flame className="size-3 text-[#d97706]" />
-              <span className="font-semibold text-[#0f0f0e]">{kw.word}</span>
-              <span className="font-mono font-semibold text-[11px] text-[#0891b2] rounded bg-[#ecfeff] px-1 py-0.2 border border-[#a5f3fc] tabular-nums">
-                {Math.round(kw.weight * 100)}%
-              </span>
-            </motion.div>
-          ))}
-        </div>
+        {result.keywords.length > 0 ? (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {result.keywords.map((kw, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: 0.18 + i * 0.04 }}
+                whileHover={{ scale: 1.03, y: -1 }}
+                className="flex items-center gap-1.5 rounded-lg border border-[#e7e3dd] bg-[#faf9f6] px-2.5 py-1 text-xs text-[#0f0f0e] shadow-sm cursor-default"
+              >
+                <Flame className="size-3 text-[#d97706]" />
+                <span className="font-semibold text-[#0f0f0e]">{kw.word}</span>
+                <span className="font-mono font-semibold text-[11px] text-[#0891b2] rounded bg-[#ecfeff] px-1 py-0.2 border border-[#a5f3fc] tabular-nums">
+                  {Math.round(kw.weight * 100)}%
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-xs text-[#8a847d] italic">No strong discriminative keywords identified in this text.</p>
+        )}
       </motion.div>
 
-      {/* 5. Accordion: Why This Prediction? */}
+      {/* 3. Accordion: Neural Explainability */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         animate="show"
-        transition={{ delay: 0.3 }}
+        transition={{ delay: 0.2 }}
         className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 overflow-hidden"
       >
         <button
@@ -396,12 +379,12 @@ Latency: ${result.latency_ms}ms`;
         </AnimatePresence>
       </motion.div>
 
-      {/* 6. Attention Heatmap Visualizer */}
+      {/* 4. Attention Heatmap Visualizer */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
         animate="show"
-        transition={{ delay: 0.35 }}
+        transition={{ delay: 0.25 }}
         className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
       >
         <div className="flex items-center justify-between">
@@ -457,81 +440,70 @@ Latency: ${result.latency_ms}ms`;
  */
 export function EmptyResultsSkeleton() {
   const bbcCategories = [
-    { name: "Business", color: "#d97706" },
-    { name: "Entertainment", color: "#db2777" },
-    { name: "Politics", color: "#e11d48" },
-    { name: "Sport", color: "#059669" },
-    { name: "Tech", color: "#0891b2" },
+    { label: "Business", cfg: getCategoryConfig("Business") },
+    { label: "Entertainment", cfg: getCategoryConfig("Entertainment") },
+    { label: "Politics", cfg: getCategoryConfig("Politics") },
+    { label: "Sport", cfg: getCategoryConfig("Sport") },
+    { label: "Tech", cfg: getCategoryConfig("Tech") },
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4, delay: 0.08, ease: ease.smooth }}
-      className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 select-none flex flex-col justify-between h-full min-h-[480px]"
-    >
-      <div>
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 mb-6">
-          <div className="flex items-start gap-3">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
-              <Activity className="size-4" />
+    <div className="flex flex-col space-y-5 select-none">
+      {/* 1. Main Unified Skeleton Card */}
+      <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-xs space-y-6">
+        {/* Header Preview */}
+        <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
+          <div className="flex items-center gap-3">
+            <div className="flex size-12 items-center justify-center rounded-xl bg-[#f1efeb] border border-[#e7e3dd] text-[#8a847d]">
+              <Award className="size-6" />
             </div>
-            <div>
-              <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
-                Prediction Telemetry
-              </h3>
-              <p className="text-[13px] text-[#3f3d3a] mt-0.5">Real-time inference probabilities</p>
+            <div className="space-y-1">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#8a847d] font-semibold">
+                Waiting for input
+              </span>
+              <div className="text-xl font-semibold text-[#a8a29e] tracking-tight">
+                No Article Analyzed
+              </div>
             </div>
           </div>
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#3f3d3a] bg-[#f1efeb] rounded-full px-2.5 py-0.5">
-            idle
-          </span>
-        </div>
-
-        {/* Section label "PROBABILITY DISTRIBUTION" + "5 DOMAINS" */}
-        <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660] mb-4 mt-6">
-          <span>PROBABILITY DISTRIBUTION</span>
-          <span>5 DOMAINS</span>
+          <div className="text-right">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#8a847d] font-semibold">
+              Confidence
+            </span>
+            <div className="text-2xl font-mono font-bold text-[#a8a29e]">
+              — %
+            </div>
+          </div>
         </div>
 
         {/* 5 Real BBC Domains in Idle state */}
-        <div>
-          {bbcCategories.map((c) => (
-            <div key={c.name} className="mb-3">
-              <div className="flex justify-between items-center mb-1.5">
-                <span className="flex items-center text-[13px] text-[#3f3d3a] font-medium">
-                  <span className="size-1.5 rounded-full mr-2 flex-shrink-0" style={{ backgroundColor: c.color }} />
-                  <span>{c.name}</span>
-                </span>
-                {/* Hide percentage entirely when idle */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center text-[10px] font-mono font-semibold uppercase tracking-widest text-[#8a847d]">
+            <span>5-Class BBC Distribution</span>
+            <span>0.0% Standby</span>
+          </div>
+
+          <div className="space-y-2.5 pt-1">
+            {bbcCategories.map((c) => (
+              <div key={c.label} className="space-y-1">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center text-[#6b6660] font-medium">
+                    <span
+                      className="size-1.5 rounded-full mr-2"
+                      style={{ backgroundColor: c.cfg.colorHex }}
+                    />
+                    <span>{c.label}</span>
+                  </span>
+                  <span className="font-mono text-[#a8a29e] text-[11px]">0.0%</span>
+                </div>
+                <div className="h-1.5 w-full bg-[#f1efeb] rounded-full overflow-hidden">
+                  <div className="h-full w-0 bg-transparent" />
+                </div>
               </div>
-              <div className="h-1.5 bg-[#f1efeb] rounded-full w-full overflow-hidden">
-                <div
-                  className="h-full rounded-full"
-                  style={{ width: "0.5%", backgroundColor: c.color }}
-                />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-
-      {/* Centered empty-state prompt */}
-      <div className="flex-1 flex flex-col items-center justify-center pt-6 pb-2 text-center">
-        <motion.div
-          animate={{ opacity: [0.6, 1, 0.6] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <Sparkles className="size-8 text-[#d6d1c9] mb-3 stroke-[1.5]" />
-        </motion.div>
-        <p className="text-[14px] font-medium text-[#0f0f0e]">Awaiting input</p>
-        <p className="text-[12px] text-[#6b6660] max-w-[220px] text-center leading-relaxed mt-1">
-          Paste an article to see live predictions
-        </p>
-      </div>
-    </motion.div>
+    </div>
   );
 }
