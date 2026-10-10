@@ -25,26 +25,25 @@ export function Hero() {
   const { totalClassifiedCount } = useClassifierStore();
 
   return (
-    <section className="relative overflow-hidden pt-12 md:pt-24 pb-12 md:pb-20 text-center">
-      {/* 1. Aurora Gradient Blob & 2. Dot Grid Pattern (Hero top only) */}
+    <section
+      className="relative overflow-hidden pt-12 md:pt-24 pb-12 md:pb-20 text-center"
+      style={{
+        backgroundImage:
+          "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139,92,246,0.06), transparent 70%)",
+      }}
+    >
+      {/* Subtle Dot Grid Mask (Lightweight composited background) */}
       <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none select-none">
-        {/* Aurora radial glow - positioned higher behind headline only */}
-        <div className="absolute left-1/2 -top-12 -translate-x-1/2 h-[260px] md:h-[400px] w-[450px] md:w-[800px] bg-[radial-gradient(ellipse_at_center,_rgba(139,92,246,0.06),transparent_65%)] blur-3xl" />
-        <div className="absolute left-[20%] top-[10%] h-[160px] md:h-[260px] w-[160px] md:w-[260px] bg-[radial-gradient(circle,_rgba(6,182,212,0.04),transparent_70%)] blur-3xl" />
-
-        {/* Fading Dot Grid pattern - masked to dissolve before CTA */}
         <div className="absolute inset-0 opacity-15 [background-image:radial-gradient(#d6d1c9_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_at_center_top,black_25%,transparent_65%)]" />
-
-        {/* Fade to bottom page background */}
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#f7f6f3] to-transparent" />
       </div>
 
       <div className="mx-auto max-w-4xl px-5 md:px-8 space-y-6">
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: ease.smooth }}
+          transition={{ duration: 0.4, ease: ease.smooth }}
           className="inline-flex items-center gap-2 rounded-full border border-[#e7e3dd] bg-[#fdfcfb] px-2.5 md:px-3.5 py-1 text-[11px] md:text-xs text-[#3f3d3a] shadow-xs font-medium max-w-[90vw] truncate"
         >
           <span className="size-1.5 rounded-full bg-indigo-500 inline-block animate-pulse flex-shrink-0" />
@@ -53,36 +52,18 @@ export function Hero() {
           <span className="text-[#0f0f0e] font-semibold tabular-nums flex-shrink-0">5 Major Domains</span>
         </motion.div>
 
-        {/* Headline */}
-        <div className="space-y-1">
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.2, ease: ease.smooth }}
-            className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0f0f0e] leading-[1.1] md:leading-[1.05]"
-          >
-            Classify News Articles
-          </motion.h1>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.3, ease: ease.smooth }}
-            className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-600 bg-clip-text text-transparent leading-[1.1] md:leading-[1.05]"
-          >
+        {/* LCP Headline: Instant paint on frame 0 without motion delay */}
+        <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0f0f0e] leading-[1.1] md:leading-[1.05]">
+          Classify News Articles{" "}
+          <span className="bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-600 bg-clip-text text-transparent inline-block">
             in Milliseconds
-          </motion.h2>
-        </div>
+          </span>
+        </h1>
 
         {/* Subheadline */}
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.4, ease: ease.smooth }}
-          className="mx-auto max-w-md md:max-w-2xl text-[14px] md:text-[15px] text-[#3f3d3a] leading-relaxed font-normal px-2"
-        >
+        <p className="mx-auto max-w-md md:max-w-2xl text-[14px] md:text-[15px] text-[#3f3d3a] leading-relaxed font-normal px-2">
           Instant multi-class categorization across 5 major domains with explainable neural attention.
-        </motion.p>
+        </p>
 
         {/* Single Focused CTA Button */}
         <motion.div
