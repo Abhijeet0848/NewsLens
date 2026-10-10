@@ -33,9 +33,27 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NewsScope — News Article Classifier | DistilBERT & Fast SVM",
-  description:
-    "News Article Category Classifier with sub-millisecond inference, transparent confidence distributions, saliency keyword maps, and batch processing.",
+  title: "NewsScope — News Article Classifier",
+  description: "AI-powered news classification across 5 domains.",
+  metadataBase: new URL("https://newsscope.vercel.app"),
+  openGraph: {
+    title: "NewsScope — News Article Classifier",
+    description: "AI-powered news classification across 5 domains.",
+    images: ["/opengraph-image"],
+    type: "website",
+    siteName: "NewsScope",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NewsScope — News Article Classifier",
+    description: "AI-powered news classification across 5 domains.",
+    images: ["/opengraph-image"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
