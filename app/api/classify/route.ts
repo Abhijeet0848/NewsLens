@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
     const result = await classifyArticle(text, model);
     return NextResponse.json(result);
   } catch (error: any) {
+    console.error("Classification route error:", error);
     return NextResponse.json(
       { error: error.message || "Classification failed" },
       { status: 500 }

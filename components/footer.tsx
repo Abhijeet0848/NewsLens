@@ -170,7 +170,7 @@ export function Footer() {
           <div className="mt-12 border-t border-[#e7e3dd] pt-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-[12px] text-[#6b6660]">
             {/* Left: Copyright */}
             <p className="text-center md:text-left">
-              &copy; 2025 NewsScope Engine &bull; MIT License
+              &copy; 2025 NewsScope Engine
             </p>
 
             {/* Right: Legal & Resource Links with icons */}

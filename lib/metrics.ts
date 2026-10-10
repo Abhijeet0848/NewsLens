@@ -22,25 +22,25 @@ export const MODEL_PARADIGMS: Record<
   string,
   { name: string; paradigm: string; badge?: string; desc?: string }
 > = {
+  distilbert: {
+    name: "DistilBERT (Fine-Tuned)",
+    paradigm: "Transformer Attention / Deep Learning",
+    badge: "⭐ Champion",
+  },
   linear_svm: {
     name: "Linear SVM",
     paradigm: "Maximum-Margin Hyperplane",
-    badge: "⭐ Champion",
+    badge: "⚡ Production Default",
   },
   mlp: {
     name: "Neural MLP",
     paradigm: "Feedforward Neural Network",
-    badge: "Nonlinear Neural",
+    badge: "Neural Baseline",
   },
   naive_bayes: {
     name: "Multinomial Naive Bayes",
     paradigm: "Generative Probabilistic",
-    badge: "Lightweight Baseline",
-  },
-  distilbert: {
-    name: "DistilBERT (Fine-Tuned)",
-    paradigm: "Transformer Attention / Deep Learning",
-    badge: "Deep Learning SOTA",
+    badge: "Fast Baseline",
   },
   decision_tree: {
     name: "Decision Tree",
