@@ -58,20 +58,33 @@ export async function classifyArticle(
   text: string,
   model = "linear-svm"
 ): Promise<ClassificationResponse> {
-  // If external FastAPI backend is reachable, call it
-  if (API_BASE_URL) {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/article/classify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, model }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        return transformBackendResponse(data, text);
+  // Call Next.js internal /api/classify endpoint (which invokes Python ML model)
+  try {
+    const res = await fetch("/api/classify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, model }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch {
+    // If not reachable, fallback to FastAPI backend if available
+    if (API_BASE_URL) {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/article/classify`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, model }),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          return transformBackendResponse(data, text);
+        }
+      } catch {
+        // Proceed to fallback
       }
-    } catch {
-      // Proceed to deterministic NLP classifier
     }
   }
 

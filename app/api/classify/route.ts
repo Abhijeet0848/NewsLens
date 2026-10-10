@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { classifyArticle } from "@/lib/api";
 import { sanitizeForApi } from "@/lib/validateInput";
+import { spawn } from "child_process";
+import path from "path";
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { text, model = "linear-svm" } = body || {};
+    const { text, model = "svm" } = body || {};
 
     if (!text || typeof text !== "string") {
       return NextResponse.json(
@@ -44,7 +45,41 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await classifyArticle(sanitizedText, model);
+    // Call Python inference script
+    const result = await new Promise((resolve, reject) => {
+      const scriptPath = path.join(process.cwd(), "training", "predict.py");
+      const py = spawn("python", [
+        scriptPath,
+        "--text",
+        sanitizedText,
+        "--model",
+        model,
+      ]);
+
+      let out = "";
+      let err = "";
+
+      py.stdout.on("data", (d) => {
+        out += d.toString();
+      });
+
+      py.stderr.on("data", (d) => {
+        err += d.toString();
+      });
+
+      py.on("close", (code) => {
+        if (code === 0 && out.trim()) {
+          try {
+            resolve(JSON.parse(out.trim()));
+          } catch (e) {
+            reject(new Error(`Failed to parse prediction output: ${out}`));
+          }
+        } else {
+          reject(new Error(`Prediction failed with code ${code}: ${err || out}`));
+        }
+      });
+    });
+
     return NextResponse.json(result);
   } catch (error: any) {
     console.error("Classification route error:", error);

@@ -1,118 +1,23 @@
 {
   "metadata": {
-    "trained_at": "2026-10-10 04:21:43",
-    "dataset_stats": {
-      "total_articles": 2127,
-      "num_categories": 5,
-      "categories": [
-        "business",
-        "entertainment",
-        "politics",
-        "sport",
-        "tech"
-      ],
-      "articles_per_category": {
-        "sport": 505,
-        "business": 503,
-        "politics": 403,
-        "entertainment": 369,
-        "tech": 347
-      },
-      "missing_values": 0,
-      "duplicates": 0
-    },
+    "trained_at": "2026-10-10 14:07:05",
     "train_samples": 1701,
     "test_samples": 426,
-    "test_size": 0.2,
-    "random_state": 42,
-    "vocabulary_size": 20000,
-    "feature_dimensions": [
-      1701,
-      20000
-    ],
     "categories": [
-      "business",
-      "entertainment",
-      "politics",
-      "sport",
-      "tech"
-    ],
-    "top_corpus_terms": [
-      [
-        "say",
-        0.0292
-      ],
-      [
-        "year",
-        0.0204
-      ],
-      [
-        "mr",
-        0.0176
-      ],
-      [
-        "would",
-        0.0166
-      ],
-      [
-        "make",
-        0.016
-      ],
-      [
-        "also",
-        0.0159
-      ],
-      [
-        "new",
-        0.0148
-      ],
-      [
-        "one",
-        0.0147
-      ],
-      [
-        "take",
-        0.0144
-      ],
-      [
-        "go",
-        0.0142
-      ],
-      [
-        "time",
-        0.0139
-      ],
-      [
-        "people",
-        0.0138
-      ],
-      [
-        "last",
-        0.0135
-      ],
-      [
-        "get",
-        0.0131
-      ],
-      [
-        "first",
-        0.0131
-      ]
+      "Business",
+      "Entertainment",
+      "Politics",
+      "Sport",
+      "Tech"
     ]
   },
   "models": {
     "naive_bayes": {
       "accuracy": 0.9812,
-      "precision_macro": 0.9793,
-      "recall_macro": 0.9817,
       "f1_macro": 0.9803,
-      "precision_weighted": 0.9817,
-      "recall_weighted": 0.9812,
-      "f1_weighted": 0.9813,
-      "averaging_documentation": {
-        "macro_average": "Unweighted arithmetic mean across all classes; treats all categories with equal importance.",
-        "weighted_average": "Support-weighted mean across all classes; accounts for sample frequency distribution."
-      },
+      "precision": 0.9793,
+      "recall": 0.9817,
+      "latency_ms": 0.01,
       "confusion_matrix": [
         [
           97,
@@ -150,163 +55,77 @@
           69
         ]
       ],
-      "confusion_matrix_normalized": [
-        [
-          0.9604,
-          0.0,
-          0.0297,
-          0.0,
-          0.0099
-        ],
-        [
-          0.0,
-          0.973,
-          0.0135,
-          0.0,
-          0.0135
-        ],
-        [
-          0.0,
-          0.0123,
-          0.9753,
-          0.0,
-          0.0123
-        ],
-        [
-          0.0,
-          0.0,
-          0.0,
-          1.0,
-          0.0
-        ],
-        [
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ]
+      "classes": [
+        "Business",
+        "Entertainment",
+        "Politics",
+        "Sport",
+        "Tech"
       ],
-      "per_class_metrics": [
+      "paradigm": "Generative Probabilistic",
+      "per_class": [
         {
-          "category": "business",
+          "category": "Business",
           "precision": 1.0,
           "recall": 0.9604,
           "f1_score": 0.9798,
           "support": 101
         },
         {
-          "category": "entertainment",
+          "category": "Entertainment",
           "precision": 0.9863,
           "recall": 0.973,
           "f1_score": 0.9796,
           "support": 74
         },
         {
-          "category": "politics",
+          "category": "Politics",
           "precision": 0.9518,
           "recall": 0.9753,
           "f1_score": 0.9634,
           "support": 81
         },
         {
-          "category": "sport",
+          "category": "Sport",
           "precision": 1.0,
           "recall": 1.0,
           "f1_score": 1.0,
           "support": 101
         },
         {
-          "category": "tech",
+          "category": "Tech",
           "precision": 0.9583,
           "recall": 1.0,
           "f1_score": 0.9787,
           "support": 69
         }
-      ],
-      "classification_report_dict": {
-        "business": {
-          "precision": 1.0,
-          "recall": 0.9603960396039604,
-          "f1-score": 0.9797979797979798,
-          "support": 101.0
-        },
-        "entertainment": {
-          "precision": 0.9863013698630136,
-          "recall": 0.972972972972973,
-          "f1-score": 0.9795918367346939,
-          "support": 74.0
-        },
-        "politics": {
-          "precision": 0.9518072289156626,
-          "recall": 0.9753086419753086,
-          "f1-score": 0.9634146341463414,
-          "support": 81.0
-        },
-        "sport": {
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1-score": 1.0,
-          "support": 101.0
-        },
-        "tech": {
-          "precision": 0.9583333333333334,
-          "recall": 1.0,
-          "f1-score": 0.9787234042553191,
-          "support": 69.0
-        },
-        "accuracy": 0.9812206572769953,
-        "macro avg": {
-          "precision": 0.9792883864224018,
-          "recall": 0.9817355309104485,
-          "f1-score": 0.9803055709868669,
-          "support": 426.0
-        },
-        "weighted avg": {
-          "precision": 0.9817081852395111,
-          "recall": 0.9812206572769953,
-          "f1-score": 0.9812626575996102,
-          "support": 426.0
-        }
-      },
-      "classification_report_text": "               precision    recall  f1-score   support\n\n     business       1.00      0.96      0.98       101\nentertainment       0.99      0.97      0.98        74\n     politics       0.95      0.98      0.96        81\n        sport       1.00      1.00      1.00       101\n         tech       0.96      1.00      0.98        69\n\n     accuracy                           0.98       426\n    macro avg       0.98      0.98      0.98       426\n weighted avg       0.98      0.98      0.98       426\n",
-      "training_time_seconds": 0.0203,
-      "avg_inference_latency_ms": 0.006,
-      "model_name": "Multinomial Naive Bayes",
-      "model_type": "Probabilistic Generative",
-      "scoring_type": "probability"
+      ]
     },
     "linear_svm": {
-      "accuracy": 0.9906,
-      "precision_macro": 0.9892,
-      "recall_macro": 0.9916,
-      "f1_macro": 0.9903,
-      "precision_weighted": 0.9908,
-      "recall_weighted": 0.9906,
-      "f1_weighted": 0.9906,
-      "averaging_documentation": {
-        "macro_average": "Unweighted arithmetic mean across all classes; treats all categories with equal importance.",
-        "weighted_average": "Support-weighted mean across all classes; accounts for sample frequency distribution."
-      },
+      "accuracy": 0.9883,
+      "f1_macro": 0.9873,
+      "precision": 0.9865,
+      "recall": 0.9884,
+      "latency_ms": 0.14,
       "confusion_matrix": [
         [
-          98,
-          1,
+          99,
+          0,
           1,
           0,
           1
         ],
         [
           0,
-          74,
+          73,
           0,
           0,
-          0
+          1
         ],
         [
           0,
-          0,
-          80,
+          1,
+          79,
           0,
           1
         ],
@@ -325,319 +144,58 @@
           69
         ]
       ],
-      "confusion_matrix_normalized": [
-        [
-          0.9703,
-          0.0099,
-          0.0099,
-          0.0,
-          0.0099
-        ],
-        [
-          0.0,
-          1.0,
-          0.0,
-          0.0,
-          0.0
-        ],
-        [
-          0.0,
-          0.0,
-          0.9877,
-          0.0,
-          0.0123
-        ],
-        [
-          0.0,
-          0.0,
-          0.0,
-          1.0,
-          0.0
-        ],
-        [
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ]
+      "classes": [
+        "Business",
+        "Entertainment",
+        "Politics",
+        "Sport",
+        "Tech"
       ],
-      "per_class_metrics": [
+      "paradigm": "Maximum-Margin Hyperplane (Calibrated)",
+      "per_class": [
         {
-          "category": "business",
+          "category": "Business",
           "precision": 1.0,
-          "recall": 0.9703,
-          "f1_score": 0.9849,
+          "recall": 0.9802,
+          "f1_score": 0.99,
           "support": 101
         },
         {
-          "category": "entertainment",
-          "precision": 0.9867,
-          "recall": 1.0,
-          "f1_score": 0.9933,
+          "category": "Entertainment",
+          "precision": 0.9865,
+          "recall": 0.9865,
+          "f1_score": 0.9865,
           "support": 74
         },
         {
-          "category": "politics",
-          "precision": 0.9877,
-          "recall": 0.9877,
-          "f1_score": 0.9877,
+          "category": "Politics",
+          "precision": 0.9875,
+          "recall": 0.9753,
+          "f1_score": 0.9814,
           "support": 81
         },
         {
-          "category": "sport",
+          "category": "Sport",
           "precision": 1.0,
           "recall": 1.0,
           "f1_score": 1.0,
           "support": 101
         },
         {
-          "category": "tech",
-          "precision": 0.9718,
+          "category": "Tech",
+          "precision": 0.9583,
           "recall": 1.0,
-          "f1_score": 0.9857,
+          "f1_score": 0.9787,
           "support": 69
         }
-      ],
-      "classification_report_dict": {
-        "business": {
-          "precision": 1.0,
-          "recall": 0.9702970297029703,
-          "f1-score": 0.9849246231155779,
-          "support": 101.0
-        },
-        "entertainment": {
-          "precision": 0.9866666666666667,
-          "recall": 1.0,
-          "f1-score": 0.9932885906040269,
-          "support": 74.0
-        },
-        "politics": {
-          "precision": 0.9876543209876543,
-          "recall": 0.9876543209876543,
-          "f1-score": 0.9876543209876543,
-          "support": 81.0
-        },
-        "sport": {
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1-score": 1.0,
-          "support": 101.0
-        },
-        "tech": {
-          "precision": 0.971830985915493,
-          "recall": 1.0,
-          "f1-score": 0.9857142857142858,
-          "support": 69.0
-        },
-        "accuracy": 0.9906103286384976,
-        "macro avg": {
-          "precision": 0.9892303947139627,
-          "recall": 0.991590270138125,
-          "f1-score": 0.990316364084309,
-          "support": 426.0
-        },
-        "weighted avg": {
-          "precision": 0.9907738764354516,
-          "recall": 0.9906103286384976,
-          "f1-score": 0.9905986581071762,
-          "support": 426.0
-        }
-      },
-      "classification_report_text": "               precision    recall  f1-score   support\n\n     business       1.00      0.97      0.98       101\nentertainment       0.99      1.00      0.99        74\n     politics       0.99      0.99      0.99        81\n        sport       1.00      1.00      1.00       101\n         tech       0.97      1.00      0.99        69\n\n     accuracy                           0.99       426\n    macro avg       0.99      0.99      0.99       426\n weighted avg       0.99      0.99      0.99       426\n",
-      "training_time_seconds": 0.3031,
-      "avg_inference_latency_ms": 0.005,
-      "model_name": "Linear Support Vector Machine",
-      "model_type": "Maximum-Margin Discriminative",
-      "scoring_type": "decision_score"
-    },
-    "decision_tree": {
-      "accuracy": 0.8404,
-      "precision_macro": 0.8372,
-      "recall_macro": 0.8357,
-      "f1_macro": 0.8363,
-      "precision_weighted": 0.841,
-      "recall_weighted": 0.8404,
-      "f1_weighted": 0.8405,
-      "averaging_documentation": {
-        "macro_average": "Unweighted arithmetic mean across all classes; treats all categories with equal importance.",
-        "weighted_average": "Support-weighted mean across all classes; accounts for sample frequency distribution."
-      },
-      "confusion_matrix": [
-        [
-          88,
-          4,
-          4,
-          1,
-          4
-        ],
-        [
-          3,
-          59,
-          1,
-          4,
-          7
-        ],
-        [
-          6,
-          4,
-          67,
-          3,
-          1
-        ],
-        [
-          4,
-          7,
-          2,
-          88,
-          0
-        ],
-        [
-          4,
-          2,
-          4,
-          3,
-          56
-        ]
-      ],
-      "confusion_matrix_normalized": [
-        [
-          0.8713,
-          0.0396,
-          0.0396,
-          0.0099,
-          0.0396
-        ],
-        [
-          0.0405,
-          0.7973,
-          0.0135,
-          0.0541,
-          0.0946
-        ],
-        [
-          0.0741,
-          0.0494,
-          0.8272,
-          0.037,
-          0.0123
-        ],
-        [
-          0.0396,
-          0.0693,
-          0.0198,
-          0.8713,
-          0.0
-        ],
-        [
-          0.058,
-          0.029,
-          0.058,
-          0.0435,
-          0.8116
-        ]
-      ],
-      "per_class_metrics": [
-        {
-          "category": "business",
-          "precision": 0.8381,
-          "recall": 0.8713,
-          "f1_score": 0.8544,
-          "support": 101
-        },
-        {
-          "category": "entertainment",
-          "precision": 0.7763,
-          "recall": 0.7973,
-          "f1_score": 0.7867,
-          "support": 74
-        },
-        {
-          "category": "politics",
-          "precision": 0.859,
-          "recall": 0.8272,
-          "f1_score": 0.8428,
-          "support": 81
-        },
-        {
-          "category": "sport",
-          "precision": 0.8889,
-          "recall": 0.8713,
-          "f1_score": 0.88,
-          "support": 101
-        },
-        {
-          "category": "tech",
-          "precision": 0.8235,
-          "recall": 0.8116,
-          "f1_score": 0.8175,
-          "support": 69
-        }
-      ],
-      "classification_report_dict": {
-        "business": {
-          "precision": 0.8380952380952381,
-          "recall": 0.8712871287128713,
-          "f1-score": 0.8543689320388349,
-          "support": 101.0
-        },
-        "entertainment": {
-          "precision": 0.7763157894736842,
-          "recall": 0.7972972972972973,
-          "f1-score": 0.7866666666666666,
-          "support": 74.0
-        },
-        "politics": {
-          "precision": 0.8589743589743589,
-          "recall": 0.8271604938271605,
-          "f1-score": 0.8427672955974843,
-          "support": 81.0
-        },
-        "sport": {
-          "precision": 0.8888888888888888,
-          "recall": 0.8712871287128713,
-          "f1-score": 0.88,
-          "support": 101.0
-        },
-        "tech": {
-          "precision": 0.8235294117647058,
-          "recall": 0.8115942028985508,
-          "f1-score": 0.8175182481751825,
-          "support": 69.0
-        },
-        "accuracy": 0.8403755868544601,
-        "macro avg": {
-          "precision": 0.8371607374393752,
-          "recall": 0.8357252502897502,
-          "f1-score": 0.8362642284956336,
-          "support": 426.0
-        },
-        "weighted avg": {
-          "precision": 0.8410169430402281,
-          "recall": 0.8403755868544601,
-          "f1-score": 0.8405105763773227,
-          "support": 426.0
-        }
-      },
-      "classification_report_text": "               precision    recall  f1-score   support\n\n     business       0.84      0.87      0.85       101\nentertainment       0.78      0.80      0.79        74\n     politics       0.86      0.83      0.84        81\n        sport       0.89      0.87      0.88       101\n         tech       0.82      0.81      0.82        69\n\n     accuracy                           0.84       426\n    macro avg       0.84      0.84      0.84       426\n weighted avg       0.84      0.84      0.84       426\n",
-      "training_time_seconds": 2.3512,
-      "avg_inference_latency_ms": 0.006,
-      "model_name": "Decision Tree Classifier",
-      "model_type": "Hierarchical Non-Parametric",
-      "scoring_type": "probability"
+      ]
     },
     "mlp": {
       "accuracy": 0.9859,
-      "precision_macro": 0.9838,
-      "recall_macro": 0.9864,
       "f1_macro": 0.985,
-      "precision_weighted": 0.9862,
-      "recall_weighted": 0.9859,
-      "f1_weighted": 0.9859,
-      "averaging_documentation": {
-        "macro_average": "Unweighted arithmetic mean across all classes; treats all categories with equal importance.",
-        "weighted_average": "Support-weighted mean across all classes; accounts for sample frequency distribution."
-      },
+      "precision": 0.9838,
+      "recall": 0.9864,
+      "latency_ms": 0.1,
       "confusion_matrix": [
         [
           98,
@@ -675,131 +233,229 @@
           69
         ]
       ],
-      "confusion_matrix_normalized": [
-        [
-          0.9703,
-          0.0099,
-          0.0099,
-          0.0,
-          0.0099
-        ],
-        [
-          0.0,
-          0.9865,
-          0.0,
-          0.0,
-          0.0135
-        ],
-        [
-          0.0,
-          0.0123,
-          0.9753,
-          0.0,
-          0.0123
-        ],
-        [
-          0.0,
-          0.0,
-          0.0,
-          1.0,
-          0.0
-        ],
-        [
-          0.0,
-          0.0,
-          0.0,
-          0.0,
-          1.0
-        ]
+      "classes": [
+        "Business",
+        "Entertainment",
+        "Politics",
+        "Sport",
+        "Tech"
       ],
-      "per_class_metrics": [
+      "paradigm": "Feedforward Neural Network",
+      "per_class": [
         {
-          "category": "business",
+          "category": "Business",
           "precision": 1.0,
           "recall": 0.9703,
           "f1_score": 0.9849,
           "support": 101
         },
         {
-          "category": "entertainment",
+          "category": "Entertainment",
           "precision": 0.9733,
           "recall": 0.9865,
           "f1_score": 0.9799,
           "support": 74
         },
         {
-          "category": "politics",
+          "category": "Politics",
           "precision": 0.9875,
           "recall": 0.9753,
           "f1_score": 0.9814,
           "support": 81
         },
         {
-          "category": "sport",
+          "category": "Sport",
           "precision": 1.0,
           "recall": 1.0,
           "f1_score": 1.0,
           "support": 101
         },
         {
-          "category": "tech",
+          "category": "Tech",
           "precision": 0.9583,
           "recall": 1.0,
           "f1_score": 0.9787,
           "support": 69
         }
+      ]
+    },
+    "decision_tree": {
+      "accuracy": 0.838,
+      "f1_macro": 0.8367,
+      "precision": 0.8416,
+      "recall": 0.8349,
+      "latency_ms": 0.01,
+      "confusion_matrix": [
+        [
+          89,
+          2,
+          4,
+          0,
+          6
+        ],
+        [
+          2,
+          58,
+          0,
+          6,
+          8
+        ],
+        [
+          9,
+          0,
+          67,
+          5,
+          0
+        ],
+        [
+          6,
+          3,
+          5,
+          85,
+          2
+        ],
+        [
+          7,
+          3,
+          0,
+          1,
+          58
+        ]
       ],
-      "classification_report_dict": {
-        "business": {
-          "precision": 1.0,
-          "recall": 0.9702970297029703,
-          "f1-score": 0.9849246231155779,
-          "support": 101.0
+      "classes": [
+        "Business",
+        "Entertainment",
+        "Politics",
+        "Sport",
+        "Tech"
+      ],
+      "paradigm": "Hierarchical Non-Parametric",
+      "per_class": [
+        {
+          "category": "Business",
+          "precision": 0.7876,
+          "recall": 0.8812,
+          "f1_score": 0.8318,
+          "support": 101
         },
-        "entertainment": {
-          "precision": 0.9733333333333334,
-          "recall": 0.9864864864864865,
-          "f1-score": 0.9798657718120806,
-          "support": 74.0
+        {
+          "category": "Entertainment",
+          "precision": 0.8788,
+          "recall": 0.7838,
+          "f1_score": 0.8286,
+          "support": 74
         },
-        "politics": {
-          "precision": 0.9875,
-          "recall": 0.9753086419753086,
-          "f1-score": 0.9813664596273292,
-          "support": 81.0
+        {
+          "category": "Politics",
+          "precision": 0.8816,
+          "recall": 0.8272,
+          "f1_score": 0.8535,
+          "support": 81
         },
-        "sport": {
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1-score": 1.0,
-          "support": 101.0
+        {
+          "category": "Sport",
+          "precision": 0.8763,
+          "recall": 0.8416,
+          "f1_score": 0.8586,
+          "support": 101
         },
-        "tech": {
-          "precision": 0.9583333333333334,
-          "recall": 1.0,
-          "f1-score": 0.9787234042553191,
-          "support": 69.0
-        },
-        "accuracy": 0.9859154929577465,
-        "macro avg": {
-          "precision": 0.9838333333333333,
-          "recall": 0.9864184316329532,
-          "f1-score": 0.9849760517620613,
-          "support": 426.0
-        },
-        "weighted avg": {
-          "precision": 0.9862421752738654,
-          "recall": 0.9859154929577465,
-          "f1-score": 0.9859390896060987,
-          "support": 426.0
+        {
+          "category": "Tech",
+          "precision": 0.7838,
+          "recall": 0.8406,
+          "f1_score": 0.8112,
+          "support": 69
         }
-      },
-      "classification_report_text": "               precision    recall  f1-score   support\n\n     business       1.00      0.97      0.98       101\nentertainment       0.97      0.99      0.98        74\n     politics       0.99      0.98      0.98        81\n        sport       1.00      1.00      1.00       101\n         tech       0.96      1.00      0.98        69\n\n     accuracy                           0.99       426\n    macro avg       0.98      0.99      0.98       426\n weighted avg       0.99      0.99      0.99       426\n",
-      "training_time_seconds": 122.7528,
-      "avg_inference_latency_ms": 0.083,
-      "model_name": "Multi-Layer Perceptron (MLP)",
-      "model_type": "Artificial Neural Network",
-      "scoring_type": "probability"
+      ]
+    },
+    "distilbert": {
+      "accuracy": 0.9775,
+      "f1_macro": 0.9748,
+      "precision": 0.9749,
+      "recall": 0.9748,
+      "latency_ms": 12.4,
+      "confusion_matrix": [
+        [
+          98,
+          1,
+          1,
+          0,
+          2
+        ],
+        [
+          1,
+          75,
+          0,
+          0,
+          1
+        ],
+        [
+          2,
+          0,
+          80,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          102,
+          0
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          79
+        ]
+      ],
+      "classes": [
+        "Business",
+        "Entertainment",
+        "Politics",
+        "Sport",
+        "Tech"
+      ],
+      "paradigm": "Transformer Attention / Deep Learning",
+      "per_class": [
+        {
+          "category": "Business",
+          "precision": 0.9608,
+          "recall": 0.9608,
+          "f1_score": 0.9608,
+          "support": 102
+        },
+        {
+          "category": "Entertainment",
+          "precision": 0.974,
+          "recall": 0.974,
+          "f1_score": 0.974,
+          "support": 77
+        },
+        {
+          "category": "Politics",
+          "precision": 0.9877,
+          "recall": 0.9639,
+          "f1_score": 0.9756,
+          "support": 83
+        },
+        {
+          "category": "Sport",
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "support": 102
+        },
+        {
+          "category": "Tech",
+          "precision": 0.9518,
+          "recall": 0.9753,
+          "f1_score": 0.9634,
+          "support": 81
+        }
+      ]
     }
   }
 }
