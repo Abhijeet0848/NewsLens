@@ -59,7 +59,7 @@ export async function classifyArticle(
   model = "linear-svm"
 ): Promise<ClassificationResponse> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  const timeoutId = setTimeout(() => controller.abort(), 35000);
 
   try {
     const res = await fetch("/api/classify", {

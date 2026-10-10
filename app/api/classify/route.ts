@@ -56,8 +56,8 @@ export async function POST(req: NextRequest) {
 
       const timeout = setTimeout(() => {
         py.kill();
-        reject(new Error("Classification inference timed out after 10 seconds."));
-      }, 10000);
+        reject(new Error("Classification inference timed out after 30 seconds."));
+      }, 30000);
 
       py.stdout.on("data", (d) => {
         out += d.toString();
