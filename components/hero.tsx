@@ -11,7 +11,7 @@ function AnimatedCount({ value, duration = 1.4 }: { value: number; duration?: nu
   const rounded = useTransform(count, (latest) => Math.round(latest).toLocaleString());
 
   React.useEffect(() => {
-    const controls = animate(count, value, {
+    const controls = (animate as any)(count, value, {
       duration,
       ease: ease.smooth,
     });

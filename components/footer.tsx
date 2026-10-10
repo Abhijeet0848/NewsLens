@@ -39,8 +39,8 @@ export function Footer() {
   return (
     <>
       <motion.footer
-        initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-        whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+        initial={shouldReduceMotion ? undefined : { opacity: 0, y: 20 }}
+        whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.6, ease: ease.smooth }}
         className="border-t border-[#e7e3dd] bg-[#edeae4] text-[#3f3d3a] pt-16 pb-24 md:pb-8 transition-colors"
@@ -50,8 +50,8 @@ export function Footer() {
           <div className="grid grid-cols-12 gap-8 md:gap-10 lg:gap-12">
             {/* Zone 1: Brand Column (Col 5) */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 12 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0, ease: ease.smooth }}
               className="col-span-12 md:col-span-5 space-y-4"
@@ -69,8 +69,8 @@ export function Footer() {
 
             {/* Zone 2: Product Links (Col 3 on desktop, Col 6 on mobile) */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 12 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.08, ease: ease.smooth }}
               className="col-span-6 md:col-span-3"
@@ -130,8 +130,8 @@ export function Footer() {
 
             {/* Zone 3: Tech Stack (Col 2 on desktop, Col 6 on mobile) */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 12 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.16, ease: ease.smooth }}
               className="col-span-6 md:col-span-2"
@@ -149,8 +149,8 @@ export function Footer() {
 
             {/* Zone 4: Corpus Info Column (Col 2 on desktop, Col 12 on mobile) */}
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
-              whileInView={shouldReduceMotion ? false : { opacity: 1, y: 0 }}
+              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 12 }}
+              whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.24, ease: ease.smooth }}
               className="col-span-12 md:col-span-2 flex flex-col justify-start md:items-end text-left md:text-right pt-2 md:pt-0"

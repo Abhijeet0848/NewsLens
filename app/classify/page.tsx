@@ -9,8 +9,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ClassifierInput } from "@/components/classifier-input";
-import { ResultsPanel, EmptyResultsSkeleton } from "@/components/results-panel";
-import { Button } from "@/components/ui/button";
+import { ResultsPanel } from "@/components/results-panel";
 import { useClassifierStore } from "@/lib/store";
 import { classifyArticle } from "@/lib/api";
 import { getCategoryConfig } from "@/lib/utils";
@@ -25,7 +24,7 @@ function mapFriendlyError(err: any): string {
     return "Connection issue. Check your internet.";
   }
   if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
-    return "Connection issue. Check your internet.";
+    return "Connection issue. Check your internet or API server.";
   }
   if (message.includes("429") || message.includes("Too many requests")) {
     return "Too many requests. Please wait a moment.";
@@ -33,7 +32,7 @@ function mapFriendlyError(err: any): string {
   if (message.includes("500") || message.includes("Server error")) {
     return "Server error. Please try again.";
   }
-  if (message.includes("timeout") || message.includes("Timed out")) {
+  if (message.includes("timeout") || message.includes("Timed out") || message.includes("timed out")) {
     return "Request timed out. Please try again.";
   }
   return message || "Classification failed. Please try again.";
@@ -58,6 +57,13 @@ export default function ClassifyPage() {
   const [multiResults, setMultiResults] = React.useState<Record<string, any> | null>(null);
   const [isComparing, setIsComparing] = React.useState(false);
 
+  const handleTextChange = (val: string) => {
+    setCurrentText(val);
+    if (result) {
+      setResult(null);
+    }
+  };
+
   const handleClassify = async () => {
     const v = validateInput(currentText);
 
@@ -76,7 +82,7 @@ export default function ClassifyPage() {
     try {
       const res = await classifyArticle(clean, selectedModel);
 
-      // Apply confidence penalty on suspicious inputs
+      // Apply confidence penalty on suspicious inputs if flagged
       if (v.confidence_penalty) {
         const factor = 1 - v.confidence_penalty;
         res.confidence = Math.max(0.18, Math.round(res.confidence * factor * 1000) / 1000);
@@ -90,7 +96,7 @@ export default function ClassifyPage() {
       }
 
       // Low confidence alert
-      if (res.confidence < 0.5) {
+      if (res.confidence < 0.4) {
         toast.warning(
           `Low confidence (${Math.round(res.confidence * 100)}%). The article may be outside the model's training distribution.`
         );
@@ -107,8 +113,10 @@ export default function ClassifyPage() {
       incrementCount();
       toast.success(`Predicted: ${res.category} (${res.confidence_percentage}%)`);
     } catch (err: any) {
+      console.error("Classify error:", err);
       toast.error(mapFriendlyError(err));
     } finally {
+      // CRITICAL: Always clear loading state
       setIsLoading(false);
     }
   };
@@ -150,6 +158,7 @@ export default function ClassifyPage() {
       }
       toast.success("Benchmark completed across 4 model architectures");
     } catch (err: any) {
+      console.error("Compare error:", err);
       toast.error(mapFriendlyError(err));
     } finally {
       setIsComparing(false);
@@ -201,7 +210,7 @@ export default function ClassifyPage() {
           <div className="flex-1">
             <ClassifierInput
               text={currentText}
-              onChangeText={setCurrentText}
+              onChangeText={handleTextChange}
               selectedModel={selectedModel}
               onChangeModel={setSelectedModel}
               onClassify={handleClassify}
@@ -240,7 +249,10 @@ export default function ClassifyPage() {
                       key={item.id}
                       whileHover={{ y: -1 }}
                       whileTap={{ scale: 0.99 }}
-                      onClick={() => setCurrentText(item.textSnippet)}
+                      onClick={() => {
+                        setCurrentText(item.textSnippet);
+                        if (result) setResult(null);
+                      }}
                       className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-3 text-[13px] text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all"
                     >
                       <div className="flex items-center gap-3 truncate pr-2">
@@ -275,13 +287,12 @@ export default function ClassifyPage() {
           className="flex flex-col space-y-5"
         >
           <div className="flex-1">
-            <AnimatePresence mode="wait">
-              {result ? (
-                <ResultsPanel key="results" result={result} originalText={currentText} />
-              ) : (
-                <EmptyResultsSkeleton key="empty" />
-              )}
-            </AnimatePresence>
+            <ResultsPanel
+              result={result}
+              isLoading={isLoading}
+              text={currentText}
+              selectedModel={selectedModel}
+            />
           </div>
 
           {/* 4-Model Consensus Grid */}

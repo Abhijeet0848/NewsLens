@@ -4,6 +4,7 @@ import { spawn } from "child_process";
 import path from "path";
 
 export async function POST(req: NextRequest) {
+  console.log("[classify] request received");
   try {
     let body;
     try {
@@ -45,19 +46,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Call Python inference script
+    // Call Python inference script via stdin piping to prevent Windows CLI arg issues
     const result = await new Promise((resolve, reject) => {
       const scriptPath = path.join(process.cwd(), "training", "predict.py");
-      const py = spawn("python", [
-        scriptPath,
-        "--text",
-        sanitizedText,
-        "--model",
-        model,
-      ]);
+      const py = spawn("python", [scriptPath, "--model", model]);
 
       let out = "";
       let err = "";
+
+      const timeout = setTimeout(() => {
+        py.kill();
+        reject(new Error("Classification inference timed out after 10 seconds."));
+      }, 10000);
 
       py.stdout.on("data", (d) => {
         out += d.toString();
@@ -68,6 +68,7 @@ export async function POST(req: NextRequest) {
       });
 
       py.on("close", (code) => {
+        clearTimeout(timeout);
         if (code === 0 && out.trim()) {
           try {
             resolve(JSON.parse(out.trim()));
@@ -78,11 +79,15 @@ export async function POST(req: NextRequest) {
           reject(new Error(`Prediction failed with code ${code}: ${err || out}`));
         }
       });
+
+      py.stdin.write(sanitizedText);
+      py.stdin.end();
     });
 
+    console.log("[classify] returning:", (result as any)?.category, `${(result as any)?.confidence_percentage}%`);
     return NextResponse.json(result);
   } catch (error: any) {
-    console.error("Classification route error:", error);
+    console.error("[classify] Classification route error:", error);
     return NextResponse.json(
       { error: error.message || "Server error. Please try again." },
       { status: 500 }

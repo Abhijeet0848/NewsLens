@@ -14,10 +14,13 @@ import {
   Award,
   Sparkles,
   AlertTriangle,
+  HelpCircle,
+  ArrowRight,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClassificationResponse } from "@/lib/types";
-import { getCategoryConfig, CATEGORIES_CONFIG } from "@/lib/utils";
+import { getCategoryConfig } from "@/lib/utils";
 import { MODELS, ModelId } from "@/lib/models";
 import { ease, fadeUp, scaleIn } from "@/lib/motion";
 import confetti from "canvas-confetti";
@@ -28,7 +31,7 @@ function AnimatedConfidence({ value, duration = 0.8 }: { value: number; duration
   const rounded = useTransform(count, (latest) => `${latest.toFixed(1)}%`);
 
   React.useEffect(() => {
-    const controls = animate(count, value, {
+    const controls = (animate as any)(count, value, {
       duration,
       ease: ease.smooth,
     });
@@ -68,10 +71,42 @@ function getConfidenceBadge(confidence: number) {
   };
 }
 
-export function ResultsPanel({ result }: { result: ClassificationResponse | null }) {
+export type ResultState = "empty" | "ready" | "loading" | "done";
+
+export interface ResultsPanelProps {
+  result: ClassificationResponse | null;
+  isLoading?: boolean;
+  text?: string;
+  selectedModel?: string;
+  originalText?: string;
+}
+
+export function ResultsPanel({
+  result,
+  isLoading = false,
+  text = "",
+  selectedModel = "linear-svm",
+  originalText = "",
+}: ResultsPanelProps) {
   const [copied, setCopied] = React.useState(false);
   const [showExplanation, setShowExplanation] = React.useState(false);
   const [showHeatmap, setShowHeatmap] = React.useState(false);
+
+  const rawText = text || originalText;
+  const trimmed = rawText.trim();
+  const wordCount = (rawText.match(/[a-zA-Z]+/g) || []).length;
+  const charCount = rawText.length;
+
+  const resultState: ResultState = isLoading
+    ? "loading"
+    : result
+    ? "done"
+    : trimmed.length > 0
+    ? "ready"
+    : "empty";
+
+  const activeModel =
+    MODELS[((result?.model_id || selectedModel) as ModelId)] || MODELS["linear-svm"];
 
   React.useEffect(() => {
     if (result && result.confidence >= 0.8) {
@@ -87,18 +122,240 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
     }
   }, [result]);
 
-  if (!result) {
-    return <EmptyResultsSkeleton />;
+  const bbcCategories = [
+    { label: "Business", cfg: getCategoryConfig("Business") },
+    { label: "Entertainment", cfg: getCategoryConfig("Entertainment") },
+    { label: "Politics", cfg: getCategoryConfig("Politics") },
+    { label: "Sport", cfg: getCategoryConfig("Sport") },
+    { label: "Tech", cfg: getCategoryConfig("Tech") },
+  ];
+
+  // 1. STATE: EMPTY
+  if (resultState === "empty") {
+    return (
+      <motion.div
+        key="empty"
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.25 }}
+        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-6"
+      >
+        <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
+          <div className="flex items-center gap-3.5">
+            <div className="flex size-12 items-center justify-center rounded-xl bg-[#f1efeb] border border-[#e7e3dd] text-[#8a847d]">
+              <HelpCircle className="size-6 text-[#a8a29e]" />
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#8a847d] font-semibold">
+                Waiting for input
+              </span>
+              <h3 className="text-[20px] font-semibold text-[#6b6660] tracking-tight">
+                No Article Analyzed
+              </h3>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#8a847d] font-semibold">
+              Status
+            </span>
+            <div className="text-xs font-mono font-semibold text-[#8a847d] bg-[#f1efeb] px-2 py-0.5 rounded border border-[#e7e3dd] mt-0.5">
+              STANDBY
+            </div>
+          </div>
+        </div>
+
+        <p className="text-[13px] text-[#8a847d] leading-relaxed">
+          Paste news article text, upload a document, or fetch from a URL to inspect predicted categories and statistical distributions.
+        </p>
+
+        {/* 5-Class Standby Distribution */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center text-[10px] font-mono font-semibold uppercase tracking-widest text-[#8a847d]">
+            <span>5-Class BBC Distribution</span>
+            <span>0.0% Standby</span>
+          </div>
+
+          <div className="space-y-2.5 pt-1">
+            {bbcCategories.map((c) => (
+              <div key={c.label} className="space-y-1">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center text-[#6b6660] font-medium">
+                    <span
+                      className="size-1.5 rounded-full mr-2"
+                      style={{ backgroundColor: c.cfg.colorHex }}
+                    />
+                    <span>{c.label}</span>
+                  </span>
+                  <span className="font-mono text-[#a8a29e] text-[11px]">0.0%</span>
+                </div>
+                <div className="h-1.5 w-full bg-[#f1efeb] rounded-full overflow-hidden">
+                  <div className="h-full w-0 bg-transparent" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
   }
+
+  // 2. STATE: READY
+  if (resultState === "ready") {
+    return (
+      <motion.div
+        key="ready"
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.25 }}
+        className="rounded-2xl border border-indigo-200 bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-5"
+      >
+        <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
+          <div className="flex items-center gap-3.5">
+            <div className="flex size-12 items-center justify-center rounded-xl bg-[#eef2ff] border border-indigo-100 text-[#4f46e5]">
+              <Sparkles className="size-6 text-[#4f46e5]" />
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-semibold">
+                Input Registered
+              </span>
+              <h3 className="text-[20px] font-semibold text-[#0f0f0e] tracking-tight">
+                Ready to Classify
+              </h3>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-semibold">
+              Status
+            </span>
+            <div className="text-xs font-mono font-semibold text-[#4f46e5] bg-[#eef2ff] px-2 py-0.5 rounded border border-indigo-200 mt-0.5">
+              READY
+            </div>
+          </div>
+        </div>
+
+        {/* Live Counter Card */}
+        <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[12px] font-mono text-[#0f0f0e] font-semibold">
+              {wordCount} words &bull; {charCount} chars
+            </span>
+            <span className="text-[11px] font-mono font-semibold text-[#047857] bg-[#ecfdf5] border border-[#a7f3d0] px-2 py-0.5 rounded">
+              Ready for inference
+            </span>
+          </div>
+          <p className="text-[12px] text-[#6b6660]">
+            Using <span className="font-semibold text-[#0f0f0e]">{activeModel.name}</span> &bull; {activeModel.metric} benchmark accuracy
+          </p>
+        </div>
+
+        <p className="text-[13px] text-[#57534e]">
+          Click <span className="font-semibold text-[#0f0f0e]">&ldquo;Classify Article Now&rdquo;</span> or press <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">⌘+Enter</kbd> to run NLP vectorization and probability estimation.
+        </p>
+
+        {/* Standby 5-Class BBC Distribution */}
+        <div className="space-y-3 pt-1">
+          <div className="flex justify-between items-center text-[10px] font-mono font-semibold uppercase tracking-widest text-[#8a847d]">
+            <span>5-Class BBC Distribution</span>
+            <span>Awaiting inference</span>
+          </div>
+
+          <div className="space-y-2.5 pt-1">
+            {bbcCategories.map((c) => (
+              <div key={c.label} className="space-y-1">
+                <div className="flex justify-between items-center text-xs">
+                  <span className="flex items-center text-[#6b6660] font-medium">
+                    <span
+                      className="size-1.5 rounded-full mr-2"
+                      style={{ backgroundColor: c.cfg.colorHex }}
+                    />
+                    <span>{c.label}</span>
+                  </span>
+                  <span className="font-mono text-[#a8a29e] text-[11px]">Ready</span>
+                </div>
+                <div className="h-1.5 w-full bg-[#f1efeb] rounded-full overflow-hidden">
+                  <div className="h-full w-0 bg-transparent" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // 3. STATE: LOADING
+  if (resultState === "loading") {
+    return (
+      <motion.div
+        key="loading"
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.25 }}
+        className="rounded-2xl border border-indigo-200 bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-6"
+      >
+        <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
+          <div className="flex items-center gap-3.5">
+            <div className="flex size-12 items-center justify-center rounded-xl bg-[#eef2ff] border border-indigo-100 text-[#4f46e5]">
+              <Loader2 className="size-6 animate-spin text-[#4f46e5]" />
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-semibold">
+                Inference in progress
+              </span>
+              <h3 className="text-[20px] font-semibold text-[#0f0f0e] tracking-tight">
+                Analyzing Article...
+              </h3>
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-semibold">
+              Status
+            </span>
+            <div className="text-xs font-mono font-semibold text-[#4f46e5] bg-[#eef2ff] px-2 py-0.5 rounded border border-indigo-200 mt-0.5">
+              PROCESSING
+            </div>
+          </div>
+        </div>
+
+        <p className="text-[13px] text-[#57534e]">
+          Running TF-IDF tokenization, stopword extraction, and calibrated {activeModel.name} inference...
+        </p>
+
+        {/* Pulse Skeleton Bars for the 5 categories */}
+        <div className="space-y-3">
+          <div className="flex justify-between items-center text-[10px] font-mono font-semibold uppercase tracking-widest text-[#8a847d]">
+            <span>Estimating Category Probabilities</span>
+            <span className="animate-pulse text-[#4f46e5]">Computing...</span>
+          </div>
+
+          <div className="space-y-3 pt-1">
+            {["Business", "Entertainment", "Politics", "Sport", "Tech"].map((cat) => (
+              <div key={cat} className="space-y-1.5">
+                <div className="flex justify-between items-center">
+                  <div className="h-3 w-24 bg-[#e7e3dd] rounded animate-pulse" />
+                  <div className="h-3 w-8 bg-[#e7e3dd] rounded animate-pulse" />
+                </div>
+                <div className="h-2 w-full bg-[#f1efeb] rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-indigo-200 via-indigo-300 to-indigo-200 rounded-full animate-pulse w-3/4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // 4. STATE: DONE (Full Results Display)
+  if (!result) return null;
 
   const catConfig = getCategoryConfig(result.category);
   const badgeInfo = getConfidenceBadge(result.confidence);
   const BadgeIcon = badgeInfo.icon;
 
-  const activeModel =
-    MODELS[result.model_id as ModelId] || MODELS["linear-svm"];
-
-  // Ensure all 5 authentic BBC categories are displayed and sorted by probability
   const allCategories = ["Business", "Entertainment", "Politics", "Sport", "Tech"];
   const sortedCategories = allCategories
     .map((cat) => [cat, result.all_scores?.[cat] ?? 0.05] as [string, number])
@@ -130,12 +387,14 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
 
   return (
     <motion.div
+      key="done"
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
       transition={{ duration: 0.4, ease: ease.smooth }}
       className="space-y-5"
     >
-      {/* 1. Unified Primary Result & Probability Distribution Card */}
+      {/* Primary Result & Probability Distribution Card */}
       <motion.div
         variants={scaleIn}
         initial="hidden"
@@ -195,7 +454,7 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
           <span className="text-[#57534e]">&bull;</span>
           <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
           <span className="text-[#57534e]">&bull;</span>
-          <span className="font-mono text-[#57534e]">{activeModel.latency}ms latency</span>
+          <span className="font-mono text-[#57534e]">{result.latency_ms}ms latency</span>
         </div>
 
         {/* 5-Domain Probability Distribution */}
@@ -240,17 +499,17 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
             })}
           </div>
 
-          {/* Model Uncertain Warning Banner when confidence < 30% */}
-          {result.confidence < 0.3 && (
+          {/* Model Uncertain Warning Banner when confidence < 40% */}
+          {result.confidence < 0.4 && (
             <div className="rounded-xl border border-[#fde68a] bg-[#fef3c7]/50 p-3.5 mt-4">
               <div className="flex items-start gap-2.5">
                 <AlertTriangle aria-hidden="true" className="size-4 text-[#92400e] mt-0.5 shrink-0" />
                 <div>
                   <p className="text-[13px] font-medium text-[#92400e]">
-                    The model isn&apos;t confident about this article
+                    Low prediction confidence
                   </p>
                   <p className="text-[12px] text-[#854d0e] mt-1 leading-relaxed">
-                    It may be outside the training distribution (not standard news text). Try a real news article for a more reliable prediction.
+                    The article may be short or outside the BBC training taxonomy. Provide additional descriptive context for higher confidence.
                   </p>
                 </div>
               </div>
@@ -286,13 +545,13 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
             {result.tokens_count > 5 ? (
               `${result.tokens_count} tokens • ${result.explanation.model_version}`
             ) : (
-              "Short input — prediction may be unreliable"
+              "Short input — prediction may be approximate"
             )}
           </span>
         </div>
       </motion.div>
 
-      {/* 2. Saliency Keywords Card */}
+      {/* Saliency Keywords Card */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
@@ -332,7 +591,7 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
         )}
       </motion.div>
 
-      {/* 3. Accordion: Neural Explainability */}
+      {/* Accordion: Neural Explainability */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
@@ -383,7 +642,7 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
         </AnimatePresence>
       </motion.div>
 
-      {/* 4. Attention Heatmap Visualizer */}
+      {/* Attention Heatmap Visualizer */}
       <motion.div
         variants={fadeUp}
         initial="hidden"
@@ -439,75 +698,6 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
   );
 }
 
-/**
- * Empty State Skeleton Component for the 5 BBC Categories with 0% state
- */
 export function EmptyResultsSkeleton() {
-  const bbcCategories = [
-    { label: "Business", cfg: getCategoryConfig("Business") },
-    { label: "Entertainment", cfg: getCategoryConfig("Entertainment") },
-    { label: "Politics", cfg: getCategoryConfig("Politics") },
-    { label: "Sport", cfg: getCategoryConfig("Sport") },
-    { label: "Tech", cfg: getCategoryConfig("Tech") },
-  ];
-
-  return (
-    <div className="flex flex-col space-y-5 select-none">
-      {/* 1. Main Unified Skeleton Card */}
-      <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-xs space-y-6">
-        {/* Header Preview */}
-        <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
-          <div className="flex items-center gap-3">
-            <div className="flex size-12 items-center justify-center rounded-xl bg-[#f1efeb] border border-[#e7e3dd] text-[#8a847d]">
-              <Award className="size-6" />
-            </div>
-            <div className="space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#8a847d] font-semibold">
-                Waiting for input
-              </span>
-              <div className="text-xl font-semibold text-[#a8a29e] tracking-tight">
-                No Article Analyzed
-              </div>
-            </div>
-          </div>
-          <div className="text-right">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#8a847d] font-semibold">
-              Confidence
-            </span>
-            <div className="text-2xl font-mono font-bold text-[#a8a29e]">
-              — %
-            </div>
-          </div>
-        </div>
-
-        {/* 5 Real BBC Domains in Idle state */}
-        <div className="space-y-3">
-          <div className="flex justify-between items-center text-[10px] font-mono font-semibold uppercase tracking-widest text-[#8a847d]">
-            <span>5-Class BBC Distribution</span>
-            <span>0.0% Standby</span>
-          </div>
-
-          <div className="space-y-2.5 pt-1">
-            {bbcCategories.map((c) => (
-              <div key={c.label} className="space-y-1">
-                <div className="flex justify-between items-center text-xs">
-                  <span className="flex items-center text-[#6b6660] font-medium">
-                    <span
-                      className="size-1.5 rounded-full mr-2"
-                      style={{ backgroundColor: c.cfg.colorHex }}
-                    />
-                    <span>{c.label}</span>
-                  </span>
-                  <span className="font-mono text-[#a8a29e] text-[11px]">0.0%</span>
-                </div>
-                <div className="h-1.5 w-full bg-[#f1efeb] rounded-full overflow-hidden">
-                  <div className="h-full w-0 bg-transparent" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <ResultsPanel result={null} />;
 }

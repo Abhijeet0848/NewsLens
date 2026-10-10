@@ -1,6 +1,7 @@
 """
 Production Python Inference Script for NewsScope Classifier
 Vectorizes input text, applies trained ML models, and prints JSON result to stdout.
+Supports input via --text argument or stdin stream.
 """
 
 import os
@@ -194,12 +195,16 @@ def predict(text: str, model_name: str = "svm") -> dict:
 
 def main():
     parser = argparse.ArgumentParser(description="NewsScope Inference Script")
-    parser.add_argument("--text", type=str, required=True, help="Raw article text")
+    parser.add_argument("--text", type=str, default=None, help="Raw article text")
     parser.add_argument("--model", type=str, default="svm", help="Model to use")
     args = parser.parse_args()
 
-    result = predict(args.text, args.model)
-    print(json.dumps(result))
+    text = args.text
+    if text is None:
+        text = sys.stdin.read()
+
+    result = predict(text, args.model)
+    print(json.dumps(result), flush=True)
 
 
 if __name__ == "__main__":

@@ -20,6 +20,7 @@ import {
 import { useClassifierStore } from "@/lib/store";
 import { fetchRandomSamples } from "@/lib/api";
 import type { BBCArticle } from "@/lib/types";
+import type { ModelId } from "@/lib/models";
 import { toast } from "sonner";
 import { ease } from "@/lib/motion";
 
@@ -89,7 +90,7 @@ export function CommandPalette() {
   };
 
   const handleSelectModel = (modelId: string, modelName: string) => {
-    setSelectedModel(modelId);
+    setSelectedModel(modelId as ModelId);
     setCommandPaletteOpen(false);
     router.push("/classify");
     toast.success(`Active architecture: ${modelName}`);
