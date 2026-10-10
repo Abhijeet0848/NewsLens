@@ -188,19 +188,19 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
         </div>
 
         {/* Model Attribution Strip */}
-        <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#6b6660] bg-[#faf9f6] border border-[#e7e3dd] rounded-lg px-3 py-1.5 mt-5">
+        <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#57534e] bg-[#faf9f6] border border-[#e7e3dd] rounded-lg px-3 py-1.5 mt-5">
           <span className="size-1.5 rounded-full bg-[#4f46e5] shrink-0" />
           <span>Predicted by</span>
           <span className="font-medium text-[#0f0f0e]">{activeModel.name}</span>
-          <span className="text-[#a8a29e]">&bull;</span>
+          <span className="text-[#57534e]">&bull;</span>
           <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
-          <span className="text-[#a8a29e]">&bull;</span>
-          <span className="font-mono text-[#8a847d]">{activeModel.latency}ms latency</span>
+          <span className="text-[#57534e]">&bull;</span>
+          <span className="font-mono text-[#57534e]">{activeModel.latency}ms latency</span>
         </div>
 
         {/* 5-Domain Probability Distribution */}
         <div className="mt-5 space-y-3">
-          <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660]">
+          <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#57534e]">
             <span>Probability Distribution</span>
             <span>5 BBC Domains</span>
           </div>
@@ -244,12 +244,12 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
           {result.confidence < 0.3 && (
             <div className="rounded-xl border border-[#fde68a] bg-[#fef3c7]/50 p-3.5 mt-4">
               <div className="flex items-start gap-2.5">
-                <AlertTriangle className="size-4 text-[#92400e] mt-0.5 shrink-0" />
+                <AlertTriangle aria-hidden="true" className="size-4 text-[#92400e] mt-0.5 shrink-0" />
                 <div>
                   <p className="text-[13px] font-medium text-[#92400e]">
                     The model isn&apos;t confident about this article
                   </p>
-                  <p className="text-[12px] text-[#a16207] mt-1 leading-relaxed">
+                  <p className="text-[12px] text-[#854d0e] mt-1 leading-relaxed">
                     It may be outside the training distribution (not standard news text). Try a real news article for a more reliable prediction.
                   </p>
                 </div>
@@ -264,23 +264,25 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
             <button
               type="button"
               onClick={handleCopyResult}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
+              aria-label="Copy classification result to clipboard"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              {copied ? <Check className="size-3.5 text-[#059669]" /> : <Copy className="size-3.5 text-[#57534e]" />}
+              {copied ? <Check aria-hidden="true" className="size-3.5 text-[#047857]" /> : <Copy aria-hidden="true" className="size-3.5 text-[#57534e]" />}
               <span>{copied ? "Copied" : "Copy"}</span>
             </button>
 
             <button
               type="button"
               onClick={handleDownloadJSON}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
+              aria-label="Export result as JSON file"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              <Download className="size-3.5 text-[#57534e]" />
+              <Download aria-hidden="true" className="size-3.5 text-[#57534e]" />
               <span>Export JSON</span>
             </button>
           </div>
 
-          <span className="text-[#6b6660] font-mono text-[12px] tabular-nums font-medium">
+          <span className="text-[#57534e] font-mono text-[12px] tabular-nums font-medium">
             {result.tokens_count > 5 ? (
               `${result.tokens_count} tokens • ${result.explanation.model_version}`
             ) : (
@@ -299,11 +301,11 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
         className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
       >
         <div className="flex items-center justify-between">
-          <h4 className="text-[15px] font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
-            <Tag className="size-4 text-[#4f46e5]" />
+          <h3 className="text-[15px] font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
+            <Tag aria-hidden="true" className="size-4 text-[#4f46e5]" />
             Top Saliency Keywords
-          </h4>
-          <span className="text-[11px] text-[#6b6660] font-mono uppercase tracking-[0.12em] font-semibold">TF-IDF Weights</span>
+          </h3>
+          <span className="text-[11px] text-[#57534e] font-mono uppercase tracking-[0.12em] font-semibold">TF-IDF Weights</span>
         </div>
 
         {result.keywords.length > 0 ? (
@@ -317,16 +319,16 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
                 whileHover={{ scale: 1.03, y: -1 }}
                 className="flex items-center gap-1.5 rounded-lg border border-[#e7e3dd] bg-[#faf9f6] px-2.5 py-1 text-xs text-[#0f0f0e] shadow-sm cursor-default"
               >
-                <Flame className="size-3 text-[#d97706]" />
+                <Flame aria-hidden="true" className="size-3 text-[#d97706]" />
                 <span className="font-semibold text-[#0f0f0e]">{kw.word}</span>
-                <span className="font-mono font-semibold text-[11px] text-[#0891b2] rounded bg-[#ecfeff] px-1 py-0.2 border border-[#a5f3fc] tabular-nums">
+                <span className="font-mono font-semibold text-[11px] text-[#0e7490] rounded bg-[#ecfeff] px-1 py-0.2 border border-[#a5f3fc] tabular-nums">
                   {Math.round(kw.weight * 100)}%
                 </span>
               </motion.div>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-[#8a847d] italic">No strong discriminative keywords identified in this text.</p>
+          <p className="text-xs text-[#57534e] italic">No strong discriminative keywords identified in this text.</p>
         )}
       </motion.div>
 
@@ -341,14 +343,16 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
         <button
           type="button"
           onClick={() => setShowExplanation(!showExplanation)}
-          className="flex w-full items-center justify-between p-5 md:p-6 text-left text-[14px] font-semibold text-[#0f0f0e] hover:bg-[#f1efeb] transition-colors"
+          aria-expanded={showExplanation}
+          className="flex w-full items-center justify-between p-5 md:p-6 text-left text-[14px] font-semibold text-[#0f0f0e] hover:bg-[#f1efeb] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
         >
           <div className="flex items-center gap-2">
-            <Info className="size-4 text-[#0891b2]" />
+            <Info aria-hidden="true" className="size-4 text-[#0891b2]" />
             <span className="text-[14px]">Why this prediction? (Neural Explainability)</span>
           </div>
           <ChevronDown
-            className={`size-4 text-[#6b6660] transition-transform duration-200 ${
+            aria-hidden="true"
+            className={`size-4 text-[#57534e] transition-transform duration-200 ${
               showExplanation ? "rotate-180" : ""
             }`}
           />
@@ -365,7 +369,7 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
             >
               <p className="leading-relaxed">{result.explanation.summary}</p>
               <div className="space-y-1.5">
-                <span className="font-mono text-[#6b6660] uppercase tracking-[0.12em] text-[11px] font-semibold">
+                <span className="font-mono text-[#57534e] uppercase tracking-[0.12em] text-[11px] font-semibold">
                   Decision Factors:
                 </span>
                 <ul className="list-disc list-inside space-y-1 text-[#0f0f0e] font-medium pl-1 text-[13px]">
@@ -388,10 +392,10 @@ export function ResultsPanel({ result }: { result: ClassificationResponse | null
         className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
       >
         <div className="flex items-center justify-between">
-          <h4 className="text-[15px] font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
-            <Sparkles className="size-4 text-[#0891b2]" />
+          <h3 className="text-[15px] font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
+            <Sparkles aria-hidden="true" className="size-4 text-[#0891b2]" />
             Token Attention Heatmap
-          </h4>
+          </h3>
           <Button
             size="sm"
             variant="outline"

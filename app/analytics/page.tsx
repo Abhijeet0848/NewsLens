@@ -103,17 +103,18 @@ export default function AnalyticsDashboardPage() {
               >
                 <div className="flex items-center justify-between pb-2 border-b border-[#e7e3dd]">
                   <div className="flex items-center gap-2">
-                    <Terminal className="size-5 text-indigo-600" />
-                    <h3 className="font-heading text-base font-semibold text-[#0f0f0e]">
+                    <Terminal aria-hidden="true" className="size-5 text-indigo-600" />
+                    <h2 className="font-heading text-base font-semibold text-[#0f0f0e]">
                       Model Training Pipeline
-                    </h3>
+                    </h2>
                   </div>
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    className="p-1 rounded-lg hover:bg-[#f1efeb] text-[#6b6660] transition-colors"
+                    aria-label="Close training pipeline modal"
+                    className="p-1 rounded-lg hover:bg-[#f1efeb] text-[#57534e] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                   >
-                    <X className="size-4.5" />
+                    <X aria-hidden="true" className="size-4.5" />
                   </button>
                 </div>
 
@@ -131,13 +132,13 @@ export default function AnalyticsDashboardPage() {
                       type="button"
                       onClick={() => handleCopyCommand("python training/train.py")}
                       aria-label="Copy training command"
-                      className="absolute right-3 top-3 flex size-7 items-center justify-center rounded-md bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors"
+                      className="absolute right-3 top-3 flex size-7 items-center justify-center rounded-md bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                     >
-                      {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+                      {copied ? <Check aria-hidden="true" className="size-3.5" /> : <Copy aria-hidden="true" className="size-3.5" />}
                     </button>
                   </div>
 
-                  <p className="text-[#6b6660]">
+                  <p className="text-[#57534e]">
                     This will split the BBC corpus (80/20 train/test), fit TF-IDF feature representations, train Naive Bayes, Linear SVM, and MLP, and automatically generate <code className="font-mono text-[#0f0f0e]">data/metrics.json</code>.
                   </p>
                 </div>
@@ -223,41 +224,41 @@ export default function AnalyticsDashboardPage() {
       <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StaggerItem>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#6b6660]">Test Accuracy</span>
+            <span className="text-xs font-mono font-medium text-[#57534e]">Test Accuracy</span>
             <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
               {formatPct(bestModelData.accuracy)}
             </div>
-            <p className="text-xs text-[#6b6660] font-mono">Overall test classification</p>
+            <p className="text-xs text-[#57534e] font-mono">Overall test classification</p>
           </div>
         </StaggerItem>
 
         <StaggerItem>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#6b6660]">Macro F1 Score</span>
+            <span className="text-xs font-mono font-medium text-[#57534e]">Macro F1 Score</span>
             <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
               {formatPct(bestModelData.f1_macro)}
             </div>
-            <p className="text-xs text-[#6b6660] font-mono">Unweighted harmonic mean</p>
+            <p className="text-xs text-[#57534e] font-mono">Unweighted harmonic mean</p>
           </div>
         </StaggerItem>
 
         <StaggerItem>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#6b6660]">Macro Precision</span>
+            <span className="text-xs font-mono font-medium text-[#57534e]">Macro Precision</span>
             <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
               {formatPct(bestModelData.precision)}
             </div>
-            <p className="text-xs text-[#6b6660] font-mono">Exactness ratio</p>
+            <p className="text-xs text-[#57534e] font-mono">Exactness ratio</p>
           </div>
         </StaggerItem>
 
         <StaggerItem>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#6b6660]">Macro Recall</span>
+            <span className="text-xs font-mono font-medium text-[#57534e]">Macro Recall</span>
             <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
               {formatPct(bestModelData.recall)}
             </div>
-            <p className="text-xs text-[#6b6660] font-mono">Completeness ratio</p>
+            <p className="text-xs text-[#57534e] font-mono">Completeness ratio</p>
           </div>
         </StaggerItem>
       </StaggerContainer>
@@ -267,11 +268,11 @@ export default function AnalyticsDashboardPage() {
         <Reveal delay={0.05}>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
-                <BarChart3 className="size-4 text-indigo-600" />
+              <h2 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
+                <BarChart3 aria-hidden="true" className="size-4 text-indigo-600" />
                 Per-Domain Accuracy Breakdown ({bestMeta.name})
-              </h3>
-              <span className="text-xs font-mono font-medium text-[#6b6660]">
+              </h2>
+              <span className="text-xs font-mono font-medium text-[#57534e]">
                 {bestModelData.classes?.length || perClassData.length || 5} Domains
               </span>
             </div>
@@ -280,8 +281,8 @@ export default function AnalyticsDashboardPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={perClassData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e7e3dd" />
-                  <XAxis dataKey="category" stroke="#6b6660" tick={{ fontSize: 11 }} />
-                  <YAxis domain={[0, 100]} stroke="#6b6660" tick={{ fontSize: 11 }} unit="%" />
+                  <XAxis dataKey="category" stroke="#57534e" tick={{ fontSize: 11 }} />
+                  <YAxis domain={[0, 100]} stroke="#57534e" tick={{ fontSize: 11 }} unit="%" />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "#fdfcfb",
@@ -329,11 +330,11 @@ export default function AnalyticsDashboardPage() {
       <Reveal delay={0.15}>
         <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
-              <Award className="size-5 text-[#d97706]" />
+            <h2 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
+              <Award aria-hidden="true" className="size-5 text-[#d97706]" />
               Architecture Comparison Leaderboard
-            </h3>
-            <span className="text-xs font-mono font-medium text-[#6b6660]">
+            </h2>
+            <span className="text-xs font-mono font-medium text-[#57534e]">
               {Object.keys(metrics).length} Models Evaluated
             </span>
           </div>

@@ -30,15 +30,15 @@ export function ConfusionMatrix({
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h4 className="text-sm font-semibold text-[#0f0f0e] font-heading">
+          <h2 className="text-sm font-semibold text-[#0f0f0e] font-heading">
             {title}
-          </h4>
-          <p className="text-xs text-[#6b6660]">
+          </h2>
+          <p className="text-xs text-[#57534e]">
             {description}
           </p>
         </div>
         {hoveredCell && (
-          <div className="rounded-lg border border-[#a5f3fc] bg-[#ecfeff] px-3 py-1 text-xs font-mono text-[#0891b2]">
+          <div className="rounded-lg border border-[#a5f3fc] bg-[#ecfeff] px-3 py-1 text-xs font-mono text-[#0e7490]">
             True: <span className="font-bold">{hoveredCell.trueCat}</span> &bull; Pred:{" "}
             <span className="font-bold">{hoveredCell.predCat}</span> &bull; Count:{" "}
             <span className="font-bold">{hoveredCell.count}</span> ({hoveredCell.pct}%)
@@ -50,7 +50,7 @@ export function ConfusionMatrix({
         <table className="w-full border-collapse text-center text-xs font-mono">
           <thead>
             <tr>
-              <th className="p-2.5 text-left text-[#8a847d] font-normal">True \ Pred</th>
+              <th className="p-2.5 text-left text-[#57534e] font-normal">True \ Pred</th>
               {categories.map((cat) => (
                 <th key={cat} className="p-2.5 font-semibold text-[#3f3d3a] truncate max-w-[80px]">
                   {cat}
@@ -74,14 +74,14 @@ export function ConfusionMatrix({
                     const pct = totalRow > 0 ? Math.round((val / totalRow) * 100) : 0;
 
                     let cellBg = "#fdfcfb";
-                    let textColor = "text-[#8a847d]";
+                    let textColor = "text-[#57534e]";
 
                     if (isDiagonal) {
                       cellBg = "#ecfdf5";
-                      textColor = "text-[#059669] font-bold";
+                      textColor = "text-[#047857] font-bold";
                     } else if (val > 0) {
                       cellBg = "#fff1f2";
-                      textColor = "text-[#e11d48] font-bold";
+                      textColor = "text-[#be123c] font-bold";
                     }
 
                     return (

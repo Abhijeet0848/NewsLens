@@ -76,9 +76,10 @@ export function MobileBottomNav() {
               />
             )}
             <Icon
+              aria-hidden="true"
               className={cn(
                 "size-5 transition-colors duration-150",
-                isActive ? "text-[#0f0f0e]" : "text-[#6b6660]"
+                isActive ? "text-[#0f0f0e]" : "text-[#57534e]"
               )}
             />
             <span
@@ -86,7 +87,7 @@ export function MobileBottomNav() {
                 "text-[10px] tracking-tight transition-colors duration-150 leading-none",
                 isActive
                   ? "text-[#0f0f0e] font-semibold"
-                  : "text-[#6b6660] font-medium"
+                  : "text-[#57534e] font-medium"
               )}
             >
               {item.label}

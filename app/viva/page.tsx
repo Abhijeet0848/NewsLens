@@ -131,13 +131,14 @@ export default function VivaPreparationPage() {
       {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#8a847d]" />
+          <Search aria-hidden="true" className="absolute left-3.5 top-1/2 -translate-y-1/2 size-4 text-[#57534e]" />
           <input
             type="text"
             placeholder="Search questions or keywords..."
+            aria-label="Search questions or keywords"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full h-10 pl-10 pr-4 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] text-[13.5px] text-[#0f0f0e] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all"
+            className="w-full h-10 pl-10 pr-4 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] text-[13.5px] text-[#0f0f0e] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 transition-all"
           />
         </div>
 
@@ -146,7 +147,7 @@ export default function VivaPreparationPage() {
             <button
               key={t}
               onClick={() => setSelectedTopic(t)}
-              className={`h-8 px-3 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
+              className={`h-8 px-3 rounded-lg text-xs font-medium whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none ${
                 selectedTopic === t
                   ? "bg-[#0f0f0e] text-white"
                   : "bg-[#faf9f6] border border-[#e7e3dd] text-[#57534e] hover:bg-[#f1efeb] hover:text-[#0f0f0e]"
@@ -174,17 +175,17 @@ export default function VivaPreparationPage() {
               <button
                 type="button"
                 onClick={() => handleCopy(`Q: ${item.q}\nA: ${item.a}`)}
-                className="text-[#8a847d] hover:text-[#0f0f0e] transition-colors p-1 rounded-md hover:bg-[#f1efeb]"
-                title="Copy Q&A"
+                aria-label={`Copy question ${idx + 1} and answer`}
+                className="text-[#57534e] hover:text-[#0f0f0e] transition-colors p-1 rounded-md hover:bg-[#f1efeb] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
               >
-                <Copy className="size-3.5" />
+                <Copy aria-hidden="true" className="size-3.5" />
               </button>
             </div>
 
-            <h3 className="text-[15px] font-semibold text-[#0f0f0e] flex items-start gap-2">
+            <h2 className="text-[15px] font-semibold text-[#0f0f0e] flex items-start gap-2">
               <span className="text-[#4f46e5] font-mono font-bold text-xs mt-0.5">Q.</span>
               <span>{item.q}</span>
-            </h3>
+            </h2>
 
             {item.math && (
               <div className="my-2">
@@ -200,7 +201,7 @@ export default function VivaPreparationPage() {
         ))}
 
         {filtered.length === 0 && (
-          <div className="text-center py-12 text-[#8a847d] text-sm">
+          <div className="text-center py-12 text-[#57534e] text-sm">
             No questions found matching your search.
           </div>
         )}

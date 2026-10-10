@@ -46,7 +46,7 @@ export function CategoryPill({ name, count, colors }: CategoryPillProps) {
         {name}
       </span>
       {count !== undefined && count !== null && count !== 0 && (
-        <span className="text-[11px] font-mono text-[#a8a29e] leading-none tabular-nums">
+        <span className="text-[11px] font-mono text-[#57534e] leading-none tabular-nums font-medium">
           {count}
         </span>
       )}

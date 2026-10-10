@@ -20,7 +20,7 @@ export default function NotFound() {
         className="max-w-lg space-y-6"
       >
         {/* Eyebrow & Status */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f1efeb] border border-[#e7e3dd] text-[11px] font-mono font-medium text-[#6b6660]">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#f1efeb] border border-[#e7e3dd] text-[11px] font-mono font-medium text-[#57534e]">
           <span className="size-2 rounded-full bg-[#ef4444]" />
           <span>ERROR 404 &bull; ROUTE NOT FOUND</span>
         </div>
@@ -42,38 +42,38 @@ export default function NotFound() {
         <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#0f0f0e] text-white text-[13px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] transition-all duration-200"
+            className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#0f0f0e] text-white text-[13px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
           >
-            <Home className="size-4 text-white" />
+            <Home aria-hidden="true" className="size-4 text-white" />
             <span>Return to Home</span>
           </Link>
           <Link
             href="/classify"
-            className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#fdfcfb] border border-[#e7e3dd] text-[13px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs hover:-translate-y-px active:scale-[0.99] transition-all duration-200"
+            className="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#fdfcfb] border border-[#e7e3dd] text-[13px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs hover:-translate-y-px active:scale-[0.99] transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
           >
-            <FileText className="size-4 text-[#6b6660]" />
+            <FileText aria-hidden="true" className="size-4 text-[#57534e]" />
             <span>Open Classifier</span>
           </Link>
         </div>
 
         {/* Quick Route Suggestions */}
         <div className="pt-6 border-t border-[#e7e3dd] max-w-sm mx-auto">
-          <span className="text-[11px] font-mono uppercase tracking-wider text-[#8a847d] block mb-3">
+          <p className="text-[11px] font-mono uppercase tracking-wider text-[#57534e] block mb-3 font-semibold">
             Suggested Destinations
-          </span>
+          </p>
           <div className="grid grid-cols-2 gap-2 text-left">
             <Link
               href="/analytics"
-              className="flex items-center gap-2 p-2.5 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] transition-colors text-xs font-medium text-[#3f3d3a] hover:text-[#0f0f0e]"
+              className="flex items-center gap-2 p-2.5 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] transition-colors text-xs font-medium text-[#3f3d3a] hover:text-[#0f0f0e] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              <BarChart3 className="size-3.5 text-indigo-600" />
+              <BarChart3 aria-hidden="true" className="size-3.5 text-indigo-600" />
               <span>Model Analytics</span>
             </Link>
             <Link
               href="/architecture"
-              className="flex items-center gap-2 p-2.5 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] transition-colors text-xs font-medium text-[#3f3d3a] hover:text-[#0f0f0e]"
+              className="flex items-center gap-2 p-2.5 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] transition-colors text-xs font-medium text-[#3f3d3a] hover:text-[#0f0f0e] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              <Search className="size-3.5 text-[#0891b2]" />
+              <Search aria-hidden="true" className="size-3.5 text-[#0e7490]" />
               <span>ML Architecture</span>
             </Link>
           </div>

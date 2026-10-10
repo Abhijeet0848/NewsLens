@@ -148,7 +148,7 @@ export function ModelSelector({
 
         {/* Label stack */}
         <div className="flex flex-col items-start text-left">
-          <span className="text-[10px] uppercase tracking-wider text-[#6b6660] font-mono leading-none">
+          <span className="text-[10px] uppercase tracking-wider text-[#57534e] font-mono leading-none font-semibold">
             Model
           </span>
           <span className="text-[13px] font-medium text-[#0f0f0e] leading-tight mt-0.5 whitespace-nowrap">
@@ -157,13 +157,14 @@ export function ModelSelector({
         </div>
 
         {/* Accuracy badge */}
-        <span className="text-[11px] font-mono font-medium text-[#6b6660] bg-[#f1efeb] rounded-md px-2 py-1 tabular-nums ml-1 shrink-0">
+        <span className="text-[11px] font-mono font-medium text-[#57534e] bg-[#f1efeb] rounded-md px-2 py-1 tabular-nums ml-1 shrink-0">
           {active.metric}
         </span>
 
         {/* Chevron (closed: rotate-0 points down, open: rotate-180 points up) */}
         <ChevronDown
-          className={`size-4 text-[#6b6660] transition-transform duration-200 shrink-0 ${
+          aria-hidden="true"
+          className={`size-4 text-[#57534e] transition-transform duration-200 shrink-0 ${
             open ? "rotate-180" : "rotate-0"
           }`}
         />
@@ -220,9 +221,10 @@ export function ModelSelector({
                     <button
                       type="button"
                       onClick={() => setOpen(false)}
-                      className="p-1 rounded-md text-[#6b6660] hover:bg-[#f1efeb]/70"
+                      aria-label="Close model selection"
+                      className="p-1 rounded-md text-[#57534e] hover:bg-[#f1efeb]/70 focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                     >
-                      <X className="size-4" />
+                      <X aria-hidden="true" className="size-4" />
                     </button>
                   </div>
 
@@ -254,9 +256,9 @@ export function ModelSelector({
                           {/* Indicator: Check mark for active, clearly visible 1.5 dot for inactive */}
                           <div className="mt-0.5 w-4 h-4 flex items-center justify-center shrink-0">
                             {isActive ? (
-                              <Check className="size-4 text-[#4f46e5]" />
+                              <Check aria-hidden="true" className="size-4 text-[#4f46e5]" />
                             ) : (
-                              <span className="size-1.5 rounded-full bg-[#a8a29e]" />
+                              <span className="size-1.5 rounded-full bg-[#57534e]" />
                             )}
                           </div>
 
@@ -269,7 +271,7 @@ export function ModelSelector({
                               </span>
                               {m.role === "champion" && (
                                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide rounded-full px-2 py-0.5 leading-none border h-5 bg-[#fef3c7] text-[#92400e] border-[#fde68a]">
-                                  <Sparkles className="size-3 text-[#d97706]" />
+                                  <Sparkles aria-hidden="true" className="size-3 text-[#d97706]" />
                                   Champion
                                 </span>
                               )}
@@ -281,12 +283,12 @@ export function ModelSelector({
                             </div>
 
                             {/* Row 2: Subtitle */}
-                            <p className="text-[11px] text-[#6b6660] mt-1 leading-tight">
+                            <p className="text-[11px] text-[#57534e] mt-1 leading-tight">
                               {m.subtitle}
                             </p>
 
                             {/* Row 3: Description */}
-                            <p className="text-[10px] text-[#a8a29e] mt-1 leading-tight">
+                            <p className="text-[10px] text-[#57534e] mt-1 leading-tight">
                               {m.description}
                             </p>
                           </div>
@@ -296,7 +298,7 @@ export function ModelSelector({
                             <p className="text-[12px] font-mono font-semibold text-[#0f0f0e] tabular-nums">
                               {m.metric}
                             </p>
-                            <p className="text-[10px] font-mono text-[#a8a29e] tabular-nums mt-0.5">
+                            <p className="text-[10px] font-mono text-[#57534e] tabular-nums mt-0.5">
                               {m.latency}ms
                             </p>
                           </div>
@@ -307,7 +309,7 @@ export function ModelSelector({
 
                   {/* Shortened Footer Hint with generous padding */}
                   <div className="px-3.5 py-2.5 bg-[#f1efeb]/60 border-t border-[#e7e3dd]/60">
-                    <p className="text-[10px] text-[#6b6660] leading-tight font-sans">
+                    <p className="text-[10px] text-[#57534e] leading-tight font-sans">
                       Default: Linear SVM (best speed-accuracy balance)
                     </p>
                   </div>

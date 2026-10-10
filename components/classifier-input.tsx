@@ -215,12 +215,12 @@ export function ClassifierInput({
         <div className="flex items-start justify-between gap-4 mb-5">
           <div className="flex items-start gap-3">
             <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
-              <FileText className="size-4" />
+              <FileText aria-hidden="true" className="size-4" />
             </div>
             <div>
-              <h3 className="text-[15px] font-semibold text-[#0f0f0e]">
+              <h2 className="text-[15px] font-semibold text-[#0f0f0e]">
                 Article Content Input
-              </h3>
+              </h2>
               <p className="text-[13px] text-[#3f3d3a] mt-0.5 max-w-md leading-relaxed">
                 Paste raw text, upload a document, or enter a URL to classify.
               </p>
@@ -233,6 +233,7 @@ export function ClassifierInput({
           ref={fileInputRef}
           type="file"
           accept=".txt,.csv,.json,.pdf,.doc"
+          aria-label="Upload article file"
           className="hidden"
           onChange={(e) => {
             if (e.target.files?.[0]) {
@@ -323,10 +324,12 @@ export function ClassifierInput({
           )}
         >
           <textarea
+            id="article-input"
+            aria-label="Article content"
             ref={textareaRef}
             rows={8}
             className={cn(
-              "w-full min-h-[200px] md:min-h-[240px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[15px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus:ring-4 focus:ring-[#4f46e5]/[0.08] transition-all duration-200 resize-y",
+              "w-full min-h-[200px] md:min-h-[240px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[15px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 transition-all duration-200 resize-y",
               inputState.kind === "url-loading" && "opacity-60 cursor-wait"
             )}
             placeholder="Paste article text or a URL..."
@@ -344,12 +347,12 @@ export function ClassifierInput({
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
-                className="flex items-center gap-1.5 text-[11px] text-[#6b6660] font-medium mt-1.5 px-1"
+                className="flex items-center gap-1.5 text-[11px] text-[#57534e] font-medium mt-1.5 px-1"
               >
-                <Link2 className="size-3.5 text-[#4f46e5]" />
+                <Link2 aria-hidden="true" className="size-3.5 text-[#4f46e5]" />
                 <span>Detected URL — press</span>
                 <kbd className="inline-flex items-center gap-0.5 bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[10px] font-mono font-semibold text-[#0f0f0e]">
-                  Enter <CornerDownLeft className="size-2.5" />
+                  Enter <CornerDownLeft aria-hidden="true" className="size-2.5" />
                 </kbd>
                 <span>to fetch article</span>
               </motion.div>
@@ -364,26 +367,29 @@ export function ClassifierInput({
             <button
               type="button"
               onClick={handlePasteClipboard}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
+              aria-label="Paste text from clipboard"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              <Clipboard className="size-3.5 text-[#57534e]" />
+              <Clipboard aria-hidden="true" className="size-3.5 text-[#57534e]" />
               <span>Paste</span>
             </button>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98]"
+              aria-label="Upload document file"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              <Upload className="size-3.5 text-[#57534e]" />
+              <Upload aria-hidden="true" className="size-3.5 text-[#57534e]" />
               <span>Upload</span>
             </button>
             <button
               type="button"
               onClick={handleClear}
+              aria-label="Clear article input"
               disabled={!text && inputState.kind === "empty"}
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:text-[#dc2626] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]"
+              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:text-[#dc2626] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
             >
-              <Trash2 className="size-3.5 text-[#57534e]" />
+              <Trash2 aria-hidden="true" className="size-3.5 text-[#57534e]" />
               <span>Clear</span>
             </button>
           </div>
@@ -393,12 +399,12 @@ export function ClassifierInput({
             <span className="text-[12px] font-mono text-[#3f3d3a] tabular-nums font-medium">
               {wordCount} words &bull; {charCount} chars
             </span>
-            <div className="hidden md:inline-flex items-center gap-1 text-[#3f3d3a] text-[11px] font-medium">
-              <span className="text-[#6b6660]">&bull;</span>
+            <div className="hidden md:inline-flex items-center gap-1 text-[#57534e] text-[11px] font-medium">
+              <span className="text-[#57534e]">&bull;</span>
               <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
                 ⌘
               </kbd>
-              <span className="text-[#6b6660]">+</span>
+              <span className="text-[#57534e]">+</span>
               <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
                 Enter
               </kbd>

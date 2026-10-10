@@ -48,7 +48,7 @@ export function Hero() {
         >
           <span className="size-1.5 rounded-full bg-indigo-500 inline-block animate-pulse flex-shrink-0" />
           <span className="font-mono text-[#3f3d3a] truncate">BBC News Dataset</span>
-          <span className="text-[#6b6660]">&bull;</span>
+          <span className="text-[#57534e]">&bull;</span>
           <span className="text-[#0f0f0e] font-semibold tabular-nums flex-shrink-0">5 Major Domains</span>
         </motion.div>
 
@@ -95,7 +95,7 @@ export function Hero() {
               <div className="font-heading text-lg md:text-xl font-bold text-[#0f0f0e] font-mono tabular-nums">
                 2,225
               </div>
-              <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#6b6660] mt-0.5">
+              <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#57534e] mt-0.5">
                 Articles in Corpus
               </p>
             </div>
@@ -110,7 +110,7 @@ export function Hero() {
               <div className="font-heading text-lg md:text-xl font-bold text-[#0f0f0e] font-mono tabular-nums">
                 BBC News
               </div>
-              <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#6b6660] mt-0.5">
+              <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#57534e] mt-0.5">
                 Benchmark Corpus
               </p>
             </div>
@@ -124,7 +124,7 @@ export function Hero() {
               <div className="font-heading text-lg md:text-xl font-bold text-[#0f0f0e] font-mono tabular-nums">
                 5
               </div>
-              <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#6b6660] mt-0.5">
+              <p className="text-[10px] md:text-[11px] font-mono font-semibold uppercase tracking-widest text-[#57534e] mt-0.5">
                 Domains Supported
               </p>
             </div>

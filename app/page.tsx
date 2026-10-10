@@ -42,13 +42,13 @@ export default function HomePage() {
       {/* SECTION 3: BBC News Taxonomy */}
       <Reveal>
         <section className="py-12 md:py-16 text-center max-w-3xl mx-auto px-5 md:px-8 space-y-3">
-          <span className="text-[11px] font-semibold uppercase tracking-widest text-[#a8a29e] font-mono block">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-[#57534e] font-mono block">
             TAXONOMY
-          </span>
+          </p>
           <h2 className="font-heading text-lg sm:text-xl font-semibold text-[#0f0f0e] tracking-tight">
             5 News Domains
           </h2>
-          <p className="text-[13px] text-[#6b6660] leading-relaxed max-w-sm md:max-w-md mx-auto">
+          <p className="text-[13px] text-[#57534e] leading-relaxed max-w-sm md:max-w-md mx-auto">
             {totalCount.toLocaleString()} articles from the BBC corpus
           </p>
 
@@ -67,9 +67,9 @@ export default function HomePage() {
       <Reveal>
         <section className="py-12 md:py-20 max-w-5xl mx-auto px-5 md:px-8 space-y-8 md:space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-[#6b6660] font-mono block">
+            <p className="text-[10px] md:text-[11px] font-semibold uppercase tracking-widest text-[#57534e] font-mono block">
               BUILT FOR SPEED AND INSIGHT
-            </span>
+            </p>
             <h2 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-[#0f0f0e] tracking-tight">
               Core Classification Capabilities
             </h2>
@@ -145,7 +145,7 @@ export default function HomePage() {
             <h2 className="font-heading text-xl md:text-2xl font-semibold text-[#0f0f0e] tracking-tight">
               Ready to classify?
             </h2>
-            <p className="text-[13px] md:text-[14px] text-[#6b6660]">
+            <p className="text-[13px] md:text-[14px] text-[#57534e]">
               Paste an article or upload a CSV to get started.
             </p>
 

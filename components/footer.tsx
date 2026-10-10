@@ -75,9 +75,9 @@ export function Footer() {
               transition={{ duration: 0.5, delay: 0.08, ease: ease.smooth }}
               className="col-span-6 md:col-span-3"
             >
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8a847d] font-mono mb-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#57534e] font-mono mb-4">
                 Product & Routes
-              </h4>
+              </p>
               <ul className="space-y-2.5 text-[13px]">
                 <li>
                   <Link
@@ -85,7 +85,7 @@ export function Footer() {
                     className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
                   >
                     <span>Live Classifier</span>
-                    <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
+                    <ArrowUpRight aria-hidden="true" className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
                   </Link>
                 </li>
                 <li>
@@ -94,7 +94,7 @@ export function Footer() {
                     className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
                   >
                     <span>Bulk CSV</span>
-                    <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
+                    <ArrowUpRight aria-hidden="true" className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
                   </Link>
                 </li>
                 <li>
@@ -103,7 +103,7 @@ export function Footer() {
                     className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
                   >
                     <span>Model Metrics</span>
-                    <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
+                    <ArrowUpRight aria-hidden="true" className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
                   </Link>
                 </li>
                 <li>
@@ -112,7 +112,7 @@ export function Footer() {
                     className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
                   >
                     <span>Architecture</span>
-                    <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
+                    <ArrowUpRight aria-hidden="true" className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
                   </Link>
                 </li>
                 <li>
@@ -121,7 +121,7 @@ export function Footer() {
                     className="group flex items-center gap-1 text-[#3f3d3a] font-medium hover:text-[#0f0f0e] transition-colors py-0.5"
                   >
                     <span>Viva Defense</span>
-                    <ArrowUpRight className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
+                    <ArrowUpRight aria-hidden="true" className="size-3 opacity-70 md:opacity-0 -translate-x-0.5 md:-translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200 text-indigo-600" />
                   </Link>
                 </li>
               </ul>
@@ -136,9 +136,9 @@ export function Footer() {
               transition={{ duration: 0.5, delay: 0.16, ease: ease.smooth }}
               className="col-span-6 md:col-span-2"
             >
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8a847d] font-mono mb-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#57534e] font-mono mb-4">
                 Tech Stack
-              </h4>
+              </p>
               <ul className="space-y-2.5 text-[13px] text-[#3f3d3a] font-medium">
                 <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">Next.js 14</li>
                 <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">TypeScript</li>
@@ -155,19 +155,19 @@ export function Footer() {
               transition={{ duration: 0.5, delay: 0.24, ease: ease.smooth }}
               className="col-span-12 md:col-span-2 flex flex-col justify-start md:items-end text-left md:text-right pt-2 md:pt-0"
             >
-              <h4 className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8a847d] font-mono mb-4">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#57534e] font-mono mb-4">
                 Corpus
-              </h4>
+              </p>
               <div className="space-y-1 text-[12px] text-[#57534e]">
                 <p className="font-mono text-[#0f0f0e] font-medium">BBC News Dataset</p>
-                <p className="text-[11px] text-[#6b6660]">2,225 Articles &bull; 5 Domains</p>
+                <p className="text-[11px] text-[#57534e]">2,225 Articles &bull; 5 Domains</p>
               </div>
             </motion.div>
           </div>
 
 
           {/* Divider & Row 3: Bottom Bar */}
-          <div className="mt-12 border-t border-[#e7e3dd] pt-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-[12px] text-[#6b6660]">
+          <div className="mt-12 border-t border-[#e7e3dd] pt-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-[12px] text-[#57534e]">
             {/* Left: Copyright */}
             <p className="text-center md:text-left">
               &copy; 2025 NewsScope Engine
@@ -177,16 +177,16 @@ export function Footer() {
             <div className="flex flex-wrap items-center justify-center md:justify-end gap-5 md:gap-6">
               <Link
                 href="/about"
-                className="flex items-center gap-1.5 text-[12px] text-[#6b6660] hover:text-[#0f0f0e] transition-colors py-1"
+                className="flex items-center gap-1.5 text-[12px] text-[#57534e] hover:text-[#0f0f0e] transition-colors py-1"
               >
-                <FileText className="size-3.5 text-[#6b6660]" />
+                <FileText aria-hidden="true" className="size-3.5 text-[#57534e]" />
                 <span>Documentation</span>
               </Link>
               <Link
                 href="/analytics"
-                className="flex items-center gap-1.5 text-[12px] text-[#6b6660] hover:text-[#0f0f0e] transition-colors py-1"
+                className="flex items-center gap-1.5 text-[12px] text-[#57534e] hover:text-[#0f0f0e] transition-colors py-1"
               >
-                <BarChart3 className="size-3.5 text-[#6b6660]" />
+                <BarChart3 aria-hidden="true" className="size-3.5 text-[#57534e]" />
                 <span>API Benchmarks</span>
               </Link>
               <a
@@ -194,9 +194,9 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Source code on GitHub"
-                className="flex items-center gap-1.5 text-[12px] text-[#6b6660] hover:text-[#0f0f0e] transition-colors py-1"
+                className="flex items-center gap-1.5 text-[12px] text-[#57534e] hover:text-[#0f0f0e] transition-colors py-1"
               >
-                <Github className="size-3.5 text-[#6b6660]" />
+                <Github aria-hidden="true" className="size-3.5 text-[#57534e]" />
                 <span>Source Code</span>
               </a>
             </div>
@@ -215,9 +215,9 @@ export function Footer() {
             whileTap={{ scale: 0.92 }}
             onClick={scrollToTop}
             aria-label="Scroll back to top"
-            className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-30 flex size-9 md:size-10 items-center justify-center rounded-full bg-[#fdfcfb] border border-[#e7e3dd] text-[#3f3d3a] hover:text-[#0f0f0e] hover:bg-[#f1efeb] shadow-[0_4px_16px_rgba(15,15,14,0.12)] transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+            className="fixed bottom-5 right-5 md:bottom-8 md:right-8 z-30 flex size-9 md:size-10 items-center justify-center rounded-full bg-[#fdfcfb] border border-[#e7e3dd] text-[#3f3d3a] hover:text-[#0f0f0e] hover:bg-[#f1efeb] shadow-[0_4px_16px_rgba(15,15,14,0.12)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40"
           >
-            <ArrowUp className="size-4" />
+            <ArrowUp aria-hidden="true" className="size-4" />
           </motion.button>
         )}
       </AnimatePresence>

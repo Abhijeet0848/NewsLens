@@ -218,16 +218,17 @@ export default function ClassifyPage() {
               className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
             >
               <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-3">
-                <span className="text-[11px] uppercase tracking-[0.14em] text-[#6b6660] font-mono flex items-center gap-1.5 font-semibold">
-                  <History className="size-3.5 text-[#4f46e5]" />
+                <h2 className="text-[11px] uppercase tracking-[0.14em] text-[#57534e] font-mono flex items-center gap-1.5 font-semibold">
+                  <History aria-hidden="true" className="size-3.5 text-[#4f46e5]" />
                   Recent Classifications ({history.length})
-                </span>
+                </h2>
                 <button
                   type="button"
                   onClick={clearHistory}
-                  className="text-[12px] text-[#6b6660] hover:text-[#dc2626] transition-colors flex items-center gap-1 font-medium"
+                  aria-label="Clear classification history"
+                  className="text-[12px] text-[#57534e] hover:text-[#dc2626] transition-colors flex items-center gap-1 font-medium focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                 >
-                  <Trash2 className="size-3.5" /> Clear History
+                  <Trash2 aria-hidden="true" className="size-3.5" /> Clear History
                 </button>
               </div>
 
@@ -293,10 +294,10 @@ export default function ClassifyPage() {
                 className="rounded-2xl border border-indigo-200 bg-[#f5f3ff] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-4"
               >
                 <div className="flex items-center justify-between">
-                  <h4 className="text-[14px] font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
-                    <Cpu className="size-4 text-[#4f46e5]" />
+                  <h2 className="text-[14px] font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
+                    <Cpu aria-hidden="true" className="size-4 text-[#4f46e5]" />
                     Consensus Across 4 Architectures
-                  </h4>
+                  </h2>
                   <span className="text-[11px] font-mono font-semibold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded border border-indigo-200">
                     Simultaneous
                   </span>
@@ -309,12 +310,12 @@ export default function ClassifyPage() {
                         key={mKey}
                         className="rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-3 space-y-1 shadow-sm"
                       >
-                        <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-[#6b6660] block">
+                        <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-[#57534e] block">
                           {mKey.replace("_", " ")}
                         </span>
                         <div className="flex items-center justify-between font-bold text-[#0f0f0e] text-[13px]">
                           <span>{data.category}</span>
-                          <span className="text-[#0891b2] font-mono tabular-nums font-semibold">{data.confidence_percentage}%</span>
+                          <span className="text-[#0e7490] font-mono tabular-nums font-semibold">{data.confidence_percentage}%</span>
                         </div>
                       </div>
                     );

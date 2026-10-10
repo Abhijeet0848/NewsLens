@@ -125,27 +125,28 @@ export function CommandPalette() {
             >
               {/* Search Input */}
               <div className="flex items-center border-b border-[#e7e3dd] px-4 py-3 gap-3 bg-[#fdfcfb]">
-                <Search className="size-4 text-[#6b6660] flex-shrink-0" />
+                <Search aria-hidden="true" className="size-4 text-[#57534e] flex-shrink-0" />
                 <Command.Input
                   placeholder="Type a command or search BBC news..."
+                  aria-label="Type a command or search BBC news"
                   className="w-full bg-transparent text-sm text-[#0f0f0e] placeholder:text-[#8a847d] focus:outline-none font-sans"
                   autoFocus
                 />
-                <kbd className="rounded-md border border-[#e7e3dd] bg-[#f1efeb] px-1.5 py-0.5 text-[10px] font-mono text-[#6b6660]">
+                <kbd className="rounded-md border border-[#e7e3dd] bg-[#f1efeb] px-1.5 py-0.5 text-[10px] font-mono text-[#57534e]">
                   ESC
                 </kbd>
               </div>
 
               {/* Suggestions List */}
               <Command.List className="max-h-80 overflow-y-auto p-2 space-y-1">
-                <Command.Empty className="py-8 text-center text-xs text-[#6b6660] font-sans">
+                <Command.Empty className="py-8 text-center text-xs text-[#57534e] font-sans">
                   No matching actions or news samples found.
                 </Command.Empty>
 
                 {/* Group 1: Navigation */}
                 <Command.Group
                   heading={
-                    <span className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6b6660] font-mono block">
+                    <span className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#57534e] font-mono block">
                       Navigation
                     </span>
                   }
@@ -155,10 +156,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Home className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <Home aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Home Page</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/</span>
+                    <span className="text-xs font-mono text-[#57534e]">/</span>
                   </Command.Item>
 
                   <Command.Item
@@ -166,10 +167,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <FileText className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <FileText aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Interactive Classifier</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/classify</span>
+                    <span className="text-xs font-mono text-[#57534e]">/classify</span>
                   </Command.Item>
 
                   <Command.Item
@@ -177,10 +178,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Layers className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <Layers aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Batch CSV Processing</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/batch</span>
+                    <span className="text-xs font-mono text-[#57534e]">/batch</span>
                   </Command.Item>
 
                   <Command.Item
@@ -188,10 +189,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <BarChart3 className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <BarChart3 aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Metrics & Confusion Matrix</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/analytics</span>
+                    <span className="text-xs font-mono text-[#57534e]">/analytics</span>
                   </Command.Item>
 
                   <Command.Item
@@ -199,10 +200,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <BookOpen className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <BookOpen aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Architecture &amp; ML Syllabus</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/architecture</span>
+                    <span className="text-xs font-mono text-[#57534e]">/architecture</span>
                   </Command.Item>
 
                   <Command.Item
@@ -210,18 +211,17 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <BookOpen className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <BookOpen aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Viva Defense Guide (Q&amp;A)</span>
                     </div>
-                    <span className="text-xs font-mono text-[#8a847d]">/viva</span>
+                    <span className="text-xs font-mono text-[#57534e]">/viva</span>
                   </Command.Item>
                 </Command.Group>
-
 
                 {/* Group 2: Actions & Models */}
                 <Command.Group
                   heading={
-                    <span className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6b6660] font-mono block mt-2">
+                    <span className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#57534e] font-mono block mt-2">
                       Actions & Models
                     </span>
                   }
@@ -231,10 +231,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Clipboard className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <Clipboard aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Paste Text from Clipboard</span>
                     </div>
-                    <kbd className="rounded bg-[#f1efeb] border border-[#e7e3dd] px-1.5 py-0.5 text-[10px] font-mono text-[#6b6660]">
+                    <kbd className="rounded bg-[#f1efeb] border border-[#e7e3dd] px-1.5 py-0.5 text-[10px] font-mono text-[#57534e]">
                       ⌘V
                     </kbd>
                   </Command.Item>
@@ -244,10 +244,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Cpu className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <Cpu aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Switch Model: DistilBERT</span>
                     </div>
-                    <span className="text-xs font-mono text-[#0891b2]">Transformer</span>
+                    <span className="text-xs font-mono text-[#0e7490]">Transformer</span>
                   </Command.Item>
 
                   <Command.Item
@@ -255,10 +255,10 @@ export function CommandPalette() {
                     className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Cpu className="size-4 text-[#6b6660] group-aria-selected:text-indigo-600" />
+                      <Cpu aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
                       <span className="font-medium">Switch Model: Linear SVM</span>
                     </div>
-                    <span className="text-xs font-mono text-[#059669]">Hyperplane</span>
+                    <span className="text-xs font-mono text-[#047857]">Hyperplane</span>
                   </Command.Item>
                 </Command.Group>
 
@@ -266,7 +266,7 @@ export function CommandPalette() {
                 {samples.length > 0 && (
                   <Command.Group
                     heading={
-                      <span className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#6b6660] font-mono block mt-2">
+                      <span className="px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#57534e] font-mono block mt-2">
                         BBC News Samples
                       </span>
                     }
@@ -278,11 +278,11 @@ export function CommandPalette() {
                         className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
                       >
                         <div className="flex items-center gap-2.5 truncate pr-2">
-                          <Sparkles className="size-4 text-indigo-500 flex-shrink-0" />
+                          <Sparkles aria-hidden="true" className="size-4 text-indigo-500 flex-shrink-0" />
                           <span className="font-semibold text-xs capitalize text-[#0f0f0e]">{sample.category}:</span>
                           <span className="truncate font-medium text-xs">{sample.title}</span>
                         </div>
-                        <ArrowRight className="size-3.5 opacity-0 group-aria-selected:opacity-100 text-[#6b6660] flex-shrink-0" />
+                        <ArrowRight aria-hidden="true" className="size-3.5 opacity-0 group-aria-selected:opacity-100 text-[#57534e] flex-shrink-0" />
                       </Command.Item>
                     ))}
                   </Command.Group>
@@ -290,7 +290,7 @@ export function CommandPalette() {
               </Command.List>
 
               {/* Palette Footer */}
-              <div className="flex items-center justify-between border-t border-[#e7e3dd] bg-[#f1efeb] px-4 py-2 text-xs text-[#6b6660] font-sans">
+              <div className="flex items-center justify-between border-t border-[#e7e3dd] bg-[#f1efeb] px-4 py-2 text-xs text-[#57534e] font-sans">
                 <div className="flex items-center gap-3">
                   <span className="flex items-center gap-1">
                     <kbd className="rounded bg-[#fdfcfb] border border-[#e7e3dd] px-1 text-[10px] font-mono">↑</kbd>
@@ -299,7 +299,7 @@ export function CommandPalette() {
                   </span>
                   <span className="flex items-center gap-1">
                     <kbd className="rounded bg-[#fdfcfb] border border-[#e7e3dd] px-1 text-[10px] font-mono flex items-center">
-                      <CornerDownLeft className="size-2.5" />
+                      <CornerDownLeft aria-hidden="true" className="size-2.5" />
                     </kbd>
                     <span>select</span>
                   </span>

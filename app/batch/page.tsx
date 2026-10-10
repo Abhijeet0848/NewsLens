@@ -145,11 +145,12 @@ export default function BatchUploadPage() {
             ref={fileInputRef}
             type="file"
             accept=".csv,.txt"
+            aria-label="Upload CSV or text file"
             className="hidden"
             onChange={handleFileChange}
           />
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#f1efeb] text-indigo-600 mb-3 border border-[#e7e3dd]">
-            <FileSpreadsheet className="size-6" />
+            <FileSpreadsheet aria-hidden="true" className="size-6" />
           </div>
           <p className="text-sm font-medium text-[#1c1b1a]">
             Drop your news article CSV here, or click to upload
@@ -171,10 +172,10 @@ export default function BatchUploadPage() {
           >
             <div className="flex items-center justify-between text-xs font-mono">
               <span className="text-[#1c1b1a] font-medium flex items-center gap-2">
-                <RefreshCw className="size-3.5 animate-spin text-indigo-600" />
+                <RefreshCw aria-hidden="true" className="size-3.5 animate-spin text-indigo-600" />
                 Processing Batch Stream: {completedCount} / {totalCount} articles
               </span>
-              <span className="text-[#0891b2] font-bold">{progress}%</span>
+              <span className="text-[#0e7490] font-bold">{progress}%</span>
             </div>
             <Progress value={progress} />
           </motion.div>
@@ -186,7 +187,7 @@ export default function BatchUploadPage() {
         <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <StaggerItem>
             <div className="rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 shadow-sm">
-              <span className="text-xs font-mono text-[#a8a29e]">Total Classified</span>
+              <span className="text-xs font-mono text-[#57534e]">Total Classified</span>
               <div className="font-heading text-2xl font-semibold text-[#1c1b1a] mt-1">
                 {results.length}
               </div>
@@ -194,16 +195,16 @@ export default function BatchUploadPage() {
           </StaggerItem>
           <StaggerItem>
             <div className="rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 shadow-sm">
-              <span className="text-xs font-mono text-[#a8a29e]">Average Confidence</span>
-              <div className="font-heading text-2xl font-semibold text-[#059669] mt-1">
+              <span className="text-xs font-mono text-[#57534e]">Average Confidence</span>
+              <div className="font-heading text-2xl font-semibold text-[#047857] mt-1">
                 {avgConfidence}%
               </div>
             </div>
           </StaggerItem>
           <StaggerItem>
             <div className="rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 shadow-sm">
-              <span className="text-xs font-mono text-[#a8a29e]">Distinct Domains</span>
-              <div className="font-heading text-2xl font-semibold text-[#0891b2] mt-1">
+              <span className="text-xs font-mono text-[#57534e]">Distinct Domains</span>
+              <div className="font-heading text-2xl font-semibold text-[#0e7490] mt-1">
                 {Object.keys(categoryDistribution).length}
               </div>
             </div>
@@ -214,9 +215,10 @@ export default function BatchUploadPage() {
                 variant="default"
                 size="sm"
                 onClick={handleExportCSV}
+                aria-label="Export batch results as CSV"
                 className="gap-2 w-full text-xs h-10"
               >
-                <Download className="size-4" />
+                <Download aria-hidden="true" className="size-4" />
                 <span>Export CSV</span>
               </Button>
             </div>
@@ -228,24 +230,29 @@ export default function BatchUploadPage() {
       {results.length > 0 && (
         <Reveal delay={0.15}>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] shadow-lg p-6 space-y-4">
+            <h2 className="text-[15px] font-semibold text-[#0f0f0e] font-heading">
+              Batch Classification Results
+            </h2>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="relative flex-1 max-w-sm">
-                <Search className="absolute left-3 top-2.5 size-4 text-[#a8a29e]" />
+                <Search aria-hidden="true" className="absolute left-3 top-2.5 size-4 text-[#57534e]" />
                 <input
                   type="text"
                   placeholder="Search by title, category, keyword..."
+                  aria-label="Search by title, category, or keyword"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-lg border border-[#e7e3dd] bg-[#f1efeb] pl-9 pr-4 py-2 text-xs text-[#1c1b1a] placeholder:text-[#a8a29e] focus:bg-[#fdfcfb] focus:border-indigo-400 focus:outline-none"
+                  className="w-full rounded-lg border border-[#e7e3dd] bg-[#f1efeb] pl-9 pr-4 py-2 text-xs text-[#1c1b1a] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-indigo-400 focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                 />
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-[#57534e] font-mono">Category Filter:</span>
+                <label htmlFor="category-filter" className="text-xs text-[#57534e] font-mono">Category Filter:</label>
                 <select
+                  id="category-filter"
                   value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value)}
-                  className="rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] px-3 py-1.5 text-xs text-[#1c1b1a] focus:outline-none focus:border-indigo-400"
+                  className="rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] px-3 py-1.5 text-xs text-[#1c1b1a] focus:outline-none focus:border-indigo-400 focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40"
                 >
                   <option value="All">All Categories</option>
                   {Object.keys(categoryDistribution).map((cat) => (
@@ -277,7 +284,7 @@ export default function BatchUploadPage() {
                         key={row.id}
                         className="hover:bg-[#f1efeb] transition-colors"
                       >
-                        <td className="p-3 font-mono text-[#a8a29e]">{idx + 1}</td>
+                        <td className="p-3 font-mono text-[#57534e]">{idx + 1}</td>
                         <td className="p-3 font-medium text-[#1c1b1a] max-w-xs truncate">
                           {row.title}
                         </td>
@@ -294,7 +301,7 @@ export default function BatchUploadPage() {
                         <td className="p-3 font-mono text-[#57534e] max-w-xs truncate text-[11px]">
                           {row.keywords}
                         </td>
-                        <td className="p-3 font-mono text-[#0891b2] text-[11px]">
+                        <td className="p-3 font-mono text-[#0e7490] text-[11px]">
                           {row.latency_ms}ms
                         </td>
                       </tr>

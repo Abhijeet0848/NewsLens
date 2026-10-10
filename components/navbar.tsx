@@ -105,10 +105,11 @@ export function Navbar() {
             className="group flex items-center gap-2 h-9 w-48 lg:w-52 pl-3 pr-3 rounded-lg bg-[#fdfcfb] border border-[#e7e3dd] hover:bg-[#f1efeb] hover:border-[#d6d1c9] shadow-xs shadow-[rgba(28,27,26,0.03)] transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-indigo-500/30 ring-offset-2 ring-offset-[#f7f6f3] outline-none select-none cursor-pointer text-left"
           >
             <Search
-              className="size-4 text-[#6b6660] shrink-0 group-hover:text-[#3f3d3a] transition-colors"
+              aria-hidden="true"
+              className="size-4 text-[#57534e] shrink-0 group-hover:text-[#3f3d3a] transition-colors"
               strokeWidth={2}
             />
-            <span className="flex-1 text-[13px] text-[#a8a29e] truncate font-normal">
+            <span className="flex-1 text-[13px] text-[#8a847d] truncate font-normal">
               Search...
             </span>
           </motion.button>
@@ -121,9 +122,9 @@ export function Navbar() {
             type="button"
             onClick={() => setCommandPaletteOpen(true)}
             aria-label="Search articles and commands"
-            className="flex size-9 items-center justify-center rounded-lg border border-[#e7e3dd] bg-[#f1efeb] text-[#0f0f0e] hover:bg-[#ebe8e3] transition-colors"
+            className="flex size-9 items-center justify-center rounded-lg border border-[#e7e3dd] bg-[#f1efeb] text-[#0f0f0e] hover:bg-[#ebe8e3] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
           >
-            <Search className="size-4 text-[#57534e]" strokeWidth={2} />
+            <Search aria-hidden="true" className="size-4 text-[#57534e]" strokeWidth={2} />
           </motion.button>
         </div>
       </div>

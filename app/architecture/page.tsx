@@ -66,10 +66,10 @@ export default function ArchitecturePage() {
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-7 md:p-8 shadow-sm space-y-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <h2 className="font-heading text-xl font-semibold text-[#0f0f0e] flex items-center gap-2.5">
-                <Layers className="size-5 text-[#4f46e5]" />
+                <Layers aria-hidden="true" className="size-5 text-[#4f46e5]" />
                 The 5-Stage Neural & Statistical Pipeline
               </h2>
-              <span className="text-[12px] font-mono text-[#6b6660] bg-[#f1efeb] px-2.5 py-1 rounded-md border border-[#e7e3dd]">
+              <span className="text-[12px] font-mono text-[#57534e] bg-[#f1efeb] px-2.5 py-1 rounded-md border border-[#e7e3dd]">
                 Zero Data Leakage Fit
               </span>
             </div>
@@ -77,8 +77,8 @@ export default function ArchitecturePage() {
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-5 gap-3.5">
               <StaggerItem>
                 <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-2 h-full">
-                  <span className="text-xs font-mono text-[#0891b2] font-semibold">STAGE 01</span>
-                  <h4 className="text-sm font-semibold text-[#0f0f0e]">Normalization</h4>
+                  <span className="text-xs font-mono text-[#0e7490] font-semibold">STAGE 01</span>
+                  <h3 className="text-sm font-semibold text-[#0f0f0e]">Normalization</h3>
                   <p className="text-xs text-[#57534e] leading-relaxed">
                     Strips HTML markup, emails, URLs, casing variations, and non-alphabetic noise characters.
                   </p>
@@ -87,8 +87,8 @@ export default function ArchitecturePage() {
 
               <StaggerItem>
                 <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-2 h-full">
-                  <span className="text-xs font-mono text-[#0891b2] font-semibold">STAGE 02</span>
-                  <h4 className="text-sm font-semibold text-[#0f0f0e]">Word Tokenization</h4>
+                  <span className="text-xs font-mono text-[#0e7490] font-semibold">STAGE 02</span>
+                  <h3 className="text-sm font-semibold text-[#0f0f0e]">Word Tokenization</h3>
                   <p className="text-xs text-[#57534e] leading-relaxed">
                     Splits stream into discrete words with stop-word filtering &amp; WordNet lemmatization.
                   </p>
@@ -97,8 +97,8 @@ export default function ArchitecturePage() {
 
               <StaggerItem>
                 <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-2 h-full">
-                  <span className="text-xs font-mono text-[#0891b2] font-semibold">STAGE 03</span>
-                  <h4 className="text-sm font-semibold text-[#0f0f0e]">TF-IDF Vectors</h4>
+                  <span className="text-xs font-mono text-[#0e7490] font-semibold">STAGE 03</span>
+                  <h3 className="text-sm font-semibold text-[#0f0f0e]">TF-IDF Vectors</h3>
                   <p className="text-xs text-[#57534e] leading-relaxed">
                     Learns logarithmic Inverse Document Frequency across 1,780 training articles (10,000 features).
                   </p>
@@ -107,8 +107,8 @@ export default function ArchitecturePage() {
 
               <StaggerItem>
                 <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-2 h-full">
-                  <span className="text-xs font-mono text-[#0891b2] font-semibold">STAGE 04</span>
-                  <h4 className="text-sm font-semibold text-[#0f0f0e]">Neural Attention</h4>
+                  <span className="text-xs font-mono text-[#0e7490] font-semibold">STAGE 04</span>
+                  <h3 className="text-sm font-semibold text-[#0f0f0e]">Neural Attention</h3>
                   <p className="text-xs text-[#57534e] leading-relaxed">
                     6 Transformer layers compute bidirectional scaled dot-product contextual word embeddings.
                   </p>
@@ -117,8 +117,8 @@ export default function ArchitecturePage() {
 
               <StaggerItem>
                 <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-2 h-full">
-                  <span className="text-xs font-mono text-[#0891b2] font-semibold">STAGE 05</span>
-                  <h4 className="text-sm font-semibold text-[#0f0f0e]">Classification</h4>
+                  <span className="text-xs font-mono text-[#0e7490] font-semibold">STAGE 05</span>
+                  <h3 className="text-sm font-semibold text-[#0f0f0e]">Classification</h3>
                   <p className="text-xs text-[#57534e] leading-relaxed">
                     Maximum-margin hyperplane &amp; Softmax heads output calibrated BBC category probabilities.
                   </p>
@@ -557,9 +557,9 @@ export default function ArchitecturePage() {
               <div className="rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] p-5 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[12px] font-bold text-[#047857] font-mono">SUPERVISED</span>
-                  <CheckCircle2 className="size-4 text-[#047857]" />
+                  <CheckCircle2 aria-hidden="true" className="size-4 text-[#047857]" />
                 </div>
-                <h4 className="text-[15px] font-semibold text-[#065f46]">✅ Used (Core Engine)</h4>
+                <h3 className="text-[15px] font-semibold text-[#065f46]">✅ Used (Core Engine)</h3>
                 <p className="text-[12.5px] text-[#047857] leading-relaxed">
                   <strong>Definition:</strong> Learning an approximation function <MathInline math={"f: X \\to Y"} /> from ground-truth labeled pairs <MathInline math={"(x_i, y_i)"} />.
                 </p>
@@ -571,14 +571,14 @@ export default function ArchitecturePage() {
               {/* Unsupervised */}
               <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[12px] font-bold text-[#6b6660] font-mono">UNSUPERVISED</span>
-                  <XCircle className="size-4 text-[#be123c]" />
+                  <span className="text-[12px] font-bold text-[#57534e] font-mono">UNSUPERVISED</span>
+                  <XCircle aria-hidden="true" className="size-4 text-[#be123c]" />
                 </div>
-                <h4 className="text-[15px] font-semibold text-[#0f0f0e]">❌ Not Used</h4>
+                <h3 className="text-[15px] font-semibold text-[#0f0f0e]">❌ Not Used</h3>
                 <p className="text-[12.5px] text-[#57534e] leading-relaxed">
                   <strong>Definition:</strong> Discovering hidden structural patterns or clusters in unlabeled data without guidance.
                 </p>
-                <p className="text-[12px] text-[#6b6660] pt-1 border-t border-[#e7e3dd]">
+                <p className="text-[12px] text-[#57534e] pt-1 border-t border-[#e7e3dd]">
                   <strong>Why not:</strong> We already have gold-standard categories; clustering (e.g. K-Means, LDA) produces arbitrary topics rather than target classes.
                 </p>
               </div>
@@ -586,14 +586,14 @@ export default function ArchitecturePage() {
               {/* Reinforcement */}
               <div className="rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[12px] font-bold text-[#6b6660] font-mono">REINFORCEMENT</span>
-                  <XCircle className="size-4 text-[#be123c]" />
+                  <span className="text-[12px] font-bold text-[#57534e] font-mono">REINFORCEMENT</span>
+                  <XCircle aria-hidden="true" className="size-4 text-[#be123c]" />
                 </div>
-                <h4 className="text-[15px] font-semibold text-[#0f0f0e]">❌ Not Used</h4>
+                <h3 className="text-[15px] font-semibold text-[#0f0f0e]">❌ Not Used</h3>
                 <p className="text-[12.5px] text-[#57534e] leading-relaxed">
                   <strong>Definition:</strong> Agent takes sequential actions in an environment to maximize cumulative scalar reward signals.
                 </p>
-                <p className="text-[12px] text-[#6b6660] pt-1 border-t border-[#e7e3dd]">
+                <p className="text-[12px] text-[#57534e] pt-1 border-t border-[#e7e3dd]">
                   <strong>Why not:</strong> News classification is a one-shot static prediction task; there is no dynamic environment or sequential feedback loop.
                 </p>
               </div>
@@ -607,7 +607,7 @@ export default function ArchitecturePage() {
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-md bg-[#fef3c7] px-2.5 py-1 text-[11px] font-mono font-semibold text-[#b45309] mb-2">
-                  <HelpCircle className="size-3.5" /> EXAMINER PREPARATION
+                  <HelpCircle aria-hidden="true" className="size-3.5" /> EXAMINER PREPARATION
                 </div>
                 <h2 className="font-heading text-xl font-bold text-[#0f0f0e]">
                   Viva Voce Questions &amp; Defensible Model Answers
@@ -673,10 +673,10 @@ export default function ArchitecturePage() {
                   key={idx}
                   className="p-4 md:p-5 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] hover:border-[#c7d2fe] transition-all space-y-2"
                 >
-                  <h4 className="text-[14px] font-semibold text-[#0f0f0e] flex items-start gap-2">
+                  <h3 className="text-[14px] font-semibold text-[#0f0f0e] flex items-start gap-2">
                     <span className="text-[#4f46e5] font-mono font-bold text-xs mt-0.5">Q{idx + 1}.</span>
                     <span>{item.q}</span>
-                  </h4>
+                  </h3>
                   <p className="text-[13px] text-[#3f3d3a] leading-relaxed pl-6">
                     {item.a}
                   </p>
@@ -690,31 +690,31 @@ export default function ArchitecturePage() {
         <Reveal delay={0.24}>
           <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-7 md:p-8 shadow-sm space-y-6">
             <h2 className="font-heading text-lg font-semibold text-[#0f0f0e] flex items-center gap-2">
-              <Cpu className="size-5 text-[#4f46e5]" />
+              <Cpu aria-hidden="true" className="size-5 text-[#4f46e5]" />
               Production Engineering &amp; ML Stack
             </h2>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
               <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1">
-                <span className="text-[#6b6660]">Frontend Core</span>
+                <span className="text-[#57534e]">Frontend Core</span>
                 <div className="font-semibold text-[#0f0f0e] text-sm">Next.js 14</div>
                 <span className="text-[#3f3d3a]">App Router + SSR</span>
               </div>
 
               <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1">
-                <span className="text-[#6b6660]">Language</span>
+                <span className="text-[#57534e]">Language</span>
                 <div className="font-semibold text-[#0f0f0e] text-sm">TypeScript 5</div>
                 <span className="text-[#3f3d3a]">Strict Type Safety</span>
               </div>
 
               <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1">
-                <span className="text-[#6b6660]">ML Backend</span>
+                <span className="text-[#57534e]">ML Backend</span>
                 <div className="font-semibold text-[#0f0f0e] text-sm">FastAPI &amp; PyTorch</div>
                 <span className="text-[#3f3d3a]">Scikit-Learn Baselines</span>
               </div>
 
               <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1">
-                <span className="text-[#6b6660]">NLP Tooling</span>
+                <span className="text-[#57534e]">NLP Tooling</span>
                 <div className="font-semibold text-[#0f0f0e] text-sm">Transformers + NLTK</div>
                 <span className="text-[#3f3d3a]">DistilBERT Fine-Tuned</span>
               </div>
