@@ -13,6 +13,7 @@ import {
   Flame,
   Award,
   Sparkles,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { ClassificationResponse } from "@/lib/types";
@@ -148,11 +149,17 @@ Latency: ${result.latency_ms}ms`;
                 <h3 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-[#0f0f0e] tracking-tight">
                   {result.category}
                 </h3>
-                <span
-                  className={`rounded-md px-2 py-0.5 text-[11px] md:text-xs font-semibold border ${catConfig.badgeClass}`}
-                >
-                  Verified
-                </span>
+                {result.confidence < 0.5 ? (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-[#92400e] bg-[#fef3c7] border border-[#fde68a] rounded-full px-2 py-0.5">
+                    <AlertTriangle className="size-3" />
+                    Uncertain
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-[#047857] bg-[#ecfdf5] border border-[#a7f3d0] rounded-full px-2 py-0.5">
+                    <Check className="size-3" />
+                    Verified
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -184,6 +191,13 @@ Latency: ${result.latency_ms}ms`;
               style={{ backgroundColor: catConfig.colorHex }}
             />
           </div>
+
+          {result.confidence < 0.3 && (
+            <div className="mt-3 p-2.5 rounded-xl bg-[#fffbeb] border border-[#fde68a] text-[12px] text-[#92400e] flex items-center gap-2">
+              <AlertTriangle className="size-4 shrink-0 text-[#d97706]" />
+              <span>The model isn&apos;t confident about this article. It may be outside the training distribution.</span>
+            </div>
+          )}
         </div>
 
         {/* Action Toolbar */}

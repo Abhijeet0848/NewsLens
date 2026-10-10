@@ -56,7 +56,7 @@ export function ClassifierInput({
 
   const charCount = text.length;
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
-  const isMinimumReached = charCount >= 50;
+  const isMinimumReached = charCount >= 20;
 
   // Live detection debounce for typed URLs (500ms)
   React.useEffect(() => {

@@ -15,8 +15,29 @@ import { useClassifierStore } from "@/lib/store";
 import { classifyArticle } from "@/lib/api";
 import { getCategoryConfig } from "@/lib/utils";
 import { ModelId } from "@/lib/models";
+import { validateInput, sanitizeForApi } from "@/lib/validateInput";
 import { toast } from "sonner";
 import { ease, fadeUp } from "@/lib/motion";
+
+function mapFriendlyError(err: any): string {
+  const message = err?.message || "";
+  if (typeof navigator !== "undefined" && !navigator.onLine) {
+    return "Connection issue. Check your internet.";
+  }
+  if (message.includes("Failed to fetch") || message.includes("NetworkError")) {
+    return "Connection issue. Check your internet.";
+  }
+  if (message.includes("429") || message.includes("Too many requests")) {
+    return "Too many requests. Please wait a moment.";
+  }
+  if (message.includes("500") || message.includes("Server error")) {
+    return "Server error. Please try again.";
+  }
+  if (message.includes("timeout") || message.includes("Timed out")) {
+    return "Request timed out. Please try again.";
+  }
+  return message || "Classification failed. Please try again.";
+}
 
 export default function ClassifyPage() {
   const {
@@ -38,17 +59,34 @@ export default function ClassifyPage() {
   const [isComparing, setIsComparing] = React.useState(false);
 
   const handleClassify = async () => {
-    if (!currentText.trim() || currentText.length < 50) {
-      toast.error("Please provide at least 50 characters for neural classification");
+    const { valid, reason, warning, sanitized } = validateInput(currentText);
+
+    if (!valid) {
+      toast.error(reason || "Please paste or type an article before classifying.");
       return;
     }
+
+    if (warning) {
+      toast.warning(warning);
+    }
+
+    const clean = sanitizeForApi(sanitized);
     setIsLoading(true);
+
     try {
-      const res = await classifyArticle(currentText, selectedModel);
+      const res = await classifyArticle(clean, selectedModel);
+
+      // Low confidence alert
+      if (res.confidence < 0.5) {
+        toast.warning(
+          `Low confidence (${Math.round(res.confidence * 100)}%). The article may be outside the model's training distribution.`
+        );
+      }
+
       setResult(res);
       addToHistory({
         id: `hist-${Date.now()}`,
-        textSnippet: currentText.slice(0, 85) + "...",
+        textSnippet: clean.slice(0, 85) + "...",
         category: res.category,
         confidence: res.confidence_percentage,
         timestamp: "Just now",
@@ -56,24 +94,33 @@ export default function ClassifyPage() {
       incrementCount();
       toast.success(`Predicted: ${res.category} (${res.confidence_percentage}%)`);
     } catch (err: any) {
-      toast.error(err.message || "Classification failed");
+      toast.error(mapFriendlyError(err));
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleCompareAll = async () => {
-    if (!currentText.trim() || currentText.length < 50) {
-      toast.error("Please provide at least 50 characters to benchmark models");
+    const { valid, reason, warning, sanitized } = validateInput(currentText);
+
+    if (!valid) {
+      toast.error(reason || "Please paste or type an article before benchmarking.");
       return;
     }
+
+    if (warning) {
+      toast.warning(warning);
+    }
+
+    const clean = sanitizeForApi(sanitized);
     setIsComparing(true);
+
     try {
       const models: ModelId[] = ["linear-svm", "distilbert", "neural-mlp", "naive-bayes"];
       const resultsMap: Record<string, any> = {};
 
       for (const m of models) {
-        const r = await classifyArticle(currentText, m);
+        const r = await classifyArticle(clean, m);
         resultsMap[m] = r;
       }
 
@@ -84,8 +131,8 @@ export default function ClassifyPage() {
         setResult(resultsMap["linear-svm"]);
       }
       toast.success("Benchmark completed across 4 model architectures");
-    } catch {
-      toast.error("Multi-model comparison failed");
+    } catch (err: any) {
+      toast.error(mapFriendlyError(err));
     } finally {
       setIsComparing(false);
     }
