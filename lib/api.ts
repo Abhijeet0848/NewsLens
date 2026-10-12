@@ -54,14 +54,28 @@ export async function fetchRandomSamples(count = 6): Promise<BBCArticle[]> {
   return res.json();
 }
 
+import { log } from "@/lib/debug";
+
 export async function classifyArticle(
   text: string,
   model = "linear-svm"
 ): Promise<ClassificationResponse> {
+  const requestId = Math.random().toString(36).slice(2, 10);
+  const TAG = `ui/${requestId}`;
+
+  log.info(TAG, "=== CLASSIFY REQUEST START ===");
+  log.info(TAG, "Input", {
+    textLength: text.length,
+    model,
+  });
+
+  const startTime = performance.now();
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 35000);
 
   try {
+    log.info(TAG, "Sending POST /api/classify");
+
     const res = await fetch("/api/classify", {
       method: "POST",
       signal: controller.signal,
@@ -69,20 +83,79 @@ export async function classifyArticle(
       body: JSON.stringify({ text, model }),
     });
 
+    clearTimeout(timeoutId);
+    const elapsed = Math.round(performance.now() - startTime);
+
+    log.info(TAG, "Response received", {
+      status: res.status,
+      statusText: res.statusText,
+      elapsedMs: elapsed,
+      contentType: res.headers.get("content-type"),
+    });
+
+    const rawText = await res.text();
+    log.info(TAG, "Raw response", {
+      length: rawText.length,
+      preview: rawText.slice(0, 300),
+    });
+
     if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.error || `Classification failed with status ${res.status}`);
+      let errorData: any;
+      try {
+        errorData = JSON.parse(rawText);
+      } catch {
+        errorData = { rawText };
+      }
+
+      log.error(TAG, "Backend error", errorData);
+      if (errorData.debug) {
+        log.error(TAG, "Debug info from server", errorData.debug);
+      }
+
+      throw new Error(
+        errorData.error || `Classification failed (HTTP ${res.status})`
+      );
     }
 
-    const data = await res.json();
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch (parseErr) {
+      log.error(TAG, "Response is not valid JSON", {
+        rawText: rawText.slice(0, 300),
+        error: String(parseErr),
+      });
+      throw new Error("Server returned invalid response format");
+    }
+
+    log.success(TAG, "Classification success", {
+      category: data.category,
+      confidence: data.confidence,
+      debug: data._debug,
+    });
+
     return data;
   } catch (err: any) {
+    const elapsed = Math.round(performance.now() - startTime);
     if (err.name === "AbortError") {
-      throw new Error("Backend is starting up. Please wait a moment and retry.");
+      log.error(TAG, "Request aborted (timeout)", {
+        elapsedMs: elapsed,
+        timeout: 35000,
+      });
+      throw new Error(
+        "Request took too long. Backend may be cold-starting. Try again."
+      );
+    } else {
+      log.error(TAG, "Fetch failed", {
+        name: err.name,
+        message: err.message,
+        elapsedMs: elapsed,
+      });
+      throw err;
     }
-    throw err;
   } finally {
     clearTimeout(timeoutId);
+    log.info(TAG, "=== CLASSIFY REQUEST END ===");
   }
 }
 

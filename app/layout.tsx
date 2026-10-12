@@ -16,6 +16,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { RoutePrefetcher } from "@/components/RoutePrefetcher";
 import { CommandPalette } from "@/components/CommandPalette";
+import { DebugPanel } from "@/components/DebugPanel";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -77,6 +78,7 @@ export default function RootLayout({
         <MobileBottomNav />
         <RoutePrefetcher />
         <CommandPalette />
+        <DebugPanel />
         <Toaster
           position="bottom-right"
           theme="light"
