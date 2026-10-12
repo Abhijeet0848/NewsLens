@@ -1,10 +1,11 @@
 .next
 node_modules
-public/*
-!public/favicon.ico
-app
-components
-lib
 data
+docs
+training
+tests
+__tests__
 *.md
 .env*
+presentation.*
+slides.md
