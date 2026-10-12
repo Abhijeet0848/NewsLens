@@ -3,12 +3,7 @@
     "api/*.py": {
       "memory": 1024,
       "maxDuration": 30,
-      "excludeFiles": "{node_modules/**,.next/**,tests/**,__tests__/**,**/*.test.py,**/test_*.py,fixtures/**,__fixtures__/**,testdata/**,sample-data/**,static/**,assets/**,public/**,app/**,components/**,lib/**,data/**,*.md,*.csv,*.json}"
-    },
-    "api/**/*.py": {
-      "memory": 1024,
-      "maxDuration": 30,
-      "excludeFiles": "{node_modules/**,.next/**,tests/**,__tests__/**,**/*.test.py,**/test_*.py,fixtures/**,__fixtures__/**,testdata/**,sample-data/**,static/**,assets/**,public/**,app/**,components/**,lib/**,data/**,*.md,*.csv,*.json}"
+      "excludeFiles": "{node_modules/**,.next/**,tests/**,__tests__/**,**/*.test.py,**/test_*.py,fixtures/**,__fixtures__/**,testdata/**,sample-data/**,static/**,assets/**,public/**,app/**,components/**,lib/**,data/**,*.md,*.csv}"
     }
   },
   "rewrites": [
