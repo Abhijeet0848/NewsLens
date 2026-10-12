@@ -133,10 +133,15 @@ def classify(req: ClassifyRequest):
     if hasattr(clf, "predict_proba"):
         probs = clf.predict_proba(X)[0]
     elif hasattr(clf, "decision_function"):
-        import numpy as np
-        df = clf.decision_function(X)[0]
-        exp_df = np.exp(df - np.max(df))
-        probs = exp_df / np.sum(exp_df)
+        try:
+            from scipy.special import softmax
+            scores = clf.decision_function(X)[0]
+            probs = softmax(scores * 2)
+        except Exception:
+            import numpy as np
+            scores = clf.decision_function(X)[0]
+            exp_df = np.exp((scores * 2) - np.max(scores * 2))
+            probs = exp_df / np.sum(exp_df)
     else:
         import numpy as np
         pred_raw = clf.predict(X)[0]

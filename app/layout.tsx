@@ -88,14 +88,17 @@ export default function RootLayout({
         <CommandPalette />
         <DebugPanel />
         <Toaster
-          position="bottom-right"
-          theme="light"
+          position="top-center"
+          duration={2000}
           toastOptions={{
             style: {
               background: "#fdfcfb",
               border: "1px solid #e7e3dd",
               color: "#0f0f0e",
-              boxShadow: "0 4px 12px rgba(28, 27, 26, 0.06)",
+              fontSize: "13px",
+              padding: "10px 14px",
+              borderRadius: "10px",
+              boxShadow: "0 4px 12px rgba(28,27,26,0.08)",
             },
           }}
         />

@@ -22,7 +22,6 @@ import { getCategoryConfig } from "@/lib/utils";
 import { MODELS, ModelId } from "@/lib/models";
 import { ease, fadeUp, scaleIn } from "@/lib/motion";
 import confetti from "canvas-confetti";
-import { toast } from "sonner";
 
 function AnimatedConfidence({ value, duration = 0.8 }: { value: number; duration?: number }) {
   const count = useMotionValue(0);
@@ -174,7 +173,6 @@ export function ResultsPanel({
     const summary = `NewsScope Prediction: ${result.category} (${result.confidence_percentage}% confidence)\nModel: ${result.explanation.model_version}\nTop Saliency Keywords: ${result.keywords.map((k) => k.word).join(", ")}`;
     navigator.clipboard.writeText(summary);
     setCopied(true);
-    toast.success("Classification summary copied to clipboard");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -191,7 +189,6 @@ export function ResultsPanel({
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
-    toast.success("JSON telemetry downloaded");
   };
 
   return (

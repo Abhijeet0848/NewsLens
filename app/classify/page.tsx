@@ -82,19 +82,6 @@ export default function ClassifyPage() {
     try {
       const res = await classifyArticle(clean, selectedModel);
 
-      // Apply confidence penalty on suspicious inputs if flagged
-      if (v.confidence_penalty) {
-        const factor = 1 - v.confidence_penalty;
-        res.confidence = Math.max(0.18, Math.round(res.confidence * factor * 1000) / 1000);
-        res.confidence_percentage = Math.round(res.confidence * 1000) / 10;
-        if (res.all_scores) {
-          const remaining = (1 - res.confidence) / 4;
-          for (const key of Object.keys(res.all_scores)) {
-            res.all_scores[key] = key === res.category ? res.confidence : Math.round(remaining * 1000) / 1000;
-          }
-        }
-      }
-
       // Low confidence alert
       if (res.confidence < 0.4) {
         toast.warning(
@@ -111,7 +98,6 @@ export default function ClassifyPage() {
         timestamp: "Just now",
       });
       incrementCount();
-      toast.success(`Predicted: ${res.category} (${res.confidence_percentage}%)`);
     } catch (err: any) {
       console.error("Classify error:", err);
       toast.error(mapFriendlyError(err));
@@ -142,11 +128,6 @@ export default function ClassifyPage() {
 
       for (const m of models) {
         const r = await classifyArticle(clean, m);
-        if (v.confidence_penalty) {
-          const factor = 1 - v.confidence_penalty;
-          r.confidence = Math.max(0.18, Math.round(r.confidence * factor * 1000) / 1000);
-          r.confidence_percentage = Math.round(r.confidence * 1000) / 10;
-        }
         resultsMap[m] = r;
       }
 
@@ -156,7 +137,6 @@ export default function ClassifyPage() {
       } else if (resultsMap["linear-svm"]) {
         setResult(resultsMap["linear-svm"]);
       }
-      toast.success("Benchmark completed across 4 model architectures");
     } catch (err: any) {
       console.error("Compare error:", err);
       toast.error(mapFriendlyError(err));
