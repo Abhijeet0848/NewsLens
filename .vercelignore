@@ -1,6 +1,7 @@
 .next
 node_modules
-public
+public/*
+!public/favicon.ico
 app
 components
 lib

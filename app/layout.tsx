@@ -53,6 +53,14 @@ export const metadata: Metadata = {
     description: "AI-powered news classification across 5 domains.",
     images: ["/opengraph-image"],
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon",
+  },
   robots: {
     index: true,
     follow: true,
