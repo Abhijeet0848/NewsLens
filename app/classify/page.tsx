@@ -195,7 +195,7 @@ export default function ClassifyPage() {
       </div>
 
       {/* Main Grid: 1 col on mobile, 2 equal cols on desktop */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-6xl mx-auto w-full mt-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-6xl mx-auto w-full mt-8 items-start">
         {/* Left Column */}
         <motion.div
           variants={fadeUp}

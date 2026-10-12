@@ -20,7 +20,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 import { ModelSelector } from "@/components/ModelSelector";
-import { ModelId, DEFAULT_MODEL } from "@/lib/models";
+import { ModelId, DEFAULT_MODEL, MODELS } from "@/lib/models";
 
 interface ClassifierInputProps {
   text: string;
@@ -69,6 +69,8 @@ export function ClassifierInput({
   const englishWords = text.match(/[a-zA-Z]+/g) || [];
   const wordCount = englishWords.length;
   const isMinimumReached = charCount >= 40 && wordCount >= 8;
+  const activeModel =
+    MODELS[(selectedModel as ModelId)] || MODELS[DEFAULT_MODEL];
 
   // Live detection debounce for typed URLs (500ms)
   React.useEffect(() => {
@@ -220,24 +222,23 @@ export function ClassifierInput({
     inputState.kind === "url-error";
 
   return (
-    <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 flex flex-col justify-between h-full overflow-hidden min-w-0">
-      <div>
-        {/* Card Header (Icon + Title + Description) */}
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <div className="flex items-start gap-3">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
-              <FileText aria-hidden="true" className="size-4" />
-            </div>
-            <div>
-              <h2 className="text-[15px] font-semibold text-[#0f0f0e]">
-                Article Content Input
-              </h2>
-              <p className="text-[13px] text-[#3f3d3a] mt-0.5 max-w-md leading-relaxed">
-                Paste raw text, upload a document, or enter a URL to classify.
-              </p>
-            </div>
+    <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 overflow-hidden min-w-0">
+      {/* Card Header (Icon + Title + Description) */}
+      <div className="flex items-start justify-between gap-4 mb-5">
+        <div className="flex items-start gap-3">
+          <div className="flex size-9 items-center justify-center rounded-lg bg-[#eef2ff] text-[#4f46e5] flex-shrink-0">
+            <FileText aria-hidden="true" className="size-4" />
+          </div>
+          <div>
+            <h2 className="text-[15px] font-semibold text-[#0f0f0e]">
+              Article Content Input
+            </h2>
+            <p className="text-[12px] text-[#6b6660] mt-0.5 leading-relaxed">
+              Paste article text or a URL to classify
+            </p>
           </div>
         </div>
+      </div>
 
         {/* Hidden File Input */}
         <input
@@ -338,9 +339,10 @@ export function ClassifierInput({
             id="article-input"
             aria-label="Article content"
             ref={textareaRef}
-            rows={8}
+            spellCheck={false}
+            autoComplete="off"
             className={cn(
-              "w-full min-h-[200px] md:min-h-[240px] rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-5 text-[15px] leading-relaxed text-[#0f0f0e] shadow-[inset_0_1px_2px_rgba(28,27,26,0.02)] placeholder:text-[#8a847d] focus:bg-[#fdfcfb] focus:border-[#4f46e5]/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 transition-all duration-200 resize-y",
+              "w-full min-h-[240px] p-5 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] text-[14px] text-[#0f0f0e] leading-relaxed resize-none focus:outline-none focus:border-[#4f46e5]/40 focus:ring-4 focus:ring-[#4f46e5]/10 transition-all placeholder:text-[#8a847d]",
               inputState.kind === "url-loading" && "opacity-60 cursor-wait"
             )}
             placeholder="Paste article text or a URL..."
@@ -423,6 +425,32 @@ export function ClassifierInput({
           </div>
         </div>
 
+      {/* About the model panel */}
+      <div className="mt-6 p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd]">
+        <p className="text-[11px] uppercase tracking-wider text-[#6b6660] mb-3">
+          About {activeModel.name}
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-[#a8a29e]">
+              Accuracy
+            </p>
+            <p className="text-[15px] font-mono text-[#0f0f0e] mt-0.5">
+              {activeModel.metric}
+            </p>
+          </div>
+          <div>
+            <p className="text-[10px] uppercase tracking-wider text-[#a8a29e]">
+              Latency
+            </p>
+            <p className="text-[15px] font-mono text-[#0f0f0e] mt-0.5">
+              {activeModel.latency} ms
+            </p>
+          </div>
+        </div>
+        <p className="text-[11px] text-[#6b6660] mt-3 leading-relaxed">
+          {activeModel.description}
+        </p>
       </div>
 
       {/* Footer Actions: Model Selector + Classify Button */}
