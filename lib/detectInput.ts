@@ -7,7 +7,7 @@ export function detectInput(value: string): InputType {
   const trimmed = value.trim();
   if (!trimmed) return "empty";
 
-  // URL regex — matches http(s)://... or bare domains
+  // URL regex - matches http(s)://... or bare domains
   const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-./?%&=#:]*)?$/i;
 
   // Check if the entire input is a single URL (no spaces except maybe one at start/end)

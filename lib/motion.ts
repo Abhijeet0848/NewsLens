@@ -1,10 +1,10 @@
 /**
- * NewsScope – Global Motion Tokens & Easing Curves
+ * NewsScope - Global Motion Tokens & Easing Curves
  * Unified, tasteful animation tokens for 60fps/120fps hardware-accelerated transforms and opacity.
  */
 
 export const ease = {
-  smooth: [0.22, 1, 0.36, 1], // easeOutQuint — primary
+  smooth: [0.22, 1, 0.36, 1], // easeOutQuint - primary
   snappy: [0.16, 1, 0.3, 1],
   soft: [0.4, 0, 0.2, 1],
 };

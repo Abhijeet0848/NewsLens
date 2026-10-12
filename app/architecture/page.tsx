@@ -159,7 +159,7 @@ export default function ArchitecturePage() {
                 </div>
                 <div>
                   <h3 className="text-[16px] font-semibold text-[#0f0f0e]">
-                    Machine Learning — Definition &amp; Paradigms
+                    Machine Learning - Definition &amp; Paradigms
                   </h3>
                   <p className="text-[13px] text-[#57534e] mt-1">
                     <strong>Concept:</strong> ML learns patterns from data instead of hand-coded rules.
@@ -290,7 +290,7 @@ export default function ArchitecturePage() {
                     TOPIC 06
                   </span>
                   <span className="text-[11px] font-semibold text-[#4f46e5] bg-[#eef2ff] px-2 py-0.5 rounded border border-[#c7d2fe]">
-                    96.4% Accuracy · 1.2ms
+                    96.4% Accuracy - 1.2ms
                   </span>
                 </div>
                 <div>
@@ -559,7 +559,7 @@ export default function ArchitecturePage() {
                   <span className="text-[12px] font-bold text-[#047857] font-mono">SUPERVISED</span>
                   <CheckCircle2 aria-hidden="true" className="size-4 text-[#047857]" />
                 </div>
-                <h3 className="text-[15px] font-semibold text-[#065f46]">✅ Used (Core Engine)</h3>
+                <h3 className="text-[15px] font-semibold text-[#065f46]">Used (Core Engine)</h3>
                 <p className="text-[12.5px] text-[#047857] leading-relaxed">
                   <strong>Definition:</strong> Learning an approximation function <MathInline math={"f: X \\to Y"} /> from ground-truth labeled pairs <MathInline math={"(x_i, y_i)"} />.
                 </p>
@@ -574,7 +574,7 @@ export default function ArchitecturePage() {
                   <span className="text-[12px] font-bold text-[#57534e] font-mono">UNSUPERVISED</span>
                   <XCircle aria-hidden="true" className="size-4 text-[#be123c]" />
                 </div>
-                <h3 className="text-[15px] font-semibold text-[#0f0f0e]">❌ Not Used</h3>
+                <h3 className="text-[15px] font-semibold text-[#0f0f0e]">Not Used</h3>
                 <p className="text-[12.5px] text-[#57534e] leading-relaxed">
                   <strong>Definition:</strong> Discovering hidden structural patterns or clusters in unlabeled data without guidance.
                 </p>
@@ -589,7 +589,7 @@ export default function ArchitecturePage() {
                   <span className="text-[12px] font-bold text-[#57534e] font-mono">REINFORCEMENT</span>
                   <XCircle aria-hidden="true" className="size-4 text-[#be123c]" />
                 </div>
-                <h3 className="text-[15px] font-semibold text-[#0f0f0e]">❌ Not Used</h3>
+                <h3 className="text-[15px] font-semibold text-[#0f0f0e]">Not Used</h3>
                 <p className="text-[12.5px] text-[#57534e] leading-relaxed">
                   <strong>Definition:</strong> Agent takes sequential actions in an environment to maximize cumulative scalar reward signals.
                 </p>
@@ -622,7 +622,7 @@ export default function ArchitecturePage() {
               {[
                 {
                   q: "Which ML paradigm does your project use?",
-                  a: "Supervised learning — specifically multi-class text categorization. We train on 1,780 labeled BBC articles with ground-truth target categories to learn the mathematical mapping from document vector space to category probabilities.",
+                  a: "Supervised learning - specifically multi-class text categorization. We train on 1,780 labeled BBC articles with ground-truth target categories to learn the mathematical mapping from document vector space to category probabilities.",
                 },
                 {
                   q: "Why not unsupervised learning?",
@@ -634,7 +634,7 @@ export default function ArchitecturePage() {
                 },
                 {
                   q: "How does Bayes' Theorem apply to text classification?",
-                  a: "Multinomial Naive Bayes computes the posterior probability P(category | words) ∝ P(category) · Π P(word | category). We compute this product for all 5 categories and select the argmax.",
+                  a: "Multinomial Naive Bayes computes the posterior probability P(category | words) proportional to P(category) * Prod P(word | category). We compute this product for all 5 categories and select the argmax.",
                 },
                 {
                   q: "What is 'naive' about Naive Bayes?",
@@ -642,7 +642,7 @@ export default function ArchitecturePage() {
                 },
                 {
                   q: "How are artificial neurons utilized in NewsScope?",
-                  a: "Our Multi-Layer Perceptron (MLP) employs two hidden layers with 128 and 64 artificial neurons. Each neuron computes z = W·x + b followed by ReLU non-linearity, learning specialized sub-feature detectors.",
+                  a: "Our Multi-Layer Perceptron (MLP) employs two hidden layers with 128 and 64 artificial neurons. Each neuron computes z = W*x + b followed by ReLU non-linearity, learning specialized sub-feature detectors.",
                 },
                 {
                   q: "What is linear separability and why does it matter here?",
@@ -650,15 +650,15 @@ export default function ArchitecturePage() {
                 },
                 {
                   q: "Why use Soft-Margin SVM instead of Hard-Margin?",
-                  a: "Real-world news contains semantic overlap (e.g., an article about government regulation of tech giants contains both Politics and Tech keywords). Soft-Margin SVM introduces slack variables (ξᵢ) and penalty C to tolerate bounded overlap while maximizing generalization margin.",
+                  a: "Real-world news contains semantic overlap (e.g., an article about government regulation of tech giants contains both Politics and Tech keywords). Soft-Margin SVM introduces slack variables (xi_i) and penalty C to tolerate bounded overlap while maximizing generalization margin.",
                 },
                 {
                   q: "What is the Hinge Loss function?",
-                  a: "Hinge loss is L(y, f(x)) = max(0, 1 - y·f(x)). It assigns zero penalty to samples outside the margin on the correct side, and linearly penalizes any sample that violates the margin or is misclassified.",
+                  a: "Hinge loss is L(y, f(x)) = max(0, 1 - y * f(x)). It assigns zero penalty to samples outside the margin on the correct side, and linearly penalizes any sample that violates the margin or is misclassified.",
                 },
                 {
                   q: "Why didn't you use an RBF Kernel in production?",
-                  a: "We tested the non-linear RBF kernel. It provided a negligible improvement (+0.3%) at the cost of 5–10× higher training and inference latency. By Occam's razor, Linear SVM is mathematically and computationally optimal.",
+                  a: "We tested the non-linear RBF kernel. It provided a negligible improvement (+0.3%) at the cost of 5-10x higher training and inference latency. By Occam's razor, Linear SVM is mathematically and computationally optimal.",
                 },
                 {
                   q: "Which activation functions do you use and why?",

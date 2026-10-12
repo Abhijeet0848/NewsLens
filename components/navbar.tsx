@@ -61,7 +61,7 @@ export function Navbar() {
           </div>
         </Link>
 
-        {/* 2. Nav Pill (Center) — Hidden on mobile, absolute true center on desktop */}
+        {/* 2. Nav Pill (Center) - Hidden on mobile, absolute true center on desktop */}
         <nav
           aria-label="Main Navigation"
           className="hidden md:inline-flex items-center gap-0.5 h-10 rounded-full border border-[#e7e3dd] bg-[#f1efeb] px-1 py-1 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
@@ -94,7 +94,7 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* 3. Search Bar (Right) — Desktop full input trigger */}
+        {/* 3. Search Bar (Right) - Desktop full input trigger */}
         <div className="hidden md:flex items-center">
           <motion.button
             whileHover={{ scale: 1.01 }}

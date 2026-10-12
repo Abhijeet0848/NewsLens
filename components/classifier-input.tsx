@@ -350,7 +350,7 @@ export function ClassifierInput({
                 className="flex items-center gap-1.5 text-[11px] text-[#57534e] font-medium mt-1.5 px-1"
               >
                 <Link2 aria-hidden="true" className="size-3.5 text-[#4f46e5]" />
-                <span>Detected URL — press</span>
+                <span>Detected URL - press</span>
                 <kbd className="inline-flex items-center gap-0.5 bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[10px] font-mono font-semibold text-[#0f0f0e]">
                   Enter <CornerDownLeft aria-hidden="true" className="size-2.5" />
                 </kbd>
@@ -402,7 +402,7 @@ export function ClassifierInput({
             <div className="hidden md:inline-flex items-center gap-1 text-[#57534e] text-[11px] font-medium">
               <span className="text-[#57534e]">&bull;</span>
               <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">
-                ⌘
+                Ctrl
               </kbd>
               <span className="text-[#57534e]">+</span>
               <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">

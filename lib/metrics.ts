@@ -25,12 +25,12 @@ export const MODEL_PARADIGMS: Record<
   distilbert: {
     name: "DistilBERT (Fine-Tuned)",
     paradigm: "Transformer Attention / Deep Learning",
-    badge: "⭐ Champion",
+    badge: "Champion",
   },
   linear_svm: {
     name: "Linear SVM",
     paradigm: "Maximum-Margin Hyperplane",
-    badge: "⚡ Production Default",
+    badge: "Production Default",
   },
   mlp: {
     name: "Neural MLP",

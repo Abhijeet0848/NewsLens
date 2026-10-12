@@ -251,7 +251,7 @@ export function ResultsPanel({
         </div>
 
         <p className="text-[13px] text-[#57534e]">
-          Click <span className="font-semibold text-[#0f0f0e]">&ldquo;Classify Article Now&rdquo;</span> or press <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">⌘+Enter</kbd> to run NLP vectorization and probability estimation.
+          Click <span className="font-semibold text-[#0f0f0e]">&ldquo;Classify Article Now&rdquo;</span> or press <kbd className="bg-[#f1efeb] border border-[#e7e3dd] rounded px-1.5 py-0.5 text-[11px] font-mono font-medium text-[#3f3d3a]">Ctrl+Enter</kbd> to run NLP vectorization and probability estimation.
         </p>
 
         {/* Standby 5-Class BBC Distribution */}
@@ -439,10 +439,26 @@ export function ResultsPanel({
             <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono">
               <AnimatedConfidence value={result.confidence_percentage} />
             </div>
-            <div className="text-[12px] text-[#3f3d3a] font-mono font-medium flex items-center sm:justify-end gap-1 mt-0.5 tabular-nums">
-              <Activity className="size-3 text-[#0891b2]" />
-              <span>{result.latency_ms} ms</span>
-            </div>
+            {(() => {
+              const latency = result.latency_ms;
+              const latencyDisplay = latency > 1000 ? `${(latency / 1000).toFixed(1)}s` : `${latency}ms`;
+              const isSlow = latency > 500;
+              const latencyColor = isSlow ? "text-[#be123c]" : "text-[#047857]";
+              return (
+                <>
+                  <div className={`text-[12px] font-mono font-medium flex items-center sm:justify-end gap-1 mt-0.5 tabular-nums ${latencyColor}`}>
+                    <Activity className="size-3 text-current" />
+                    <span>{latencyDisplay}</span>
+                  </div>
+                  {latency > 1000 && (
+                    <p className="text-[11px] text-[#be123c] mt-1 flex items-center sm:justify-end gap-1">
+                      <AlertTriangle className="size-3 text-[#be123c]" />
+                      <span>Slow inference - check backend</span>
+                    </p>
+                  )}
+                </>
+              );
+            })()}
           </div>
         </div>
 
@@ -454,7 +470,9 @@ export function ResultsPanel({
           <span className="text-[#57534e]">&bull;</span>
           <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
           <span className="text-[#57534e]">&bull;</span>
-          <span className="font-mono text-[#57534e]">{result.latency_ms}ms latency</span>
+          <span className={`font-mono ${result.latency_ms > 500 ? "text-[#be123c]" : "text-[#047857]"}`}>
+            {result.latency_ms > 1000 ? `${(result.latency_ms / 1000).toFixed(1)}s` : `${result.latency_ms}ms`} latency
+          </span>
         </div>
 
         {/* 5-Domain Probability Distribution */}
@@ -543,9 +561,9 @@ export function ResultsPanel({
 
           <span className="text-[#57534e] font-mono text-[12px] tabular-nums font-medium">
             {result.tokens_count > 5 ? (
-              `${result.tokens_count} tokens • ${result.explanation.model_version}`
+              `${result.tokens_count} tokens | ${result.explanation.model_version}`
             ) : (
-              "Short input — prediction may be approximate"
+              "Short input - prediction may be approximate"
             )}
           </span>
         </div>

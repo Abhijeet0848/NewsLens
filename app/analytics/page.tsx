@@ -63,7 +63,7 @@ export default function AnalyticsDashboardPage() {
               No metrics yet
             </h1>
             <p className="text-sm text-[#57534e] leading-relaxed">
-              No metrics yet — run{" "}
+              No metrics yet - run{" "}
               <code className="rounded bg-[#f1efeb] px-1.5 py-0.5 text-xs font-mono text-[#0f0f0e]">
                 training/train.py
               </code>{" "}
@@ -377,7 +377,7 @@ export default function AnalyticsDashboardPage() {
                           {formatPct(model.f1_macro)}
                         </td>
                         <td className="p-3 font-mono text-[#0891b2] tabular-nums font-medium">
-                          {model.latency_ms !== undefined ? `${model.latency_ms} ms` : "—"}
+                          {model.latency_ms !== undefined ? `${model.latency_ms} ms` : "-"}
                         </td>
                       </tr>
                     );

@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sanitizeForApi } from "@/lib/validateInput";
-import { spawn } from "child_process";
-import path from "path";
+
+const BACKEND = process.env.BACKEND_URL || "http://127.0.0.1:8000";
 
 export async function POST(req: NextRequest) {
-  console.log("[classify] request received");
   try {
     let body;
     try {
@@ -26,7 +25,6 @@ export async function POST(req: NextRequest) {
     }
 
     const trimmed = text.trim();
-
     if (trimmed.length < 20) {
       return NextResponse.json(
         { error: "Article too short. Please provide at least 20 characters." },
@@ -46,51 +44,31 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Call Python inference script via stdin piping to prevent Windows CLI arg issues
-    const result = await new Promise((resolve, reject) => {
-      const scriptPath = path.join(process.cwd(), "training", "predict.py");
-      const py = spawn("python", [scriptPath, "--model", model]);
-
-      let out = "";
-      let err = "";
-
-      const timeout = setTimeout(() => {
-        py.kill();
-        reject(new Error("Classification inference timed out after 30 seconds."));
-      }, 30000);
-
-      py.stdout.on("data", (d) => {
-        out += d.toString();
-      });
-
-      py.stderr.on("data", (d) => {
-        err += d.toString();
-      });
-
-      py.on("close", (code) => {
-        clearTimeout(timeout);
-        if (code === 0 && out.trim()) {
-          try {
-            resolve(JSON.parse(out.trim()));
-          } catch (e) {
-            reject(new Error(`Failed to parse prediction output: ${out}`));
-          }
-        } else {
-          reject(new Error(`Prediction failed with code ${code}: ${err || out}`));
-        }
-      });
-
-      py.stdin.write(sanitizedText);
-      py.stdin.end();
+    // Proxy directly to persistent in-memory FastAPI backend (< 20ms)
+    const res = await fetch(`${BACKEND}/classify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: sanitizedText, model }),
     });
 
-    console.log("[classify] returning:", (result as any)?.category, `${(result as any)?.confidence_percentage}%`);
-    return NextResponse.json(result);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      return NextResponse.json(
+        { error: errData.detail || "Classification failed in backend server." },
+        { status: res.status }
+      );
+    }
+
+    const data = await res.json();
+    return NextResponse.json(data);
   } catch (error: any) {
-    console.error("[classify] Classification route error:", error);
+    console.error("[classify] Proxy error:", error);
     return NextResponse.json(
-      { error: error.message || "Server error. Please try again." },
-      { status: 500 }
+      {
+        error:
+          "Inference backend unavailable. Please ensure FastAPI is running (uvicorn api.main:app --port 8000).",
+      },
+      { status: 502 }
     );
   }
 }

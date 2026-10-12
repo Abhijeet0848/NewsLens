@@ -24,28 +24,28 @@ const VIVA_QUESTIONS: VivaQA[] = [
   {
     topic: "ML Paradigms",
     q: "Which paradigm does your project use?",
-    a: "Supervised learning — specifically multi-class classification. We have labeled training data (1,780 BBC articles with known categories) and learn the mapping from text → category.",
+    a: "Supervised learning - specifically multi-class classification. We have labeled training data (1,780 BBC articles with known categories) and learn the mapping from text -> category.",
   },
   {
     topic: "ML Paradigms",
     q: "Why not unsupervised learning?",
-    a: "Unsupervised learning discovers groups without labels. We already know our 5 categories — we need a classifier, not a clustering algorithm.",
+    a: "Unsupervised learning discovers groups without labels. We already know our 5 categories - we need a classifier, not a clustering algorithm.",
   },
   {
     topic: "ML Paradigms",
     q: "Why not reinforcement learning?",
-    a: "Reinforcement learning requires an environment and reward signal. Classification is a one-shot prediction — no sequential decision making, no reward to maximize.",
+    a: "Reinforcement learning requires an environment and reward signal. Classification is a one-shot prediction - no sequential decision making, no reward to maximize.",
   },
   {
     topic: "Bayes Theorem",
     q: "How does Bayes Theorem apply to text classification?",
-    a: "Multinomial Naive Bayes applies Bayes' rule: P(category | words) ∝ P(category) · Π P(word | category). We compute this for each of the 5 categories and pick the highest.",
+    a: "Multinomial Naive Bayes applies Bayes' rule: P(category | words) proportional to P(category) * Prod P(word | category). We compute this for each of the 5 categories and pick the highest.",
     math: "P(c \\mid x) = \\frac{P(x \\mid c) \\cdot P(c)}{P(x)} \\propto P(c) \\prod_{i=1}^n P(w_i \\mid c)^{f_i}",
   },
   {
     topic: "Bayes Theorem",
-    q: "Why Naive Bayes — what's 'naive' about it?",
-    a: "It assumes every word is independent given the category. In reality words are correlated (e.g., 'New York'). This assumption is false, but the classifier still works well in practice — a well-known result in NLP.",
+    q: "Why Naive Bayes - what's 'naive' about it?",
+    a: "It assumes every word is independent given the category. In reality words are correlated (e.g., 'New York'). This assumption is false, but the classifier still works well in practice - a well-known result in NLP.",
   },
   {
     topic: "Neural Networks",
@@ -61,30 +61,30 @@ const VIVA_QUESTIONS: VivaQA[] = [
   {
     topic: "Support Vector Machines",
     q: "Why soft-margin SVM, not hard-margin?",
-    a: "Real data has noise. Hard-margin SVM fails when classes overlap. Soft-margin allows some misclassifications via slack variables ξᵢ, trading margin violations for better generalization.",
+    a: "Real data has noise. Hard-margin SVM fails when classes overlap. Soft-margin allows some misclassifications via slack variables xi_i, trading margin violations for better generalization.",
     math: "\\min_{w, b, \\xi} \\frac{1}{2}\\|w\\|^2 + C \\sum_{i=1}^N \\xi_i",
   },
   {
     topic: "Loss Functions",
     q: "What loss function does SVM use?",
-    a: "Hinge loss: L = max(0, 1 − y·f(x)). It penalizes predictions inside the margin and zero-penalizes correct predictions outside it.",
+    a: "Hinge loss: L = max(0, 1 - y * f(x)). It penalizes predictions inside the margin and zero-penalizes correct predictions outside it.",
     math: "L(y, f(x)) = \\max(0, 1 - y \\cdot f(x))",
   },
   {
     topic: "Loss Functions",
     q: "What loss function does MLP use and how does it compare?",
-    a: "Cross-entropy loss: L = -Σ yₖ ln(ŷₖ). Hinge loss maximizes margin boundary distance, while cross-entropy maximizes probabilistic likelihood.",
+    a: "Cross-entropy loss: L = -Sum(y_k * ln(y_hat_k)). Hinge loss maximizes margin boundary distance, while cross-entropy maximizes probabilistic likelihood.",
     math: "\\mathcal{L}_{\\text{CE}} = -\\sum_{k=1}^5 y_k \\ln(\\hat{y}_k)",
   },
   {
     topic: "Kernels & Non-Linearity",
     q: "Why not use RBF kernel for SVM?",
-    a: "We tested it. RBF gave marginal improvement (~0.3%) but at 5–10× the training cost. Since the data is already linearly separable, the linear kernel is the right choice — Occam's razor.",
+    a: "We tested it. RBF gave marginal improvement (~0.3%) but at 5-10x the training cost. Since the data is already linearly separable, the linear kernel is the right choice - Occam's razor.",
   },
   {
     topic: "Activation Functions",
     q: "What activation functions do you use?",
-    a: "ReLU in hidden layers — it prevents vanishing gradients and is fast to compute. Softmax in the output layer — it converts raw scores into a probability distribution summing to 1.",
+    a: "ReLU in hidden layers - it prevents vanishing gradients and is fast to compute. Softmax in the output layer - it converts raw scores into a probability distribution summing to 1.",
     math: "\\text{ReLU}(z) = \\max(0, z), \\quad \\text{softmax}(z)_k = \\frac{\\exp(z_k)}{\\sum_{j=1}^5 \\exp(z_j)}",
   },
   {

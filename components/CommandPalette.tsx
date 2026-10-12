@@ -16,6 +16,8 @@ import {
   Sparkles,
   ArrowRight,
   CornerDownLeft,
+  ArrowUp,
+  ArrowDown,
 } from "lucide-react";
 import { useClassifierStore } from "@/lib/store";
 import { fetchRandomSamples } from "@/lib/api";
@@ -236,7 +238,7 @@ export function CommandPalette() {
                       <span className="font-medium">Paste Text from Clipboard</span>
                     </div>
                     <kbd className="rounded bg-[#f1efeb] border border-[#e7e3dd] px-1.5 py-0.5 text-[10px] font-mono text-[#57534e]">
-                      ⌘V
+                      Ctrl+V
                     </kbd>
                   </Command.Item>
 
@@ -294,8 +296,12 @@ export function CommandPalette() {
               <div className="flex items-center justify-between border-t border-[#e7e3dd] bg-[#f1efeb] px-4 py-2 text-xs text-[#57534e] font-sans">
                 <div className="flex items-center gap-3">
                   <span className="flex items-center gap-1">
-                    <kbd className="rounded bg-[#fdfcfb] border border-[#e7e3dd] px-1 text-[10px] font-mono">↑</kbd>
-                    <kbd className="rounded bg-[#fdfcfb] border border-[#e7e3dd] px-1 text-[10px] font-mono">↓</kbd>
+                    <kbd className="rounded bg-[#fdfcfb] border border-[#e7e3dd] px-1 py-0.5 text-[10px] font-mono flex items-center">
+                      <ArrowUp aria-hidden="true" className="size-2.5" />
+                    </kbd>
+                    <kbd className="rounded bg-[#fdfcfb] border border-[#e7e3dd] px-1 py-0.5 text-[10px] font-mono flex items-center">
+                      <ArrowDown aria-hidden="true" className="size-2.5" />
+                    </kbd>
                     <span>navigate</span>
                   </span>
                   <span className="flex items-center gap-1">

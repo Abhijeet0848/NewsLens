@@ -35,11 +35,11 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NewsScope — News Article Classifier",
+  title: "NewsScope - News Article Classifier",
   description: "AI-powered news classification across 5 domains.",
   metadataBase: new URL("https://newsscope.vercel.app"),
   openGraph: {
-    title: "NewsScope — News Article Classifier",
+    title: "NewsScope - News Article Classifier",
     description: "AI-powered news classification across 5 domains.",
     images: ["/opengraph-image"],
     type: "website",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NewsScope — News Article Classifier",
+    title: "NewsScope - News Article Classifier",
     description: "AI-powered news classification across 5 domains.",
     images: ["/opengraph-image"],
   },

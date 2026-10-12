@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "NewsScope — News Article Classifier";
+export const alt = "NewsScope - News Article Classifier";
 export const size = {
   width: 1200,
   height: 630,

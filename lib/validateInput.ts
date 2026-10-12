@@ -51,7 +51,7 @@ export function validateInput(raw: string): Validation {
   if (nonWhitespaceCount > 20 && latinLetters / nonWhitespaceCount < 0.3) {
     return {
       ok: true,
-      warning: "Currently only supports English text — predictions on other languages may be unreliable.",
+      warning: "Currently only supports English text - predictions on other languages may be unreliable.",
       confidence_penalty: 0.7,
       sanitized,
     };
@@ -71,7 +71,7 @@ export function validateInput(raw: string): Validation {
   if (words.length >= 6 && uniqueWords.size < 4) {
     return {
       ok: true,
-      warning: "Repetitive input detected — prediction may be unreliable.",
+      warning: "Repetitive input detected - prediction may be unreliable.",
       confidence_penalty: 0.6,
       sanitized,
     };
@@ -126,7 +126,7 @@ export function validateInput(raw: string): Validation {
   if (latinRatio < 0.3 && sanitized.length > 30) {
     return {
       ok: true,
-      warning: "Currently only supports English text — predictions on other languages may be unreliable.",
+      warning: "Currently only supports English text - predictions on other languages may be unreliable.",
       confidence_penalty: 0.7,
       sanitized,
     };
