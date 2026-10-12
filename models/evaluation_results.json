@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "trained_at": "2026-10-10 14:07:05",
+    "trained_at": "2026-10-12 22:55:30",
     "train_samples": 1701,
     "test_samples": 426,
     "categories": [
@@ -13,23 +13,23 @@
   },
   "models": {
     "naive_bayes": {
-      "accuracy": 0.9812,
-      "f1_macro": 0.9803,
-      "precision": 0.9793,
-      "recall": 0.9817,
-      "latency_ms": 0.01,
+      "accuracy": 0.9765,
+      "f1_macro": 0.9757,
+      "precision": 0.9743,
+      "recall": 0.9778,
+      "latency_ms": 0.0,
       "confusion_matrix": [
         [
-          97,
+          95,
           0,
           3,
           0,
-          1
+          3
         ],
         [
-          0,
-          72,
           1,
+          72,
+          0,
           0,
           1
         ],
@@ -66,9 +66,9 @@
       "per_class": [
         {
           "category": "Business",
-          "precision": 1.0,
-          "recall": 0.9604,
-          "f1_score": 0.9798,
+          "precision": 0.9896,
+          "recall": 0.9406,
+          "f1_score": 0.9645,
           "support": 101
         },
         {
@@ -80,9 +80,9 @@
         },
         {
           "category": "Politics",
-          "precision": 0.9518,
+          "precision": 0.9634,
           "recall": 0.9753,
-          "f1_score": 0.9634,
+          "f1_score": 0.9693,
           "support": 81
         },
         {
@@ -94,23 +94,23 @@
         },
         {
           "category": "Tech",
-          "precision": 0.9583,
+          "precision": 0.9324,
           "recall": 1.0,
-          "f1_score": 0.9787,
+          "f1_score": 0.965,
           "support": 69
         }
       ]
     },
     "linear_svm": {
-      "accuracy": 0.9883,
-      "f1_macro": 0.9873,
-      "precision": 0.9865,
-      "recall": 0.9884,
-      "latency_ms": 0.14,
+      "accuracy": 0.9859,
+      "f1_macro": 0.985,
+      "precision": 0.9838,
+      "recall": 0.9864,
+      "latency_ms": 0.05,
       "confusion_matrix": [
         [
-          99,
-          0,
+          98,
+          1,
           1,
           0,
           1
@@ -156,95 +156,6 @@
         {
           "category": "Business",
           "precision": 1.0,
-          "recall": 0.9802,
-          "f1_score": 0.99,
-          "support": 101
-        },
-        {
-          "category": "Entertainment",
-          "precision": 0.9865,
-          "recall": 0.9865,
-          "f1_score": 0.9865,
-          "support": 74
-        },
-        {
-          "category": "Politics",
-          "precision": 0.9875,
-          "recall": 0.9753,
-          "f1_score": 0.9814,
-          "support": 81
-        },
-        {
-          "category": "Sport",
-          "precision": 1.0,
-          "recall": 1.0,
-          "f1_score": 1.0,
-          "support": 101
-        },
-        {
-          "category": "Tech",
-          "precision": 0.9583,
-          "recall": 1.0,
-          "f1_score": 0.9787,
-          "support": 69
-        }
-      ]
-    },
-    "mlp": {
-      "accuracy": 0.9859,
-      "f1_macro": 0.985,
-      "precision": 0.9838,
-      "recall": 0.9864,
-      "latency_ms": 0.1,
-      "confusion_matrix": [
-        [
-          98,
-          1,
-          1,
-          0,
-          1
-        ],
-        [
-          0,
-          73,
-          0,
-          0,
-          1
-        ],
-        [
-          0,
-          1,
-          79,
-          0,
-          1
-        ],
-        [
-          0,
-          0,
-          0,
-          101,
-          0
-        ],
-        [
-          0,
-          0,
-          0,
-          0,
-          69
-        ]
-      ],
-      "classes": [
-        "Business",
-        "Entertainment",
-        "Politics",
-        "Sport",
-        "Tech"
-      ],
-      "paradigm": "Feedforward Neural Network",
-      "per_class": [
-        {
-          "category": "Business",
-          "precision": 1.0,
           "recall": 0.9703,
           "f1_score": 0.9849,
           "support": 101
@@ -279,47 +190,136 @@
         }
       ]
     },
-    "decision_tree": {
-      "accuracy": 0.838,
-      "f1_macro": 0.8367,
-      "precision": 0.8416,
-      "recall": 0.8349,
-      "latency_ms": 0.01,
+    "mlp": {
+      "accuracy": 0.9836,
+      "f1_macro": 0.9822,
+      "precision": 0.9812,
+      "recall": 0.9835,
+      "latency_ms": 0.03,
       "confusion_matrix": [
         [
-          89,
-          2,
-          4,
+          98,
+          1,
+          1,
           0,
-          6
+          1
         ],
         [
-          2,
-          58,
           0,
-          6,
-          8
+          73,
+          0,
+          0,
+          1
         ],
         [
-          9,
           0,
-          67,
-          5,
+          1,
+          79,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          101,
           0
         ],
         [
+          0,
+          1,
+          0,
+          0,
+          68
+        ]
+      ],
+      "classes": [
+        "Business",
+        "Entertainment",
+        "Politics",
+        "Sport",
+        "Tech"
+      ],
+      "paradigm": "Feedforward Neural Network",
+      "per_class": [
+        {
+          "category": "Business",
+          "precision": 1.0,
+          "recall": 0.9703,
+          "f1_score": 0.9849,
+          "support": 101
+        },
+        {
+          "category": "Entertainment",
+          "precision": 0.9605,
+          "recall": 0.9865,
+          "f1_score": 0.9733,
+          "support": 74
+        },
+        {
+          "category": "Politics",
+          "precision": 0.9875,
+          "recall": 0.9753,
+          "f1_score": 0.9814,
+          "support": 81
+        },
+        {
+          "category": "Sport",
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1_score": 1.0,
+          "support": 101
+        },
+        {
+          "category": "Tech",
+          "precision": 0.9577,
+          "recall": 0.9855,
+          "f1_score": 0.9714,
+          "support": 69
+        }
+      ]
+    },
+    "decision_tree": {
+      "accuracy": 0.838,
+      "f1_macro": 0.8372,
+      "precision": 0.8398,
+      "recall": 0.8355,
+      "latency_ms": 0.04,
+      "confusion_matrix": [
+        [
+          84,
+          4,
           6,
           3,
+          4
+        ],
+        [
           5,
-          85,
-          2
+          62,
+          1,
+          2,
+          4
         ],
         [
           7,
-          3,
           0,
-          1,
-          58
+          70,
+          3,
+          1
+        ],
+        [
+          4,
+          4,
+          5,
+          87,
+          1
+        ],
+        [
+          8,
+          5,
+          0,
+          2,
+          54
         ]
       ],
       "classes": [
@@ -333,37 +333,37 @@
       "per_class": [
         {
           "category": "Business",
-          "precision": 0.7876,
-          "recall": 0.8812,
-          "f1_score": 0.8318,
+          "precision": 0.7778,
+          "recall": 0.8317,
+          "f1_score": 0.8038,
           "support": 101
         },
         {
           "category": "Entertainment",
-          "precision": 0.8788,
-          "recall": 0.7838,
-          "f1_score": 0.8286,
+          "precision": 0.8267,
+          "recall": 0.8378,
+          "f1_score": 0.8322,
           "support": 74
         },
         {
           "category": "Politics",
-          "precision": 0.8816,
-          "recall": 0.8272,
-          "f1_score": 0.8535,
+          "precision": 0.8537,
+          "recall": 0.8642,
+          "f1_score": 0.8589,
           "support": 81
         },
         {
           "category": "Sport",
-          "precision": 0.8763,
-          "recall": 0.8416,
-          "f1_score": 0.8586,
+          "precision": 0.8969,
+          "recall": 0.8614,
+          "f1_score": 0.8788,
           "support": 101
         },
         {
           "category": "Tech",
-          "precision": 0.7838,
-          "recall": 0.8406,
-          "f1_score": 0.8112,
+          "precision": 0.8438,
+          "recall": 0.7826,
+          "f1_score": 0.812,
           "support": 69
         }
       ]

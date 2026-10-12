@@ -146,9 +146,9 @@ def train_and_evaluate():
     print(f"Categories ({len(classes)}): {', '.join(classes)}")
 
     # 4. TF-IDF Feature Extraction (Fit on Train only)
-    print("\n[3/4] Fitting TF-IDF Vectorizer strictly on training data...")
+    print("\n[3/4] Fitting TF-IDF Vectorizer strictly on training data (max_features=5000)...")
     vectorizer = TfidfVectorizer(
-        max_features=15000,
+        max_features=5000,
         ngram_range=(1, 2),
         min_df=2,
         sublinear_tf=True
@@ -243,34 +243,27 @@ def train_and_evaluate():
             f"{latency_ms:>7.2f} ms"
         )
 
-    # Save artifacts in all standard formats and aliases for seamless compatibility
-    print("\nSaving model artifacts...")
+    # Save canonical model artifacts (compressed to minimize bundle size)
+    print("\nSaving canonical model artifacts...")
     # Vectorizer
-    joblib.dump(vectorizer, os.path.join(MODELS_DIR, "tfidf_vectorizer.joblib"))
-    joblib.dump(vectorizer, os.path.join(MODELS_DIR, "vectorizer.pkl"))
+    joblib.dump(vectorizer, os.path.join(MODELS_DIR, "vectorizer.pkl"), compress=3)
+    joblib.dump(vectorizer, os.path.join(MODELS_DIR, "tfidf_vectorizer.joblib"), compress=3)
     
     # Label Encoder
-    joblib.dump(le, os.path.join(MODELS_DIR, "label_encoder.joblib"))
     joblib.dump(le, os.path.join(MODELS_DIR, "label_encoder.pkl"))
+    joblib.dump(le, os.path.join(MODELS_DIR, "label_encoder.joblib"))
 
     # SVM
-    joblib.dump(trained_models["svm"], os.path.join(MODELS_DIR, "linear_svm_model.joblib"))
-    joblib.dump(trained_models["svm"], os.path.join(MODELS_DIR, "svm.joblib"))
-    joblib.dump(trained_models["svm"], os.path.join(MODELS_DIR, "svm.pkl"))
+    joblib.dump(trained_models["svm"], os.path.join(MODELS_DIR, "svm.pkl"), compress=3)
 
     # MLP
-    joblib.dump(trained_models["mlp"], os.path.join(MODELS_DIR, "mlp_model.joblib"))
-    joblib.dump(trained_models["mlp"], os.path.join(MODELS_DIR, "mlp.joblib"))
-    joblib.dump(trained_models["mlp"], os.path.join(MODELS_DIR, "mlp.pkl"))
+    joblib.dump(trained_models["mlp"], os.path.join(MODELS_DIR, "mlp.pkl"), compress=3)
 
     # Naive Bayes
-    joblib.dump(trained_models["naive_bayes"], os.path.join(MODELS_DIR, "naive_bayes_model.joblib"))
-    joblib.dump(trained_models["naive_bayes"], os.path.join(MODELS_DIR, "naive_bayes.joblib"))
-    joblib.dump(trained_models["naive_bayes"], os.path.join(MODELS_DIR, "nb.pkl"))
+    joblib.dump(trained_models["naive_bayes"], os.path.join(MODELS_DIR, "nb.pkl"), compress=3)
 
     # Decision Tree
-    joblib.dump(trained_models["decision_tree"], os.path.join(MODELS_DIR, "decision_tree_model.joblib"))
-    joblib.dump(trained_models["decision_tree"], os.path.join(MODELS_DIR, "decision_tree.joblib"))
+    joblib.dump(trained_models["decision_tree"], os.path.join(MODELS_DIR, "decision_tree.joblib"), compress=3)
 
     # Add DistilBERT Fine-Tuned Benchmark (Transformer Reference Benchmark)
     distilbert_cm = [
