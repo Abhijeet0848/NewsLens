@@ -170,14 +170,11 @@ export default function ClassifyPage() {
       {/* Header Row */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 max-w-6xl mx-auto w-full">
         <div>
-          <span className="text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block mb-2">
-            INTERACTIVE CLASSIFICATION WORKSPACE
-          </span>
           <h1 className="font-heading text-3xl md:text-4xl font-semibold tracking-[-0.02em] text-[#0f0f0e]">
             News Article Classifier
           </h1>
-          <p className="text-[14px] md:text-[15px] text-[#3f3d3a] max-w-2xl mt-2 leading-relaxed">
-            Input news copy to obtain calibrated domain predictions, statistical distributions, and token saliency.
+          <p className="text-[14px] md:text-[15px] text-[#6b6660] max-w-2xl mt-2 leading-relaxed">
+            Paste an article to see its predicted BBC domain.
           </p>
         </div>
 

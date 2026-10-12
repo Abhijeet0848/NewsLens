@@ -435,32 +435,16 @@ export function ClassifierInput({
           type="button"
           onClick={onClassify}
           disabled={!text.trim() || isLoading || inputState.kind === "url-loading"}
-          className="flex-1 h-11 sm:h-12 rounded-xl bg-[#0f0f0e] disabled:bg-[#0f0f0e]/40 text-white text-[14px] font-medium shadow-[0_2px_8px_rgba(15,15,14,0.15)] hover:bg-[#2a2a28] hover:shadow-[0_4px_12px_rgba(15,15,14,0.20)] hover:-translate-y-px active:scale-[0.99] disabled:cursor-not-allowed disabled:hover:bg-[#0f0f0e]/40 disabled:hover:translate-y-0 disabled:hover:shadow-[0_2px_8px_rgba(15,15,14,0.15)] transition-all duration-200 flex items-center justify-center cursor-pointer select-none"
+          className="flex-1 h-12 px-6 rounded-xl bg-[#0f0f0e] disabled:bg-[#0f0f0e]/40 text-white text-[14px] font-medium hover:bg-[#2a2a28] disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center select-none"
         >
-          <AnimatePresence mode="wait">
-            {isLoading ? (
-              <motion.div
-                key="loading"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex items-center gap-2"
-              >
-                <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                <span>{isWarmingUp ? "Warming up backend..." : "Classifying Article..."}</span>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="idle"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex items-center justify-center"
-              >
-                <span>Classify Article Now</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              <span>{isWarmingUp ? "Warming up..." : "Classifying..."}</span>
+            </div>
+          ) : (
+            <span>Classify</span>
+          )}
         </button>
       </div>
     </div>
