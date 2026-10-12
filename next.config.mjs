@@ -7,6 +7,12 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    serverComponentsExternalPackages: ["scikit-learn"],
+    outputFileTracingIncludes: {
+      "/api/classify": ["./models/**/*"],
+    },
+  },
 };
 
 export default nextConfig;
