@@ -139,7 +139,7 @@ export function ResultsPanel({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -6 }}
         transition={{ duration: 0.25 }}
-        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-6"
+        className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-6 overflow-hidden min-w-0"
       >
         <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
           <div className="flex items-center gap-3.5">
@@ -209,7 +209,7 @@ export function ResultsPanel({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -6 }}
         transition={{ duration: 0.25 }}
-        className="rounded-2xl border border-indigo-200 bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-5"
+        className="rounded-2xl border border-indigo-200 bg-[#fdfcfb] p-5 md:p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-5 overflow-hidden min-w-0"
       >
         <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
           <div className="flex items-center gap-3.5">
@@ -294,7 +294,7 @@ export function ResultsPanel({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -6 }}
         transition={{ duration: 0.25 }}
-        className="rounded-2xl border border-indigo-200 bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-6"
+        className="rounded-2xl border border-indigo-200 bg-[#fdfcfb] p-5 md:p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-6 overflow-hidden min-w-0"
       >
         <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-5">
           <div className="flex items-center gap-3.5">
@@ -399,115 +399,110 @@ export function ResultsPanel({
         variants={scaleIn}
         initial="hidden"
         animate="show"
-        className={`relative overflow-hidden rounded-2xl border p-6 md:p-7 bg-[#fdfcfb] shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-all duration-200 ${catConfig.borderClass}`}
+        className={`bg-[#fdfcfb] border border-[#e7e3dd] rounded-2xl p-5 md:p-6 overflow-hidden min-w-0 relative shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-all duration-200 ${catConfig.borderClass}`}
       >
         <div
           className={`absolute -right-20 -top-20 h-56 w-56 rounded-full bg-gradient-to-br ${catConfig.gradient} blur-2xl -z-10`}
         />
 
         {/* Prediction Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#e7e3dd] pb-5 md:pb-6">
-          <div className="flex items-center gap-3 md:gap-4">
-            <motion.div
-              initial={{ scale: 0.8, rotate: -6 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 350, damping: 22 }}
-              className={`flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-xl border shadow-sm flex-shrink-0 ${catConfig.badgeClass}`}
-            >
-              <Award className="size-6 md:size-7" style={{ color: catConfig.colorHex }} />
-            </motion.div>
-            <div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6b6660] font-mono">
+        <div className="border-b border-[#e7e3dd] pb-5 md:pb-6">
+          <div className="flex items-start justify-between gap-4 min-w-0">
+            {/* Left: label + category */}
+            <div className="flex-1 min-w-0">
+              <p className="text-[11px] uppercase tracking-wider text-[#6b6660]">
                 Predicted BBC Domain
-              </span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <h3 className="font-heading text-xl sm:text-2xl md:text-3xl font-semibold text-[#0f0f0e] tracking-tight">
+              </p>
+              <div className="flex items-center gap-2 mt-0.5 min-w-0">
+                <h2 className="text-[24px] md:text-[28px] font-semibold text-[#0f0f0e] truncate">
                   {result.category}
-                </h3>
+                </h2>
                 <span
-                  className={`inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide border rounded-full px-2 py-0.5 ${badgeInfo.style}`}
+                  className={`inline-flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide border rounded-full px-2 py-0.5 shrink-0 ${badgeInfo.style}`}
                 >
                   <BadgeIcon className="size-3" />
                   {badgeInfo.label}
                 </span>
               </div>
             </div>
-          </div>
 
-          <div className="text-left sm:text-right">
-            <span className="text-[12px] font-mono font-medium text-[#6b6660]">Confidence</span>
-            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono">
-              <AnimatedConfidence value={result.confidence_percentage} />
-            </div>
-            {(() => {
-              const latency = result.latency_ms;
-              const latencyDisplay = latency > 1000 ? `${(latency / 1000).toFixed(1)}s` : `${latency}ms`;
-              const isSlow = latency > 500;
-              const latencyColor = isSlow ? "text-[#be123c]" : "text-[#047857]";
-              return (
-                <>
-                  <div className={`text-[12px] font-mono font-medium flex items-center sm:justify-end gap-1 mt-0.5 tabular-nums ${latencyColor}`}>
+            {/* Right: confidence */}
+            <div className="flex flex-col items-end shrink-0">
+              <p className="text-[11px] uppercase tracking-wider text-[#6b6660]">
+                Confidence
+              </p>
+              <p className="text-[28px] md:text-[32px] font-semibold text-[#0f0f0e] tabular-nums leading-none">
+                <AnimatedConfidence value={result.confidence_percentage} />
+              </p>
+              {(() => {
+                const latency = result.latency_ms;
+                const latencyDisplay = latency > 1000 ? `${(latency / 1000).toFixed(1)}s` : `${latency}ms`;
+                const isSlow = latency > 500;
+                const latencyColor = isSlow ? "text-[#be123c]" : "text-[#047857]";
+                return (
+                  <div className={`text-[11px] font-mono font-medium flex items-center justify-end gap-1 mt-1.5 tabular-nums ${latencyColor}`}>
                     <Activity className="size-3 text-current" />
                     <span>{latencyDisplay}</span>
                   </div>
-                  {latency > 1000 && (
-                    <p className="text-[11px] text-[#be123c] mt-1 flex items-center sm:justify-end gap-1">
-                      <AlertTriangle className="size-3 text-[#be123c]" />
-                      <span>Slow inference - check backend</span>
-                    </p>
-                  )}
-                </>
-              );
-            })()}
+                );
+              })()}
+            </div>
           </div>
         </div>
 
         {/* Model Attribution Strip */}
         <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#57534e] bg-[#faf9f6] border border-[#e7e3dd] rounded-lg px-3 py-1.5 mt-5">
           <span className="size-1.5 rounded-full bg-[#4f46e5] shrink-0" />
-          <span>Predicted by</span>
-          <span className="font-medium text-[#0f0f0e]">{activeModel.name}</span>
+          <span className="shrink-0">Predicted by</span>
+          <span className="font-medium text-[#0f0f0e] truncate">{activeModel.name}</span>
           <span className="text-[#57534e]">&bull;</span>
-          <span className="font-mono text-[#0f0f0e]">{activeModel.metric}</span>
+          <span className="font-mono text-[#0f0f0e] shrink-0">{activeModel.metric}</span>
           <span className="text-[#57534e]">&bull;</span>
-          <span className={`font-mono ${result.latency_ms > 500 ? "text-[#be123c]" : "text-[#047857]"}`}>
+          <span className={`font-mono shrink-0 ${result.latency_ms > 500 ? "text-[#be123c]" : "text-[#047857]"}`}>
             {result.latency_ms > 1000 ? `${(result.latency_ms / 1000).toFixed(1)}s` : `${result.latency_ms}ms`} latency
           </span>
         </div>
 
         {/* 5-Domain Probability Distribution */}
         <div className="mt-5 space-y-3">
-          <div className="flex justify-between items-center text-[11px] font-semibold uppercase tracking-[0.12em] text-[#57534e]">
-            <span>Probability Distribution</span>
-            <span>5 BBC Domains</span>
+          <div className="flex items-center justify-between gap-3 mb-4">
+            <p className="text-[11px] uppercase tracking-wider text-[#6b6660] truncate">
+              Probability Distribution
+            </p>
+            <p className="text-[11px] uppercase tracking-wider text-[#6b6660] shrink-0">
+              5 BBC Domains
+            </p>
           </div>
 
-          <div className="space-y-2.5 pt-1">
+          <div className="space-y-3 pt-1">
             {sortedCategories.map(([category, prob], index) => {
               const cfg = getCategoryConfig(category);
-              const pct = Math.round(prob * 1000) / 10;
+              const score = prob;
 
               return (
                 <div key={category} className="space-y-1">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="flex items-center text-[13px] text-[#3f3d3a] font-medium">
+                  <div className="flex items-center justify-between gap-3 mb-1.5">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
                       <span
-                        className="size-1.5 rounded-full mr-2 flex-shrink-0"
+                        className="size-1.5 rounded-full shrink-0"
                         style={{ backgroundColor: cfg.colorHex }}
                       />
-                      <span>{category}</span>
-                    </span>
-                    <span className="font-mono text-[#0f0f0e] tabular-nums font-semibold text-[12px]">
-                      {pct}%
+                      <span className="text-[13px] text-[#3f3d3a] truncate">
+                        {category}
+                      </span>
+                    </div>
+                    <span className="text-[12px] font-mono text-[#0f0f0e] tabular-nums shrink-0">
+                      {(score * 100).toFixed(1)}%
                     </span>
                   </div>
-                  <div className="h-1.5 bg-[#f1efeb] rounded-full w-full overflow-hidden">
+                  <div className="h-1.5 w-full bg-[#f1efeb] rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: "0.5%" }}
-                      animate={{ width: `${pct}%` }}
+                      animate={{ width: `${score * 100}%` }}
                       transition={{ duration: 0.8, delay: 0.05 + index * 0.04, ease: ease.smooth }}
-                      className="h-full rounded-full"
+                      className="h-full rounded-full transition-all duration-500"
                       style={{
+                        width: `${score * 100}%`,
                         backgroundColor: cfg.colorHex,
                       }}
                     />
@@ -535,8 +530,8 @@ export function ResultsPanel({
           )}
         </div>
 
-        {/* Action Toolbar */}
-        <div className="mt-5 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-[#e7e3dd] text-xs">
+        {/* Footer Row (Copy / Export buttons + metadata) */}
+        <div className="flex items-center justify-between gap-3 flex-wrap mt-5 pt-4 border-t border-[#f1efeb]">
           <div className="flex items-center gap-2">
             <button
               type="button"
@@ -559,11 +554,11 @@ export function ResultsPanel({
             </button>
           </div>
 
-          <span className="text-[#57534e] font-mono text-[12px] tabular-nums font-medium">
+          <span className="text-[11px] font-mono text-[#6b6660] truncate">
             {result.tokens_count > 5 ? (
-              `${result.tokens_count} tokens | ${result.explanation.model_version}`
+              `${result.tokens_count} tokens · ${result.explanation.model_version}`
             ) : (
-              "Short input - prediction may be approximate"
+              "Short input · Prediction approximate"
             )}
           </span>
         </div>

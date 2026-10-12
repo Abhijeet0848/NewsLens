@@ -166,9 +166,9 @@ export default function ClassifyPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-5 md:px-8 pt-10 pb-16">
+    <main className="px-4 md:px-6 lg:px-8 py-8 max-w-7xl mx-auto w-full overflow-hidden">
       {/* Header Row */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 max-w-6xl mx-auto w-full">
         <div>
           <span className="text-[11px] uppercase tracking-[0.14em] text-[#0891b2] font-mono font-semibold block mb-2">
             INTERACTIVE CLASSIFICATION WORKSPACE
@@ -197,17 +197,17 @@ export default function ClassifyPage() {
         </div>
       </div>
 
-      {/* Main Grid: 1.1fr / 1fr Split on lg+, stacked on mobile */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5 md:gap-6 items-stretch mt-8">
+      {/* Main Grid: 1 col on mobile, 2 equal cols on desktop */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-6xl mx-auto w-full mt-8">
         {/* Left Column */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="show"
           transition={{ duration: 0.4, delay: 0, ease: ease.smooth }}
-          className="flex flex-col space-y-5"
+          className="flex flex-col space-y-5 min-w-0"
         >
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <ClassifierInput
               text={currentText}
               onChangeText={handleTextChange}
@@ -284,9 +284,9 @@ export default function ClassifyPage() {
           initial="hidden"
           animate="show"
           transition={{ duration: 0.4, delay: 0.08, ease: ease.smooth }}
-          className="flex flex-col space-y-5"
+          className="flex flex-col space-y-5 min-w-0"
         >
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <ResultsPanel
               result={result}
               isLoading={isLoading}
@@ -302,7 +302,7 @@ export default function ClassifyPage() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                className="rounded-2xl border border-indigo-200 bg-[#f5f3ff] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-4"
+                className="rounded-2xl border border-indigo-200 bg-[#f5f3ff] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] space-y-4 min-w-0 overflow-hidden"
               >
                 <div className="flex items-center justify-between">
                   <h2 className="text-[14px] font-semibold text-[#0f0f0e] flex items-center gap-2 font-heading">
@@ -319,14 +319,14 @@ export default function ClassifyPage() {
                     return (
                       <div
                         key={mKey}
-                        className="rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-3 space-y-1 shadow-sm"
+                        className="rounded-xl border border-[#e7e3dd] bg-[#fdfcfb] p-3 space-y-1 shadow-sm min-w-0 overflow-hidden"
                       >
-                        <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-[#57534e] block">
+                        <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.14em] text-[#57534e] block truncate">
                           {mKey.replace("_", " ")}
                         </span>
-                        <div className="flex items-center justify-between font-bold text-[#0f0f0e] text-[13px]">
-                          <span>{data.category}</span>
-                          <span className="text-[#0e7490] font-mono tabular-nums font-semibold">{data.confidence_percentage}%</span>
+                        <div className="flex items-center justify-between font-bold text-[#0f0f0e] text-[13px] gap-1">
+                          <span className="truncate">{data.category}</span>
+                          <span className="text-[#0e7490] font-mono tabular-nums font-semibold shrink-0">{data.confidence_percentage}%</span>
                         </div>
                       </div>
                     );
@@ -337,6 +337,6 @@ export default function ClassifyPage() {
           </AnimatePresence>
         </motion.div>
       </div>
-    </div>
+    </main>
   );
 }

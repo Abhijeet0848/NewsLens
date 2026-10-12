@@ -220,7 +220,7 @@ export function ClassifierInput({
     inputState.kind === "url-error";
 
   return (
-    <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 md:p-7 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 flex flex-col justify-between h-full">
+    <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 flex flex-col justify-between h-full overflow-hidden min-w-0">
       <div>
         {/* Card Header (Icon + Title + Description) */}
         <div className="flex items-start justify-between gap-4 mb-5">
