@@ -78,23 +78,7 @@ export async function classifyArticle(
     return data;
   } catch (err: any) {
     if (err.name === "AbortError") {
-      throw new Error("Request timed out after 15 seconds. Please try again.");
-    }
-    // If Next.js internal route failed, try external FastAPI backend if configured
-    if (API_BASE_URL) {
-      try {
-        const extRes = await fetch(`${API_BASE_URL}/api/article/classify`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text, model }),
-        });
-        if (extRes.ok) {
-          const extData = await extRes.json();
-          return transformBackendResponse(extData, text);
-        }
-      } catch {
-        // Fall through to throw
-      }
+      throw new Error("Backend is starting up. Please wait a moment and retry.");
     }
     throw err;
   } finally {

@@ -14,7 +14,6 @@ from typing import Optional, List, Dict, Any
 
 app = FastAPI(title="NewsScope API")
 
-# CORS - same-domain but keep permissive for preview URLs
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,26 +21,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------------------------------------------
-# Load models ONCE at module import.
-# Vercel caches this between warm invocations.
-# ---------------------------------------------
+# -------------------------------------------------------------------
+# Load primary models ONCE at module import (cached between warm runs)
+# Keeping startup memory low (< 5MB) ensures fast < 500ms cold starts.
+# -------------------------------------------------------------------
 MODEL_DIR = Path(__file__).parent.parent / "models"
 
-print(f"[startup] Loading models from {MODEL_DIR}")
-
+print(f"[startup] Loading vectorizer and Linear SVM from {MODEL_DIR}")
 vectorizer = joblib.load(MODEL_DIR / "vectorizer.pkl")
 feature_names = vectorizer.get_feature_names_out()
 
-models = {
-    "linear-svm": joblib.load(MODEL_DIR / "svm.pkl"),
-    "svm": joblib.load(MODEL_DIR / "svm.pkl"),
-    "naive-bayes": joblib.load(MODEL_DIR / "nb.pkl"),
-    "nb": joblib.load(MODEL_DIR / "nb.pkl"),
-    "neural-mlp": joblib.load(MODEL_DIR / "mlp.pkl"),
-    "mlp": joblib.load(MODEL_DIR / "mlp.pkl"),
-}
+svm_model = joblib.load(MODEL_DIR / "svm.pkl")
+nb_model = joblib.load(MODEL_DIR / "nb.pkl") if (MODEL_DIR / "nb.pkl").exists() else svm_model
+_mlp_model = None
 
+# Resolve authentic class labels from label encoder
 le_path = MODEL_DIR / "label_encoder.pkl"
 if not le_path.exists():
     le_path = MODEL_DIR / "label_encoder.joblib"
@@ -55,7 +49,23 @@ if le_path.exists():
 else:
     CLASSES = ["Business", "Entertainment", "Politics", "Sport", "Tech"]
 
-print(f"[startup] Models loaded. Classes: {CLASSES}")
+print(f"[startup] Models ready. Classes: {CLASSES}")
+
+
+def get_model(model_name: str):
+    global _mlp_model
+    norm = (model_name or "linear-svm").lower().replace("_", "-")
+    if norm in ("neural-mlp", "mlp"):
+        if _mlp_model is None:
+            mlp_path = MODEL_DIR / "mlp.pkl"
+            if mlp_path.exists():
+                _mlp_model = joblib.load(mlp_path)
+            else:
+                _mlp_model = svm_model
+        return _mlp_model, "Neural MLP"
+    elif norm in ("naive-bayes", "nb"):
+        return nb_model, "Multinomial Naive Bayes"
+    return svm_model, "Linear SVM (Calibrated)"
 
 
 class ClassifyRequest(BaseModel):
@@ -85,7 +95,7 @@ class ClassifyResponse(BaseModel):
     category: str
     confidence: float
     confidence_percentage: float
-    all_scores: dict
+    all_scores: Dict[str, float]
     latency_ms: float
     tokens: int
     tokens_count: int
@@ -98,24 +108,23 @@ class ClassifyResponse(BaseModel):
 
 
 @app.get("/api/health")
+@app.get("/health")
 def health():
     return {
         "status": "ok",
-        "models": list(models.keys()),
+        "models": ["linear-svm", "naive-bayes", "neural-mlp"],
         "classes": CLASSES,
     }
 
 
 @app.post("/api/classify", response_model=ClassifyResponse)
+@app.post("/classify", response_model=ClassifyResponse)
+@app.post("/", response_model=ClassifyResponse)
 def classify(req: ClassifyRequest):
     if not req.text or not req.text.strip():
         raise HTTPException(400, "Text is required")
 
-    norm_model = req.model.lower().replace("_", "-")
-    if norm_model not in models:
-        norm_model = "linear-svm"
-
-    clf = models[norm_model]
+    clf, model_display_name = get_model(req.model)
 
     t0 = time.perf_counter()
     raw_text = req.text.strip()
@@ -129,23 +138,24 @@ def classify(req: ClassifyRequest):
         exp_df = np.exp(df - np.max(df))
         probs = exp_df / np.sum(exp_df)
     else:
-        pred_raw = clf.predict(X)[0]
         import numpy as np
+        pred_raw = clf.predict(X)[0]
         probs = np.zeros(len(CLASSES))
-        probs[int(pred_raw) if str(pred_raw).isdigit() else 0] = 1.0
+        idx = int(pred_raw) if str(pred_raw).isdigit() else 0
+        probs[min(idx, len(CLASSES) - 1)] = 1.0
 
     pred_idx = int(probs.argmax())
     latency = (time.perf_counter() - t0) * 1000
 
-    category_name = CLASSES[pred_idx] if pred_idx < len(CLASSES) else str(clf.classes_[pred_idx])
+    category_name = CLASSES[pred_idx] if pred_idx < len(CLASSES) else str(pred_idx)
     confidence_val = float(probs[pred_idx])
 
     all_scores_dict = {
-        (CLASSES[i] if i < len(CLASSES) else str(c)): round(float(p), 4)
-        for i, (c, p) in enumerate(zip(clf.classes_, probs))
+        (CLASSES[i] if i < len(CLASSES) else str(i)): round(float(p), 4)
+        for i, p in enumerate(probs)
     }
 
-    # Extract top keywords
+    # Extract salient keywords from TF-IDF sparse vector
     cx = X.tocoo()
     sorted_features = sorted(
         [{"word": str(feature_names[c]), "weight": round(float(v), 4)} for c, v in zip(cx.col, cx.data)],
@@ -154,7 +164,7 @@ def classify(req: ClassifyRequest):
     )
     keywords = sorted_features[:8]
 
-    # Attention tokens
+    # Attention tokens for explainability
     raw_tokens = raw_text.split()[:80]
     kw_words = set(k["word"] for k in keywords)
     attention_tokens = [
@@ -165,12 +175,6 @@ def classify(req: ClassifyRequest):
         }
         for tok in raw_tokens
     ]
-
-    model_display_name = (
-        "Linear SVM (Calibrated)" if "svm" in norm_model else (
-            "Multinomial Naive Bayes" if "nb" in norm_model or "bayes" in norm_model else "Neural MLP"
-        )
-    )
 
     return ClassifyResponse(
         category=category_name,

@@ -50,9 +50,20 @@ export function ClassifierInput({
     text.trim() ? { kind: "text", text } : { kind: "empty" }
   );
   const [isUrlTyped, setIsUrlTyped] = React.useState(false);
+  const [isWarmingUp, setIsWarmingUp] = React.useState(false);
   const [dragOver, setDragOver] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
+
+  React.useEffect(() => {
+    let timer: any;
+    if (isLoading) {
+      timer = setTimeout(() => setIsWarmingUp(true), 3000);
+    } else {
+      setIsWarmingUp(false);
+    }
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   const charCount = text.length;
   const englishWords = text.match(/[a-zA-Z]+/g) || [];
@@ -436,7 +447,7 @@ export function ClassifierInput({
                 className="flex items-center gap-2"
               >
                 <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                <span>Classifying Article...</span>
+                <span>{isWarmingUp ? "Warming up backend..." : "Classifying Article..."}</span>
               </motion.div>
             ) : (
               <motion.div

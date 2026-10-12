@@ -1,7 +1,14 @@
 {
-  "version": 2,
   "functions": {
     "api/index.py": {
+      "memory": 1024,
+      "maxDuration": 30
+    },
+    "api/classify.py": {
+      "memory": 1024,
+      "maxDuration": 30
+    },
+    "api/health.py": {
       "memory": 1024,
       "maxDuration": 30
     }
@@ -9,11 +16,11 @@
   "rewrites": [
     {
       "source": "/api/classify",
-      "destination": "/api/index"
+      "destination": "/api/classify.py"
     },
     {
       "source": "/api/health",
-      "destination": "/api/index"
+      "destination": "/api/health.py"
     }
   ]
 }
