@@ -17,12 +17,8 @@ export function DebugPanel() {
   const [enabled, setEnabled] = React.useState(false);
 
   React.useEffect(() => {
-    // Enable if in development OR if ?debug=1 is in URL
-    const isDev = process.env.NODE_ENV === "development";
-    const urlDebug =
-      typeof window !== "undefined" &&
-      new URLSearchParams(window.location.search).get("debug") === "1";
-    setEnabled(isDev || !!urlDebug);
+    // Debug panel disabled for production screenshots and recordings
+    setEnabled(false);
   }, []);
 
   React.useEffect(() => {

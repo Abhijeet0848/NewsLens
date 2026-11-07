@@ -16,7 +16,6 @@ import { PageTransition } from "@/components/PageTransition";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { RoutePrefetcher } from "@/components/RoutePrefetcher";
 import { CommandPalette } from "@/components/CommandPalette";
-import { DebugPanel } from "@/components/DebugPanel";
 import { Toaster } from "sonner";
 
 const inter = Inter({
@@ -73,9 +72,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${mono.variable} scroll-smooth antialiased`}>
+    <html lang="en" className={`${inter.variable} ${mono.variable} antialiased`}>
       <body
-        className="font-sans min-h-screen bg-[#f7f6f3] text-[#0f0f0e] selection:bg-indigo-500 selection:text-[#fdfcfb] flex flex-col antialiased"
+        className="font-sans min-h-screen bg-[#f7f6f3] text-[#0f0f0e] selection:bg-indigo-500 selection:text-[#fdfcfb] flex flex-col antialiased gpu-accelerate"
       >
         <SmoothScroll>
           <ScrollProgress />
@@ -86,7 +85,6 @@ export default function RootLayout({
         <MobileBottomNav />
         <RoutePrefetcher />
         <CommandPalette />
-        <DebugPanel />
         <Toaster
           position="top-center"
           duration={2000}

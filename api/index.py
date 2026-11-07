@@ -4,8 +4,10 @@ Handles /api/classify requests from the Next.js frontend.
 """
 
 from fastapi import FastAPI, HTTPException
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 import joblib
 import time
 import re
@@ -20,6 +22,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc: RequestValidationError):
+    first_error = exc.errors()[0] if exc.errors() else {}
+    msg = first_error.get("msg", "Validation error")
+    clean_msg = re.sub(r"^Value error,\s*", "", str(msg), flags=re.IGNORECASE)
+    return JSONResponse(
+        status_code=422,
+        content={"detail": clean_msg, "error": clean_msg},
+    )
 
 # -------------------------------------------------------------------
 # Load primary models ONCE at module import (cached between warm runs)
@@ -72,6 +84,17 @@ class ClassifyRequest(BaseModel):
     text: str
     model: str = "linear-svm"
 
+    @field_validator("text")
+    @classmethod
+    def validate_text_length(cls, v: str) -> str:
+        trimmed = (v or "").strip()
+        words = trimmed.split()
+        if len(words) < 15 or len(trimmed) < 50:
+            raise ValueError(
+                "Text is too short for reliable classification. Please provide a full article or paragraph."
+            )
+        return trimmed
+
 
 class KeywordItem(BaseModel):
     word: str
@@ -122,7 +145,12 @@ def health():
 @app.post("/", response_model=ClassifyResponse)
 def classify(req: ClassifyRequest):
     if not req.text or not req.text.strip():
-        raise HTTPException(400, "Text is required")
+        raise HTTPException(422, "Text is too short for reliable classification. Please provide a full article or paragraph.")
+
+    raw_text = req.text.strip()
+    words = raw_text.split()
+    if len(words) < 15 or len(raw_text) < 50:
+        raise HTTPException(422, "Text is too short for reliable classification. Please provide a full article or paragraph.")
 
     clf, model_display_name = get_model(req.model)
 

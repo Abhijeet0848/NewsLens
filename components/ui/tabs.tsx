@@ -49,7 +49,7 @@ export function TabsList({
   return (
     <div
       className={cn(
-        "inline-flex h-11 items-center justify-center rounded-xl bg-white/[0.04] p-1 text-slate-400 border border-white/10 backdrop-blur-md",
+        "inline-flex h-11 items-center justify-center rounded-xl bg-white/[0.04] p-1 text-slate-400 border border-white/10",
         className
       )}
     >

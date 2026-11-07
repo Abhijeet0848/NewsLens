@@ -53,7 +53,7 @@ export function MobileBottomNav() {
         opacity: hidden ? 0 : 1,
       }}
       transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed bottom-4 left-4 right-4 z-50 h-16 rounded-2xl bg-[#fdfcfb]/95 backdrop-blur-md border border-[#e7e3dd] shadow-[0_8px_24px_rgba(28,27,26,0.10),0_2px_6px_rgba(28,27,26,0.06)] pb-[env(safe-area-inset-bottom)] md:hidden flex items-center justify-around px-2 pointer-events-auto select-none"
+      className="fixed bottom-4 left-4 right-4 z-50 h-16 rounded-2xl bg-[#fdfcfb] border border-[#e7e3dd] shadow-lg pb-[env(safe-area-inset-bottom)] md:hidden flex items-center justify-around px-2 pointer-events-auto select-none will-change-transform"
     >
       {NAV_ITEMS.map((item) => {
         const isActive = pathname === item.href;

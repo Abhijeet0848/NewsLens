@@ -53,11 +53,20 @@ export function ModelSelector({
       setFocusedIndex(idx >= 0 ? idx : 0);
       updatePosition();
 
-      const handleScrollOrResize = () => updatePosition();
+      let rafId: number | null = null;
+      const handleScrollOrResize = () => {
+        if (rafId === null) {
+          rafId = requestAnimationFrame(() => {
+            updatePosition();
+            rafId = null;
+          });
+        }
+      };
       window.addEventListener("scroll", handleScrollOrResize, true);
       window.addEventListener("resize", handleScrollOrResize);
 
       return () => {
+        if (rafId !== null) cancelAnimationFrame(rafId);
         window.removeEventListener("scroll", handleScrollOrResize, true);
         window.removeEventListener("resize", handleScrollOrResize);
       };
@@ -183,10 +192,10 @@ export function ModelSelector({
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.15 }}
                   onClick={() => setOpen(false)}
-                  className="fixed inset-0 bg-[#0f0f0e]/30 backdrop-blur-xs z-[9998] sm:hidden"
+                  className="fixed inset-0 bg-[#0f0f0e]/40 z-[9998] sm:hidden"
                 />
 
-                {/* Dropdown container: 95% opacity, backdrop-blur-md, strong shadow */}
+                {/* Dropdown container: solid background, fast render */}
                 <motion.div
                   ref={dropdownRef}
                   role="listbox"
@@ -205,9 +214,9 @@ export function ModelSelector({
                   }
                   className="fixed bottom-0 left-0 right-0 z-[9999] rounded-t-2xl 
                              sm:fixed sm:bottom-auto sm:left-auto sm:top-[var(--desktop-top)] sm:right-[var(--desktop-right)] sm:w-80 sm:rounded-xl 
-                             bg-[#fdfcfb]/95 backdrop-blur-md 
+                             bg-[#fdfcfb] 
                              border border-[#e7e3dd] 
-                             shadow-[0_16px_48px_-12px_rgba(28,27,26,0.20),0_8px_16px_-8px_rgba(28,27,26,0.12)] 
+                             shadow-xl 
                              overflow-hidden"
                 >
                   {/* Mobile Sheet Header */}

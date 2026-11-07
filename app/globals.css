@@ -35,9 +35,10 @@ html {
   max-width: 100vw;
 }
 
-* {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+/* Hardware acceleration for scrolling containers */
+.gpu-accelerate {
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 body {

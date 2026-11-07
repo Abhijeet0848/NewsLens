@@ -1,0 +1,93 @@
+NewsScope — Live Test Results
+═══════════════════════════════════════════════════════════
+
+Date:         October 13, 2026
+Model:        Linear SVM (CalibratedClassifierCV)
+Dataset:      BBC News (2,225 articles, 5 categories)
+Deployment:   Vercel (Python runtime)
+URL:          abhijeetkumar.dpdns.org
+
+Test Method:  Pasted 5 real news articles into the deployed 
+              classifier and recorded predictions.
+
+─────────────────────────────────────────────────────────
+RESULTS
+─────────────────────────────────────────────────────────
+
+Test 1 — Sport
+Article:      "Real Madrid secured their 15th Champions League 
+              title on Saturday, defeating Borussia Dortmund 
+              2-0 at Wembley Stadium. Goals from Dani Carvajal 
+              and Vinícius Júnior sealed the victory in front of 
+              86,000 spectators at the iconic London venue."
+Expected:     Sport
+Predicted:    Sport ✅
+Confidence:   86.1%
+Latency:      4.22 ms
+Badge:        Verified
+
+Test 2 — Technology
+Article:      "Apple unveiled its M4 chip at the WWDC 2024 
+              keynote, claiming 40% faster neural engine 
+              performance for on-device AI tasks. The new 
+              processor debuts in the iPad Pro lineup this fall, 
+              followed by the MacBook Pro in early 2025."
+Expected:     Technology
+Predicted:    Tech ✅
+Confidence:   85.8%
+Latency:      3.54 ms
+Badge:        Verified
+
+Test 3 — Business
+Article:      "The Federal Reserve raised interest rates by 
+              0.25 percentage points on Wednesday, citing 
+              persistent inflation above its 2% target. Fed 
+              Chair Jerome Powell indicated further increases 
+              may follow if price pressures continue to build 
+              through the next quarter."
+Expected:     Business
+Predicted:    Business ✅
+Confidence:   91.3%
+Latency:      3.76 ms
+Badge:        Verified
+
+Test 4 — Politics
+Article:      "Parliament passed the Renters Reform Bill in a 
+              312-241 vote on Wednesday, ending no-fault 
+              evictions for tenants across England. The 
+              legislation introduces a national landlord register 
+              and gives tenants the legal right to challenge 
+              unfair rent increases."
+Expected:     Politics
+Predicted:    Politics ✅
+Confidence:   80.0%
+Latency:      3.62 ms
+Badge:        Verified
+
+Test 5 — Entertainment
+Article:      "The new Harry Potter TV series has cast its lead 
+              trio after a year-long global search. The 
+              eight-episode season begins filming this summer at 
+              Warner Bros. Studios in Leavesden. HBO Max will 
+              premiere the series in 2027, with each season 
+              adapting one of the seven books."
+Expected:     Entertainment
+Predicted:    Entertainment ✅
+Confidence:   64.4%
+Latency:      3.38 ms
+Badge:        Probable
+
+─────────────────────────────────────────────────────────
+SUMMARY
+─────────────────────────────────────────────────────────
+
+Total tests:     5
+Correct:         5
+Accuracy:        100%
+Avg confidence:  81.5%
+Avg latency:     3.70 ms
+
+All 5 categories correctly identified from real live news 
+articles. Confidence scores are distinct and calibrated 
+(no uniform distributions). Saliency keywords align with 
+the predicted category in all cases.

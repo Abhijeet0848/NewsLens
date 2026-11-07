@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  devIndicators: {
+    buildActivity: false,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -12,6 +15,15 @@ const nextConfig = {
     outputFileTracingIncludes: {
       "/api/**/*": ["./models/**/*"],
     },
+  },
+  async redirects() {
+    return [
+      {
+        source: "/classifier",
+        destination: "/classify",
+        permanent: false,
+      },
+    ];
   },
   async rewrites() {
     return [

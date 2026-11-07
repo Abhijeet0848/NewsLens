@@ -109,7 +109,7 @@ export function CommandPalette() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setCommandPaletteOpen(false)}
-            className="fixed inset-0 bg-[#0f0f0e]/30 backdrop-blur-sm"
+            className="fixed inset-0 bg-[#0f0f0e]/50"
           />
 
           {/* Modal Card */}

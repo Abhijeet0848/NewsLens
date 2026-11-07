@@ -112,9 +112,13 @@ export async function classifyArticle(
         log.error(TAG, "Debug info from server", errorData.debug);
       }
 
-      throw new Error(
-        errorData.error || `Classification failed (HTTP ${res.status})`
-      );
+      const errorMsg =
+        errorData.detail ||
+        errorData.error ||
+        `Classification failed (HTTP ${res.status})`;
+      const err = new Error(errorMsg);
+      (err as any).status = res.status;
+      throw err;
     }
 
     let data;

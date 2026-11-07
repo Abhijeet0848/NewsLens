@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Papa from "papaparse";
 import {
   Upload,
   FileSpreadsheet,
@@ -37,43 +38,79 @@ export default function BatchUploadPage() {
   const [categoryFilter, setCategoryFilter] = React.useState("All");
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
     if (!uploadedFile) return;
 
     setFile(uploadedFile);
-    const text = await uploadedFile.text();
-    const lines = text.split("\n").filter((l) => l.trim().length > 0);
 
-    const parsedRows = lines.slice(1).map((line, idx) => {
-      const parts = line.split(",");
-      const title = parts[0]?.replace(/"/g, "") || `Item #${idx + 1}`;
-      const bodyText = parts.slice(1).join(",").replace(/"/g, "") || title;
-      return { id: `row-${idx + 1}`, title, text: bodyText };
+    Papa.parse<Record<string, string>>(uploadedFile, {
+      header: true,
+      skipEmptyLines: "greedy",
+      transformHeader: (header: string) => header.trim().toLowerCase(),
+      complete: async (results) => {
+        if (!results.data || results.data.length === 0) {
+          toast.error("No valid data rows found in CSV.");
+          return;
+        }
+
+        const parsedRows = results.data
+          .map((row, idx) => {
+            const textField =
+              Object.keys(row).find((k) =>
+                ["text", "content", "article", "body"].includes(k)
+              ) ?? (Object.keys(row).length === 1 ? Object.keys(row)[0] : undefined);
+
+            const titleField = Object.keys(row).find((k) =>
+              ["title", "headline"].includes(k)
+            );
+
+            const rawText = (textField ? row[textField] : (row.text ?? "")).trim();
+            const rawTitle = (titleField ? row[titleField] : (row.title ?? "")).trim();
+            const title =
+              rawTitle ||
+              rawText.slice(0, 50) ||
+              `Item #${idx + 1}`;
+
+            return {
+              id: `row-${idx + 1}`,
+              title,
+              text: rawText,
+            };
+          })
+          .filter((r) => r.text.length > 0);
+
+        if (parsedRows.length === 0) {
+          toast.error("No valid data rows found in CSV. Required column: text");
+          return;
+        }
+
+        setIsProcessing(true);
+        setProgress(0);
+        setTotalCount(parsedRows.length);
+        setCompletedCount(0);
+        setResults([]);
+
+        try {
+          const res = await processBatchCSV(parsedRows, (completed, total) => {
+            setCompletedCount(completed);
+            setProgress(Math.round((completed / total) * 100));
+          });
+          setResults(res);
+          toast.success(`Processed ${res.length} rows from CSV!`);
+        } catch {
+          toast.error("Batch processing error");
+        } finally {
+          setIsProcessing(false);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
+        }
+      },
+      error: (error) => {
+        toast.error(`CSV Parsing error: ${error.message}`);
+      },
     });
-
-    if (parsedRows.length === 0) {
-      toast.error("No valid data rows found in CSV.");
-      return;
-    }
-
-    setIsProcessing(true);
-    setProgress(0);
-    setTotalCount(parsedRows.length);
-    setResults([]);
-
-    try {
-      const res = await processBatchCSV(parsedRows, (completed, total) => {
-        setCompletedCount(completed);
-        setProgress(Math.round((completed / total) * 100));
-      });
-      setResults(res);
-      toast.success(`Processed ${res.length} rows from CSV!`);
-    } catch {
-      toast.error("Batch processing error");
-    } finally {
-      setIsProcessing(false);
-    }
   };
 
   const handleExportCSV = () => {
@@ -156,7 +193,7 @@ export default function BatchUploadPage() {
             Drop your news article CSV here, or click to upload
           </p>
           <p className="text-xs text-[#57534e] mt-1 font-mono">
-            Required header columns: <code>title, text</code>
+            Required column: <code>text</code> (optional: <code>title</code>)
           </p>
         </div>
       </Reveal>

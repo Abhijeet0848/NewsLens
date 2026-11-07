@@ -138,16 +138,33 @@ export async function POST(req: NextRequest) {
         body: rawText.slice(0, 500),
       });
 
+      let errorMsg = `Backend error: ${res.status}`;
+      try {
+        const parsed = JSON.parse(rawText);
+        if (typeof parsed.detail === "string") {
+          errorMsg = parsed.detail;
+        } else if (Array.isArray(parsed.detail) && parsed.detail[0]?.msg) {
+          errorMsg = parsed.detail[0].msg.replace(/^Value error,\s*/i, "");
+        } else if (typeof parsed.error === "string") {
+          errorMsg = parsed.error;
+        }
+      } catch {
+        if (rawText && rawText.length < 200) {
+          errorMsg = rawText;
+        }
+      }
+
       return NextResponse.json(
         {
-          error: `Backend error: ${res.status}`,
+          error: errorMsg,
+          detail: errorMsg,
           debug: {
             backendStatus: res.status,
             backendBody: rawText.slice(0, 500),
             requestId,
           },
         },
-        { status: 502 }
+        { status: res.status }
       );
     }
 

@@ -20,6 +20,20 @@ import { ease, fadeUp } from "@/lib/motion";
 
 function mapFriendlyError(err: any): string {
   const message = err?.message || "";
+  const status = err?.status;
+
+  if (
+    status === 422 ||
+    message.includes("422") ||
+    message.includes("too short") ||
+    message.includes("Text is too short")
+  ) {
+    return (
+      message.replace(/^Backend error:\s*422\s*-\s*/i, "") ||
+      "Text is too short for reliable classification. Please provide a full article or paragraph."
+    );
+  }
+
   if (typeof navigator !== "undefined" && !navigator.onLine) {
     return "Connection issue. Check your internet.";
   }
@@ -100,7 +114,18 @@ export default function ClassifyPage() {
       incrementCount();
     } catch (err: any) {
       console.error("Classify error:", err);
-      toast.error(mapFriendlyError(err));
+      const is422 =
+        err?.status === 422 ||
+        err?.message?.includes("too short") ||
+        err?.message?.includes("422");
+      const friendlyMsg = mapFriendlyError(err);
+      if (is422) {
+        toast.error(friendlyMsg, {
+          duration: 6000,
+        });
+      } else {
+        toast.error(friendlyMsg);
+      }
     } finally {
       // CRITICAL: Always clear loading state
       setIsLoading(false);
@@ -139,7 +164,18 @@ export default function ClassifyPage() {
       }
     } catch (err: any) {
       console.error("Compare error:", err);
-      toast.error(mapFriendlyError(err));
+      const is422 =
+        err?.status === 422 ||
+        err?.message?.includes("too short") ||
+        err?.message?.includes("422");
+      const friendlyMsg = mapFriendlyError(err);
+      if (is422) {
+        toast.error(friendlyMsg, {
+          duration: 6000,
+        });
+      } else {
+        toast.error(friendlyMsg);
+      }
     } finally {
       setIsComparing(false);
     }

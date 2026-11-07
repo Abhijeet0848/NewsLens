@@ -57,15 +57,6 @@ export function validateInput(raw: string): Validation {
     };
   }
 
-  // 5. Not enough real words
-  if (words.length < 8) {
-    return {
-      ok: false,
-      reason: "Not enough words to classify reliably.",
-      sanitized,
-    };
-  }
-
   // 5. Repetitive word check
   const uniqueWords = new Set(lower);
   if (words.length >= 6 && uniqueWords.size < 4) {
