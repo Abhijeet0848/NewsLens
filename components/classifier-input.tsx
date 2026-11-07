@@ -141,8 +141,9 @@ export function ClassifierInput({
         if (type === "url") {
           await fetchUrlAndFill(clip);
         } else {
-          onChangeText(clip);
-          setInputState({ kind: "text", text: clip });
+          const truncated = clip.length > 5000 ? clip.slice(0, 5000) : clip;
+          onChangeText(truncated);
+          setInputState({ kind: "text", text: truncated });
           toast.success("Pasted text from clipboard");
         }
       }
@@ -153,7 +154,7 @@ export function ClassifierInput({
 
   // Textarea Change handler
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const val = e.target.value;
+    const val = e.target.value.slice(0, 5000);
     onChangeText(val);
 
     if (!val.trim()) {
@@ -178,8 +179,9 @@ export function ClassifierInput({
     reader.onload = (e) => {
       const content = e.target?.result as string;
       if (content) {
-        onChangeText(content);
-        setInputState({ kind: "text", text: content });
+        const truncated = content.length > 5000 ? content.slice(0, 5000) : content;
+        onChangeText(truncated);
+        setInputState({ kind: "text", text: truncated });
         toast.success(`Uploaded "${file.name}"`);
       }
     };
@@ -195,7 +197,7 @@ export function ClassifierInput({
     }
 
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-      if (isMinimumReached && !isLoading && inputState.kind !== "url-loading") {
+      if (text.trim() && !isLoading && inputState.kind !== "url-loading") {
         e.preventDefault();
         onClassify();
       }
@@ -206,7 +208,7 @@ export function ClassifierInput({
   React.useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-        if (isMinimumReached && !isLoading && inputState.kind !== "url-loading") {
+        if (text.trim() && !isLoading && inputState.kind !== "url-loading") {
           e.preventDefault();
           onClassify();
         }
@@ -214,7 +216,7 @@ export function ClassifierInput({
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, [isMinimumReached, isLoading, inputState.kind, onClassify]);
+  }, [text, isLoading, inputState.kind, onClassify]);
 
   const isUrlState =
     inputState.kind === "url-loading" ||
@@ -234,7 +236,7 @@ export function ClassifierInput({
               Article Content Input
             </h2>
             <p className="text-[12px] text-[#6b6660] mt-0.5 leading-relaxed">
-              Paste article text or a URL to classify
+              Paste article text or a URL to classify. Please input a single news article.
             </p>
           </div>
         </div>
@@ -341,6 +343,7 @@ export function ClassifierInput({
             ref={textareaRef}
             spellCheck={false}
             autoComplete="off"
+            maxLength={5000}
             className={cn(
               "w-full min-h-[240px] p-5 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] text-[14px] text-[#0f0f0e] leading-relaxed resize-none focus:outline-none focus:border-[#4f46e5]/40 focus:ring-4 focus:ring-[#4f46e5]/10 transition-all placeholder:text-[#8a847d]",
               inputState.kind === "url-loading" && "opacity-60 cursor-wait"
@@ -371,6 +374,26 @@ export function ClassifierInput({
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+
+        {/* Character Limit & Single Article Helper */}
+        <div className="flex items-center justify-between mt-2 px-1 text-[11px] text-[#78716c]">
+          <span className="flex items-center gap-1.5 font-medium">
+            <span className="size-1.5 rounded-full bg-[#4f46e5]" />
+            Please input a single news article
+          </span>
+          <span
+            className={cn(
+              "font-mono tabular-nums text-[11px]",
+              charCount >= 4900
+                ? "text-[#dc2626] font-semibold"
+                : charCount >= 4500
+                ? "text-[#d97706] font-medium"
+                : "text-[#8a847d]"
+            )}
+          >
+            {charCount.toLocaleString()} / 5,000 max chars
+          </span>
         </div>
 
         {/* Footer Row (simplified) */}

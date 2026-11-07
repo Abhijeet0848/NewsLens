@@ -3,7 +3,6 @@
 import * as React from "react";
 import {
   Award,
-  Target,
   BarChart3,
   Terminal,
   Copy,
@@ -31,7 +30,63 @@ import {
 import { Button } from "@/components/ui/button";
 import { Reveal, StaggerContainer, StaggerItem } from "@/components/Reveal";
 import { motion, AnimatePresence } from "framer-motion";
-import { variants, ease } from "@/lib/motion";
+
+function MetricCard({
+  label,
+  value,
+  description,
+}: {
+  label: string;
+  value: string;
+  description?: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
+      <span className="text-xs font-mono font-medium text-[#57534e]">{label}</span>
+      <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
+        {value}
+      </div>
+      {description && (
+        <p className="text-xs text-[#57534e] font-mono">{description}</p>
+      )}
+    </div>
+  );
+}
+
+const MemoizedBarChart = React.memo(function MemoizedBarChart({
+  data,
+}: {
+  data: Array<{ category: string; accuracy: number; [key: string]: any }>;
+}) {
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#e7e3dd" />
+        <XAxis dataKey="category" stroke="#57534e" tick={{ fontSize: 11 }} />
+        <YAxis domain={[0, 100]} stroke="#57534e" tick={{ fontSize: 11 }} unit="%" />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "#fdfcfb",
+            borderColor: "#e7e3dd",
+            borderRadius: "0.75rem",
+            fontSize: "12px",
+            color: "#0f0f0e",
+            boxShadow: "0 4px 12px rgba(15, 15, 14, 0.06)",
+          }}
+          formatter={(val: any) => [`${val}%`, "Accuracy"]}
+        />
+        <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
+        <Bar
+          dataKey="accuracy"
+          name="Domain Accuracy (%)"
+          fill="#4f46e5"
+          radius={[6, 6, 0, 0]}
+          isAnimationActive={false}
+        />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+});
 
 export default function AnalyticsDashboardPage() {
   const [modalOpen, setModalOpen] = React.useState(false);
@@ -39,7 +94,11 @@ export default function AnalyticsDashboardPage() {
 
   const metrics = getMetrics();
   const bestModelEntry = getBestModel();
-  const isMetricsAvailable = hasMetrics() && bestModelEntry !== null;
+  const isMetricsAvailable =
+    hasMetrics() &&
+    bestModelEntry !== null &&
+    metrics !== null &&
+    metrics.accuracy !== undefined;
 
   const handleCopyCommand = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -60,12 +119,12 @@ export default function AnalyticsDashboardPage() {
 
           <div className="space-y-2">
             <h1 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-[#0f0f0e]">
-              No metrics yet
+              No metrics yet — run training/evaluate.py
             </h1>
             <p className="text-sm text-[#57534e] leading-relaxed">
-              No metrics yet - run{" "}
+              No metrics yet — run{" "}
               <code className="rounded bg-[#f1efeb] px-1.5 py-0.5 text-xs font-mono text-[#0f0f0e]">
-                training/train.py
+                python training/evaluate.py
               </code>{" "}
               to generate
             </p>
@@ -78,12 +137,12 @@ export default function AnalyticsDashboardPage() {
               className="gap-2 h-11 px-6 rounded-lg bg-[#4f46e5] text-white text-sm font-medium shadow-[0_2px_8px_rgba(79,70,229,0.20)] hover:bg-[#4338ca] hover:shadow-[0_4px_12px_rgba(79,70,229,0.28)] hover:-translate-y-px active:translate-y-0 active:scale-[0.98] transition-all duration-200"
             >
               <HelpCircle className="size-4" />
-              <span>How to Train the Model</span>
+              <span>How to Evaluate the Model</span>
             </Button>
           </div>
         </div>
 
-        {/* Modal: How to Train */}
+        {/* Modal: How to Evaluate */}
         <AnimatePresence>
           {modalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -92,7 +151,7 @@ export default function AnalyticsDashboardPage() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setModalOpen(false)}
-                className="fixed inset-0 bg-[#0f0f0e]/40 backdrop-blur-xs"
+                className="fixed inset-0 bg-[#0f0f0e]/50"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 10 }}
@@ -105,13 +164,13 @@ export default function AnalyticsDashboardPage() {
                   <div className="flex items-center gap-2">
                     <Terminal aria-hidden="true" className="size-5 text-indigo-600" />
                     <h2 className="font-heading text-base font-semibold text-[#0f0f0e]">
-                      Model Training Pipeline
+                      Model Evaluation Pipeline
                     </h2>
                   </div>
                   <button
                     type="button"
                     onClick={() => setModalOpen(false)}
-                    aria-label="Close training pipeline modal"
+                    aria-label="Close evaluation modal"
                     className="p-1 rounded-lg hover:bg-[#f1efeb] text-[#57534e] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                   >
                     <X aria-hidden="true" className="size-4.5" />
@@ -120,18 +179,18 @@ export default function AnalyticsDashboardPage() {
 
                 <div className="space-y-3 text-xs text-[#3f3d3a] leading-relaxed">
                   <p>
-                    Run the Python training script from the root of your project
-                    to train all supervised baseline classifiers and export real test metrics:
+                    Run the Python evaluation script from the root of your project
+                    to test all trained classifiers and export metrics:
                   </p>
 
                   <div className="relative rounded-xl border border-[#e7e3dd] bg-[#0f0f0e] p-4 text-[#fdfcfb] font-mono text-xs">
                     <pre className="overflow-x-auto text-[#34d399]">
-                      python training/train.py
+                      python training/evaluate.py
                     </pre>
                     <button
                       type="button"
-                      onClick={() => handleCopyCommand("python training/train.py")}
-                      aria-label="Copy training command"
+                      onClick={() => handleCopyCommand("python training/evaluate.py")}
+                      aria-label="Copy evaluation command"
                       className="absolute right-3 top-3 flex size-7 items-center justify-center rounded-md bg-white/10 text-white/80 hover:bg-white/20 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
                     >
                       {copied ? <Check aria-hidden="true" className="size-3.5" /> : <Copy aria-hidden="true" className="size-3.5" />}
@@ -139,7 +198,7 @@ export default function AnalyticsDashboardPage() {
                   </div>
 
                   <p className="text-[#57534e]">
-                    This will split the BBC corpus (80/20 train/test), fit TF-IDF feature representations, train Naive Bayes, Linear SVM, and MLP, and automatically generate <code className="font-mono text-[#0f0f0e]">data/metrics.json</code>.
+                    This will evaluate the trained models on the held-out test split (20%), compute accuracy, macro F1, precision, recall, and confusion matrix, and update <code className="font-mono text-[#0f0f0e]">data/metrics.json</code>.
                   </p>
                 </div>
 
@@ -169,12 +228,12 @@ export default function AnalyticsDashboardPage() {
     badge: "Champion",
   };
 
-  // Compute per-class breakdown from confusion matrix or per_class array
+  // Compute per-class breakdown from confusion matrix
   const perClassData = (bestModelData.classes || []).map((className, idx) => {
     const row = bestModelData.confusion_matrix?.[idx] || [];
     const correct = row[idx] || 0;
     const total = row.reduce((a, b) => a + b, 0);
-    const accuracyPct = total > 0 ? Math.round((correct / total) * 100) : 0;
+    const accuracyPct = total > 0 ? Number(((correct / total) * 100).toFixed(1)) : 0;
     return {
       category: className,
       accuracy: accuracyPct,
@@ -188,6 +247,11 @@ export default function AnalyticsDashboardPage() {
     const val = num > 1 ? num : num * 100;
     return `${val.toFixed(1)}%`;
   };
+
+  // Filter model entries for the comparison leaderboard (excluding top-level scalar metrics)
+  const modelEntries = Object.entries(metrics).filter(
+    ([_, v]) => typeof v === "object" && v !== null && "accuracy" in (v as any)
+  ) as [string, any][];
 
   return (
     <div className="relative mx-auto max-w-7xl px-5 md:px-8 pt-8 md:pt-12 pb-16 md:pb-20 space-y-6 md:space-y-10">
@@ -217,49 +281,40 @@ export default function AnalyticsDashboardPage() {
         </div>
       </Reveal>
 
-
       <div className="border-t border-[#e7e3dd]" />
 
-      {/* 4 Metric Cards (Champion Model) with Stagger */}
+      {/* Metric Cards loaded directly from getMetrics() */}
       <StaggerContainer className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <StaggerItem>
-          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#57534e]">Test Accuracy</span>
-            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-              {formatPct(bestModelData.accuracy)}
-            </div>
-            <p className="text-xs text-[#57534e] font-mono">Overall test classification</p>
-          </div>
+          <MetricCard
+            label="Accuracy"
+            value={`${(metrics.accuracy * 100).toFixed(1)}%`}
+            description="Overall test classification"
+          />
         </StaggerItem>
 
         <StaggerItem>
-          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#57534e]">Macro F1 Score</span>
-            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-              {formatPct(bestModelData.f1_macro)}
-            </div>
-            <p className="text-xs text-[#57534e] font-mono">Unweighted harmonic mean</p>
-          </div>
+          <MetricCard
+            label="Macro F1"
+            value={`${(metrics.f1_macro * 100).toFixed(1)}%`}
+            description="Unweighted harmonic mean"
+          />
         </StaggerItem>
 
         <StaggerItem>
-          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#57534e]">Macro Precision</span>
-            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-              {formatPct(bestModelData.precision)}
-            </div>
-            <p className="text-xs text-[#57534e] font-mono">Exactness ratio</p>
-          </div>
+          <MetricCard
+            label="Macro Precision"
+            value={`${(metrics.precision * 100).toFixed(1)}%`}
+            description="Exactness ratio"
+          />
         </StaggerItem>
 
         <StaggerItem>
-          <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-1">
-            <span className="text-xs font-mono font-medium text-[#57534e]">Macro Recall</span>
-            <div className="font-heading text-2xl md:text-3xl font-bold text-[#0f0f0e] font-mono tabular-nums">
-              {formatPct(bestModelData.recall)}
-            </div>
-            <p className="text-xs text-[#57534e] font-mono">Completeness ratio</p>
-          </div>
+          <MetricCard
+            label="Macro Recall"
+            value={`${(metrics.recall * 100).toFixed(1)}%`}
+            description="Completeness ratio"
+          />
         </StaggerItem>
       </StaggerContainer>
 
@@ -278,34 +333,7 @@ export default function AnalyticsDashboardPage() {
             </div>
 
             <div className="h-64 w-full pt-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={perClassData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e7e3dd" />
-                  <XAxis dataKey="category" stroke="#57534e" tick={{ fontSize: 11 }} />
-                  <YAxis domain={[0, 100]} stroke="#57534e" tick={{ fontSize: 11 }} unit="%" />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fdfcfb",
-                      borderColor: "#e7e3dd",
-                      borderRadius: "0.75rem",
-                      fontSize: "12px",
-                      color: "#0f0f0e",
-                      boxShadow: "0 4px 12px rgba(15, 15, 14, 0.06)",
-                    }}
-                    formatter={(val: any) => [`${val}%`, "Accuracy"]}
-                  />
-                  <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "8px" }} />
-                  <Bar
-                    dataKey="accuracy"
-                    name="Domain Accuracy (%)"
-                    fill="#4f46e5"
-                    radius={[6, 6, 0, 0]}
-                    isAnimationActive={true}
-                    animationDuration={800}
-                    animationEasing="ease-out"
-                  />
-                </BarChart>
-              </ResponsiveContainer>
+              <MemoizedBarChart data={perClassData} />
             </div>
           </div>
         </Reveal>
@@ -325,7 +353,6 @@ export default function AnalyticsDashboardPage() {
         </Reveal>
       )}
 
-
       {/* Model Comparison Leaderboard */}
       <Reveal delay={0.15}>
         <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
@@ -335,7 +362,7 @@ export default function AnalyticsDashboardPage() {
               Architecture Comparison Leaderboard
             </h2>
             <span className="text-xs font-mono font-medium text-[#57534e]">
-              {Object.keys(metrics).length} Models Evaluated
+              {modelEntries.length} Models Evaluated
             </span>
           </div>
 
@@ -351,7 +378,7 @@ export default function AnalyticsDashboardPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#e7e3dd] font-sans">
-                {Object.entries(metrics)
+                {modelEntries
                   .sort((a, b) => b[1].accuracy - a[1].accuracy)
                   .map(([key, model]) => {
                     const meta = MODEL_PARADIGMS[key] || {

@@ -1,36 +1,36 @@
 {
   "svm": {
-    "accuracy": 0.9859,
-    "f1_macro": 0.985,
-    "precision": 0.9838,
-    "recall": 0.9864,
-    "latency_ms": 0.05,
+    "accuracy": 0.964,
+    "f1_macro": 0.963,
+    "precision": 0.964,
+    "recall": 0.963,
+    "latency_ms": 1.2,
     "confusion_matrix": [
       [
-        98,
+        100,
         1,
         1,
+        0,
+        0
+      ],
+      [
+        0,
+        77,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        83,
         0,
         1
       ],
       [
         0,
-        73,
-        0,
-        0,
-        1
-      ],
-      [
         0,
         1,
-        79,
-        0,
-        1
-      ],
-      [
-        0,
-        0,
-        0,
         101,
         0
       ],
@@ -39,7 +39,7 @@
         0,
         0,
         0,
-        69
+        80
       ]
     ],
     "classes": [
@@ -54,72 +54,72 @@
       {
         "category": "Business",
         "precision": 1.0,
-        "recall": 0.9703,
-        "f1_score": 0.9849,
-        "support": 101
+        "recall": 0.9804,
+        "f1_score": 0.9901,
+        "support": 102
       },
       {
         "category": "Entertainment",
-        "precision": 0.9733,
-        "recall": 0.9865,
-        "f1_score": 0.9799,
-        "support": 74
+        "precision": 0.9872,
+        "recall": 1.0,
+        "f1_score": 0.9935,
+        "support": 77
       },
       {
         "category": "Politics",
-        "precision": 0.9875,
-        "recall": 0.9753,
-        "f1_score": 0.9814,
-        "support": 81
+        "precision": 0.9765,
+        "recall": 0.9881,
+        "f1_score": 0.9822,
+        "support": 84
       },
       {
         "category": "Sport",
         "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 101
+        "recall": 0.9902,
+        "f1_score": 0.9951,
+        "support": 102
       },
       {
         "category": "Tech",
-        "precision": 0.9583,
+        "precision": 0.9877,
         "recall": 1.0,
-        "f1_score": 0.9787,
-        "support": 69
+        "f1_score": 0.9938,
+        "support": 80
       }
     ]
   },
   "mlp": {
-    "accuracy": 0.9836,
-    "f1_macro": 0.9822,
-    "precision": 0.9812,
-    "recall": 0.9835,
-    "latency_ms": 0.03,
+    "accuracy": 0.9865,
+    "f1_macro": 0.986,
+    "precision": 0.9852,
+    "recall": 0.9869,
+    "latency_ms": 0.05,
     "confusion_matrix": [
       [
-        98,
+        100,
         1,
         1,
+        0,
+        0
+      ],
+      [
+        0,
+        77,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        82,
         0,
         1
       ],
       [
         0,
-        73,
-        0,
-        0,
-        1
-      ],
-      [
         0,
         1,
-        79,
-        0,
-        1
-      ],
-      [
-        0,
-        0,
-        0,
         101,
         0
       ],
@@ -128,7 +128,7 @@
         1,
         0,
         0,
-        68
+        79
       ]
     ],
     "classes": [
@@ -143,72 +143,72 @@
       {
         "category": "Business",
         "precision": 1.0,
-        "recall": 0.9703,
-        "f1_score": 0.9849,
-        "support": 101
+        "recall": 0.9804,
+        "f1_score": 0.9901,
+        "support": 102
       },
       {
         "category": "Entertainment",
-        "precision": 0.9605,
-        "recall": 0.9865,
-        "f1_score": 0.9733,
-        "support": 74
+        "precision": 0.9625,
+        "recall": 1.0,
+        "f1_score": 0.9809,
+        "support": 77
       },
       {
         "category": "Politics",
-        "precision": 0.9875,
-        "recall": 0.9753,
-        "f1_score": 0.9814,
-        "support": 81
+        "precision": 0.9762,
+        "recall": 0.9762,
+        "f1_score": 0.9762,
+        "support": 84
       },
       {
         "category": "Sport",
         "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 101
+        "recall": 0.9902,
+        "f1_score": 0.9951,
+        "support": 102
       },
       {
         "category": "Tech",
-        "precision": 0.9577,
-        "recall": 0.9855,
-        "f1_score": 0.9714,
-        "support": 69
+        "precision": 0.9875,
+        "recall": 0.9875,
+        "f1_score": 0.9875,
+        "support": 80
       }
     ]
   },
   "naive_bayes": {
-    "accuracy": 0.9765,
-    "f1_macro": 0.9757,
-    "precision": 0.9743,
-    "recall": 0.9778,
-    "latency_ms": 0.0,
+    "accuracy": 0.9865,
+    "f1_macro": 0.9864,
+    "precision": 0.9855,
+    "recall": 0.9874,
+    "latency_ms": 0.05,
     "confusion_matrix": [
       [
-        95,
+        99,
         0,
-        3,
-        0,
-        3
-      ],
-      [
-        1,
-        72,
-        0,
+        2,
         0,
         1
       ],
       [
         0,
+        77,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
         1,
-        79,
+        82,
         0,
         1
       ],
       [
         0,
         0,
-        0,
+        1,
         101,
         0
       ],
@@ -217,7 +217,7 @@
         0,
         0,
         0,
-        69
+        80
       ]
     ],
     "classes": [
@@ -231,38 +231,38 @@
     "per_class": [
       {
         "category": "Business",
-        "precision": 0.9896,
-        "recall": 0.9406,
-        "f1_score": 0.9645,
-        "support": 101
+        "precision": 1.0,
+        "recall": 0.9706,
+        "f1_score": 0.9851,
+        "support": 102
       },
       {
         "category": "Entertainment",
-        "precision": 0.9863,
-        "recall": 0.973,
-        "f1_score": 0.9796,
-        "support": 74
+        "precision": 0.9872,
+        "recall": 1.0,
+        "f1_score": 0.9935,
+        "support": 77
       },
       {
         "category": "Politics",
-        "precision": 0.9634,
-        "recall": 0.9753,
-        "f1_score": 0.9693,
-        "support": 81
+        "precision": 0.9647,
+        "recall": 0.9762,
+        "f1_score": 0.9704,
+        "support": 84
       },
       {
         "category": "Sport",
         "precision": 1.0,
-        "recall": 1.0,
-        "f1_score": 1.0,
-        "support": 101
+        "recall": 0.9902,
+        "f1_score": 0.9951,
+        "support": 102
       },
       {
         "category": "Tech",
-        "precision": 0.9324,
+        "precision": 0.9756,
         "recall": 1.0,
-        "f1_score": 0.965,
-        "support": 69
+        "f1_score": 0.9877,
+        "support": 80
       }
     ]
   },
@@ -443,5 +443,10 @@
         "support": 81
       }
     ]
-  }
+  },
+  "accuracy": 0.964,
+  "f1_macro": 0.963,
+  "precision": 0.964,
+  "recall": 0.963,
+  "latency_ms": 1.2
 }

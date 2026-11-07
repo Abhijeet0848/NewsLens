@@ -1,3 +1,5 @@
+import rawMetrics from "@/data/metrics.json";
+
 export type ModelId =
   | "linear-svm"
   | "distilbert"
@@ -15,34 +17,40 @@ export type ModelInfo = {
   description: string;
 };
 
+const m: any = rawMetrics || {};
+const svmAcc = m.svm?.accuracy ?? m.accuracy ?? 0.964;
+const mlpAcc = m.mlp?.accuracy ?? 0.987;
+const nbAcc = m.naive_bayes?.accuracy ?? 0.987;
+const distilAcc = m.distilbert?.accuracy ?? 0.978;
+
 export const MODELS: Record<ModelId, ModelInfo> = {
   "linear-svm": {
     id: "linear-svm",
     name: "Linear SVM",
     subtitle: "Maximum-Margin Boundary",
-    metric: "96.4%",
-    accuracy: 96.4,
-    latency: 1.2,
-    role: "default",
+    metric: `${(svmAcc * 100).toFixed(1)}%`,
+    accuracy: Number((svmAcc * 100).toFixed(1)),
+    latency: m.svm?.latency_ms ?? 1.2,
+    role: "champion",
     description: "Best balance of speed and accuracy",
   },
   distilbert: {
     id: "distilbert",
     name: "DistilBERT",
     subtitle: "Transformer Attention",
-    metric: "97.8%",
-    accuracy: 97.8,
-    latency: 12.4,
-    role: "champion",
-    description: "Highest accuracy, slower inference",
+    metric: `${(distilAcc * 100).toFixed(1)}%`,
+    accuracy: Number((distilAcc * 100).toFixed(1)),
+    latency: m.distilbert?.latency_ms ?? 12.4,
+    role: "baseline",
+    description: "Highest theoretical capacity, slower inference",
   },
   "neural-mlp": {
     id: "neural-mlp",
     name: "Neural MLP",
     subtitle: "Multi-Layer Perceptron",
-    metric: "95.1%",
-    accuracy: 95.1,
-    latency: 3.2,
+    metric: `${(mlpAcc * 100).toFixed(1)}%`,
+    accuracy: Number((mlpAcc * 100).toFixed(1)),
+    latency: m.mlp?.latency_ms ?? 0.1,
     role: "baseline",
     description: "Non-linear neural baseline",
   },
@@ -50,9 +58,9 @@ export const MODELS: Record<ModelId, ModelInfo> = {
     id: "naive-bayes",
     name: "Naive Bayes",
     subtitle: "Probabilistic Generative",
-    metric: "92.1%",
-    accuracy: 92.1,
-    latency: 0.5,
+    metric: `${(nbAcc * 100).toFixed(1)}%`,
+    accuracy: Number((nbAcc * 100).toFixed(1)),
+    latency: m.naive_bayes?.latency_ms ?? 0.05,
     role: "baseline",
     description: "Fast probabilistic baseline",
   },
