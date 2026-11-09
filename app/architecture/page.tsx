@@ -47,10 +47,6 @@ export default function ArchitecturePage() {
           <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-[#0f0f0e] tracking-tight">
             How NewsScope Works
           </h1>
-          <p className="text-[13px] md:text-[15px] text-[#3f3d3a] leading-relaxed max-w-2xl mx-auto px-2">
-            A comprehensive mapping of NewsScope&apos;s architecture, mathematical formulations,
-            and classifier designs to core Machine Learning syllabus concepts for academic evaluation.
-          </p>
         </div>
       </div>
 
