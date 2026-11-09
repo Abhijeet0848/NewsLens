@@ -22,7 +22,7 @@ function AnimatedCount({ value, duration = 1.4 }: { value: number; duration?: nu
 }
 
 export function Hero() {
-  const { totalClassifiedCount } = useClassifierStore();
+  const totalClassifiedCount = useClassifierStore((s) => s.totalClassifiedCount);
 
   return (
     <section

@@ -28,12 +28,10 @@ import { ease } from "@/lib/motion";
 
 export function CommandPalette() {
   const router = useRouter();
-  const {
-    commandPaletteOpen,
-    setCommandPaletteOpen,
-    setCurrentText,
-    setSelectedModel,
-  } = useClassifierStore();
+  const commandPaletteOpen = useClassifierStore((s) => s.commandPaletteOpen);
+  const setCommandPaletteOpen = useClassifierStore((s) => s.setCommandPaletteOpen);
+  const setCurrentText = useClassifierStore((s) => s.setCurrentText);
+  const setSelectedModel = useClassifierStore((s) => s.setSelectedModel);
 
   const [search, setSearch] = React.useState("");
   const [samples, setSamples] = React.useState<BBCArticle[]>([]);

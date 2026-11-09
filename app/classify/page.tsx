@@ -60,21 +60,79 @@ function mapFriendlyError(err: any): string {
   return message || "Classification failed. Please try again.";
 }
 
+const RecentHistoryCard = React.memo(function RecentHistoryCard({
+  history,
+  onSelect,
+  onClear,
+}: {
+  history: any[];
+  onSelect: (snippet: string) => void;
+  onClear: () => void;
+}) {
+  if (history.length === 0) return null;
+
+  return (
+    <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3">
+      <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-3">
+        <h2 className="text-[11px] uppercase tracking-[0.14em] text-[#57534e] font-mono flex items-center gap-1.5 font-semibold">
+          <History aria-hidden="true" className="size-3.5 text-[#4f46e5]" />
+          Recent Classifications ({history.length})
+        </h2>
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label="Clear classification history"
+          className="text-[12px] text-[#57534e] hover:text-[#dc2626] transition-colors flex items-center gap-1 font-medium focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none cursor-pointer"
+        >
+          <Trash2 aria-hidden="true" className="size-3.5" /> Clear History
+        </button>
+      </div>
+
+      <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+        {history.map((item) => {
+          const cfg = getCategoryConfig(item.category);
+          return (
+            <div
+              key={item.id}
+              onClick={() => onSelect(item.textSnippet)}
+              className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-3 text-[13px] text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all duration-150 active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3 truncate pr-2">
+                <span
+                  className="size-2 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: cfg.colorHex }}
+                />
+                <span className="truncate font-sans text-[#3f3d3a] font-medium group-hover:text-[#0f0f0e]">
+                  {item.textSnippet}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0 font-mono text-[12px] tabular-nums">
+                <span className={`px-2 py-0.5 rounded border text-[11px] font-semibold ${cfg.badgeClass}`}>
+                  {item.category}
+                </span>
+                <span className="text-[#0f0f0e] font-semibold">{item.confidence}%</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+});
+
 export default function ClassifyPage() {
-  const {
-    currentText,
-    setCurrentText,
-    selectedModel,
-    setSelectedModel,
-    result,
-    setResult,
-    isLoading,
-    setIsLoading,
-    history,
-    addToHistory,
-    clearHistory,
-    incrementCount,
-  } = useClassifierStore();
+  const currentText = useClassifierStore((s) => s.currentText);
+  const setCurrentText = useClassifierStore((s) => s.setCurrentText);
+  const selectedModel = useClassifierStore((s) => s.selectedModel);
+  const setSelectedModel = useClassifierStore((s) => s.setSelectedModel);
+  const result = useClassifierStore((s) => s.result);
+  const setResult = useClassifierStore((s) => s.setResult);
+  const isLoading = useClassifierStore((s) => s.isLoading);
+  const setIsLoading = useClassifierStore((s) => s.setIsLoading);
+  const history = useClassifierStore((s) => s.history);
+  const addToHistory = useClassifierStore((s) => s.addToHistory);
+  const clearHistory = useClassifierStore((s) => s.clearHistory);
+  const incrementCount = useClassifierStore((s) => s.incrementCount);
 
   const [multiResults, setMultiResults] = React.useState<Record<string, any> | null>(null);
   const [isComparing, setIsComparing] = React.useState(false);
@@ -101,6 +159,16 @@ export default function ClassifyPage() {
   const handleTextChange = React.useCallback(
     (val: string) => {
       setCurrentText(val);
+      if (result) {
+        setResult(null);
+      }
+    },
+    [result, setCurrentText, setResult]
+  );
+
+  const handleSelectHistory = React.useCallback(
+    (snippet: string) => {
+      setCurrentText(snippet);
       if (result) {
         setResult(null);
       }
@@ -270,63 +338,11 @@ export default function ClassifyPage() {
           </div>
 
           {/* Recent History Card */}
-          {history.length > 0 && (
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="show"
-              className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-6 shadow-[0_1px_2px_rgba(28,27,26,0.04),0_8px_24px_-8px_rgba(28,27,26,0.06)] hover:shadow-[0_1px_2px_rgba(28,27,26,0.06),0_12px_32px_-8px_rgba(28,27,26,0.10)] transition-shadow duration-200 space-y-3"
-            >
-              <div className="flex items-center justify-between border-b border-[#e7e3dd] pb-3">
-                <h2 className="text-[11px] uppercase tracking-[0.14em] text-[#57534e] font-mono flex items-center gap-1.5 font-semibold">
-                  <History aria-hidden="true" className="size-3.5 text-[#4f46e5]" />
-                  Recent Classifications ({history.length})
-                </h2>
-                <button
-                  type="button"
-                  onClick={clearHistory}
-                  aria-label="Clear classification history"
-                  className="text-[12px] text-[#57534e] hover:text-[#dc2626] transition-colors flex items-center gap-1 font-medium focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
-                >
-                  <Trash2 aria-hidden="true" className="size-3.5" /> Clear History
-                </button>
-              </div>
-
-              <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                {history.map((item) => {
-                  const cfg = getCategoryConfig(item.category);
-                  return (
-                    <motion.div
-                      key={item.id}
-                      whileHover={{ scale: 1.005 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setCurrentText(item.textSnippet);
-                        if (result) setResult(null);
-                      }}
-                      className="group flex items-center justify-between rounded-xl border border-[#e7e3dd] bg-[#faf9f6] p-3 text-[13px] text-[#3f3d3a] hover:bg-[#f1efeb] hover:text-[#0f0f0e] cursor-pointer shadow-sm transition-all"
-                    >
-                      <div className="flex items-center gap-3 truncate pr-2">
-                        <span
-                          className="size-2 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: cfg.colorHex }}
-                        />
-                        <span className="truncate font-sans text-[#3f3d3a] font-medium group-hover:text-[#0f0f0e]">
-                          {item.textSnippet}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2 flex-shrink-0 font-mono text-[12px] tabular-nums">
-                        <span className={`px-2 py-0.5 rounded border text-[11px] font-semibold ${cfg.badgeClass}`}>
-                          {item.category}
-                        </span>
-                        <span className="text-[#0f0f0e] font-semibold">{item.confidence}%</span>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
+          <RecentHistoryCard
+            history={history}
+            onSelect={handleSelectHistory}
+            onClear={clearHistory}
+          />
         </motion.div>
 
         {/* Right Column */}

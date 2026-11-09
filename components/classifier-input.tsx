@@ -63,25 +63,33 @@ export function ClassifierInput({
   }, [isLoading]);
 
   const charCount = text.length;
-  const englishWords = text.match(/[a-zA-Z]+/g) || [];
-  const wordCount = englishWords.length;
+  const wordCount = React.useMemo(() => {
+    if (!text.trim()) return 0;
+    const matches = text.match(/[a-zA-Z]+/g);
+    return matches ? matches.length : 0;
+  }, [text]);
   const isMinimumReached = charCount >= 40 && wordCount >= 8;
   const activeModel =
     MODELS[(selectedModel as ModelId)] || MODELS[DEFAULT_MODEL];
 
-  // Live detection debounce for typed URLs (500ms)
+  // Live detection debounce for typed URLs (fast-path ignores articles with spaces)
   React.useEffect(() => {
     if (inputState.kind === "url-loading" || inputState.kind === "url-loaded") {
       setIsUrlTyped(false);
       return;
     }
+    const trimmed = text.trim();
+    if (!trimmed || trimmed.length > 200 || /\s/.test(trimmed)) {
+      setIsUrlTyped(false);
+      return;
+    }
     const timer = setTimeout(() => {
-      const type = detectInput(text);
+      const type = detectInput(trimmed);
       setIsUrlTyped(type === "url");
-    }, 400);
+    }, 300);
 
     return () => clearTimeout(timer);
-  }, [text, inputState]);
+  }, [text, inputState.kind]);
 
   // Synchronize state when external text resets
   React.useEffect(() => {
@@ -149,14 +157,16 @@ export function ClassifierInput({
     }
   };
 
-  // Textarea Change handler
+  // Textarea Change handler (prevents duplicate state allocations)
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value.slice(0, 5000);
     onChangeText(val);
 
     if (!val.trim()) {
-      setInputState({ kind: "empty" });
-    } else if (inputState.kind !== "url-loaded") {
+      if (inputState.kind !== "empty") {
+        setInputState({ kind: "empty" });
+      }
+    } else if (inputState.kind !== "text" && inputState.kind !== "url-loaded") {
       setInputState({ kind: "text", text: val });
     }
   };
@@ -189,19 +199,29 @@ export function ClassifierInput({
     }
   };
 
-  // Global shortcut: Cmd/Ctrl + Enter
+  // Stable references for global keyboard shortcut
+  const onClassifyRef = React.useRef(onClassify);
+  onClassifyRef.current = onClassify;
+  const textRef = React.useRef(text);
+  textRef.current = text;
+  const isLoadingRef = React.useRef(isLoading);
+  isLoadingRef.current = isLoading;
+  const isUrlLoadingRef = React.useRef(inputState.kind === "url-loading");
+  isUrlLoadingRef.current = inputState.kind === "url-loading";
+
+  // Global shortcut: Cmd/Ctrl + Enter (listener registered once on mount)
   React.useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-        if (text.trim() && !isLoading && inputState.kind !== "url-loading") {
+        if (textRef.current.trim() && !isLoadingRef.current && !isUrlLoadingRef.current) {
           e.preventDefault();
-          onClassify();
+          onClassifyRef.current();
         }
       }
     };
     window.addEventListener("keydown", handleGlobalKeyDown);
     return () => window.removeEventListener("keydown", handleGlobalKeyDown);
-  }, [text, isLoading, inputState.kind, onClassify]);
+  }, []);
 
   const isUrlState =
     inputState.kind === "url-loading" ||
@@ -299,7 +319,7 @@ export function ClassifierInput({
             autoComplete="off"
             maxLength={5000}
             className={cn(
-              "w-full min-h-[240px] p-5 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] text-[14px] text-[#0f0f0e] leading-relaxed resize-none focus:outline-none focus:border-[#4f46e5]/40 focus:ring-4 focus:ring-[#4f46e5]/10 transition-all placeholder:text-[#8a847d]",
+              "w-full min-h-[240px] p-5 rounded-xl border border-[#e7e3dd] bg-[#faf9f6] text-[14px] text-[#0f0f0e] leading-relaxed resize-none focus:outline-none focus:border-[#4f46e5]/40 focus:ring-4 focus:ring-[#4f46e5]/10 transition-colors duration-150 placeholder:text-[#8a847d]",
               inputState.kind === "url-loading" && "opacity-60 cursor-wait"
             )}
             placeholder="Paste article text or a URL..."

@@ -27,7 +27,7 @@ export function Navbar() {
   const [scrolled, setScrolled] = React.useState(false);
   const scrolledRef = React.useRef(false);
   const { scrollY } = useScroll();
-  const { setCommandPaletteOpen } = useClassifierStore();
+  const setCommandPaletteOpen = useClassifierStore((s) => s.setCommandPaletteOpen);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const next = latest >= 20;

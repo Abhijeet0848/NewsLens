@@ -276,11 +276,8 @@ function ResultsPanelComponent({
                     </span>
                   </div>
                   <div className="h-1.5 w-full bg-[#f1efeb] rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: "0.5%" }}
-                      animate={{ width: `${score * 100}%` }}
-                      transition={{ duration: 0.8, delay: 0.05 + index * 0.04, ease: ease.smooth }}
-                      className="h-full rounded-full transition-all duration-500"
+                    <div
+                      className="h-full rounded-full transition-[width] duration-700 ease-out"
                       style={{
                         width: `${score * 100}%`,
                         backgroundColor: cfg.colorHex,
