@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  BookOpen,
   Cpu,
   Layers,
   HelpCircle,
@@ -45,9 +44,6 @@ export default function ArchitecturePage() {
 
         {/* Hero Content */}
         <div className="relative max-w-3xl mx-auto space-y-3 pt-4 md:pt-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#e7e3dd] bg-[#fdfcfb] px-3.5 py-1 text-[11px] md:text-xs font-mono font-medium text-[#3f3d3a] shadow-xs">
-            <BookOpen className="size-3.5 text-[#0891b2]" /> Academic & ML Syllabus Mapping
-          </div>
           <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold text-[#0f0f0e] tracking-tight">
             How NewsScope Works
           </h1>
