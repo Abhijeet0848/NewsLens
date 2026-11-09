@@ -4,7 +4,6 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
-  Upload,
   Link2,
   Trash2,
   Clipboard,
@@ -51,8 +50,6 @@ export function ClassifierInput({
   );
   const [isUrlTyped, setIsUrlTyped] = React.useState(false);
   const [isWarmingUp, setIsWarmingUp] = React.useState(false);
-  const [dragOver, setDragOver] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
 
   React.useEffect(() => {
@@ -172,22 +169,6 @@ export function ClassifierInput({
     toast.info("Input cleared");
   };
 
-  // File Upload handler
-  const handleFileUpload = (file: File) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target?.result as string;
-      if (content) {
-        const truncated = content.length > 5000 ? content.slice(0, 5000) : content;
-        onChangeText(truncated);
-        setInputState({ kind: "text", text: truncated });
-        toast.success(`Uploaded "${file.name}"`);
-      }
-    };
-    reader.readAsText(file);
-  };
-
   // Textarea Keydown (Enter to fetch if URL typed, Cmd/Ctrl+Enter to classify)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (isUrlTyped && e.key === "Enter" && !e.shiftKey) {
@@ -241,20 +222,6 @@ export function ClassifierInput({
           </div>
         </div>
       </div>
-
-        {/* Hidden File Input */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept=".txt,.csv,.json,.pdf,.doc"
-          aria-label="Upload article file"
-          className="hidden"
-          onChange={(e) => {
-            if (e.target.files?.[0]) {
-              handleFileUpload(e.target.files[0]);
-            }
-          }}
-        />
 
         {/* URL Chip Section (when URL state active) */}
         <AnimatePresence>
@@ -319,24 +286,7 @@ export function ClassifierInput({
         </AnimatePresence>
 
         {/* Unified Smart Textarea */}
-        <div
-          onDragOver={(e) => {
-            e.preventDefault();
-            setDragOver(true);
-          }}
-          onDragLeave={() => setDragOver(false)}
-          onDrop={(e) => {
-            e.preventDefault();
-            setDragOver(false);
-            if (e.dataTransfer.files?.[0]) {
-              handleFileUpload(e.dataTransfer.files[0]);
-            }
-          }}
-          className={cn(
-            "relative rounded-xl transition-all duration-200",
-            dragOver && "ring-2 ring-[#4f46e5] ring-offset-2"
-          )}
-        >
+        <div className="relative rounded-xl transition-all duration-200">
           <textarea
             id="article-input"
             aria-label="Article content"
@@ -398,8 +348,8 @@ export function ClassifierInput({
 
         {/* Footer Row (simplified) */}
         <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-          {/* Left Actions: Paste | Upload | Clear */}
-          <div className="flex items-center gap-1.5 flex-wrap">
+          {/* Left Actions: Paste | Clear */}
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={handlePasteClipboard}
@@ -408,15 +358,6 @@ export function ClassifierInput({
             >
               <Clipboard aria-hidden="true" className="size-3.5 text-[#57534e]" />
               <span>Paste</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => fileInputRef.current?.click()}
-              aria-label="Upload document file"
-              className="h-8 px-3 rounded-md bg-[#fdfcfb] border border-[#e7e3dd] text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center gap-1.5 shadow-sm active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none"
-            >
-              <Upload aria-hidden="true" className="size-3.5 text-[#57534e]" />
-              <span>Upload</span>
             </button>
             <button
               type="button"
