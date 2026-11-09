@@ -385,18 +385,34 @@ export default function ClassifyPage() {
       {/* 4-Model Comparison & Benchmarking Modal (Portaled to document.body) */}
       {mounted && isModalOpen &&
         createPortal(
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: "100vw",
+              height: "100vh",
+              zIndex: 100,
+            }}
+          >
             {/* Backdrop */}
             <div
               onClick={() => setIsModalOpen(false)}
               className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
               aria-hidden="true"
             />
 
             {/* Modal Box */}
-            <div className="relative w-full max-w-4xl max-h-[85vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden z-10 text-left">
+            <div
+              className="relative w-full max-w-4xl max-h-[85vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden z-10 text-left my-auto"
+              style={{ maxHeight: "85vh" }}
+            >
               {/* Modal Header */}
-              <div className="flex-shrink-0 p-6 border-b border-gray-100 flex items-center justify-between">
+              <div className="flex-shrink-0 p-6 border-b border-gray-100 flex items-center justify-between bg-white">
                 <div className="flex items-center gap-2.5">
                   <div className="flex size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5]">
                     <GitCompare className="size-4.5" />
