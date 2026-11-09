@@ -418,16 +418,21 @@ export function ClassifierInput({
       </div>
 
       {/* Footer Actions: Model Selector + Classify Button */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-5">
+      <div className="flex flex-col sm:flex-row gap-3 mt-5 items-stretch sm:items-center">
         <ModelSelector
           value={(selectedModel as ModelId) || DEFAULT_MODEL}
           onChange={onChangeModel}
+          className="w-full sm:w-auto"
         />
         <button
           type="button"
           onClick={onClassify}
           disabled={!text.trim() || isLoading || inputState.kind === "url-loading"}
-          className="flex-1 h-12 px-6 rounded-xl bg-[#0f0f0e] disabled:bg-[#0f0f0e]/40 text-white text-[14px] font-medium hover:bg-[#2a2a28] disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center select-none"
+          className={`w-full sm:w-auto sm:flex-1 h-12 px-6 rounded-xl text-[14px] font-medium flex items-center justify-center select-none transition-colors duration-200 ${
+            !text.trim() || isLoading || inputState.kind === "url-loading"
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-black text-white hover:bg-gray-800 cursor-pointer"
+          }`}
         >
           {isLoading ? (
             <div className="flex items-center gap-2">

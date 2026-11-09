@@ -146,11 +146,11 @@ export function ModelSelector({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`Selected model: ${active.name}`}
-        className="group flex items-center gap-3 h-11 pl-3 pr-3 rounded-lg 
+        className="group flex items-center gap-3 h-12 sm:h-11 pl-3 pr-3 rounded-lg 
                    bg-[#fdfcfb] border border-[#e7e3dd] 
                    hover:bg-[#f1efeb] hover:border-[#d6d1c9] 
                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4f46e5]/20 focus-visible:border-[#4f46e5]
-                   shadow-xs cursor-pointer select-none transition-colors duration-150 shrink-0"
+                   shadow-xs cursor-pointer select-none transition-colors duration-150 w-full sm:w-auto justify-between sm:justify-start shrink-0"
       >
         {/* Dot */}
         <span className="size-2.5 rounded-full bg-[#4f46e5] shrink-0" />
