@@ -87,6 +87,10 @@ export default function RootLayout({
         <CommandPalette />
         <Toaster
           position="top-center"
+          offset="80px"
+          mobileOffset="72px"
+          style={{ top: "80px" }}
+          className="z-50"
           duration={2000}
           toastOptions={{
             style: {
