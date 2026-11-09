@@ -379,10 +379,10 @@ export default function ClassifyPage() {
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-4xl max-h-[85vh] flex flex-col rounded-xl bg-white shadow-2xl overflow-hidden border border-[#e7e3dd] text-left"
+              className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden border border-[#e7e3dd] text-left"
             >
               {/* Modal Header */}
-              <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-6 py-4 border-b border-[#e7e3dd]">
+              <div className="flex-shrink-0 p-6 border-b border-gray-100 flex items-center justify-between bg-white">
                 <div className="flex items-center gap-2.5">
                   <div className="flex size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5]">
                     <GitCompare className="size-4.5" />
@@ -406,8 +406,8 @@ export default function ClassifyPage() {
                 </button>
               </div>
 
-              {/* Scrollable Content Wrapper */}
-              <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
+              {/* Scrollable Body */}
+              <div className="overflow-y-auto min-h-0 p-6 space-y-6">
                 {/* Leaderboard Table */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
@@ -581,7 +581,7 @@ export default function ClassifyPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="sticky bottom-0 bg-white z-10 px-6 py-3.5 border-t border-[#e7e3dd] flex items-center justify-between">
+              <div className="flex-shrink-0 px-6 py-4 border-t border-gray-100 bg-white flex items-center justify-between">
                 <Link
                   href="/analytics#model-comparison"
                   onClick={() => setIsModalOpen(false)}
