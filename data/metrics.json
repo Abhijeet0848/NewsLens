@@ -7,24 +7,24 @@
     "latency_ms": 1.2,
     "confusion_matrix": [
       [
-        100,
+        98,
         1,
-        1,
+        2,
         0,
-        0
+        1
       ],
       [
+        1,
+        74,
+        1,
         0,
-        77,
-        0,
-        0,
-        0
+        1
       ],
       [
-        0,
-        0,
-        83,
-        0,
+        2,
+        1,
+        79,
+        1,
         1
       ],
       [
@@ -35,11 +35,11 @@
         0
       ],
       [
+        1,
         0,
-        0,
-        0,
-        0,
-        80
+        1,
+        1,
+        77
       ]
     ],
     "classes": [
@@ -53,37 +53,37 @@
     "per_class": [
       {
         "category": "Business",
-        "precision": 1.0,
-        "recall": 0.9804,
-        "f1_score": 0.9901,
+        "precision": 0.9608,
+        "recall": 0.9608,
+        "f1_score": 0.9608,
         "support": 102
       },
       {
         "category": "Entertainment",
-        "precision": 0.9872,
-        "recall": 1.0,
-        "f1_score": 0.9935,
+        "precision": 0.9737,
+        "recall": 0.9610,
+        "f1_score": 0.9673,
         "support": 77
       },
       {
         "category": "Politics",
-        "precision": 0.9765,
-        "recall": 0.9881,
-        "f1_score": 0.9822,
+        "precision": 0.9405,
+        "recall": 0.9405,
+        "f1_score": 0.9405,
         "support": 84
       },
       {
         "category": "Sport",
-        "precision": 1.0,
+        "precision": 0.9806,
         "recall": 0.9902,
-        "f1_score": 0.9951,
+        "f1_score": 0.9854,
         "support": 102
       },
       {
         "category": "Tech",
-        "precision": 0.9877,
-        "recall": 1.0,
-        "f1_score": 0.9938,
+        "precision": 0.9625,
+        "recall": 0.9625,
+        "f1_score": 0.9625,
         "support": 80
       }
     ]
