@@ -412,16 +412,16 @@ export default function ClassifyPage() {
               style={{ maxHeight: "85vh" }}
             >
               {/* Modal Header */}
-              <div className="flex-shrink-0 p-6 border-b border-gray-100 flex items-center justify-between bg-white">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5]">
-                    <GitCompare className="size-4.5" />
+              <div className="flex-shrink-0 p-4 sm:p-6 border-b border-gray-100 flex items-center justify-between gap-3 bg-white">
+                <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 pr-2">
+                  <div className="flex size-8 sm:size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5] shrink-0">
+                    <GitCompare className="size-4 sm:size-4.5" />
                   </div>
-                  <div>
-                    <h2 className="font-heading text-base font-semibold text-[#0f0f0e]">
+                  <div className="min-w-0">
+                    <h2 className="font-heading text-sm sm:text-base font-semibold text-[#0f0f0e] leading-snug">
                       4-Model Architecture Comparison
                     </h2>
-                    <p className="text-xs text-[#57534e]">
+                    <p className="text-[11px] sm:text-xs text-[#57534e] truncate sm:whitespace-normal">
                       Held-out test evaluation benchmarks &amp; live simultaneous inference
                     </p>
                   </div>
@@ -430,35 +430,35 @@ export default function ClassifyPage() {
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   aria-label="Close comparison modal"
-                  className="p-1.5 rounded-lg hover:bg-[#f1efeb] text-[#57534e] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none cursor-pointer"
+                  className="shrink-0 p-1.5 rounded-lg hover:bg-[#f1efeb] text-[#57534e] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none cursor-pointer"
                 >
                   <X aria-hidden="true" className="size-4.5" />
                 </button>
               </div>
 
               {/* Scrollable Body */}
-              <div className="flex-1 overflow-y-auto min-h-0 p-6 space-y-6">
+              <div className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6 space-y-6">
                 {/* Leaderboard Table */}
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5">
-                      <Award className="size-3.5 text-[#d97706]" />
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5 whitespace-nowrap">
+                      <Award className="size-3.5 text-[#d97706] shrink-0" />
                       Architecture Leaderboard
                     </span>
-                    <span className="text-[11px] font-mono text-[#059669] font-medium">
+                    <span className="text-[11px] font-mono text-[#059669] font-medium whitespace-nowrap">
                       Evaluated on 445 Held-Out Articles
                     </span>
                   </div>
 
-                  <div className="overflow-x-auto rounded-xl border border-[#e7e3dd]">
-                    <table className="w-full text-left text-xs">
+                  <div className="w-full overflow-x-auto pb-2 rounded-xl border border-[#e7e3dd]">
+                    <table className="w-full min-w-[600px] text-left text-xs">
                       <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold">
                         <tr>
-                          <th className="p-2.5">Model</th>
-                          <th className="p-2.5">Paradigm</th>
-                          <th className="p-2.5">Accuracy</th>
-                          <th className="p-2.5">Latency</th>
-                          <th className="p-2.5">Status</th>
+                          <th className="p-2.5 whitespace-nowrap">Model</th>
+                          <th className="p-2.5 whitespace-nowrap hidden sm:table-cell">Paradigm</th>
+                          <th className="p-2.5 whitespace-nowrap">Accuracy</th>
+                          <th className="p-2.5 whitespace-nowrap">Latency</th>
+                          <th className="p-2.5 whitespace-nowrap">Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#e7e3dd]">
@@ -497,20 +497,20 @@ export default function ClassifyPage() {
                           },
                         ].map((item) => (
                           <tr key={item.name} className="hover:bg-[#f8f7f5] transition-colors">
-                            <td className="p-2.5 font-semibold text-[#0f0f0e]">
+                            <td className="p-2.5 font-semibold text-[#0f0f0e] whitespace-nowrap">
                               {item.name}
                             </td>
-                            <td className="p-2.5 text-[#57534e]">
+                            <td className="p-2.5 text-[#57534e] whitespace-nowrap hidden sm:table-cell">
                               {item.paradigm}
                             </td>
-                            <td className="p-2.5 font-mono font-bold text-[#059669] tabular-nums">
+                            <td className="p-2.5 font-mono font-bold text-[#059669] tabular-nums whitespace-nowrap">
                               {item.acc}
                             </td>
-                            <td className="p-2.5 font-mono text-[#0891b2] tabular-nums font-medium">
+                            <td className="p-2.5 font-mono text-[#0891b2] tabular-nums font-medium whitespace-nowrap">
                               {item.lat}
                             </td>
-                            <td className="p-2.5">
-                              <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-mono border ${item.roleColor}`}>
+                            <td className="p-2.5 whitespace-nowrap">
+                              <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-mono border whitespace-nowrap ${item.roleColor}`}>
                                 {item.role}
                               </span>
                             </td>
@@ -556,7 +556,7 @@ export default function ClassifyPage() {
                       <span>Running simultaneous inference across Linear SVM, DistilBERT, Neural MLP, and Naive Bayes...</span>
                     </div>
                   ) : multiResults ? (
-                    <div className="grid grid-cols-2 gap-2.5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                       {Object.entries(multiResults).map(([mKey, data]) => {
                         const modelConfig = MODELS[mKey as ModelId];
                         const cfg = getCategoryConfig(data.category);
@@ -611,20 +611,20 @@ export default function ClassifyPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
+              <div className="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <Link
                   href="/analytics#model-comparison"
                   onClick={() => setIsModalOpen(false)}
-                  className="text-xs text-[#4f46e5] hover:text-[#4338ca] font-medium flex items-center gap-1 hover:underline transition-colors"
+                  className="text-xs text-[#4f46e5] hover:text-[#4338ca] font-medium flex items-center gap-1 hover:underline transition-colors text-center sm:text-left"
                 >
                   <span>View Full Evaluation Analytics &amp; Confusion Matrix</span>
-                  <ExternalLink className="size-3" />
+                  <ExternalLink className="size-3 shrink-0" />
                 </Link>
 
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="h-8 px-4 rounded-lg border border-[#e7e3dd] bg-white text-xs font-medium text-[#0f0f0e] hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="h-8 px-4 rounded-lg border border-[#e7e3dd] bg-white text-xs font-medium text-[#0f0f0e] hover:bg-gray-100 transition-colors cursor-pointer w-full sm:w-auto"
                 >
                   Close
                 </button>
