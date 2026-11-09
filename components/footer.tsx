@@ -141,7 +141,7 @@ export function Footer() {
               <ul className="space-y-2.5 text-[13px] text-[#3f3d3a] font-medium">
                 <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">Next.js 14</li>
                 <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">TypeScript</li>
-                <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">PyTorch</li>
+                <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">Scikit-Learn</li>
                 <li className="py-0.5 hover:text-[#0f0f0e] transition-colors">FastAPI</li>
               </ul>
             </motion.div>
