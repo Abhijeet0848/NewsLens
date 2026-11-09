@@ -366,23 +366,23 @@ export default function ClassifyPage() {
       {/* 4-Model Comparison & Benchmarking Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsModalOpen(false)}
-              className="fixed inset-0 bg-[#0f0f0e]/50 backdrop-blur-sm"
-            />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsModalOpen(false)}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 12 }}
               transition={{ duration: 0.2 }}
-              className="relative w-full max-w-2xl rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] shadow-2xl text-left z-10 max-h-[85vh] md:max-h-[90vh] flex flex-col overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-4xl max-h-[85vh] flex flex-col rounded-xl bg-white shadow-2xl overflow-hidden border border-[#e7e3dd] text-left"
             >
               {/* Modal Header */}
-              <div className="sticky top-0 bg-[#fdfcfb] z-10 flex items-center justify-between px-6 py-4 border-b border-[#e7e3dd]">
+              <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-6 py-4 border-b border-[#e7e3dd]">
                 <div className="flex items-center gap-2.5">
                   <div className="flex size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5]">
                     <GitCompare className="size-4.5" />
@@ -581,7 +581,7 @@ export default function ClassifyPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="sticky bottom-0 bg-[#fdfcfb] z-10 px-6 py-3.5 border-t border-[#e7e3dd] flex items-center justify-between">
+              <div className="sticky bottom-0 bg-white z-10 px-6 py-3.5 border-t border-[#e7e3dd] flex items-center justify-between">
                 <Link
                   href="/analytics#model-comparison"
                   onClick={() => setIsModalOpen(false)}
@@ -600,7 +600,7 @@ export default function ClassifyPage() {
                 </button>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </main>
