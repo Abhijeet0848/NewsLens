@@ -26,7 +26,7 @@ export function CategoryPill({ name, count, colors }: CategoryPillProps) {
 
   return (
     <motion.div
-      whileHover={shouldReduce ? undefined : { scale: 1.02, filter: "brightness(0.98)" }}
+      whileHover={shouldReduce ? undefined : { scale: 1.02, opacity: 0.95 }}
       whileTap={shouldReduce ? undefined : { scale: 0.98 }}
       transition={{ duration: 0.15 }}
       className="flex items-center gap-2 h-8 px-3 rounded-full border shrink-0 transition-colors duration-150 cursor-pointer select-none"

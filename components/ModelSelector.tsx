@@ -15,7 +15,7 @@ export interface ModelSelectorProps {
 
 const MODEL_LIST: ModelInfo[] = Object.values(MODELS);
 
-export function ModelSelector({
+function ModelSelectorComponent({
   value,
   onChange,
   className = "",
@@ -331,3 +331,5 @@ export function ModelSelector({
     </div>
   );
 }
+
+export const ModelSelector = React.memo(ModelSelectorComponent);

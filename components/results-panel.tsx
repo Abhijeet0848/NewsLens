@@ -78,7 +78,7 @@ export interface ResultsPanelProps {
   originalText?: string;
 }
 
-export function ResultsPanel({
+function ResultsPanelComponent({
   result,
   isLoading = false,
   text = "",
@@ -368,7 +368,7 @@ export function ResultsPanel({
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: 0.18 + i * 0.04 }}
-                whileHover={{ scale: 1.03, y: -1 }}
+                whileHover={{ scale: 1.03 }}
                 className="flex items-center gap-1.5 rounded-lg border border-[#e7e3dd] bg-[#faf9f6] px-2.5 py-1 text-xs text-[#0f0f0e] shadow-sm cursor-default"
               >
                 <Flame aria-hidden="true" className="size-3 text-[#d97706]" />
@@ -490,6 +490,23 @@ export function ResultsPanel({
     </motion.div>
   );
 }
+
+export const ResultsPanel = React.memo(ResultsPanelComponent, (prevProps, nextProps) => {
+  // Only re-render when:
+  // 1. isLoading changes
+  // 2. result changes
+  // 3. selectedModel changes
+  // 4. text transitions between empty and non-empty (avoids re-rendering on every keystroke)
+  const prevHasText = Boolean(prevProps.text?.trim() || prevProps.originalText?.trim());
+  const nextHasText = Boolean(nextProps.text?.trim() || nextProps.originalText?.trim());
+
+  if (prevProps.isLoading !== nextProps.isLoading) return false;
+  if (prevProps.result !== nextProps.result) return false;
+  if (prevProps.selectedModel !== nextProps.selectedModel) return false;
+  if (prevHasText !== nextHasText) return false;
+
+  return true;
+});
 
 export function EmptyResultsSkeleton() {
   return <ResultsPanel result={null} />;

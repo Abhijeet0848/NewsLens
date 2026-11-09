@@ -161,8 +161,12 @@ export function ClassifierInput({
     }
   };
 
-  // Clear input
+  // Clear input (Optimistic instant wipe)
   const handleClear = () => {
+    if (textareaRef.current) {
+      textareaRef.current.value = "";
+      textareaRef.current.focus();
+    }
     onChangeText("");
     setInputState({ kind: "empty" });
     setIsUrlTyped(false);
@@ -428,16 +432,16 @@ export function ClassifierInput({
           type="button"
           onClick={onClassify}
           disabled={!text.trim() || isLoading || inputState.kind === "url-loading"}
-          className={`w-full sm:w-auto sm:flex-1 h-12 px-6 rounded-xl text-[14px] font-medium flex items-center justify-center select-none transition-colors duration-200 ${
+          className={`w-full sm:w-auto sm:flex-1 h-12 px-6 rounded-xl text-[14px] font-medium flex items-center justify-center select-none transition-all duration-150 active:scale-[0.98] ${
             !text.trim() || isLoading || inputState.kind === "url-loading"
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-black text-white hover:bg-gray-800 cursor-pointer"
+              : "bg-black text-white hover:bg-gray-800 cursor-pointer shadow-sm"
           }`}
         >
           {isLoading ? (
             <div className="flex items-center gap-2">
-              <span className="size-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              <span>{isWarmingUp ? "Warming up..." : "Classifying..."}</span>
+              <Loader2 className="size-4 animate-spin text-gray-500" />
+              <span>Classifying...</span>
             </div>
           ) : (
             <span>Classify</span>

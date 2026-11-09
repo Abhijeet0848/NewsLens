@@ -98,12 +98,15 @@ export default function ClassifyPage() {
     }
   }, [isModalOpen]);
 
-  const handleTextChange = (val: string) => {
-    setCurrentText(val);
-    if (result) {
-      setResult(null);
-    }
-  };
+  const handleTextChange = React.useCallback(
+    (val: string) => {
+      setCurrentText(val);
+      if (result) {
+        setResult(null);
+      }
+    },
+    [result, setCurrentText, setResult]
+  );
 
   const handleClassify = async () => {
     const v = validateInput(currentText);
@@ -223,7 +226,7 @@ export default function ClassifyPage() {
 
         {/* Right-aligned Toolbar button */}
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+          <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
             <button
               type="button"
               onClick={() => {
@@ -232,9 +235,13 @@ export default function ClassifyPage() {
                   handleCompareAll();
                 }
               }}
-              className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-lg h-9 px-4 text-[13px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center justify-center gap-2 w-full sm:w-auto shadow-sm cursor-pointer"
+              className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-lg h-9 px-4 text-[13px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-all duration-150 flex items-center justify-center gap-2 w-full sm:w-auto shadow-sm cursor-pointer active:scale-[0.98]"
             >
-              <GitCompare className="size-4 text-[#57534e]" />
+              {isComparing ? (
+                <Loader2 className="size-4 animate-spin text-[#4f46e5]" />
+              ) : (
+                <GitCompare className="size-4 text-[#57534e]" />
+              )}
               <span>{isComparing ? "Benchmarking..." : "Compare 4 Models"}</span>
             </button>
           </motion.div>
@@ -291,8 +298,8 @@ export default function ClassifyPage() {
                   return (
                     <motion.div
                       key={item.id}
-                      whileHover={{ y: -1 }}
-                      whileTap={{ scale: 0.99 }}
+                      whileHover={{ scale: 1.005 }}
+                      whileTap={{ scale: 0.98 }}
                       onClick={() => {
                         setCurrentText(item.textSnippet);
                         if (result) setResult(null);
