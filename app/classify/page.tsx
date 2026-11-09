@@ -386,7 +386,7 @@ export default function ClassifyPage() {
       {mounted && isModalOpen &&
         createPortal(
           <div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6"
             style={{
               position: "fixed",
               top: 0,
@@ -421,8 +421,8 @@ export default function ClassifyPage() {
                     <h2 className="font-heading text-sm sm:text-base font-semibold text-[#0f0f0e] leading-snug">
                       4-Model Architecture Comparison
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-[#57534e] truncate sm:whitespace-normal">
-                      Held-out test evaluation benchmarks &amp; live simultaneous inference
+                    <p className="text-[11px] sm:text-xs text-[#57534e] leading-snug mt-0.5">
+                      Held-out test benchmarks &amp; live simultaneous inference
                     </p>
                   </div>
                 </div>
@@ -437,28 +437,28 @@ export default function ClassifyPage() {
               </div>
 
               {/* Scrollable Body */}
-              <div className="flex-1 overflow-y-auto min-h-0 p-4 sm:p-6 space-y-6">
+              <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0 p-3.5 sm:p-6 space-y-5 sm:space-y-6">
                 {/* Leaderboard Table */}
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5 whitespace-nowrap">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
+                    <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5">
                       <Award className="size-3.5 text-[#d97706] shrink-0" />
                       Architecture Leaderboard
                     </span>
-                    <span className="text-[11px] font-mono text-[#059669] font-medium whitespace-nowrap">
+                    <span className="text-[10px] sm:text-[11px] font-mono text-[#059669] font-medium">
                       Evaluated on 445 Held-Out Articles
                     </span>
                   </div>
 
-                  <div className="w-full overflow-x-auto pb-2 rounded-xl border border-[#e7e3dd]">
-                    <table className="w-full min-w-[600px] text-left text-xs">
-                      <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold">
+                  <div className="w-full overflow-x-auto rounded-xl border border-[#e7e3dd]">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold text-[10px] sm:text-xs">
                         <tr>
-                          <th className="p-2.5 whitespace-nowrap">Model</th>
-                          <th className="p-2.5 whitespace-nowrap hidden sm:table-cell">Paradigm</th>
-                          <th className="p-2.5 whitespace-nowrap">Accuracy</th>
-                          <th className="p-2.5 whitespace-nowrap">Latency</th>
-                          <th className="p-2.5 whitespace-nowrap">Status</th>
+                          <th className="py-2.5 px-2.5 sm:px-3 whitespace-nowrap">Model</th>
+                          <th className="py-2.5 px-2.5 sm:px-3 whitespace-nowrap hidden sm:table-cell">Paradigm</th>
+                          <th className="py-2.5 px-2.5 sm:px-3 whitespace-nowrap">Accuracy</th>
+                          <th className="py-2.5 px-2.5 sm:px-3 whitespace-nowrap">Latency</th>
+                          <th className="py-2.5 px-2.5 sm:px-3 whitespace-nowrap">Status</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#e7e3dd]">
@@ -497,19 +497,19 @@ export default function ClassifyPage() {
                           },
                         ].map((item) => (
                           <tr key={item.name} className="hover:bg-[#f8f7f5] transition-colors">
-                            <td className="p-2.5 font-semibold text-[#0f0f0e] whitespace-nowrap">
+                            <td className="py-2.5 px-2.5 sm:px-3 font-semibold text-[#0f0f0e] whitespace-nowrap">
                               {item.name}
                             </td>
-                            <td className="p-2.5 text-[#57534e] whitespace-nowrap hidden sm:table-cell">
+                            <td className="py-2.5 px-2.5 sm:px-3 text-[#57534e] whitespace-nowrap hidden sm:table-cell">
                               {item.paradigm}
                             </td>
-                            <td className="p-2.5 font-mono font-bold text-[#059669] tabular-nums whitespace-nowrap">
+                            <td className="py-2.5 px-2.5 sm:px-3 font-mono font-bold text-[#059669] tabular-nums whitespace-nowrap">
                               {item.acc}
                             </td>
-                            <td className="p-2.5 font-mono text-[#0891b2] tabular-nums font-medium whitespace-nowrap">
+                            <td className="py-2.5 px-2.5 sm:px-3 font-mono text-[#0891b2] tabular-nums font-medium whitespace-nowrap">
                               {item.lat}
                             </td>
-                            <td className="p-2.5 whitespace-nowrap">
+                            <td className="py-2.5 px-2.5 sm:px-3 whitespace-nowrap">
                               <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-mono border whitespace-nowrap ${item.roleColor}`}>
                                 {item.role}
                               </span>
@@ -586,7 +586,7 @@ export default function ClassifyPage() {
                       })}
                     </div>
                   ) : currentText.trim().length >= 10 ? (
-                    <div className="flex items-center justify-between p-4 rounded-xl border border-[#e7e3dd] bg-[#fbfaf9]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl border border-[#e7e3dd] bg-[#fbfaf9]">
                       <div className="space-y-0.5">
                         <p className="text-xs font-medium text-[#0f0f0e]">Article text is ready in the classifier</p>
                         <p className="text-[11px] text-[#57534e]">Click below to run real-time inference across all 4 architectures.</p>
@@ -594,7 +594,7 @@ export default function ClassifyPage() {
                       <button
                         type="button"
                         onClick={handleCompareAll}
-                        className="px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white text-xs font-medium hover:bg-[#4338ca] transition-colors flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer"
+                        className="w-full sm:w-auto justify-center px-3 py-2 rounded-lg bg-[#4f46e5] text-white text-xs font-medium hover:bg-[#4338ca] transition-colors flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer"
                       >
                         <Play className="size-3" />
                         <span>Benchmark Now</span>
@@ -611,7 +611,7 @@ export default function ClassifyPage() {
               </div>
 
               {/* Modal Footer */}
-              <div className="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4">
                 <Link
                   href="/analytics#model-comparison"
                   onClick={() => setIsModalOpen(false)}
@@ -624,7 +624,7 @@ export default function ClassifyPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="h-8 px-4 rounded-lg border border-[#e7e3dd] bg-white text-xs font-medium text-[#0f0f0e] hover:bg-gray-100 transition-colors cursor-pointer w-full sm:w-auto"
+                  className="h-9 sm:h-8 px-4 rounded-lg border border-[#e7e3dd] bg-white text-xs font-medium text-[#0f0f0e] hover:bg-gray-100 transition-colors cursor-pointer w-full sm:w-auto"
                 >
                   Close
                 </button>
