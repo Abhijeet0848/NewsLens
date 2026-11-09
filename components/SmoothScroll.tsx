@@ -27,6 +27,9 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       syncTouch: false,
     });
     lenisRef.current = lenis;
+    if (typeof window !== "undefined") {
+      (window as any).__lenis = lenis;
+    }
 
     let animationFrameId: number;
 

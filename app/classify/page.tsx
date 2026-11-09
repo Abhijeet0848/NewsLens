@@ -89,8 +89,11 @@ export default function ClassifyPage() {
     if (isModalOpen) {
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = "hidden";
+      const lenis = (window as any)?.__lenis;
+      if (lenis?.stop) lenis.stop();
       return () => {
         document.body.style.overflow = originalOverflow;
+        if (lenis?.start) lenis.start();
       };
     }
   }, [isModalOpen]);
@@ -418,7 +421,7 @@ export default function ClassifyPage() {
               </div>
 
               {/* Scrollable Body */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+              <div className="flex-1 overflow-y-auto min-h-0 p-6 space-y-6">
                 {/* Leaderboard Table */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">

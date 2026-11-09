@@ -74,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${mono.variable} antialiased`}>
       <body
-        className="font-sans min-h-screen bg-[#f7f6f3] text-[#0f0f0e] selection:bg-indigo-500 selection:text-[#fdfcfb] flex flex-col antialiased gpu-accelerate"
+        className="font-sans min-h-screen bg-[#f7f6f3] text-[#0f0f0e] selection:bg-indigo-500 selection:text-[#fdfcfb] flex flex-col antialiased"
       >
         <SmoothScroll>
           <ScrollProgress />

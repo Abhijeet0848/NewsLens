@@ -35,10 +35,9 @@ html {
   max-width: 100vw;
 }
 
-/* Hardware acceleration for scrolling containers */
+/* Hardware acceleration utility */
 .gpu-accelerate {
-  transform: translateZ(0);
-  will-change: transform;
+  backface-visibility: hidden;
 }
 
 body {
