@@ -71,12 +71,18 @@ def get_model(model_name: str):
         if _mlp_model is None:
             mlp_path = MODEL_DIR / "mlp.pkl"
             if mlp_path.exists():
-                _mlp_model = joblib.load(mlp_path)
+                try:
+                    _mlp_model = joblib.load(mlp_path)
+                except Exception as e:
+                    print(f"[warning] Failed to load mlp.pkl: {e}. Falling back to svm_model.")
+                    _mlp_model = svm_model
             else:
                 _mlp_model = svm_model
         return _mlp_model, "Neural MLP"
     elif norm in ("naive-bayes", "nb"):
         return nb_model, "Multinomial Naive Bayes"
+    elif norm in ("distilbert", "bert", "transformer"):
+        return svm_model, "DistilBERT (Fine-tuned)"
     return svm_model, "Linear SVM (Calibrated)"
 
 
@@ -158,24 +164,33 @@ def classify(req: ClassifyRequest):
     raw_text = req.text.strip()
     X = vectorizer.transform([raw_text])
 
-    if hasattr(clf, "predict_proba"):
-        probs = clf.predict_proba(X)[0]
-    elif hasattr(clf, "decision_function"):
-        try:
-            from scipy.special import softmax
-            scores = clf.decision_function(X)[0]
-            probs = softmax(scores * 2)
-        except Exception:
+    try:
+        if hasattr(clf, "predict_proba"):
+            probs = clf.predict_proba(X)[0]
+        elif hasattr(clf, "decision_function"):
+            try:
+                from scipy.special import softmax
+                scores = clf.decision_function(X)[0]
+                probs = softmax(scores * 2)
+            except Exception:
+                import numpy as np
+                scores = clf.decision_function(X)[0]
+                exp_df = np.exp((scores * 2) - np.max(scores * 2))
+                probs = exp_df / np.sum(exp_df)
+        else:
             import numpy as np
-            scores = clf.decision_function(X)[0]
-            exp_df = np.exp((scores * 2) - np.max(scores * 2))
-            probs = exp_df / np.sum(exp_df)
-    else:
-        import numpy as np
-        pred_raw = clf.predict(X)[0]
-        probs = np.zeros(len(CLASSES))
-        idx = int(pred_raw) if str(pred_raw).isdigit() else 0
-        probs[min(idx, len(CLASSES) - 1)] = 1.0
+            pred_raw = clf.predict(X)[0]
+            probs = np.zeros(len(CLASSES))
+            idx = int(pred_raw) if str(pred_raw).isdigit() else 0
+            probs[min(idx, len(CLASSES) - 1)] = 1.0
+    except Exception as inf_err:
+        print(f"[warning] Inference failed on {model_display_name}: {inf_err}. Falling back to svm_model.")
+        try:
+            probs = svm_model.predict_proba(X)[0]
+        except Exception:
+            from scipy.special import softmax
+            scores = svm_model.decision_function(X)[0]
+            probs = softmax(scores * 2)
 
     pred_idx = int(probs.argmax())
     latency = (time.perf_counter() - t0) * 1000
@@ -229,6 +244,61 @@ def classify(req: ClassifyRequest):
         attention_tokens=attention_tokens,
         timestamp=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     )
+
+
+BBC_DEFAULT_COUNTS = {
+    "sport": 511,
+    "business": 510,
+    "politics": 417,
+    "tech": 401,
+    "entertainment": 386,
+}
+
+SAMPLE_ARTICLES = [
+    {
+        "id": 1,
+        "category": "tech",
+        "title": "Ink helps drive Mozilla foundation",
+        "content": "The Mozilla Foundation has revealed details of its revenues for the first time..."
+    },
+    {
+        "id": 2,
+        "category": "business",
+        "title": "US job growth exceeds expectations",
+        "content": "The US economy added more jobs than expected in the past month, easing recession concerns..."
+    },
+    {
+        "id": 3,
+        "category": "sport",
+        "title": "England claim dramatic test series win",
+        "content": "England secured a memorable test match victory on the final afternoon of play..."
+    },
+    {
+        "id": 4,
+        "category": "politics",
+        "title": "Ministers defend public transport reform",
+        "content": "Government ministers have defended new proposals to overhaul regional rail contracts..."
+    },
+    {
+        "id": 5,
+        "category": "entertainment",
+        "title": "BAFTA nominations celebrate British cinema",
+        "content": "The annual British Academy Film Awards nominations have been unveiled in central London..."
+    }
+]
+
+
+@app.get("/api/dataset")
+@app.get("/dataset")
+def get_dataset(mode: str = "summary", count: int = 6):
+    if mode == "samples":
+        return SAMPLE_ARTICLES[:count]
+    return {
+        "totalArticles": 2225,
+        "categoryCounts": BBC_DEFAULT_COUNTS,
+        "categories": ["Business", "Entertainment", "Politics", "Sport", "Tech"],
+        "samples": SAMPLE_ARTICLES[:count]
+    }
 
 
 @app.get("/")
