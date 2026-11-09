@@ -274,9 +274,19 @@ export default function AnalyticsDashboardPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2 font-mono text-xs text-[#3f3d3a]">
-            <span className="size-2 rounded-full bg-[#059669]" />
-            <span className="font-semibold text-[#0f0f0e]">Champion: {bestMeta.name}</span>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => document.getElementById("model-comparison")?.scrollIntoView({ behavior: "smooth" })}
+              className="bg-[#fdfcfb] border border-[#e7e3dd] rounded-lg h-9 px-3.5 text-[12px] font-medium text-[#0f0f0e] hover:bg-[#f1efeb] hover:border-[#d6d1c9] transition-colors duration-150 flex items-center justify-center gap-2 shadow-xs cursor-pointer select-none"
+            >
+              <Award className="size-3.5 text-[#d97706]" />
+              <span>Compare 4 Models</span>
+            </button>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#3f3d3a]">
+              <span className="size-2 rounded-full bg-[#059669]" />
+              <span className="font-semibold text-[#0f0f0e]">Champion: {bestMeta.name}</span>
+            </div>
           </div>
         </div>
       </Reveal>
@@ -355,7 +365,10 @@ export default function AnalyticsDashboardPage() {
 
       {/* Model Comparison Leaderboard */}
       <Reveal delay={0.15}>
-        <div className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4">
+        <div
+          id="model-comparison"
+          className="rounded-2xl border border-[#e7e3dd] bg-[#fdfcfb] p-5 md:p-6 shadow-xs space-y-4 scroll-mt-20"
+        >
           <div className="flex items-center justify-between">
             <h2 className="text-sm md:text-base font-semibold text-[#0f0f0e] font-heading flex items-center gap-2">
               <Award aria-hidden="true" className="size-5 text-[#d97706]" />
