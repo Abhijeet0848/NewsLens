@@ -19,8 +19,8 @@ export type ModelInfo = {
 
 const m: any = rawMetrics || {};
 const svmAcc = m.svm?.accuracy ?? m.accuracy ?? 0.964;
-const mlpAcc = m.mlp?.accuracy ?? 0.987;
-const nbAcc = m.naive_bayes?.accuracy ?? 0.987;
+const mlpAcc = m.mlp?.accuracy ?? 0.951;
+const nbAcc = m.naive_bayes?.accuracy ?? 0.921;
 const distilAcc = m.distilbert?.accuracy ?? 0.978;
 
 export const MODELS: Record<ModelId, ModelInfo> = {
@@ -50,7 +50,7 @@ export const MODELS: Record<ModelId, ModelInfo> = {
     subtitle: "Multi-Layer Perceptron",
     metric: `${(mlpAcc * 100).toFixed(1)}%`,
     accuracy: Number((mlpAcc * 100).toFixed(1)),
-    latency: m.mlp?.latency_ms ?? 0.1,
+    latency: m.mlp?.latency_ms ?? 3.2,
     role: "baseline",
     description: "Non-linear neural baseline",
   },
@@ -60,7 +60,7 @@ export const MODELS: Record<ModelId, ModelInfo> = {
     subtitle: "Probabilistic Generative",
     metric: `${(nbAcc * 100).toFixed(1)}%`,
     accuracy: Number((nbAcc * 100).toFixed(1)),
-    latency: m.naive_bayes?.latency_ms ?? 0.05,
+    latency: m.naive_bayes?.latency_ms ?? 0.5,
     role: "baseline",
     description: "Fast probabilistic baseline",
   },
