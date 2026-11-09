@@ -380,247 +380,238 @@ export default function ClassifyPage() {
       </div>
 
       {/* 4-Model Comparison & Benchmarking Modal (Portaled to document.body) */}
-      {mounted &&
+      {mounted && isModalOpen &&
         createPortal(
-          <AnimatePresence>
-            {isModalOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsModalOpen(false)}
-                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-hidden"
-              >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 12 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 12 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={(e) => e.stopPropagation()}
-                  className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-white rounded-xl shadow-2xl overflow-hidden border border-[#e7e3dd] text-left"
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+            {/* Backdrop */}
+            <div
+              onClick={() => setIsModalOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              aria-hidden="true"
+            />
+
+            {/* Modal Box */}
+            <div className="relative w-full max-w-4xl max-h-[85vh] flex flex-col bg-white rounded-2xl shadow-2xl overflow-hidden z-10 text-left">
+              {/* Modal Header */}
+              <div className="flex-shrink-0 p-6 border-b border-gray-100 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5]">
+                    <GitCompare className="size-4.5" />
+                  </div>
+                  <div>
+                    <h2 className="font-heading text-base font-semibold text-[#0f0f0e]">
+                      4-Model Architecture Comparison
+                    </h2>
+                    <p className="text-xs text-[#57534e]">
+                      Held-out test evaluation benchmarks &amp; live simultaneous inference
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  aria-label="Close comparison modal"
+                  className="p-1.5 rounded-lg hover:bg-[#f1efeb] text-[#57534e] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none cursor-pointer"
                 >
-                  {/* Modal Header */}
-                  <div className="flex-shrink-0 p-6 border-b border-gray-100 flex items-center justify-between bg-white">
-                    <div className="flex items-center gap-2.5">
-                      <div className="flex size-9 items-center justify-center rounded-xl bg-indigo-50 border border-indigo-100 text-[#4f46e5]">
-                        <GitCompare className="size-4.5" />
-                      </div>
-                      <div>
-                        <h2 className="font-heading text-base font-semibold text-[#0f0f0e]">
-                          4-Model Architecture Comparison
-                        </h2>
-                        <p className="text-xs text-[#57534e]">
-                          Held-out test evaluation benchmarks &amp; live simultaneous inference
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsModalOpen(false)}
-                      aria-label="Close comparison modal"
-                      className="p-1.5 rounded-lg hover:bg-[#f1efeb] text-[#57534e] transition-colors focus-visible:ring-2 focus-visible:ring-[#4f46e5]/40 focus:outline-none cursor-pointer"
-                    >
-                      <X aria-hidden="true" className="size-4.5" />
-                    </button>
+                  <X aria-hidden="true" className="size-4.5" />
+                </button>
+              </div>
+
+              {/* Scrollable Body */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                {/* Leaderboard Table */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5">
+                      <Award className="size-3.5 text-[#d97706]" />
+                      Architecture Leaderboard
+                    </span>
+                    <span className="text-[11px] font-mono text-[#059669] font-medium">
+                      Evaluated on 445 Held-Out Articles
+                    </span>
                   </div>
 
-                  {/* Scrollable Content Body */}
-                  <div className="overflow-y-auto p-6 flex-1 min-h-0 space-y-6">
-                    {/* Leaderboard Table */}
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5">
-                          <Award className="size-3.5 text-[#d97706]" />
-                          Architecture Leaderboard
-                        </span>
-                        <span className="text-[11px] font-mono text-[#059669] font-medium">
-                          Evaluated on 445 Held-Out Articles
-                        </span>
-                      </div>
+                  <div className="overflow-x-auto rounded-xl border border-[#e7e3dd]">
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold">
+                        <tr>
+                          <th className="p-2.5">Model</th>
+                          <th className="p-2.5">Paradigm</th>
+                          <th className="p-2.5">Accuracy</th>
+                          <th className="p-2.5">Latency</th>
+                          <th className="p-2.5">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#e7e3dd]">
+                        {[
+                          {
+                            name: "DistilBERT",
+                            paradigm: "Transformer Attention",
+                            acc: "97.8%",
+                            lat: "12.4 ms",
+                            role: "High Capacity",
+                            roleColor: "text-purple-700 bg-purple-50 border-purple-200",
+                          },
+                          {
+                            name: "Linear SVM",
+                            paradigm: "Maximum-Margin (Platt)",
+                            acc: "96.4%",
+                            lat: "1.2 ms",
+                            role: "Champion",
+                            roleColor: "text-emerald-700 bg-emerald-50 border-emerald-200 font-semibold",
+                          },
+                          {
+                            name: "Neural MLP",
+                            paradigm: "Multi-Layer Perceptron",
+                            acc: "95.1%",
+                            lat: "3.2 ms",
+                            role: "Neural Baseline",
+                            roleColor: "text-indigo-700 bg-indigo-50 border-indigo-200",
+                          },
+                          {
+                            name: "Naive Bayes",
+                            paradigm: "Multinomial Generative",
+                            acc: "92.1%",
+                            lat: "0.5 ms",
+                            role: "Fast Baseline",
+                            roleColor: "text-slate-700 bg-slate-100 border-slate-200",
+                          },
+                        ].map((item) => (
+                          <tr key={item.name} className="hover:bg-[#f8f7f5] transition-colors">
+                            <td className="p-2.5 font-semibold text-[#0f0f0e]">
+                              {item.name}
+                            </td>
+                            <td className="p-2.5 text-[#57534e]">
+                              {item.paradigm}
+                            </td>
+                            <td className="p-2.5 font-mono font-bold text-[#059669] tabular-nums">
+                              {item.acc}
+                            </td>
+                            <td className="p-2.5 font-mono text-[#0891b2] tabular-nums font-medium">
+                              {item.lat}
+                            </td>
+                            <td className="p-2.5">
+                              <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-mono border ${item.roleColor}`}>
+                                {item.role}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-                      <div className="overflow-x-auto rounded-xl border border-[#e7e3dd]">
-                        <table className="w-full text-left text-xs">
-                          <thead className="bg-[#f1efeb] text-[#3f3d3a] font-mono uppercase tracking-wider font-semibold">
-                            <tr>
-                              <th className="p-2.5">Model</th>
-                              <th className="p-2.5">Paradigm</th>
-                              <th className="p-2.5">Accuracy</th>
-                              <th className="p-2.5">Latency</th>
-                              <th className="p-2.5">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-[#e7e3dd]">
-                            {[
-                              {
-                                name: "DistilBERT",
-                                paradigm: "Transformer Attention",
-                                acc: "97.8%",
-                                lat: "12.4 ms",
-                                role: "High Capacity",
-                                roleColor: "text-purple-700 bg-purple-50 border-purple-200",
-                              },
-                              {
-                                name: "Linear SVM",
-                                paradigm: "Maximum-Margin (Platt)",
-                                acc: "96.4%",
-                                lat: "1.2 ms",
-                                role: "Champion",
-                                roleColor: "text-emerald-700 bg-emerald-50 border-emerald-200 font-semibold",
-                              },
-                              {
-                                name: "Neural MLP",
-                                paradigm: "Multi-Layer Perceptron",
-                                acc: "95.1%",
-                                lat: "3.2 ms",
-                                role: "Neural Baseline",
-                                roleColor: "text-indigo-700 bg-indigo-50 border-indigo-200",
-                              },
-                              {
-                                name: "Naive Bayes",
-                                paradigm: "Multinomial Generative",
-                                acc: "92.1%",
-                                lat: "0.5 ms",
-                                role: "Fast Baseline",
-                                roleColor: "text-slate-700 bg-slate-100 border-slate-200",
-                              },
-                            ].map((item) => (
-                              <tr key={item.name} className="hover:bg-[#f8f7f5] transition-colors">
-                                <td className="p-2.5 font-semibold text-[#0f0f0e]">
-                                  {item.name}
-                                </td>
-                                <td className="p-2.5 text-[#57534e]">
-                                  {item.paradigm}
-                                </td>
-                                <td className="p-2.5 font-mono font-bold text-[#059669] tabular-nums">
-                                  {item.acc}
-                                </td>
-                                <td className="p-2.5 font-mono text-[#0891b2] tabular-nums font-medium">
-                                  {item.lat}
-                                </td>
-                                <td className="p-2.5">
-                                  <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-mono border ${item.roleColor}`}>
-                                    {item.role}
-                                  </span>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                    {/* Live Inference Benchmark Section */}
-                    <div className="space-y-3 pt-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5">
-                          <Sparkles className="size-3.5 text-[#4f46e5]" />
-                          Live Simultaneous Inference
-                        </span>
-                        {currentText.trim().length >= 10 && (
-                          <button
-                            type="button"
-                            onClick={handleCompareAll}
-                            disabled={isComparing}
-                            className="text-xs text-[#4f46e5] font-medium hover:underline flex items-center gap-1 disabled:opacity-50 cursor-pointer"
-                          >
-                            {isComparing ? (
-                              <>
-                                <Loader2 className="size-3 animate-spin" />
-                                <span>Benchmarking...</span>
-                              </>
-                            ) : (
-                              <>
-                                <Play className="size-3" />
-                                <span>Re-run Benchmark</span>
-                              </>
-                            )}
-                          </button>
-                        )}
-                      </div>
-
-                      {isComparing ? (
-                        <div className="flex items-center justify-center p-8 rounded-xl border border-indigo-100 bg-[#f5f3ff] text-indigo-700 text-xs font-medium gap-2">
-                          <Loader2 className="size-4 animate-spin" />
-                          <span>Running simultaneous inference across Linear SVM, DistilBERT, Neural MLP, and Naive Bayes...</span>
-                        </div>
-                      ) : multiResults ? (
-                        <div className="grid grid-cols-2 gap-2.5">
-                          {Object.entries(multiResults).map(([mKey, data]) => {
-                            const modelConfig = MODELS[mKey as ModelId];
-                            const cfg = getCategoryConfig(data.category);
-                            return (
-                              <div
-                                key={mKey}
-                                className="rounded-xl border border-[#e7e3dd] bg-[#fbfaf9] p-3 space-y-1.5 shadow-2xs"
-                              >
-                                <div className="flex items-center justify-between">
-                                  <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.12em] text-[#57534e] truncate">
-                                    {modelConfig?.name || mKey}
-                                  </span>
-                                  <span className="text-[10px] font-mono text-[#0891b2] tabular-nums font-medium">
-                                    {data.latency_ms ? `${data.latency_ms.toFixed(1)}ms` : `${modelConfig?.latency || 1.2}ms`}
-                                  </span>
-                                </div>
-                                <div className="flex items-center justify-between">
-                                  <span className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${cfg.badgeClass}`}>
-                                    {data.category}
-                                  </span>
-                                  <span className="font-mono text-xs font-bold text-[#0f0f0e] tabular-nums">
-                                    {data.confidence_percentage}%
-                                  </span>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : currentText.trim().length >= 10 ? (
-                        <div className="flex items-center justify-between p-4 rounded-xl border border-[#e7e3dd] bg-[#fbfaf9]">
-                          <div className="space-y-0.5">
-                            <p className="text-xs font-medium text-[#0f0f0e]">Article text is ready in the classifier</p>
-                            <p className="text-[11px] text-[#57534e]">Click below to run real-time inference across all 4 architectures.</p>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={handleCompareAll}
-                            className="px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white text-xs font-medium hover:bg-[#4338ca] transition-colors flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer"
-                          >
+                {/* Live Inference Benchmark Section */}
+                <div className="space-y-3 pt-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono uppercase tracking-[0.12em] font-semibold text-[#57534e] flex items-center gap-1.5">
+                      <Sparkles className="size-3.5 text-[#4f46e5]" />
+                      Live Simultaneous Inference
+                    </span>
+                    {currentText.trim().length >= 10 && (
+                      <button
+                        type="button"
+                        onClick={handleCompareAll}
+                        disabled={isComparing}
+                        className="text-xs text-[#4f46e5] font-medium hover:underline flex items-center gap-1 disabled:opacity-50 cursor-pointer"
+                      >
+                        {isComparing ? (
+                          <>
+                            <Loader2 className="size-3 animate-spin" />
+                            <span>Benchmarking...</span>
+                          </>
+                        ) : (
+                          <>
                             <Play className="size-3" />
-                            <span>Benchmark Now</span>
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="p-4 rounded-xl border border-dashed border-[#e7e3dd] bg-[#fbfaf9] text-center space-y-1">
-                          <p className="text-xs text-[#57534e]">
-                            Paste an article into the classifier input to benchmark predictions across all 4 models live.
-                          </p>
-                        </div>
-                      )}
+                            <span>Re-run Benchmark</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {isComparing ? (
+                    <div className="flex items-center justify-center p-8 rounded-xl border border-indigo-100 bg-[#f5f3ff] text-indigo-700 text-xs font-medium gap-2">
+                      <Loader2 className="size-4 animate-spin" />
+                      <span>Running simultaneous inference across Linear SVM, DistilBERT, Neural MLP, and Naive Bayes...</span>
                     </div>
-                  </div>
+                  ) : multiResults ? (
+                    <div className="grid grid-cols-2 gap-2.5">
+                      {Object.entries(multiResults).map(([mKey, data]) => {
+                        const modelConfig = MODELS[mKey as ModelId];
+                        const cfg = getCategoryConfig(data.category);
+                        return (
+                          <div
+                            key={mKey}
+                            className="rounded-xl border border-[#e7e3dd] bg-[#fbfaf9] p-3 space-y-1.5 shadow-2xs"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-mono font-semibold uppercase tracking-[0.12em] text-[#57534e] truncate">
+                                {modelConfig?.name || mKey}
+                              </span>
+                              <span className="text-[10px] font-mono text-[#0891b2] tabular-nums font-medium">
+                                {data.latency_ms ? `${data.latency_ms.toFixed(1)}ms` : `${modelConfig?.latency || 1.2}ms`}
+                              </span>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className={`inline-block px-2 py-0.5 rounded text-xs font-semibold ${cfg.badgeClass}`}>
+                                {data.category}
+                              </span>
+                              <span className="font-mono text-xs font-bold text-[#0f0f0e] tabular-nums">
+                                {data.confidence_percentage}%
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : currentText.trim().length >= 10 ? (
+                    <div className="flex items-center justify-between p-4 rounded-xl border border-[#e7e3dd] bg-[#fbfaf9]">
+                      <div className="space-y-0.5">
+                        <p className="text-xs font-medium text-[#0f0f0e]">Article text is ready in the classifier</p>
+                        <p className="text-[11px] text-[#57534e]">Click below to run real-time inference across all 4 architectures.</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleCompareAll}
+                        className="px-3 py-1.5 rounded-lg bg-[#4f46e5] text-white text-xs font-medium hover:bg-[#4338ca] transition-colors flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer"
+                      >
+                        <Play className="size-3" />
+                        <span>Benchmark Now</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="p-4 rounded-xl border border-dashed border-[#e7e3dd] bg-[#fbfaf9] text-center space-y-1">
+                      <p className="text-xs text-[#57534e]">
+                        Paste an article into the classifier input to benchmark predictions across all 4 models live.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
 
-                  {/* Modal Footer */}
-                  <div className="flex-shrink-0 px-6 py-4 border-t border-gray-100 bg-white flex items-center justify-between">
-                    <Link
-                      href="/analytics#model-comparison"
-                      onClick={() => setIsModalOpen(false)}
-                      className="text-xs text-[#4f46e5] hover:text-[#4338ca] font-medium flex items-center gap-1 hover:underline transition-colors"
-                    >
-                      <span>View Full Evaluation Analytics &amp; Confusion Matrix</span>
-                      <ExternalLink className="size-3" />
-                    </Link>
+              {/* Modal Footer */}
+              <div className="flex-shrink-0 p-4 border-t border-gray-100 bg-gray-50 flex items-center justify-between">
+                <Link
+                  href="/analytics#model-comparison"
+                  onClick={() => setIsModalOpen(false)}
+                  className="text-xs text-[#4f46e5] hover:text-[#4338ca] font-medium flex items-center gap-1 hover:underline transition-colors"
+                >
+                  <span>View Full Evaluation Analytics &amp; Confusion Matrix</span>
+                  <ExternalLink className="size-3" />
+                </Link>
 
-                    <button
-                      type="button"
-                      onClick={() => setIsModalOpen(false)}
-                      className="h-8 px-4 rounded-lg border border-[#e7e3dd] bg-[#fdfcfb] text-xs font-medium text-[#0f0f0e] hover:bg-[#f1efeb] transition-colors cursor-pointer"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>,
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="h-8 px-4 rounded-lg border border-[#e7e3dd] bg-white text-xs font-medium text-[#0f0f0e] hover:bg-gray-100 transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>,
           document.body
         )}
     </main>
