@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NewsScope • Project Defense Presentation</title>
+  <title>NewsScope • 13-Slide Defense Presentation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,14 +24,15 @@
     .slide-canvas {
       width: 1280px;
       height: 720px;
-      background: #ffffff;
+      background: #f8fafc;
       border-radius: 16px;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       position: relative;
       overflow: hidden;
       display: none;
       flex-direction: column;
-      padding: 44px 56px;
+      justify-content: space-between;
+      padding: 36px 48px;
     }
     .slide-canvas.active {
       display: flex;
@@ -39,7 +40,6 @@
     .code-font {
       font-family: 'JetBrains Mono', monospace;
     }
-    /* Controls */
     .nav-btn {
       transition: all 0.2s ease;
     }
@@ -50,1100 +50,543 @@
 </head>
 <body class="text-slate-800 antialiased select-none">
 
-  <!-- Presentation Stage -->
   <div class="slide-viewport">
 
-    <!-- ========================================== -->
-    <!-- SLIDE 1: TITLE HERO -->
-    <!-- ========================================== -->
-    <div class="slide-canvas active justify-between" id="slide-1">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold tracking-wider uppercase">
-          Final Year Project Defense • Machine Learning & NLP
-        </span>
-        <span class="text-xs font-semibold text-slate-400">Slide 01 / 16</span>
-      </div>
-
-      <div class="my-auto">
-        <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-          NewsScope: Smart News Article Classifier
+    <!-- SLIDE 1 -->
+    <div class="slide-canvas active" id="slide-1">
+      <div class="p-8 rounded-2xl bg-white border border-slate-200 shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-indigo-600"></div>
+        <div class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-3">
+          FINAL YEAR PROJECT DEFENSE • MCA
+        </div>
+        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
+          NewsScope: News Article Category Classifier
         </h1>
-        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed mb-8">
-          An Interpretable, High-Throughput Classification System Benchmarking 4 AI Architectures on 2,225 BBC News Articles
-        </p>
-
-        <!-- 3 Highlight Metric Cards -->
-        <div class="grid grid-cols-3 gap-5">
-          <div class="p-5 rounded-xl bg-emerald-50/70 border border-emerald-200">
-            <div class="text-3xl font-extrabold text-emerald-600">96.4%</div>
-            <div class="text-sm font-bold text-slate-900 mt-1">Linear SVM Accuracy</div>
-            <div class="text-xs text-slate-500 mt-0.5">Evaluated on 445 held-out test articles</div>
-          </div>
-          <div class="p-5 rounded-xl bg-indigo-50/70 border border-indigo-200">
-            <div class="text-3xl font-extrabold text-indigo-600">1.2 ms</div>
-            <div class="text-sm font-bold text-slate-900 mt-1">Inference Latency</div>
-            <div class="text-xs text-slate-500 mt-0.5">10x faster than transformer models</div>
-          </div>
-          <div class="p-5 rounded-xl bg-sky-50/70 border border-sky-200">
-            <div class="text-3xl font-extrabold text-sky-600">4 Models</div>
-            <div class="text-sm font-bold text-slate-900 mt-1">Architectures Benchmarked</div>
-            <div class="text-xs text-slate-500 mt-0.5">SVM, DistilBERT, MLP, Naive Bayes</div>
-          </div>
+        <div class="text-xl font-bold text-emerald-600 mb-2">
+          Name: Abhijeet Kumar (MCA)
+        </div>
+        <div class="text-sm font-semibold text-slate-500">
+          Tech Stack: Next.js 14 &bull; FastAPI &bull; Scikit-Learn &bull; PyTorch
         </div>
       </div>
 
-      <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 font-medium">
-        <span>Presenter: <strong class="text-slate-800">Abhijeet</strong></span>
-        <span>Domain: <strong class="text-slate-800">BBC 5-Class News Corpus</strong></span>
-        <span>Tech Stack: <strong class="text-slate-800">FastAPI + Next.js 14 + Scikit-Learn</strong></span>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 2: AGENDA -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-2">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Presentation Structure
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 02 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Agenda & 7 Key Topics</h2>
-        <p class="text-sm text-slate-500 mt-1">Roadmap for evaluation across methodology, models, and real-time execution</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 my-auto">
-        <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition-colors flex items-start gap-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">01</div>
-          <div>
-            <h3 class="font-bold text-slate-900 text-sm">Introduction & Objectives</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Information overload challenge, AI black-box gap, and zero data leakage.</p>
-          </div>
-        </div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition-colors flex items-start gap-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">02</div>
-          <div>
-            <h3 class="font-bold text-slate-900 text-sm">System Architecture & NLP Pipeline</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Decoupled full-stack design and the 5-stage text transformation flow.</p>
-          </div>
-        </div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition-colors flex items-start gap-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">03</div>
-          <div>
-            <h3 class="font-bold text-slate-900 text-sm">Machine Learning Models</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Plain English intuition for Naive Bayes, Linear SVM, MLP, & DistilBERT.</p>
-          </div>
-        </div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition-colors flex items-start gap-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">04</div>
-          <div>
-            <h3 class="font-bold text-slate-900 text-sm">Dataset & Experimental Results</h3>
-            <p class="text-xs text-slate-500 mt-0.5">BBC 2,225 corpus split, 4-model leaderboard, and per-domain accuracy breakdown.</p>
-          </div>
-        </div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition-colors flex items-start gap-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">05</div>
-          <div>
-            <h3 class="font-bold text-slate-900 text-sm">Error Analysis & Explainability</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Confusion matrix dynamics, Politics vs Business overlap, and Platt scaling.</p>
-          </div>
-        </div>
-        <div class="p-4 rounded-xl border border-slate-200 bg-white hover:border-indigo-300 transition-colors flex items-start gap-4">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm shrink-0">06</div>
-          <div>
-            <h3 class="font-bold text-slate-900 text-sm">Application Features (Live Demo)</h3>
-            <p class="text-xs text-slate-500 mt-0.5">Step-by-step real news walkthrough, consensus modal, and CSV upload.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span>Section 07 covers: <strong>Conclusion, Current Limitations & Viva Q&A Defense</strong></span>
-        <span>Use <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-700">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-100 rounded text-slate-700">→</kbd> to navigate</span>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 3: PROBLEM STATEMENT -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-3">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 01 • Introduction & Objectives
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 03 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Why Automated News Classification Matters</h2>
-        <p class="text-sm text-slate-500 mt-1">The information overload challenge and the transparency gap in commercial AI</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-6 my-auto">
-        <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/50">
-          <div class="text-base font-bold text-slate-900 flex items-center gap-2 mb-4">
-            <span class="w-3 h-3 rounded-full bg-rose-500"></span> The Real-World Industry Challenge
-          </div>
-          <ul class="space-y-3.5 text-xs text-slate-600">
-            <li class="flex items-start gap-2.5">
-              <span class="text-indigo-600 font-bold">•</span>
-              <div><strong class="text-slate-800">500M+ Articles Daily:</strong> Massive influx of articles makes manual editorial tagging physically impossible.</div>
-            </li>
-            <li class="flex items-start gap-2.5">
-              <span class="text-indigo-600 font-bold">•</span>
-              <div><strong class="text-slate-800">Latency Constraints:</strong> News feeds require real-time categorization in under 20 milliseconds.</div>
-            </li>
-            <li class="flex items-start gap-2.5">
-              <span class="text-indigo-600 font-bold">•</span>
-              <div><strong class="text-slate-800">Human Inconsistency:</strong> Subjective biases cause different editors to categorize the same story differently.</div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-indigo-200 bg-indigo-50/30">
-          <div class="text-base font-bold text-indigo-900 flex items-center gap-2 mb-4">
-            <span class="w-3 h-3 rounded-full bg-indigo-600"></span> The Black-Box Gap & NewsScope Fix
-          </div>
-          <ul class="space-y-3.5 text-xs text-slate-600">
-            <li class="flex items-start gap-2.5">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <div><strong class="text-slate-800">Explainable Decisions:</strong> Extracts exact word weights so journalists know *why* a category was selected.</div>
-            </li>
-            <li class="flex items-start gap-2.5">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <div><strong class="text-slate-800">Zero Data Leakage:</strong> Vectorizer is fitted strictly on training data; test data remains 100% unseen.</div>
-            </li>
-            <li class="flex items-start gap-2.5">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <div><strong class="text-slate-800">Production Efficiency:</strong> 96.4% accuracy with 1.2 ms inference speed on standard commodity CPUs.</div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Empirical Focus: High-dimensional sparse text classification without the heavy computational cost of deep transformers.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 4: OBJECTIVES -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-4">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 01 • Introduction & Objectives
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 04 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Core Project Objectives</h2>
-        <p class="text-sm text-slate-500 mt-1">Four engineering and scientific milestones delivered by NewsScope</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-5 my-auto">
-        <div class="p-5 rounded-xl border-t-4 border-t-indigo-600 border border-slate-200 bg-white">
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">1. Zero Data Leakage Pipeline</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Strict isolation between training and testing data. The 10,000-word vocabulary and IDF weights are calculated solely on train folds; test sets are treated strictly as unseen incoming streams.
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            This is just the cover page. It tells the examiner what the project is called, who built it, and what technologies were used.
           </p>
         </div>
-        <div class="p-5 rounded-xl border-t-4 border-t-sky-600 border border-slate-200 bg-white">
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">2. 4-Model Architecture Benchmark</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Systematically compare 4 distinct machine learning paradigms on identical data: Naive Bayes (probability), Linear SVM (geometry), MLP (neural net), and DistilBERT (transformer).
-          </p>
-        </div>
-        <div class="p-5 rounded-xl border-t-4 border-t-emerald-600 border border-slate-200 bg-white">
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">3. Model Interpretability & Saliency</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Extract top keyword contributions via hyperplane dot-product weights (<code class="code-font bg-slate-100 px-1 rounded text-slate-800">w^T · x</code>) and present calibrated confidence percentages using Platt scaling.
-          </p>
-        </div>
-        <div class="p-5 rounded-xl border-t-4 border-t-amber-600 border border-slate-200 bg-white">
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">4. Production Full-Stack Web Platform</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Deliver a responsive, decoupled web system featuring real-time single inference, a 4-model parallel consensus dialog, and high-throughput bulk CSV batch processing.
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Think of this like the cover of a movie poster. It gives the title, the director (you), and the main actors (your tech stack).
           </p>
         </div>
       </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Scientific Integrity: Guarantees reliable, un-leaked evaluation metrics matching real-world editorial environments.
-      </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SLIDE 5: SYSTEM ARCHITECTURE -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-5">
+    <!-- SLIDE 2 -->
+    <div class="slide-canvas" id="slide-2">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 02 • System Architecture & NLP Pipeline
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 05 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Decoupled Full-Stack Architecture</h2>
-        <p class="text-sm text-slate-500 mt-1">High-throughput separation of concerns between client, gateway, and ML engine</p>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 02 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">The Problem: News Overload &amp; Black-Box AI</h2>
       </div>
 
-      <div class="space-y-4 my-auto">
-        <div class="p-4 rounded-xl border-l-4 border-l-sky-500 border border-slate-200 bg-white flex items-center justify-between">
-          <div>
-            <div class="text-sm font-bold text-slate-900">Tier 1: Client Application (Next.js 14 App Router)</div>
-            <div class="text-xs text-slate-600 mt-1">
-              Built with Next.js 14, React 18, and Tailwind CSS. Uses atomic Zustand selectors so typing never freezes the page. Includes interactive Recharts dashboards.
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded bg-sky-50 text-sky-700 text-xs font-bold shrink-0 ml-4">React 18 + Zustand</span>
+      <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">1</span>
+          <div class="text-sm text-slate-700 font-medium"><strong>Massive Volume:</strong> Millions of news articles are published daily.</div>
         </div>
-
-        <div class="p-4 rounded-xl border-l-4 border-l-indigo-600 border border-slate-200 bg-white flex items-center justify-between">
-          <div>
-            <div class="text-sm font-bold text-slate-900">Tier 2: API Gateway (FastAPI 0.115 Async REST)</div>
-            <div class="text-xs text-slate-600 mt-1">
-              Ultra-fast Python REST service delivering sub-millisecond routing overhead. Enforces strict Pydantic v2 schemas for runtime input validation and CORS security.
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded bg-indigo-50 text-indigo-700 text-xs font-bold shrink-0 ml-4">FastAPI 0.115</span>
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">2</span>
+          <div class="text-sm text-slate-700 font-medium"><strong>Manual Bottleneck:</strong> Manual tagging is impossible for human editors.</div>
         </div>
-
-        <div class="p-4 rounded-xl border-l-4 border-l-emerald-600 border border-slate-200 bg-white flex items-center justify-between">
-          <div>
-            <div class="text-sm font-bold text-slate-900">Tier 3: Machine Learning Engine (Scikit-Learn & PyTorch)</div>
-            <div class="text-xs text-slate-600 mt-1">
-              Loads serialized pipelines instantly into memory. Executes Linear SVM with Platt scaling for honest calibrated probabilities, alongside Naive Bayes, MLP, and DistilBERT.
-            </div>
-          </div>
-          <span class="px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 text-xs font-bold shrink-0 ml-4">Scikit-Learn</span>
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">3</span>
+          <div class="text-sm text-slate-700 font-medium"><strong>The Black-Box Gap:</strong> AI models are usually "black boxes" (they don't explain why).</div>
         </div>
       </div>
 
-      <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span>Sub-millisecond API response overhead enables real-time editorial ingestion</span>
-        <span>Endpoints: <code class="code-font text-indigo-600">POST /api/classify</code> &amp; <code class="code-font text-indigo-600">GET /api/dataset</code></span>
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 6: 5-STAGE NLP PIPELINE -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-6">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 02 • System Architecture & NLP Pipeline
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 06 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">5-Stage Zero-Leakage Text Pipeline</h2>
-        <p class="text-sm text-slate-500 mt-1">Transforming raw natural language strings into numerical sparse feature vectors</p>
-      </div>
-
-      <div class="grid grid-cols-5 gap-3.5 my-auto">
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between">
-          <div>
-            <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center mb-2">01</div>
-            <h3 class="text-xs font-bold text-slate-900 mb-1">Clean &amp; Normalise</h3>
-            <p class="text-[11px] text-slate-500">Lowercasing, regex stripping of HTML tags, punctuation, and URLs.</p>
-          </div>
-          <div class="mt-3 p-2 rounded bg-white border border-slate-200 text-[10px] code-font text-indigo-600">
-            "apples new iphone 999"
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between">
-          <div>
-            <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center mb-2">02</div>
-            <h3 class="text-xs font-bold text-slate-900 mb-1">Word Tokenize</h3>
-            <p class="text-[11px] text-slate-500">Splits continuous sentence into discrete linguistic word units.</p>
-          </div>
-          <div class="mt-3 p-2 rounded bg-white border border-slate-200 text-[10px] code-font text-indigo-600">
-            ['apples', 'new', 'iphone', '999']
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between">
-          <div>
-            <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center mb-2">03</div>
-            <h3 class="text-xs font-bold text-slate-900 mb-1">Stopword Pruning</h3>
-            <p class="text-[11px] text-slate-500">Filters 179 high-frequency uninformative filler words (NLTK).</p>
-          </div>
-          <div class="mt-3 p-2 rounded bg-white border border-slate-200 text-[10px] code-font text-indigo-600">
-            ['apples', 'iphone', '999']
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between">
-          <div>
-            <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center mb-2">04</div>
-            <h3 class="text-xs font-bold text-slate-900 mb-1">Lemmatization</h3>
-            <p class="text-[11px] text-slate-500">WordNet morphologically reduces words to canonical base forms.</p>
-          </div>
-          <div class="mt-3 p-2 rounded bg-white border border-slate-200 text-[10px] code-font text-indigo-600">
-            ['apple', 'iphone', '999']
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex flex-col justify-between">
-          <div>
-            <div class="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center justify-center mb-2">05</div>
-            <h3 class="text-xs font-bold text-slate-900 mb-1">Sublinear TF-IDF</h3>
-            <p class="text-[11px] text-slate-500">Unigrams + bigrams, max 10,000 features, sublinear term frequency scaling.</p>
-          </div>
-          <div class="mt-3 p-2 rounded bg-white border border-slate-200 text-[10px] code-font text-indigo-600">
-            [0.42, 0.61, 0.28, ...]
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Order of Operations: Text cleaning before tokenization reduces token array allocations by ~35%.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 7: MACHINE LEARNING MODELS -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-7">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 03 • Machine Learning Models
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 07 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">The 4 Machine Learning Models Explained</h2>
-        <p class="text-sm text-slate-500 mt-1">Benchmarking probabilistic, geometric, neural, and attention-based paradigms</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-5 my-auto">
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-slate-900">1. Multinomial Naive Bayes</h3>
-            <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[11px] font-bold">0.5 ms • 92.1% Acc</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed mb-2">
-            Multiplies word probabilities assuming conditional feature independence given class. Laplace smoothing (alpha=0.1) prevents zero-probability traps. Ultra-fast baseline with tiny memory footprint.
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            There is too much news to sort by hand. We use AI, but normal AI just gives an answer without explaining how it got it.
           </p>
-          <div class="text-[10px] code-font text-indigo-600">P(c_k | x) ∝ P(c_k) · ∏ P(x_i | c_k)</div>
         </div>
-
-        <div class="p-5 rounded-xl border-2 border-emerald-500 bg-emerald-50/20">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-              <span>⭐</span> 2. Linear SVM (Champion)
-            </h3>
-            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[11px] font-bold">1.2 ms • 96.4% Acc</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed mb-2">
-            Cover's Theorem states high-dimensional sparse text (10,000 features) is linearly separable. Finds the maximum-margin boundary without overfitting. Calibrated via Platt scaling.
-          </p>
-          <div class="text-[10px] code-font text-emerald-700">min 1/2 ||w||^2 + C ∑ ξ_i</div>
-        </div>
-
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-slate-900">3. Neural MLP</h3>
-            <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 text-[11px] font-bold">3.2 ms • 95.1% Acc</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed mb-2">
-            Two dense layers with 128 hidden neurons, ReLU activations, and Adam optimizer. Learns non-linear word associations across news topics.
-          </p>
-          <div class="text-[10px] code-font text-indigo-600">h = ReLU(W_1 · x + b_1)</div>
-        </div>
-
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="flex items-center justify-between mb-2">
-            <h3 class="text-sm font-bold text-slate-900">4. DistilBERT Transformer</h3>
-            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[11px] font-bold">12.4 ms • 97.8% Acc</span>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed mb-2">
-            6 transformer layers, 66M parameters, bidirectional self-attention. Retains 97% of BERT's comprehension via knowledge distillation while running 60% faster.
-          </p>
-          <div class="text-[10px] code-font text-indigo-600">Attention(Q, K, V) = softmax(QK^T / √d_k) · V</div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Theoretical Takeaway: High-dimensional sparsity gives Linear SVM transformer-grade accuracy in 1/10th the time.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 8: DATASET DISTRIBUTION -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-8">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 04 • Dataset & Experimental Results
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 08 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">BBC News Dataset & Class Distribution</h2>
-        <p class="text-sm text-slate-500 mt-1">2,225 genuine news articles evaluated under a strict stratified 80/20 split</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-6 my-auto">
-        <div class="rounded-xl border border-slate-200 overflow-hidden">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-indigo-600 text-white font-bold">
-              <tr>
-                <th class="py-2.5 px-3.5">Category</th>
-                <th class="py-2.5 px-3.5 text-right">Articles</th>
-                <th class="py-2.5 px-3.5 text-right">Share (%)</th>
-                <th class="py-2.5 px-3.5 text-right">Held-Out Test</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 text-slate-700">
-              <tr class="bg-white">
-                <td class="py-2.5 px-3.5 font-semibold">Sport</td>
-                <td class="py-2.5 px-3.5 text-right">511</td>
-                <td class="py-2.5 px-3.5 text-right">23.0%</td>
-                <td class="py-2.5 px-3.5 text-right font-semibold">102</td>
-              </tr>
-              <tr class="bg-slate-50/50">
-                <td class="py-2.5 px-3.5 font-semibold">Business</td>
-                <td class="py-2.5 px-3.5 text-right">510</td>
-                <td class="py-2.5 px-3.5 text-right">22.9%</td>
-                <td class="py-2.5 px-3.5 text-right font-semibold">102</td>
-              </tr>
-              <tr class="bg-white">
-                <td class="py-2.5 px-3.5 font-semibold">Politics</td>
-                <td class="py-2.5 px-3.5 text-right">417</td>
-                <td class="py-2.5 px-3.5 text-right">18.7%</td>
-                <td class="py-2.5 px-3.5 text-right font-semibold">84</td>
-              </tr>
-              <tr class="bg-slate-50/50">
-                <td class="py-2.5 px-3.5 font-semibold">Tech</td>
-                <td class="py-2.5 px-3.5 text-right">401</td>
-                <td class="py-2.5 px-3.5 text-right">18.0%</td>
-                <td class="py-2.5 px-3.5 text-right font-semibold">80</td>
-              </tr>
-              <tr class="bg-white">
-                <td class="py-2.5 px-3.5 font-semibold">Entertainment</td>
-                <td class="py-2.5 px-3.5 text-right">386</td>
-                <td class="py-2.5 px-3.5 text-right">17.3%</td>
-                <td class="py-2.5 px-3.5 text-right font-semibold">77</td>
-              </tr>
-              <tr class="bg-indigo-50/60 font-bold text-slate-900">
-                <td class="py-2.5 px-3.5">Total Corpus</td>
-                <td class="py-2.5 px-3.5 text-right">2,225</td>
-                <td class="py-2.5 px-3.5 text-right">100%</td>
-                <td class="py-2.5 px-3.5 text-right text-indigo-700">445</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="p-6 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900 mb-3">Corpus Characteristics & Integrity</h3>
-            <ul class="space-y-3 text-xs text-slate-600">
-              <li class="flex items-start gap-2">
-                <span class="text-indigo-600 font-bold">•</span>
-                <span><strong>Origin:</strong> Benchmark news corpus compiled by Greene &amp; Cunningham (2006).</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-indigo-600 font-bold">•</span>
-                <span><strong>Natural Balance:</strong> Well-proportioned across all 5 classes; eliminates need for artificial resampling.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-indigo-600 font-bold">•</span>
-                <span><strong>Article Length:</strong> ~2,200 characters (~380 words) average per article.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-indigo-600 font-bold">•</span>
-                <span><strong>Zero Leakage:</strong> Vectorizer trained strictly on 1,780 articles; 445 test articles kept 100% unseen.</span>
-              </li>
-            </ul>
-          </div>
-          <div class="p-2.5 rounded bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-medium">
-            ✔ Stratified sampling guarantees test set preserves exact population ratios.
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Evaluation Corpus: 1,780 train / 445 test. No duplicate articles or cross-partition leaks.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 9: RESULTS LEADERBOARD -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-9">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 04 • Dataset & Experimental Results
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 09 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">4-Model Performance Benchmark</h2>
-        <p class="text-sm text-slate-500 mt-1">Empirical evaluation across 445 held-out test articles</p>
-      </div>
-
-      <div class="my-auto space-y-5">
-        <div class="rounded-xl border border-slate-200 overflow-hidden">
-          <table class="w-full text-left text-xs">
-            <thead class="bg-indigo-600 text-white font-bold">
-              <tr>
-                <th class="py-3 px-4">Model Architecture</th>
-                <th class="py-3 px-4">Paradigm / Technique</th>
-                <th class="py-3 px-4 text-center">Test Accuracy</th>
-                <th class="py-3 px-4 text-center">Macro F1</th>
-                <th class="py-3 px-4 text-right">Inference Latency</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 text-slate-700">
-              <tr class="bg-white">
-                <td class="py-3 px-4 font-bold text-slate-900">DistilBERT</td>
-                <td class="py-3 px-4 text-slate-500">Transformer Attention (66M params)</td>
-                <td class="py-3 px-4 text-center font-bold text-indigo-600">97.8%</td>
-                <td class="py-3 px-4 text-center font-bold">0.976</td>
-                <td class="py-3 px-4 text-right text-slate-500">12.4 ms</td>
-              </tr>
-              <tr class="bg-emerald-50/70 font-semibold border-l-4 border-l-emerald-600">
-                <td class="py-3 px-4 font-bold text-emerald-900 flex items-center gap-1.5">
-                  <span>⭐</span> Linear SVM (Champion)
-                </td>
-                <td class="py-3 px-4 text-emerald-800">Maximum-Margin Line (Platt Scaled)</td>
-                <td class="py-3 px-4 text-center font-extrabold text-emerald-700 text-sm">96.4%</td>
-                <td class="py-3 px-4 text-center font-bold text-emerald-800">0.963</td>
-                <td class="py-3 px-4 text-right font-bold text-emerald-700">1.2 ms</td>
-              </tr>
-              <tr class="bg-white">
-                <td class="py-3 px-4 font-bold text-slate-900">Neural MLP</td>
-                <td class="py-3 px-4 text-slate-500">Neural Network (128 units, ReLU)</td>
-                <td class="py-3 px-4 text-center font-bold text-slate-700">95.1%</td>
-                <td class="py-3 px-4 text-center font-bold">0.948</td>
-                <td class="py-3 px-4 text-right text-slate-500">3.2 ms</td>
-              </tr>
-              <tr class="bg-slate-50/50">
-                <td class="py-3 px-4 font-bold text-slate-900">Multinomial Naive Bayes</td>
-                <td class="py-3 px-4 text-slate-500">Generative Probabilistic</td>
-                <td class="py-3 px-4 text-center font-bold text-slate-700">92.1%</td>
-                <td class="py-3 px-4 text-center font-bold">0.920</td>
-                <td class="py-3 px-4 text-right text-slate-500">0.5 ms</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="p-4 rounded-xl border border-indigo-200 bg-indigo-50/40 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shrink-0">💡</div>
-            <div class="text-xs text-slate-700">
-              <strong class="text-slate-900">The Production Engineering Takeaway:</strong> DistilBERT yields +1.4% higher accuracy, but Linear SVM runs <strong>10x faster</strong> (1.2 ms vs 12.4 ms) with <strong>20x smaller memory footprint</strong> (&lt; 15 MB vs 260 MB). Linear SVM is crowned the production champion.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Inference measured on single CPU core across 1,000 warm runs.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 10: PER-DOMAIN ACCURACY -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-10">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 04 • Dataset & Experimental Results
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 10 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Per-Domain Accuracy Breakdown (Linear SVM)</h2>
-        <p class="text-sm text-slate-500 mt-1">429 correct predictions out of 445 held-out articles (96.4% overall)</p>
-      </div>
-
-      <div class="grid grid-cols-5 gap-4 my-auto">
-        <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sport</div>
-            <div class="text-3xl font-extrabold text-emerald-600 mt-1">99.0%</div>
-            <div class="text-xs font-semibold text-slate-400 mt-0.5">101 / 102 correct</div>
-          </div>
-          <div class="mt-4 text-[11px] text-slate-600 leading-snug border-t border-slate-100 pt-3">
-            Distinct athletic terms (<span class="text-slate-900 font-semibold">match, goal, cup, coach, injury</span>).
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tech</div>
-            <div class="text-3xl font-extrabold text-emerald-600 mt-1">96.3%</div>
-            <div class="text-xs font-semibold text-slate-400 mt-0.5">77 / 80 correct</div>
-          </div>
-          <div class="mt-4 text-[11px] text-slate-600 leading-snug border-t border-slate-100 pt-3">
-            Software, mobile, broadband, computer, wireless, hardware.
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Entertainment</div>
-            <div class="text-3xl font-extrabold text-indigo-600 mt-1">96.1%</div>
-            <div class="text-xs font-semibold text-slate-400 mt-0.5">74 / 77 correct</div>
-          </div>
-          <div class="mt-4 text-[11px] text-slate-600 leading-snug border-t border-slate-100 pt-3">
-            Film, festival, awards, music, box office, actress, album.
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Business</div>
-            <div class="text-3xl font-extrabold text-indigo-600 mt-1">96.1%</div>
-            <div class="text-xs font-semibold text-slate-400 mt-0.5">98 / 102 correct</div>
-          </div>
-          <div class="mt-4 text-[11px] text-slate-600 leading-snug border-t border-slate-100 pt-3">
-            Market, shares, profit, inflation, bank, economy, analyst.
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Politics</div>
-            <div class="text-3xl font-extrabold text-indigo-600 mt-1">94.0%</div>
-            <div class="text-xs font-semibold text-slate-400 mt-0.5">79 / 84 correct</div>
-          </div>
-          <div class="mt-4 text-[11px] text-slate-600 leading-snug border-t border-slate-100 pt-3">
-            Government, minister, parliament, election, tax policy.
-          </div>
-        </div>
-      </div>
-
-      <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50 text-xs text-slate-600">
-        <strong class="text-slate-900">Why the variation?</strong> Sport achieved the highest score due to specialized vocabulary. Politics has the lowest score (94.0%) because politicians frequently debate macroeconomic topics (tax, budgets, inflation), causing overlap with Business.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 11: ERROR ANALYSIS & CONFUSION MATRIX -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-11">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 05 • Error Analysis & Explainability
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 11 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Error Analysis & Confusion Matrix Dynamics</h2>
-        <p class="text-sm text-slate-500 mt-1">Diagnosing the 16 misclassified articles out of 445 held-out evaluations</p>
-      </div>
-
-      <div class="grid grid-cols-2 gap-6 my-auto">
-        <div class="rounded-xl border border-slate-200 overflow-hidden">
-          <table class="w-full text-center text-xs">
-            <thead class="bg-indigo-600 text-white font-bold">
-              <tr>
-                <th class="py-2 px-3 text-left">Actual \ Pred</th>
-                <th class="py-2 px-2">Bus</th>
-                <th class="py-2 px-2">Ent</th>
-                <th class="py-2 px-2">Pol</th>
-                <th class="py-2 px-2">Spo</th>
-                <th class="py-2 px-2">Tec</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-100 font-medium">
-              <tr>
-                <td class="py-2 px-3 text-left font-bold bg-slate-50">Business</td>
-                <td class="py-2 px-2 bg-emerald-100 text-emerald-900 font-bold">98</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 bg-rose-100 text-rose-800 font-bold">2</td>
-                <td class="py-2 px-2 text-slate-300">0</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 text-left font-bold bg-slate-50">Entertainment</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 bg-emerald-100 text-emerald-900 font-bold">74</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 text-slate-300">0</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 text-left font-bold bg-slate-50">Politics</td>
-                <td class="py-2 px-2 bg-rose-100 text-rose-800 font-bold">2</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 bg-emerald-100 text-emerald-900 font-bold">79</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 text-left font-bold bg-slate-50">Sport</td>
-                <td class="py-2 px-2 text-slate-300">0</td>
-                <td class="py-2 px-2 text-slate-300">0</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 bg-emerald-100 text-emerald-900 font-bold">101</td>
-                <td class="py-2 px-2 text-slate-300">0</td>
-              </tr>
-              <tr>
-                <td class="py-2 px-3 text-left font-bold bg-slate-50">Tech</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 text-slate-300">0</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 text-slate-400">1</td>
-                <td class="py-2 px-2 bg-emerald-100 text-emerald-900 font-bold">77</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="p-6 rounded-xl border border-slate-200 bg-white flex flex-col justify-between">
-          <div>
-            <h3 class="text-sm font-bold text-slate-900 mb-3">Diagnostic Observations</h3>
-            <ul class="space-y-2.5 text-xs text-slate-600">
-              <li class="flex items-start gap-2">
-                <span class="text-rose-500 font-bold">•</span>
-                <span><strong>Primary Error Vector:</strong> Politics ↔ Business (4 total errors). Both categories heavily reference government fiscal policies, inflation, and budget deficits.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-indigo-600 font-bold">•</span>
-                <span><strong>Remediation:</strong> Unigrams + bigrams (<code class="code-font text-indigo-600">ngram_range=(1,2)</code>) bound phrases like "corporate tax" vs "tax policy", resolving 80% of borderline ambiguities.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="text-emerald-600 font-bold">•</span>
-                <span><strong>Sport Isolation:</strong> 99.0% recall. Only 1 article misclassified ("Olympic committee governance election" → Politics).</span>
-              </li>
-            </ul>
-          </div>
-          <div class="p-2.5 rounded bg-slate-50 border border-slate-200 text-xs text-slate-700">
-            Total Corpus Error Rate: <strong>3.6%</strong> (16 errors out of 445 evaluations).
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Confusion Matrix computed strictly on held-out 20% test fold.
-      </div>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SLIDE 12: EXPLAINABILITY -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-12">
-      <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 05 • Error Analysis & Explainability
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 12 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Opening the Black Box: Model Explainability</h2>
-        <p class="text-sm text-slate-500 mt-1">Transforming opaque machine learning predictions into auditable keyword saliency</p>
-      </div>
-
-      <div class="space-y-4 my-auto">
-        <div class="p-4 rounded-xl border-l-4 border-l-indigo-600 border border-slate-200 bg-white">
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="text-sm font-bold text-slate-900">1. Feature Coefficient Extraction (Linear SVM)</h3>
-            <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 text-[11px] font-bold">Mathematical Weights</span>
-          </div>
-          <p class="text-xs text-slate-600 mb-2">
-            Decisions follow <code class="code-font text-indigo-600">f(x) = w^T · x + b</code>. By multiplying word TF-IDF values by their hyperplane weights (<code class="code-font text-indigo-600">w_i · x_i</code>), NewsScope surfaces the exact tokens pulling the decision toward a category.
-          </p>
-          <div class="text-[11px] code-font text-slate-700 bg-slate-50 p-2 rounded border border-slate-200">
-            Example: 'processor' (+0.35) and 'macbook' (+0.28) strongly pull the prediction toward Technology.
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border-l-4 border-l-emerald-600 border border-slate-200 bg-white">
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="text-sm font-bold text-slate-900">2. Calibrated Confidence (Platt Scaling)</h3>
-            <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 text-[11px] font-bold">Statistical Probabilities</span>
-          </div>
-          <p class="text-xs text-slate-600 mb-2">
-            Standard SVMs output raw distance margins. Platt Scaling fits a logistic regression sigmoid on top of decision values, converting raw geometric margins into honest, trustworthy confidence percentages.
-          </p>
-          <div class="text-[11px] code-font text-slate-700 bg-slate-50 p-2 rounded border border-slate-200">
-            Example: Margin +2.45 -> 96.4% calibrated confidence percentage.
-          </div>
-        </div>
-
-        <div class="p-4 rounded-xl border-l-4 border-l-sky-600 border border-slate-200 bg-white">
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="text-sm font-bold text-slate-900">3. Interactive UI Saliency Badges</h3>
-            <span class="px-2 py-0.5 rounded bg-sky-50 text-sky-700 text-[11px] font-bold">Editorial Validation</span>
-          </div>
-          <p class="text-xs text-slate-600">
-            In our Next.js frontend, influential words light up with vibrant badges, giving editorial staff immediate visual confirmation of the classifier's reasoning before publishing recommendations.
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Imagine a librarian who gets 10,000 books a day. They can't read and sort them all. If they use a robot to help, the robot just puts the book on a shelf and says, "Trust me, it belongs here," without explaining why.
           </p>
         </div>
       </div>
+    </div>
 
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Interpretability solves the adoption barrier in professional newsrooms.
+    <!-- SLIDE 3 -->
+    <div class="slide-canvas" id="slide-3">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 03 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Project Objectives</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm text-xs">
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-bold text-slate-900 mb-1">✔ 1. Zero Data Leakage</div>
+          <div class="text-slate-600">Strict separation between training and test sets so the AI never cheats.</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-bold text-slate-900 mb-1">✔ 2. Compare 4 Different AI Models</div>
+          <div class="text-slate-600">Benchmark Naive Bayes, Linear SVM, Neural MLP, and DistilBERT.</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-bold text-slate-900 mb-1">✔ 3. Explainable AI</div>
+          <div class="text-slate-600">Show the exact top keywords and weights that caused the prediction.</div>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="font-bold text-slate-900 mb-1">✔ 4. Build a Complete Web App</div>
+          <div class="text-slate-600">Production website with live single classification and batch CSV upload.</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Our goals were to train the AI fairly, test different algorithms, make sure the AI shows its work, and wrap it all in a nice website.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Like building a new car. You want it to be safe (no cheating), test different engines (4 models), make sure the dashboard shows the speed (explainable), and actually put it on the road for people to drive (web app).
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SLIDE 13: APPLICATION FEATURES -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-13">
+    <!-- SLIDE 4 -->
+    <div class="slide-canvas" id="slide-4">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 06 • Application Features (Live Demo)
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 13 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">NewsScope Web Platform Capabilities</h2>
-        <p class="text-sm text-slate-500 mt-1">Interactive software features built with Next.js 14 and FastAPI</p>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 04 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">System Architecture</h2>
       </div>
 
-      <div class="grid grid-cols-2 gap-5 my-auto">
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-sm mb-3">01</div>
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">Real-Time Single Classifier</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Type or paste any news text and get instant classification in under 1 second. Shows category badge, calibrated confidence bar, word count, and optimistic UI with zero typing lag.
-          </p>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="p-4 rounded-xl bg-white border-t-4 border-t-sky-500 border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-sky-700 uppercase mb-1">Frontend</div>
+          <div class="text-sm font-bold text-slate-900 mb-1">Next.js 14</div>
+          <p class="text-xs text-slate-600">What the user sees. Modern, responsive React UI that takes user text and displays live charts without lag.</p>
         </div>
-
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm mb-3">02</div>
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">4-Model Consensus Modal</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Click "Compare All Models" to benchmark all 4 architectures live on the exact input text. Displays execution latency, individual confidence, and cross-model agreement side-by-side.
-          </p>
+        <div class="p-4 rounded-xl bg-white border-t-4 border-t-indigo-600 border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-indigo-700 uppercase mb-1">Backend</div>
+          <div class="text-sm font-bold text-slate-900 mb-1">FastAPI</div>
+          <p class="text-xs text-slate-600">The brain. High-speed Python REST API that runs validation and handles requests in under 1 millisecond.</p>
         </div>
-
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm mb-3">03</div>
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">High-Throughput Batch CSV Processing</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Drag and drop CSV files containing hundreds of news articles. Features a streaming progress bar, client-side error recovery, and one-click export with predictions and confidence scores.
-          </p>
-        </div>
-
-        <div class="p-5 rounded-xl border border-slate-200 bg-white">
-          <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm mb-3">04</div>
-          <h3 class="text-sm font-bold text-slate-900 mb-1.5">Interactive Analytics Dashboard</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Live bar chart showing Per-Domain Accuracy Breakdown (Linear SVM @ 96.4%), interactive Confusion Matrix heatmap, and system architecture leaderboards.
-          </p>
+        <div class="p-4 rounded-xl bg-white border-t-4 border-t-emerald-600 border border-slate-200 shadow-sm">
+          <div class="text-xs font-bold text-emerald-700 uppercase mb-1">ML Engine</div>
+          <div class="text-sm font-bold text-slate-900 mb-1">Scikit-Learn &amp; PyTorch</div>
+          <p class="text-xs text-slate-600">The recipes. Pre-trained machine learning models ready to classify text and extract keyword weights instantly.</p>
         </div>
       </div>
 
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Live application running locally on port 3000 with sub-millisecond API response times.
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            We split the app into two parts. The frontend takes the user's text and sends it to the backend. The backend runs the math and sends the answer back.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Think of a restaurant. The Frontend is the waiter taking your order. The Backend is the kitchen cooking the food. The ML Model is the recipe they follow.
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SLIDE 14: REAL-TIME WALKTHROUGH DEMO -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-14">
+    <!-- SLIDE 5 -->
+    <div class="slide-canvas" id="slide-5">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 06 • Application Features (Live Demo)
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 14 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Real-Time Demonstration: Step-by-Step Example</h2>
-        <p class="text-sm text-slate-500 mt-1">Tracing a genuine news headline through cleaning, inference, explainability, and consensus</p>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 05 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">NLP Preprocessing Pipeline (5 Steps)</h2>
       </div>
 
-      <div class="grid grid-cols-2 gap-6 my-auto">
-        <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col justify-between">
+      <div class="grid grid-cols-5 gap-3 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm text-xs">
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="font-bold text-indigo-600 mb-1">1. Clean</div>
+          <p class="text-[11px] text-slate-500 mb-2">Lowercase &amp; remove symbols.</p>
+          <div class="code-font text-[10px] text-slate-800 bg-white p-1 rounded">"apples new iphone 999"</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="font-bold text-indigo-600 mb-1">2. Tokenize</div>
+          <p class="text-[11px] text-slate-500 mb-2">Split into words.</p>
+          <div class="code-font text-[10px] text-slate-800 bg-white p-1 rounded">['apples', 'iphone']</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="font-bold text-indigo-600 mb-1">3. Stopwords</div>
+          <p class="text-[11px] text-slate-500 mb-2">Drop 'the', 'is', 'at'.</p>
+          <div class="code-font text-[10px] text-slate-800 bg-white p-1 rounded">['apples', 'iphone']</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="font-bold text-indigo-600 mb-1">4. Lemmatize</div>
+          <p class="text-[11px] text-slate-500 mb-2">running -> run.</p>
+          <div class="code-font text-[10px] text-slate-800 bg-white p-1 rounded">['apple', 'iphone']</div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+          <div class="font-bold text-indigo-600 mb-1">5. Vectorize</div>
+          <p class="text-[11px] text-slate-500 mb-2">Words into numbers.</p>
+          <div class="code-font text-[10px] text-slate-800 bg-white p-1 rounded">[0.42, 0.61, 0.28]</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Computers can't read English. We have to clean the text, chop it into words, remove useless filler words, and turn the words into numbers.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Like preparing vegetables to cook. You wash them (clean), chop them (tokenize), throw away the stems (stopwords), and measure them (vectorize) before putting them in the pan.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide-canvas" id="slide-6">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 06 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">The 4 AI Models Tested</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-xs shrink-0">NB</div>
           <div>
-            <h3 class="text-sm font-bold text-indigo-900 mb-2">1. Input Text &amp; Pipeline Transformation</h3>
-            <div class="p-3 rounded-lg bg-white border border-slate-200 text-xs text-slate-800 code-font mb-3">
-              "Apple unveils new M3 MacBook laptop with ultra-fast processor, 22-hour battery life, and high performance graphics for developers."
-            </div>
-            <ul class="space-y-1.5 text-xs text-slate-600">
-              <li>• <strong>Cleansed:</strong> Lowercased, stripped punctuation and symbols.</li>
-              <li>• <strong>Stopwords Dropped:</strong> Filtered <code class="code-font text-slate-800">with</code>, <code class="code-font text-slate-800">and</code>, <code class="code-font text-slate-800">for</code>.</li>
-              <li>• <strong>Lemmatized:</strong> <code class="code-font text-slate-800">'features' -> 'feature'</code>, <code class="code-font text-slate-800">'unveils' -> 'unveil'</code>.</li>
-              <li>• <strong>TF-IDF Vector:</strong> Transformed into 10,000-D sparse numerical vector.</li>
-            </ul>
-          </div>
-          <div class="text-[11px] text-slate-500 pt-2 border-t border-slate-200">
-            Pipeline Execution: <strong>0.3 ms</strong>
+            <div class="font-bold text-slate-900 text-sm">Naive Bayes <span class="text-xs font-normal text-slate-500">(Simple guesser)</span></div>
+            <div class="text-xs text-slate-600 mt-0.5">Uses basic probability. Multiplies chances of each word belonging to a category (0.5 ms).</div>
           </div>
         </div>
-
-        <div class="p-5 rounded-xl border border-emerald-200 bg-emerald-50/30 flex flex-col justify-between">
+        <div class="p-3.5 rounded-xl bg-emerald-50/50 border border-emerald-300 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">⭐</div>
           <div>
-            <div class="flex items-center justify-between mb-2">
-              <h3 class="text-sm font-bold text-emerald-900">2. Prediction &amp; Model Consensus</h3>
-              <span class="px-2.5 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-xs">TECHNOLOGY</span>
-            </div>
-
-            <div class="text-xs font-bold text-slate-800 mb-1.5">Top Explanatory Keywords:</div>
-            <div class="flex flex-wrap gap-1.5 mb-3.5">
-              <span class="px-2 py-0.5 rounded bg-white border border-slate-200 text-xs font-semibold code-font text-indigo-700">processor (+0.35)</span>
-              <span class="px-2 py-0.5 rounded bg-white border border-slate-200 text-xs font-semibold code-font text-indigo-700">apple (+0.28)</span>
-              <span class="px-2 py-0.5 rounded bg-white border border-slate-200 text-xs font-semibold code-font text-indigo-700">laptop (+0.24)</span>
-              <span class="px-2 py-0.5 rounded bg-white border border-slate-200 text-xs font-semibold code-font text-indigo-700">developer (+0.18)</span>
-            </div>
-
-            <div class="text-xs font-bold text-slate-800 mb-1">Live 4-Model Consensus Modal:</div>
-            <div class="space-y-1 text-xs text-slate-700">
-              <div class="flex justify-between"><span>✔ Linear SVM:</span> <span class="font-bold text-emerald-700">Tech (98.4% | 1.2 ms)</span></div>
-              <div class="flex justify-between"><span>✔ DistilBERT:</span> <span class="font-bold text-emerald-700">Tech (99.1% | 12.4 ms)</span></div>
-              <div class="flex justify-between"><span>✔ Neural MLP:</span> <span class="font-bold text-emerald-700">Tech (97.0% | 3.2 ms)</span></div>
-              <div class="flex justify-between"><span>✔ Naive Bayes:</span> <span class="font-bold text-emerald-700">Tech (93.5% | 0.5 ms)</span></div>
-            </div>
+            <div class="font-bold text-emerald-900 text-sm">Linear SVM <span class="text-xs font-normal text-emerald-700">(Finds boundaries)</span></div>
+            <div class="text-xs text-emerald-800 mt-0.5">Draws a straight dividing line in 10,000-word space. 96.4% accurate and super fast (1.2 ms).</div>
           </div>
-
-          <div class="p-2 rounded bg-emerald-100/70 text-emerald-900 text-xs font-bold text-center mt-3">
-            Result: 100% agreement across all 4 architectures!
+        </div>
+        <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs shrink-0">MLP</div>
+          <div>
+            <div class="font-bold text-slate-900 text-sm">Neural MLP <span class="text-xs font-normal text-slate-500">(Mini brain)</span></div>
+            <div class="text-xs text-slate-600 mt-0.5">Artificial neural network with 128 neurons. Learns non-linear word patterns (95.1% acc).</div>
+          </div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0">BERT</div>
+          <div>
+            <div class="font-bold text-slate-900 text-sm">DistilBERT <span class="text-xs font-normal text-slate-500">(Supercomputer)</span></div>
+            <div class="text-xs text-slate-600 mt-0.5">Deep learning transformer (66M weights). Reads sentences bidirectionally to understand context.</div>
           </div>
         </div>
       </div>
 
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Live Demonstration: Verified live on port 3000 during final presentation.
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            We tested four different ways for the AI to learn.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Imagine four students taking a test: Naive Bayes just guesses based on what it remembers; SVM draws a straight line in the sand to separate answers; MLP uses a complex brain; and BERT reads the entire textbook and remembers every detail.
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SLIDE 15: LIMITATIONS & FUTURE SCOPE -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-15">
+    <!-- SLIDE 7 -->
+    <div class="slide-canvas" id="slide-7">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 07 • Conclusion & Future Scope
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 15 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Current Limitations & Future Roadmap</h2>
-        <p class="text-sm text-slate-500 mt-1">Honest critical evaluation of system constraints and engineering roadmap</p>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 07 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Dataset &amp; Evaluation</h2>
       </div>
 
-      <div class="grid grid-cols-2 gap-6 my-auto">
-        <div class="p-6 rounded-xl border border-rose-200 bg-rose-50/20">
-          <h3 class="text-sm font-bold text-rose-900 mb-3 flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> Current Limitations
-          </h3>
-          <ul class="space-y-3 text-xs text-slate-700">
-            <li class="flex items-start gap-2">
-              <span class="text-rose-500 font-bold">•</span>
-              <span><strong>Historical Dataset:</strong> BBC 2005 corpus lacks modern vocabulary (smartphones, LLMs, cryptocurrency, streaming).</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-rose-500 font-bold">•</span>
-              <span><strong>Single-Label Constraint:</strong> Real-world stories frequently span multiple domains (e.g. Big Tech antitrust) but receive one label.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-rose-500 font-bold">•</span>
-              <span><strong>Monolingual:</strong> Evaluated strictly on English language news articles.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-rose-500 font-bold">•</span>
-              <span><strong>Static Retraining:</strong> No automated concept drift detection or continuous online retraining.</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="p-6 rounded-xl border border-emerald-200 bg-emerald-50/20">
-          <h3 class="text-sm font-bold text-emerald-900 mb-3 flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Future Roadmap
-          </h3>
-          <ul class="space-y-3 text-xs text-slate-700">
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <span><strong>Multi-Label Classification:</strong> Binary relevance / sigmoid thresholding for multi-topic stories.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <span><strong>Multilingual Embeddings:</strong> Fine-tuning XLM-RoBERTa for cross-lingual news classification across 50+ languages.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <span><strong>Active Learning:</strong> Routing low-confidence predictions (&lt; 50%) to editors for iterative labeling.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-emerald-600 font-bold">✔</span>
-              <span><strong>Model Quantization:</strong> 8-bit ONNX runtime deployment to achieve sub-millisecond transformer inference.</span>
-            </li>
-          </ul>
-        </div>
+      <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2.5 text-sm text-slate-700 font-medium">
+        <div>• <strong>BBC News Corpus:</strong> 2,225 genuine news articles.</div>
+        <div>• <strong>5 Balanced Categories:</strong> Sport, Business, Politics, Tech, Entertainment.</div>
+        <div>• <strong>80 / 20 Train-Test Split:</strong> 80% (1,780) for training, 20% (445) for testing.</div>
+        <div>• <strong>Zero Data Leakage:</strong> Test articles kept completely hidden during training.</div>
       </div>
 
-      <div class="pt-3 border-t border-slate-100 text-xs text-slate-500">
-        Roadmap items provide actionable continuity for postgraduate research and commercial deployment.
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            We used a real dataset of 2,225 BBC articles. We taught the AI using 80% of them, and saved 20% to test if it actually learned.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Like a teacher giving you practice questions (80%) to study, and then giving you a final exam (20%) with new questions to see if you really understand the topic.
+          </p>
+        </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SLIDE 16: CONCLUSION & VIVA Q&A -->
-    <!-- ========================================== -->
-    <div class="slide-canvas justify-between" id="slide-16">
+    <!-- SLIDE 8 -->
+    <div class="slide-canvas" id="slide-8">
       <div>
-        <div class="flex items-center justify-between mb-2">
-          <span class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider">
-            Section 07 • Conclusion & Takeaways
-          </span>
-          <span class="text-xs font-semibold text-slate-400">Slide 16 / 16</span>
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">Project Summary & Engineering Conclusion</h2>
-        <p class="text-sm text-slate-500 mt-1">Key takeaways and Viva Voce defense reference</p>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 08 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">The Leaderboard (Results on 445 Test Articles)</h2>
       </div>
 
-      <div class="space-y-3.5 my-auto">
-        <div class="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start gap-3">
-          <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 text-xs">✔</div>
-          <div class="text-xs text-slate-700">
-            <strong class="text-slate-900">High Performance:</strong> Linear SVM achieved <strong>96.4% accuracy</strong> at <strong>1.2 ms latency</strong>, proving classical statistical methods remain superior for latency-critical production NLP.
-          </div>
-        </div>
+      <div class="rounded-xl border border-slate-200 overflow-hidden bg-white shadow-sm text-xs">
+        <table class="w-full text-left">
+          <thead class="bg-indigo-600 text-white font-bold">
+            <tr>
+              <th class="py-2.5 px-4">Model</th>
+              <th class="py-2.5 px-4">Accuracy</th>
+              <th class="py-2.5 px-4">Speed (Latency)</th>
+              <th class="py-2.5 px-4">Role / Verdict</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td class="py-2.5 px-4 font-bold text-slate-900">DistilBERT</td>
+              <td class="py-2.5 px-4 font-bold text-indigo-600">97.8%</td>
+              <td class="py-2.5 px-4">12.4 ms</td>
+              <td class="py-2.5 px-4 text-slate-500">Most accurate, but slowest &amp; heavy (260 MB)</td>
+            </tr>
+            <tr class="bg-emerald-50/70 font-bold border-l-4 border-l-emerald-600">
+              <td class="py-2.5 px-4 text-emerald-900">Linear SVM ⭐</td>
+              <td class="py-2.5 px-4 text-emerald-700 text-sm">96.4%</td>
+              <td class="py-2.5 px-4 text-emerald-700">1.2 ms</td>
+              <td class="py-2.5 px-4 text-emerald-800">Production Champion! 10x faster &amp; lightweight (&lt;15 MB)</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-4 font-bold text-slate-900">Neural MLP</td>
+              <td class="py-2.5 px-4 font-bold">95.1%</td>
+              <td class="py-2.5 px-4">3.2 ms</td>
+              <td class="py-2.5 px-4 text-slate-500">Balanced neural network approach</td>
+            </tr>
+            <tr class="bg-slate-50">
+              <td class="py-2.5 px-4 font-bold text-slate-900">Naive Bayes</td>
+              <td class="py-2.5 px-4 font-bold">92.1%</td>
+              <td class="py-2.5 px-4">0.5 ms</td>
+              <td class="py-2.5 px-4 text-slate-500">Fastest baseline, but lower accuracy</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div class="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start gap-3">
-          <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 text-xs">✔</div>
-          <div class="text-xs text-slate-700">
-            <strong class="text-slate-900">Methodological Rigor:</strong> Zero data leakage enforced through strict pipeline encapsulation and sublinear TF-IDF feature extraction.
-          </div>
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            BERT was the most accurate, but it was slow. SVM was almost as accurate, but 10 times faster. So we chose SVM for the final app.
+          </p>
         </div>
-
-        <div class="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start gap-3">
-          <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 text-xs">✔</div>
-          <div class="text-xs text-slate-700">
-            <strong class="text-slate-900">Transparency &amp; Trust:</strong> Solved the black-box dilemma using hyperplane feature coefficients and Platt-scaled calibrated probabilities.
-          </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            A sports car (BERT) goes 1 mile per hour faster than a bullet train (SVM). But the train carries everyone in half the time. For a web app, speed matters, so we chose the train.
+          </p>
         </div>
+      </div>
+    </div>
 
-        <div class="p-3.5 rounded-xl border border-slate-200 bg-white flex items-start gap-3">
-          <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 text-xs">✔</div>
-          <div class="text-xs text-slate-700">
-            <strong class="text-slate-900">Production Delivery:</strong> Completed fully functional full-stack system with Next.js 14, FastAPI, batch CSV processing, and live analytics.
-          </div>
+    <!-- SLIDE 9 -->
+    <div class="slide-canvas" id="slide-9">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 09 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Error Analysis (Confusion Matrix)</h2>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2 text-xs text-slate-700 font-medium">
+        <div>• <strong>Best Categories:</strong> Sport (99.0% - 101/102 correct) and Entertainment (96.1% - 74/77 correct).</div>
+        <div>• <strong>Hardest Boundary:</strong> Politics vs. Business (4 articles confused due to shared words like 'tax', 'budget', 'economy').</div>
+        <div>• <strong>The Solution (Bigrams):</strong> We trained the AI on two-word phrases (like 'corporate tax' vs 'tax policy') to tell them apart.</div>
+        <div>• <strong>Total Errors:</strong> Only 16 articles out of 445 were misclassified across the entire test set.</div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            The AI was great at sports. But it got confused between Politics and Business because they use similar words. We fixed this by teaching it phrases instead of just single words.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            If an article says "The Chancellor announced the new tax budget." Is it Politics or Business? Even a human gets confused. By looking at the phrase "tax budget" together, the AI understands it better.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide-canvas" id="slide-10">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 10 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Explainable AI (No More Black Boxes)</h2>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2 text-xs text-slate-700 font-medium">
+        <div>✔ <strong>Top Keywords Saliency:</strong> Shows the exact words that caused the prediction (e.g. 'wembley' = 28%, 'processor' = 35%).</div>
+        <div>✔ <strong>Platt Scaling:</strong> Converts raw mathematical margin distances into honest percentage probabilities (e.g. 98.4%).</div>
+        <div>✔ <strong>Low Confidence Warnings:</strong> Warns the user when an article touches multiple topics and confidence is below 45%.</div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            The AI doesn't just give an answer; it shows exactly which words it used to make the decision. If it's confused, it warns the user.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            A doctor shouldn't just say, "You are sick." They should say, "You are sick because your temperature is 102." Our AI acts like the good doctor—it shows its evidence.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide-canvas" id="slide-11">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 11 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Application Features (Live Web Platform)</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 text-xs">
+        <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <div class="font-bold text-slate-900 mb-0.5">1. Single Text Classifier</div>
+          <div class="text-slate-600">Paste any news article or enter URL for instant classification in under 1 second.</div>
+        </div>
+        <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <div class="font-bold text-slate-900 mb-0.5">2. Batch CSV Processing</div>
+          <div class="text-slate-600">Drag and drop CSV files with 1,000+ articles; export predictions with 1 click.</div>
+        </div>
+        <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <div class="font-bold text-slate-900 mb-0.5">3. Compare 4 Models Live</div>
+          <div class="text-slate-600">Consensus modal benchmarks SVM, DistilBERT, MLP, and Naive Bayes live.</div>
+        </div>
+        <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
+          <div class="font-bold text-slate-900 mb-0.5">4. Analytics Dashboard</div>
+          <div class="text-slate-600">Interactive bar charts and live Confusion Matrix heatmap.</div>
         </div>
       </div>
 
-      <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span>Thank you for your time and evaluation.</span>
-        <span class="font-bold text-indigo-600">Open for Questions &amp; Viva Voce Defense</span>
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            This is what the user can actually do on the website.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            It's like a Swiss Army Knife. You can classify one article, classify 1,000 articles at once (CSV), compare all 4 AIs, and look at charts.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide-canvas" id="slide-12">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 12 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Limitations &amp; Future Scope</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl bg-rose-50/40 border border-rose-200">
+          <div class="font-bold text-rose-800 text-xs mb-1">Current Limitations</div>
+          <p class="text-xs text-slate-700">Old dataset (2005) lacks modern words like 'cryptocurrency' or 'LLMs'; English-only; single-label only.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/40 border border-emerald-200">
+          <div class="font-bold text-emerald-800 text-xs mb-1">Future Roadmap</div>
+          <p class="text-xs text-slate-700">Multilingual classification (XLM-RoBERTa), multi-label support for cross-domain stories, and active learning.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            What the app can't do today, and how we can make it better tomorrow.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Right now, our car only drives on old roads (2005 data) and only carries one passenger (single label). In the future, we want a flying car that can go anywhere in the world (multilingual).
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide-canvas" id="slide-13">
+      <div>
+        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 13 / 13</div>
+        <h2 class="text-2xl font-extrabold text-slate-900">Conclusion &amp; Key Takeaways</h2>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✔</span>
+          <div class="text-sm text-slate-800 font-medium"><strong>Classical ML (SVM) Matches Deep Learning:</strong> 96.4% accuracy (within 1.4% of DistilBERT) while running 10x faster (1.2 ms vs 12.4 ms).</div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✔</span>
+          <div class="text-sm text-slate-800 font-medium"><strong>Complete Full-Stack Delivery:</strong> Delivered a production-ready, beautiful web application with Next.js 14 and FastAPI.</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-5 mt-4">
+        <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
+          <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            To wrap up, we proved that you don't always need massive, expensive AI to do a great job. We built a fast, accurate, and beautiful app.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            We didn't need a supercomputer to build a great tool. Just a smart, well-tuned engine.
+          </p>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Slide Navigation Bar (Bottom) -->
+  <!-- Slide Navigation Bar -->
   <div class="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-slate-900/90 backdrop-blur px-5 py-2.5 rounded-full border border-slate-700 shadow-2xl z-50 text-white text-xs">
     <button id="prevBtn" class="nav-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 font-bold">← Prev</button>
-    <span id="counter" class="font-mono text-slate-300">1 / 16</span>
+    <span id="counter" class="font-mono text-slate-300">1 / 13</span>
     <button id="nextBtn" class="nav-btn px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 font-bold">Next →</button>
-    <span class="border-l border-slate-700 pl-3 text-slate-400">Press <kbd class="px-1 bg-slate-800 rounded text-slate-300">Space</kbd> or <kbd class="px-1 bg-slate-800 rounded text-slate-300">→</kbd></span>
+    <span class="border-l border-slate-700 pl-3 text-slate-400">Use <kbd class="px-1 bg-slate-800 rounded text-slate-300">←</kbd> <kbd class="px-1 bg-slate-800 rounded text-slate-300">→</kbd></span>
     <button id="fullBtn" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300 ml-1">Fullscreen</button>
   </div>
 
   <script>
     let currentSlide = 1;
-    const totalSlides = 16;
+    const totalSlides = 13;
 
     function showSlide(n) {
       if (n < 1) n = 1;
@@ -1160,7 +603,6 @@
           }
         }
       }
-
       document.getElementById('counter').innerText = `${currentSlide} / ${totalSlides}`;
     }
 
@@ -1168,23 +610,15 @@
     document.getElementById('nextBtn').onclick = () => showSlide(currentSlide + 1);
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
-        showSlide(currentSlide + 1);
-      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
-        showSlide(currentSlide - 1);
-      } else if (e.key === 'Home') {
-        showSlide(1);
-      } else if (e.key === 'End') {
-        showSlide(totalSlides);
-      }
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') showSlide(currentSlide + 1);
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') showSlide(currentSlide - 1);
+      else if (e.key === 'Home') showSlide(1);
+      else if (e.key === 'End') showSlide(totalSlides);
     });
 
     document.getElementById('fullBtn').onclick = () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
-      } else {
-        document.exitFullscreen().catch(() => {});
-      }
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+      else document.exitFullscreen().catch(() => {});
     };
   </script>
 </body>
