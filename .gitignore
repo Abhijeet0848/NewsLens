@@ -43,6 +43,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# Office temp files
+~$*
+
 # Environment variables
 .env
 .env*.local
