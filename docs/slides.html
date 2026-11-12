@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,16 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
   <style>
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: #0f172a;
       overflow: hidden;
     }
+
     .slide-viewport {
       width: 100vw;
       height: 100vh;
@@ -21,6 +25,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .slide-canvas {
       width: 1280px;
       height: 720px;
@@ -34,20 +39,25 @@
       justify-content: space-between;
       padding: 36px 48px;
     }
+
     .slide-canvas.active {
       display: flex;
     }
+
     .code-font {
       font-family: 'JetBrains Mono', monospace;
     }
+
     .nav-btn {
       transition: all 0.2s ease;
     }
+
     .nav-btn:hover {
       transform: scale(1.05);
     }
   </style>
 </head>
+
 <body class="text-slate-800 antialiased select-none">
 
   <div class="slide-viewport">
@@ -56,7 +66,8 @@
     <div class="slide-canvas active" id="slide-1">
       <div class="p-8 rounded-2xl bg-white border border-slate-200 shadow-sm relative overflow-hidden">
         <div class="absolute top-0 left-0 w-full h-1.5 bg-indigo-600"></div>
-        <div class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-3">
+        <div
+          class="inline-flex px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-3">
           FINAL YEAR PROJECT DEFENSE • MCA
         </div>
         <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
@@ -74,13 +85,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            This is just the cover page. It tells the examiner what the project is called, who built it, and what technologies were used.
+            This is just the cover page. It tells the examiner what the project is called, who built it, and what
+            technologies were used.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Think of this like the cover of a movie poster. It gives the title, the director (you), and the main actors (your tech stack).
+            Think of this like the cover of a movie poster. It gives the title, the director (you), and the main actors
+            (your tech stack).
           </p>
         </div>
       </div>
@@ -89,22 +102,30 @@
     <!-- SLIDE 2 -->
     <div class="slide-canvas" id="slide-2">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 02 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 02 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">The Problem: News Overload &amp; Black-Box AI</h2>
       </div>
 
       <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
         <div class="flex items-start gap-3">
-          <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">1</span>
-          <div class="text-sm text-slate-700 font-medium"><strong>Massive Volume:</strong> Millions of news articles are published daily.</div>
+          <span
+            class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">1</span>
+          <div class="text-sm text-slate-700 font-medium"><strong>Massive Volume:</strong> Millions of news articles are
+            published daily.</div>
         </div>
         <div class="flex items-start gap-3">
-          <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">2</span>
-          <div class="text-sm text-slate-700 font-medium"><strong>Manual Bottleneck:</strong> Manual tagging is impossible for human editors.</div>
+          <span
+            class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">2</span>
+          <div class="text-sm text-slate-700 font-medium"><strong>Manual Bottleneck:</strong> Manual tagging is
+            impossible for human editors.</div>
         </div>
         <div class="flex items-start gap-3">
-          <span class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">3</span>
-          <div class="text-sm text-slate-700 font-medium"><strong>The Black-Box Gap:</strong> AI models are usually "black boxes" (they don't explain why).</div>
+          <span
+            class="w-6 h-6 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0">3</span>
+          <div class="text-sm text-slate-700 font-medium"><strong>The Black-Box Gap:</strong> AI models are usually
+            "black boxes" (they don't explain why).</div>
         </div>
       </div>
 
@@ -112,13 +133,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            There is too much news to sort by hand. We use AI, but normal AI just gives an answer without explaining how it got it.
+            There is too much news to sort by hand. We use AI, but normal AI just gives an answer without explaining how
+            it got it.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Imagine a librarian who gets 10,000 books a day. They can't read and sort them all. If they use a robot to help, the robot just puts the book on a shelf and says, "Trust me, it belongs here," without explaining why.
+            Imagine a librarian who gets 10,000 books a day. They can't read and sort them all. If they use a robot to
+            help, the robot just puts the book on a shelf and says, "Trust me, it belongs here," without explaining why.
           </p>
         </div>
       </div>
@@ -127,7 +150,9 @@
     <!-- SLIDE 3 -->
     <div class="slide-canvas" id="slide-3">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 03 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 03 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Project Objectives</h2>
       </div>
 
@@ -154,13 +179,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Our goals were to train the AI fairly, test different algorithms, make sure the AI shows its work, and wrap it all in a nice website.
+            Our goals were to train the AI fairly, test different algorithms, make sure the AI shows its work, and wrap
+            it all in a nice website.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Like building a new car. You want it to be safe (no cheating), test different engines (4 models), make sure the dashboard shows the speed (explainable), and actually put it on the road for people to drive (web app).
+            Like building a new car. You want it to be safe (no cheating), test different engines (4 models), make sure
+            the dashboard shows the speed (explainable), and actually put it on the road for people to drive (web app).
           </p>
         </div>
       </div>
@@ -169,7 +196,9 @@
     <!-- SLIDE 4 -->
     <div class="slide-canvas" id="slide-4">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 04 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 04 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">System Architecture</h2>
       </div>
 
@@ -177,17 +206,20 @@
         <div class="p-4 rounded-xl bg-white border-t-4 border-t-sky-500 border border-slate-200 shadow-sm">
           <div class="text-xs font-bold text-sky-700 uppercase mb-1">Frontend</div>
           <div class="text-sm font-bold text-slate-900 mb-1">Next.js 14</div>
-          <p class="text-xs text-slate-600">What the user sees. Modern, responsive React UI that takes user text and displays live charts without lag.</p>
+          <p class="text-xs text-slate-600">What the user sees. Modern, responsive React UI that takes user text and
+            displays live charts without lag.</p>
         </div>
         <div class="p-4 rounded-xl bg-white border-t-4 border-t-indigo-600 border border-slate-200 shadow-sm">
           <div class="text-xs font-bold text-indigo-700 uppercase mb-1">Backend</div>
           <div class="text-sm font-bold text-slate-900 mb-1">FastAPI</div>
-          <p class="text-xs text-slate-600">The brain. High-speed Python REST API that runs validation and handles requests in under 1 millisecond.</p>
+          <p class="text-xs text-slate-600">The brain. High-speed Python REST API that runs validation and handles
+            requests in under 1 millisecond.</p>
         </div>
         <div class="p-4 rounded-xl bg-white border-t-4 border-t-emerald-600 border border-slate-200 shadow-sm">
           <div class="text-xs font-bold text-emerald-700 uppercase mb-1">ML Engine</div>
           <div class="text-sm font-bold text-slate-900 mb-1">Scikit-Learn &amp; PyTorch</div>
-          <p class="text-xs text-slate-600">The recipes. Pre-trained machine learning models ready to classify text and extract keyword weights instantly.</p>
+          <p class="text-xs text-slate-600">The recipes. Pre-trained machine learning models ready to classify text and
+            extract keyword weights instantly.</p>
         </div>
       </div>
 
@@ -195,13 +227,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            We split the app into two parts. The frontend takes the user's text and sends it to the backend. The backend runs the math and sends the answer back.
+            We split the app into two parts. The frontend takes the user's text and sends it to the backend. The backend
+            runs the math and sends the answer back.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Think of a restaurant. The Frontend is the waiter taking your order. The Backend is the kitchen cooking the food. The ML Model is the recipe they follow.
+            Think of a restaurant. The Frontend is the waiter taking your order. The Backend is the kitchen cooking the
+            food. The ML Model is the recipe they follow.
           </p>
         </div>
       </div>
@@ -210,7 +244,9 @@
     <!-- SLIDE 5 -->
     <div class="slide-canvas" id="slide-5">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 05 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 05 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">NLP Preprocessing Pipeline (5 Steps)</h2>
       </div>
 
@@ -246,13 +282,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Computers can't read English. We have to clean the text, chop it into words, remove useless filler words, and turn the words into numbers.
+            Computers can't read English. We have to clean the text, chop it into words, remove useless filler words,
+            and turn the words into numbers.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Like preparing vegetables to cook. You wash them (clean), chop them (tokenize), throw away the stems (stopwords), and measure them (vectorize) before putting them in the pan.
+            Like preparing vegetables to cook. You wash them (clean), chop them (tokenize), throw away the stems
+            (stopwords), and measure them (vectorize) before putting them in the pan.
           </p>
         </div>
       </div>
@@ -261,37 +299,55 @@
     <!-- SLIDE 6 -->
     <div class="slide-canvas" id="slide-6">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 06 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 06 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">The 4 AI Models Tested</h2>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
-          <div class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-xs shrink-0">NB</div>
+          <div
+            class="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center font-bold text-xs shrink-0">
+            NB</div>
           <div>
-            <div class="font-bold text-slate-900 text-sm">Naive Bayes <span class="text-xs font-normal text-slate-500">(Simple guesser)</span></div>
-            <div class="text-xs text-slate-600 mt-0.5">Uses basic probability. Multiplies chances of each word belonging to a category (0.5 ms).</div>
+            <div class="font-bold text-slate-900 text-sm">Naive Bayes <span
+                class="text-xs font-normal text-slate-500">(Simple guesser)</span></div>
+            <div class="text-xs text-slate-600 mt-0.5">Uses basic probability. Multiplies chances of each word belonging
+              to a category (0.5 ms).</div>
           </div>
         </div>
         <div class="p-3.5 rounded-xl bg-emerald-50/50 border border-emerald-300 shadow-sm flex items-start gap-3">
-          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">⭐</div>
+          <div
+            class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+            ⭐</div>
           <div>
-            <div class="font-bold text-emerald-900 text-sm">Linear SVM <span class="text-xs font-normal text-emerald-700">(Finds boundaries)</span></div>
-            <div class="text-xs text-emerald-800 mt-0.5">Draws a straight dividing line in 10,000-word space. 96.4% accurate and super fast (1.2 ms).</div>
+            <div class="font-bold text-emerald-900 text-sm">Linear SVM <span
+                class="text-xs font-normal text-emerald-700">(Finds boundaries)</span></div>
+            <div class="text-xs text-emerald-800 mt-0.5">Draws a straight dividing line in 10,000-word space. 96.4%
+              accurate and super fast (1.2 ms).</div>
           </div>
         </div>
         <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
-          <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs shrink-0">MLP</div>
+          <div
+            class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs shrink-0">
+            MLP</div>
           <div>
-            <div class="font-bold text-slate-900 text-sm">Neural MLP <span class="text-xs font-normal text-slate-500">(Mini brain)</span></div>
-            <div class="text-xs text-slate-600 mt-0.5">Artificial neural network with 128 neurons. Learns non-linear word patterns (95.1% acc).</div>
+            <div class="font-bold text-slate-900 text-sm">Neural MLP <span
+                class="text-xs font-normal text-slate-500">(Mini brain)</span></div>
+            <div class="text-xs text-slate-600 mt-0.5">Artificial neural network with 128 neurons. Learns non-linear
+              word patterns (95.1% acc).</div>
           </div>
         </div>
         <div class="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-start gap-3">
-          <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0">BERT</div>
+          <div
+            class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs shrink-0">
+            BERT</div>
           <div>
-            <div class="font-bold text-slate-900 text-sm">DistilBERT <span class="text-xs font-normal text-slate-500">(Supercomputer)</span></div>
-            <div class="text-xs text-slate-600 mt-0.5">Deep learning transformer (66M weights). Reads sentences bidirectionally to understand context.</div>
+            <div class="font-bold text-slate-900 text-sm">DistilBERT <span
+                class="text-xs font-normal text-slate-500">(Supercomputer)</span></div>
+            <div class="text-xs text-slate-600 mt-0.5">Deep learning transformer (66M weights). Reads sentences
+              bidirectionally to understand context.</div>
           </div>
         </div>
       </div>
@@ -306,7 +362,9 @@
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Imagine four students taking a test: Naive Bayes just guesses based on what it remembers; SVM draws a straight line in the sand to separate answers; MLP uses a complex brain; and BERT reads the entire textbook and remembers every detail.
+            Imagine four students taking a test: Naive Bayes just guesses based on what it remembers; SVM draws a
+            straight line in the sand to separate answers; MLP uses a complex brain; and BERT reads the entire textbook
+            and remembers every detail.
           </p>
         </div>
       </div>
@@ -315,11 +373,14 @@
     <!-- SLIDE 7 -->
     <div class="slide-canvas" id="slide-7">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 07 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 07 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Dataset &amp; Evaluation</h2>
       </div>
 
-      <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2.5 text-sm text-slate-700 font-medium">
+      <div
+        class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2.5 text-sm text-slate-700 font-medium">
         <div>• <strong>BBC News Corpus:</strong> 2,225 genuine news articles.</div>
         <div>• <strong>5 Balanced Categories:</strong> Sport, Business, Politics, Tech, Entertainment.</div>
         <div>• <strong>80 / 20 Train-Test Split:</strong> 80% (1,780) for training, 20% (445) for testing.</div>
@@ -330,13 +391,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            We used a real dataset of 2,225 BBC articles. We taught the AI using 80% of them, and saved 20% to test if it actually learned.
+            We used a real dataset of 2,225 BBC articles. We taught the AI using 80% of them, and saved 20% to test if
+            it actually learned.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Like a teacher giving you practice questions (80%) to study, and then giving you a final exam (20%) with new questions to see if you really understand the topic.
+            Like a teacher giving you practice questions (80%) to study, and then giving you a final exam (20%) with new
+            questions to see if you really understand the topic.
           </p>
         </div>
       </div>
@@ -345,7 +408,9 @@
     <!-- SLIDE 8 -->
     <div class="slide-canvas" id="slide-8">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 08 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 08 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">The Leaderboard (Results on 445 Test Articles)</h2>
       </div>
 
@@ -370,7 +435,8 @@
               <td class="py-2.5 px-4 text-emerald-900">Linear SVM ⭐</td>
               <td class="py-2.5 px-4 text-emerald-700 text-sm">96.4%</td>
               <td class="py-2.5 px-4 text-emerald-700">1.2 ms</td>
-              <td class="py-2.5 px-4 text-emerald-800">Production Champion! 10x faster &amp; lightweight (&lt;15 MB)</td>
+              <td class="py-2.5 px-4 text-emerald-800">Production Champion! 10x faster &amp; lightweight (&lt;15 MB)
+              </td>
             </tr>
             <tr>
               <td class="py-2.5 px-4 font-bold text-slate-900">Neural MLP</td>
@@ -392,13 +458,15 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            BERT was the most accurate, but it was slow. SVM was almost as accurate, but 10 times faster. So we chose SVM for the final app.
+            BERT was the most accurate, but it was slow. SVM was almost as accurate, but 10 times faster. So we chose
+            SVM for the final app.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            A sports car (BERT) goes 1 mile per hour faster than a bullet train (SVM). But the train carries everyone in half the time. For a web app, speed matters, so we chose the train.
+            A sports car (BERT) goes 1 mile per hour faster than a bullet train (SVM). But the train carries everyone in
+            half the time. For a web app, speed matters, so we chose the train.
           </p>
         </div>
       </div>
@@ -407,28 +475,37 @@
     <!-- SLIDE 9 -->
     <div class="slide-canvas" id="slide-9">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 09 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 09 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Error Analysis (Confusion Matrix)</h2>
       </div>
 
-      <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2 text-xs text-slate-700 font-medium">
-        <div>• <strong>Best Categories:</strong> Sport (99.0% - 101/102 correct) and Entertainment (96.1% - 74/77 correct).</div>
-        <div>• <strong>Hardest Boundary:</strong> Politics vs. Business (4 articles confused due to shared words like 'tax', 'budget', 'economy').</div>
-        <div>• <strong>The Solution (Bigrams):</strong> We trained the AI on two-word phrases (like 'corporate tax' vs 'tax policy') to tell them apart.</div>
-        <div>• <strong>Total Errors:</strong> Only 16 articles out of 445 were misclassified across the entire test set.</div>
+      <div
+        class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2 text-xs text-slate-700 font-medium">
+        <div>• <strong>Best Categories:</strong> Sport (99.0% - 101/102 correct) and Entertainment (96.1% - 74/77
+          correct).</div>
+        <div>• <strong>Hardest Boundary:</strong> Politics vs. Business (4 articles confused due to shared words like
+          'tax', 'budget', 'economy').</div>
+        <div>• <strong>The Solution (Bigrams):</strong> We trained the AI on two-word phrases (like 'corporate tax' vs
+          'tax policy') to tell them apart.</div>
+        <div>• <strong>Total Errors:</strong> Only 16 articles out of 445 were misclassified across the entire test set.
+        </div>
       </div>
 
       <div class="grid grid-cols-2 gap-5 mt-4">
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            The AI was great at sports. But it got confused between Politics and Business because they use similar words. We fixed this by teaching it phrases instead of just single words.
+            The AI was great at sports. But it got confused between Politics and Business because they use similar
+            words. We fixed this by teaching it phrases instead of just single words.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            If an article says "The Chancellor announced the new tax budget." Is it Politics or Business? Even a human gets confused. By looking at the phrase "tax budget" together, the AI understands it better.
+            If an article says "The Chancellor announced the new tax budget." Is it Politics or Business? Even a human
+            gets confused. By looking at the phrase "tax budget" together, the AI understands it better.
           </p>
         </div>
       </div>
@@ -437,27 +514,35 @@
     <!-- SLIDE 10 -->
     <div class="slide-canvas" id="slide-10">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 10 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 10 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Explainable AI (No More Black Boxes)</h2>
       </div>
 
-      <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2 text-xs text-slate-700 font-medium">
-        <div>✔ <strong>Top Keywords Saliency:</strong> Shows the exact words that caused the prediction (e.g. 'wembley' = 28%, 'processor' = 35%).</div>
-        <div>✔ <strong>Platt Scaling:</strong> Converts raw mathematical margin distances into honest percentage probabilities (e.g. 98.4%).</div>
-        <div>✔ <strong>Low Confidence Warnings:</strong> Warns the user when an article touches multiple topics and confidence is below 45%.</div>
+      <div
+        class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2 text-xs text-slate-700 font-medium">
+        <div>✔ <strong>Top Keywords Saliency:</strong> Shows the exact words that caused the prediction (e.g. 'wembley'
+          = 28%, 'processor' = 35%).</div>
+        <div>✔ <strong>Platt Scaling:</strong> Converts raw mathematical margin distances into honest percentage
+          probabilities (e.g. 98.4%).</div>
+        <div>✔ <strong>Low Confidence Warnings:</strong> Warns the user when an article touches multiple topics and
+          confidence is below 45%.</div>
       </div>
 
       <div class="grid grid-cols-2 gap-5 mt-4">
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            The AI doesn't just give an answer; it shows exactly which words it used to make the decision. If it's confused, it warns the user.
+            The AI doesn't just give an answer; it shows exactly which words it used to make the decision. If it's
+            confused, it warns the user.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            A doctor shouldn't just say, "You are sick." They should say, "You are sick because your temperature is 102." Our AI acts like the good doctor—it shows its evidence.
+            A doctor shouldn't just say, "You are sick." They should say, "You are sick because your temperature is
+            102." Our AI acts like the good doctor—it shows its evidence.
           </p>
         </div>
       </div>
@@ -466,18 +551,22 @@
     <!-- SLIDE 11 -->
     <div class="slide-canvas" id="slide-11">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 11 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 11 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Application Features (Live Web Platform)</h2>
       </div>
 
       <div class="grid grid-cols-2 gap-4 text-xs">
         <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
           <div class="font-bold text-slate-900 mb-0.5">1. Single Text Classifier</div>
-          <div class="text-slate-600">Paste any news article or enter URL for instant classification in under 1 second.</div>
+          <div class="text-slate-600">Paste any news article or enter URL for instant classification in under 1 second.
+          </div>
         </div>
         <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
           <div class="font-bold text-slate-900 mb-0.5">2. Batch CSV Processing</div>
-          <div class="text-slate-600">Drag and drop CSV files with 1,000+ articles; export predictions with 1 click.</div>
+          <div class="text-slate-600">Drag and drop CSV files with 1,000+ articles; export predictions with 1 click.
+          </div>
         </div>
         <div class="p-3 rounded-xl bg-white border border-slate-200 shadow-sm">
           <div class="font-bold text-slate-900 mb-0.5">3. Compare 4 Models Live</div>
@@ -499,7 +588,8 @@
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            It's like a Swiss Army Knife. You can classify one article, classify 1,000 articles at once (CSV), compare all 4 AIs, and look at charts.
+            It's like a Swiss Army Knife. You can classify one article, classify 1,000 articles at once (CSV), compare
+            all 4 AIs, and look at charts.
           </p>
         </div>
       </div>
@@ -508,18 +598,22 @@
     <!-- SLIDE 12 -->
     <div class="slide-canvas" id="slide-12">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 12 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 12 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Limitations &amp; Future Scope</h2>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
         <div class="p-4 rounded-xl bg-rose-50/40 border border-rose-200">
           <div class="font-bold text-rose-800 text-xs mb-1">Current Limitations</div>
-          <p class="text-xs text-slate-700">Old dataset (2005) lacks modern words like 'cryptocurrency' or 'LLMs'; English-only; single-label only.</p>
+          <p class="text-xs text-slate-700">Old dataset (2005) lacks modern words like 'cryptocurrency' or 'LLMs';
+            English-only; single-label only.</p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/40 border border-emerald-200">
           <div class="font-bold text-emerald-800 text-xs mb-1">Future Roadmap</div>
-          <p class="text-xs text-slate-700">Multilingual classification (XLM-RoBERTa), multi-label support for cross-domain stories, and active learning.</p>
+          <p class="text-xs text-slate-700">Multilingual classification (XLM-RoBERTa), multi-label support for
+            cross-domain stories, and active learning.</p>
         </div>
       </div>
 
@@ -533,7 +627,8 @@
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
           <div class="text-xs font-bold text-emerald-700 uppercase tracking-wider mb-1">🌍 Real-World Example</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            Right now, our car only drives on old roads (2005 data) and only carries one passenger (single label). In the future, we want a flying car that can go anywhere in the world (multilingual).
+            Right now, our car only drives on old roads (2005 data) and only carries one passenger (single label). In
+            the future, we want a flying car that can go anywhere in the world (multilingual).
           </p>
         </div>
       </div>
@@ -542,18 +637,24 @@
     <!-- SLIDE 13 -->
     <div class="slide-canvas" id="slide-13">
       <div>
-        <div class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">Slide 13 / 13</div>
+        <div
+          class="inline-flex px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 text-[11px] font-bold uppercase mb-2">
+          Slide 13 / 13</div>
         <h2 class="text-2xl font-extrabold text-slate-900">Conclusion &amp; Key Takeaways</h2>
       </div>
 
       <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
         <div class="flex items-start gap-3">
-          <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✔</span>
-          <div class="text-sm text-slate-800 font-medium"><strong>Classical ML (SVM) Matches Deep Learning:</strong> 96.4% accuracy (within 1.4% of DistilBERT) while running 10x faster (1.2 ms vs 12.4 ms).</div>
+          <span
+            class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✔</span>
+          <div class="text-sm text-slate-800 font-medium"><strong>Classical ML (SVM) Matches Deep Learning:</strong>
+            96.4% accuracy (within 1.4% of DistilBERT) while running 10x faster (1.2 ms vs 12.4 ms).</div>
         </div>
         <div class="flex items-start gap-3">
-          <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✔</span>
-          <div class="text-sm text-slate-800 font-medium"><strong>Complete Full-Stack Delivery:</strong> Delivered a production-ready, beautiful web application with Next.js 14 and FastAPI.</div>
+          <span
+            class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">✔</span>
+          <div class="text-sm text-slate-800 font-medium"><strong>Complete Full-Stack Delivery:</strong> Delivered a
+            production-ready, beautiful web application with Next.js 14 and FastAPI.</div>
         </div>
       </div>
 
@@ -561,7 +662,8 @@
         <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200">
           <div class="text-xs font-bold text-indigo-700 uppercase tracking-wider mb-1">💡 Simple Explanation</div>
           <p class="text-xs text-slate-700 leading-relaxed">
-            To wrap up, we proved that you don't always need massive, expensive AI to do a great job. We built a fast, accurate, and beautiful app.
+            To wrap up, we proved that you don't always need massive, expensive AI to do a great job. We built a fast,
+            accurate, and beautiful app.
           </p>
         </div>
         <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
@@ -576,12 +678,16 @@
   </div>
 
   <!-- Slide Navigation Bar -->
-  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-slate-900/90 backdrop-blur px-5 py-2.5 rounded-full border border-slate-700 shadow-2xl z-50 text-white text-xs">
+  <div
+    class="fixed bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-slate-900/90 backdrop-blur px-5 py-2.5 rounded-full border border-slate-700 shadow-2xl z-50 text-white text-xs">
     <button id="prevBtn" class="nav-btn px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 font-bold">← Prev</button>
     <span id="counter" class="font-mono text-slate-300">1 / 13</span>
     <button id="nextBtn" class="nav-btn px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 font-bold">Next →</button>
-    <span class="border-l border-slate-700 pl-3 text-slate-400">Use <kbd class="px-1 bg-slate-800 rounded text-slate-300">←</kbd> <kbd class="px-1 bg-slate-800 rounded text-slate-300">→</kbd></span>
-    <button id="fullBtn" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300 ml-1">Fullscreen</button>
+    <span class="border-l border-slate-700 pl-3 text-slate-400">Use <kbd
+        class="px-1 bg-slate-800 rounded text-slate-300">←</kbd> <kbd
+        class="px-1 bg-slate-800 rounded text-slate-300">→</kbd></span>
+    <button id="fullBtn"
+      class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300 ml-1">Fullscreen</button>
   </div>
 
   <script>
@@ -617,9 +723,10 @@
     });
 
     document.getElementById('fullBtn').onclick = () => {
-      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
-      else document.exitFullscreen().catch(() => {});
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => { });
+      else document.exitFullscreen().catch(() => { });
     };
   </script>
 </body>
+
 </html>
