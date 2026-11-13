@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320">
+  <defs>
+    <linearGradient id="primaryGradH" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#9333EA"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#9333EA"/>
+    </linearGradient>
+    <filter id="shadowH" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#4F46E5" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Left Icon Squircle (220x220) -->
+  <g transform="translate(50, 50)">
+    <rect x="0" y="0" width="220" height="220" rx="55" fill="url(#primaryGradH)" filter="url(#shadowH)"/>
+    
+    <!-- Fold Glyph inside Icon -->
+    <g transform="translate(51, 41) scale(4.9)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 4 H15 L20 9 V20 H5 Z" 
+            stroke="#FFFFFF" 
+            stroke-width="1.8" 
+            fill="#FFFFFF" 
+            fill-opacity="0.08"/>
+      <path d="M15 4 V9 H20 Z" 
+            stroke="#FFFFFF" 
+            stroke-width="1.8" 
+            fill="#FFFFFF" 
+            fill-opacity="0.25"/>
+      <line x1="8.5" y1="12" x2="15.5" y2="12" stroke="#FFFFFF" stroke-width="1.6" opacity="0.95"/>
+      <line x1="8.5" y1="15" x2="15.5" y2="15" stroke="#FFFFFF" stroke-width="1.6" opacity="0.75"/>
+      <line x1="8.5" y1="18" x2="13" y2="18" stroke="#FFFFFF" stroke-width="1.6" opacity="0.55"/>
+    </g>
+  </g>
+
+  <!-- Wordmark & Subtitle -->
+  <text x="320" y="165" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="112" letter-spacing="-2.5">
+    <tspan fill="#FFFFFF">News</tspan><tspan fill="url(#textGrad)">Scope</tspan>
+  </text>
+  
+  <text x="325" y="225" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="28" fill="#94A3B8" letter-spacing="4">
+    AI NEWS ARTICLE CLASSIFIER
+  </text>
+
+  <!-- Badge Pill -->
+  <rect x="940" y="98" width="160" height="42" rx="21" fill="#1E1B4B" stroke="#4338CA" stroke-width="2"/>
+  <text x="1020" y="125" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="18" fill="#A5B4FC" text-anchor="middle" letter-spacing="1.5">
+    96.4% ACC
+  </text>
+</svg>
