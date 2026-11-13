@@ -2,8 +2,7 @@ import os
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import PP_ALIGN
 
 def update_slide10():
     pptx_path = "docs/NewsScope_Presentation.pptx"
@@ -12,179 +11,182 @@ def update_slide10():
     prs = Presentation(alt_path)
     s10 = prs.slides[9]
     
+    # Colors
+    c_card_bg = RGBColor(248, 250, 252)     # Slate 50 (#F8FAFC)
+    c_border = RGBColor(203, 213, 225)      # Slate 300 (#CBD5E1)
+    c_winner_bg = RGBColor(238, 242, 255)   # Indigo 50 (#EEF2FF)
+    c_winner_bdr = RGBColor(99, 102, 241)   # Indigo 500 (#6366F1)
+    c_navy = RGBColor(15, 23, 42)           # Slate 900
+    c_slate = RGBColor(51, 65, 85)          # Slate 700
+    c_indigo = RGBColor(79, 70, 229)        # Electric Indigo (#4F46E5)
+    c_emerald = RGBColor(5, 150, 105)       # Emerald 600 (#059669)
+    
     # 1. Clean up unused / floating leftover text boxes (shapes 0 through 7)
     for idx in range(8):
         s10.shapes[idx].left = Inches(-20)
         
-    # Also hide old connectors (shapes 16, 17, 18) to avoid overlap with new aligned cards
-    for idx in [16, 17, 18]:
-        if idx < len(s10.shapes):
-            s10.shapes[idx].left = Inches(-20)
-            
-    # 2. Main Title & Subtitle at top
-    # Use or add a title shape
-    title_shp = None
+    # Hide temporary slide title if present so boxes have full vertical breathing space
     for shp in s10.shapes:
         if shp.name == "Slide10_Title":
-            title_shp = shp
-            break
+            shp.left = Inches(-20)
             
-    if not title_shp:
-        title_shp = s10.shapes.add_textbox(Inches(3.00), Inches(0.60), Inches(14.00), Inches(1.30))
-        title_shp.name = "Slide10_Title"
-    else:
-        title_shp.left = Inches(3.00)
-        title_shp.top = Inches(0.60)
-        title_shp.width = Inches(14.00)
-        title_shp.height = Inches(1.30)
-        
-    tf_title = title_shp.text_frame
-    tf_title.word_wrap = True
+    # 2. Position the 4 cards in the exact Crux template layout
+    # Box 1 (Top-Left): Shape 10 (Rectangle 38)
+    # Box 2 (Top-Right): Shape 11 (Rectangle 39)
+    # Box 3 (Bottom-Left): Shape 12 (Rectangle 40)
+    # Box 4 (Bottom-Right): Shape 13 (Rectangle 42)
     
-    # Paragraph 0: Main Title
-    p0 = tf_title.paragraphs[0]
-    p0.text = "The Live Example: Step-by-Step"
-    p0.alignment = PP_ALIGN.CENTER
-    p0.font.name = "Segoe UI"
-    p0.font.size = Pt(36)
-    p0.font.bold = True
-    p0.font.color.rgb = RGBColor(15, 23, 42) # Slate 900
-    p0.space_after = Pt(4)
+    box1_left = Inches(1.29)
+    box1_top = Inches(0.37)
+    box1_w = Inches(6.75)
+    box1_h = Inches(4.95)
     
-    # Paragraph 1: Subtitle
-    while len(tf_title.paragraphs) > 1:
-        p_rem = tf_title.paragraphs[-1]._p
-        p_rem.getparent().remove(p_rem)
-        
-    p1 = tf_title.add_paragraph()
-    p1.text = "Steps 2 & 3: Feature Extraction & Multi-Model Inference"
-    p1.alignment = PP_ALIGN.CENTER
-    p1.font.name = "Segoe UI"
-    p1.font.size = Pt(20)
-    p1.font.bold = True
-    p1.font.color.rgb = RGBColor(79, 70, 229) # Electric Indigo (#4F46E5)
+    box2_left = Inches(11.12)
+    box2_top = Inches(0.37)
+    box2_w = Inches(6.48)
+    box2_h = Inches(4.95)
     
-    # 3. Position the 4 cards in a neat 2x2 grid
-    # Card 1 (Top-Left): Shape 10 (Rectangle 38)
-    # Card 2 (Top-Right): Shape 11 (Rectangle 39)
-    # Card 3 (Bottom-Left): Shape 12 (Rectangle 40)
-    # Card 4 (Bottom-Right): Shape 13 (Rectangle 42)
+    box3_left = Inches(1.24)
+    box3_top = Inches(5.72)
+    box3_w = Inches(7.10)
+    box3_h = Inches(5.33)
     
-    card_w = Inches(8.40)
-    card_h = Inches(4.00)
-    top_r1 = Inches(2.20)
-    top_r2 = Inches(6.50)
-    left_c1 = Inches(1.20)
-    left_c2 = Inches(10.40)
+    box4_left = Inches(11.12)
+    box4_top = Inches(5.58)
+    box4_w = Inches(6.48)
+    box4_h = Inches(5.29)
     
-    # Colors
-    c_card_bg = RGBColor(248, 250, 252)     # Slate 50
-    c_border = RGBColor(203, 213, 225)      # Slate 300
-    c_winner_bg = RGBColor(238, 242, 255)   # Indigo 50
-    c_winner_bdr = RGBColor(99, 102, 241)   # Indigo 500
-    c_navy = RGBColor(15, 23, 42)           # Slate 900
-    c_slate = RGBColor(51, 65, 85)          # Slate 700
-    c_indigo = RGBColor(79, 70, 229)        # Electric Indigo
-    c_emerald = RGBColor(5, 150, 105)       # Emerald 600
+    # Setup Box 1 Shape
+    b1 = s10.shapes[10]
+    b1.left = box1_left
+    b1.top = box1_top
+    b1.width = box1_w
+    b1.height = box1_h
+    b1.fill.solid()
+    b1.fill.fore_color.rgb = c_card_bg
+    b1.line.color.rgb = c_border
+    b1.line.width = Pt(1.5)
     
-    # Setup Card 1 Background
-    c1 = s10.shapes[10]
-    c1.left = left_c1
-    c1.top = top_r1
-    c1.width = card_w
-    c1.height = card_h
-    c1.fill.solid()
-    c1.fill.fore_color.rgb = c_card_bg
-    c1.line.color.rgb = c_border
-    c1.line.width = Pt(1.5)
+    # Setup Box 2 Shape
+    b2 = s10.shapes[11]
+    b2.left = box2_left
+    b2.top = box2_top
+    b2.width = box2_w
+    b2.height = box2_h
+    b2.fill.solid()
+    b2.fill.fore_color.rgb = c_card_bg
+    b2.line.color.rgb = c_border
+    b2.line.width = Pt(1.5)
     
-    # Setup Card 2 Background
-    c2 = s10.shapes[11]
-    c2.left = left_c2
-    c2.top = top_r1
-    c2.width = card_w
-    c2.height = card_h
-    c2.fill.solid()
-    c2.fill.fore_color.rgb = c_card_bg
-    c2.line.color.rgb = c_border
-    c2.line.width = Pt(1.5)
+    # Setup Box 3 Shape
+    b3 = s10.shapes[12]
+    b3.left = box3_left
+    b3.top = box3_top
+    b3.width = box3_w
+    b3.height = box3_h
+    b3.fill.solid()
+    b3.fill.fore_color.rgb = c_card_bg
+    b3.line.color.rgb = c_border
+    b3.line.width = Pt(1.5)
     
-    # Setup Card 3 Background
-    c3 = s10.shapes[12]
-    c3.left = left_c1
-    c3.top = top_r2
-    c3.width = card_w
-    c3.height = card_h
-    c3.fill.solid()
-    c3.fill.fore_color.rgb = c_card_bg
-    c3.line.color.rgb = c_border
-    c3.line.width = Pt(1.5)
+    # Setup Box 4 Shape (Highlighted Result Card)
+    b4 = s10.shapes[13]
+    b4.left = box4_left
+    b4.top = box4_top
+    b4.width = box4_w
+    b4.height = box4_h
+    b4.fill.solid()
+    b4.fill.fore_color.rgb = c_winner_bg
+    b4.line.color.rgb = c_winner_bdr
+    b4.line.width = Pt(2.0)
     
-    # Setup Card 4 Background (Winner highlight)
-    c4 = s10.shapes[13]
-    c4.left = left_c2
-    c4.top = top_r2
-    c4.width = card_w
-    c4.height = card_h
-    c4.fill.solid()
-    c4.fill.fore_color.rgb = c_winner_bg
-    c4.line.color.rgb = c_winner_bdr
-    c4.line.width = Pt(2.0)
+    # 3. Restore and align the 3 Connecting Arrows
+    # Connector 17: Elbow 56 (Box 1 -> Box 2)
+    c17 = s10.shapes[17]
+    c17.left = Inches(8.04)
+    c17.top = Inches(2.12)
+    c17.width = Inches(2.96)
+    c17.height = Inches(0.92)
     
-    # 4. Text for Card 1 (Use Shape 14 / TextBox 44)
+    # Connector 16: Elbow 53 (Box 2 -> Box 3)
+    c16 = s10.shapes[16]
+    c16.left = Inches(8.44)
+    c16.top = Inches(4.62)
+    c16.width = Inches(2.68)
+    c16.height = Inches(2.05)
+    
+    # Connector 18: Elbow 57 (Box 3 -> Box 4)
+    c18 = s10.shapes[18]
+    c18.left = Inches(8.39)
+    c18.top = Inches(7.85)
+    c18.width = Inches(2.68)
+    c18.height = Inches(0.78)
+    
+    # 4. Text for Box 1 (Top-Left): Step 1: Input & Preprocessing
     tb1 = s10.shapes[14]
-    tb1.left = left_c1 + Inches(0.40)
-    tb1.top = top_r1 + Inches(0.30)
-    tb1.width = card_w - Inches(0.80)
-    tb1.height = card_h - Inches(0.60)
+    tb1.left = box1_left + Inches(0.35)
+    tb1.top = box1_top + Inches(0.35)
+    tb1.width = box1_w - Inches(0.70)
+    tb1.height = box1_h - Inches(0.70)
     tf1 = tb1.text_frame
     tf1.word_wrap = True
     while len(tf1.paragraphs) > 0:
         p_rem = tf1.paragraphs[-1]._p
         p_rem.getparent().remove(p_rem)
         
-    p1_title = tf1.add_paragraph()
-    p1_title.text = "Step 2A: Cleaning & Tokenization"
-    p1_title.font.name = "Segoe UI"
-    p1_title.font.size = Pt(20)
-    p1_title.font.bold = True
-    p1_title.font.color.rgb = c_navy
-    p1_title.space_after = Pt(8)
+    p1_0 = tf1.add_paragraph()
+    p1_0.text = "Step 1: Input & Preprocessing"
+    p1_0.font.name = "Segoe UI"
+    p1_0.font.size = Pt(21)
+    p1_0.font.bold = True
+    p1_0.font.color.rgb = c_navy
+    p1_0.space_after = Pt(10)
     
-    p1_b1 = tf1.add_paragraph()
-    p1_b1.text = "• Lowercases text and strips punctuation, URLs, and numbers."
-    p1_b1.font.name = "Segoe UI"
-    p1_b1.font.size = Pt(15)
-    p1_b1.font.color.rgb = c_slate
-    p1_b1.space_after = Pt(4)
+    p1_1 = tf1.add_paragraph()
+    p1_1.text = "Original Text:"
+    p1_1.font.name = "Segoe UI"
+    p1_1.font.size = Pt(15)
+    p1_1.font.bold = True
+    p1_1.font.color.rgb = c_navy
+    p1_1.space_after = Pt(3)
     
-    p1_b2 = tf1.add_paragraph()
-    p1_b2.text = "• Removes common English stopwords: 'the', 'with', 'and', 'can'."
-    p1_b2.font.name = "Segoe UI"
-    p1_b2.font.size = Pt(15)
-    p1_b2.font.color.rgb = c_slate
-    p1_b2.space_after = Pt(8)
+    p1_2 = tf1.add_paragraph()
+    p1_2.text = '"Apple unveils new M3 MacBook with ultra-fast processor. The laptop delivers 22-hour battery life."'
+    p1_2.font.name = "Segoe UI"
+    p1_2.font.size = Pt(14)
+    p1_2.font.italic = True
+    p1_2.font.color.rgb = c_slate
+    p1_2.space_after = Pt(14)
     
-    p1_tokens = tf1.add_paragraph()
-    p1_tokens.text = "Filtered Tokens (23 terms extracted):\n['apple', 'unveil', 'new', 'm3', 'macbook', 'laptop', 'ultra', 'fast', 'processor', 'battery', 'life', 'graphics', 'developer', 'machine', 'learning']"
-    p1_tokens.font.name = "Consolas"
-    p1_tokens.font.size = Pt(13)
-    p1_tokens.font.color.rgb = c_indigo
+    p1_3 = tf1.add_paragraph()
+    p1_3.text = "After Cleaning (Tokenized & Lemmatized):"
+    p1_3.font.name = "Segoe UI"
+    p1_3.font.size = Pt(15)
+    p1_3.font.bold = True
+    p1_3.font.color.rgb = c_navy
+    p1_3.space_after = Pt(4)
     
-    # 5. Text for Card 2 (Add or update textbox)
+    p1_4 = tf1.add_paragraph()
+    p1_4.text = '["apple", "unveil", "new", "m3", "macbook", "ultra-fast", "processor", "laptop", "deliver", "battery", "life"]'
+    p1_4.font.name = "Consolas"
+    p1_4.font.size = Pt(13)
+    p1_4.font.bold = True
+    p1_4.font.color.rgb = c_indigo
+    
+    # 5. Text for Box 2 (Top-Right): Step 2: TF-IDF Vectorization
     tb2 = None
     for shp in s10.shapes:
         if shp.name == "Card2_Text":
             tb2 = shp
             break
     if not tb2:
-        tb2 = s10.shapes.add_textbox(left_c2 + Inches(0.40), top_r1 + Inches(0.30), card_w - Inches(0.80), card_h - Inches(0.60))
+        tb2 = s10.shapes.add_textbox(box2_left + Inches(0.35), box2_top + Inches(0.35), box2_w - Inches(0.70), box2_h - Inches(0.70))
         tb2.name = "Card2_Text"
     else:
-        tb2.left = left_c2 + Inches(0.40)
-        tb2.top = top_r1 + Inches(0.30)
-        tb2.width = card_w - Inches(0.80)
-        tb2.height = card_h - Inches(0.60)
+        tb2.left = box2_left + Inches(0.35)
+        tb2.top = box2_top + Inches(0.35)
+        tb2.width = box2_w - Inches(0.70)
+        tb2.height = box2_h - Inches(0.70)
         
     tf2 = tb2.text_frame
     tf2.word_wrap = True
@@ -192,57 +194,48 @@ def update_slide10():
         p_rem = tf2.paragraphs[-1]._p
         p_rem.getparent().remove(p_rem)
         
-    p2_title = tf2.add_paragraph()
-    p2_title.text = "Step 2B: Lemmatization (Root Standard)"
-    p2_title.font.name = "Segoe UI"
-    p2_title.font.size = Pt(20)
-    p2_title.font.bold = True
-    p2_title.font.color.rgb = c_navy
-    p2_title.space_after = Pt(8)
+    p2_0 = tf2.add_paragraph()
+    p2_0.text = "Step 2: TF-IDF Vectorization"
+    p2_0.font.name = "Segoe UI"
+    p2_0.font.size = Pt(21)
+    p2_0.font.bold = True
+    p2_0.font.color.rgb = c_navy
+    p2_0.space_after = Pt(10)
     
-    p2_b1 = tf2.add_paragraph()
-    p2_b1.text = "• Reduces word variants to canonical dictionary lemmas via WordNet:"
-    p2_b1.font.name = "Segoe UI"
-    p2_b1.font.size = Pt(15)
-    p2_b1.font.color.rgb = c_slate
-    p2_b1.space_after = Pt(4)
+    p2_1 = tf2.add_paragraph()
+    p2_1.text = "The Math: The model converts these words into a 10,000-dimensional math vector."
+    p2_1.font.name = "Segoe UI"
+    p2_1.font.size = Pt(14)
+    p2_1.font.color.rgb = c_slate
+    p2_1.space_after = Pt(10)
     
-    p2_ex1 = tf2.add_paragraph()
-    p2_ex1.text = "   'unveils'  ➔  'unveil'   |   'delivers'  ➔  'deliver'"
-    p2_ex1.font.name = "Consolas"
-    p2_ex1.font.size = Pt(14)
-    p2_ex1.font.bold = True
-    p2_ex1.font.color.rgb = c_indigo
-    p2_ex1.space_after = Pt(4)
+    p2_2 = tf2.add_paragraph()
+    p2_2.text = 'TF (Term Frequency): The word "apple" appears 1 time.'
+    p2_2.font.name = "Segoe UI"
+    p2_2.font.size = Pt(14)
+    p2_2.font.color.rgb = c_slate
+    p2_2.space_after = Pt(10)
     
-    p2_ex2 = tf2.add_paragraph()
-    p2_ex2.text = "   'applications'  ➔  'application'   |   'laptops'  ➔  'laptop'"
-    p2_ex2.font.name = "Consolas"
-    p2_ex2.font.size = Pt(14)
-    p2_ex2.font.bold = True
-    p2_ex2.font.color.rgb = c_indigo
-    p2_ex2.space_after = Pt(8)
+    p2_3 = tf2.add_paragraph()
+    p2_3.text = 'IDF (Inverse Document Frequency): The word "apple" is rare in general news, but highly common in Tech news. Therefore, it gets a massive math weight.'
+    p2_3.font.name = "Segoe UI"
+    p2_3.font.size = Pt(14)
+    p2_3.font.color.rgb = c_slate
     
-    p2_b2 = tf2.add_paragraph()
-    p2_b2.text = "• Benefit: Connects inflectional variations directly to the 10,000-feature BBC vocabulary without ballooning dictionary size."
-    p2_b2.font.name = "Segoe UI"
-    p2_b2.font.size = Pt(14)
-    p2_b2.font.color.rgb = c_slate
-    
-    # 6. Text for Card 3 (Add or update textbox)
+    # 6. Text for Box 3 (Bottom-Left): Step 3: Linear SVM Classification
     tb3 = None
     for shp in s10.shapes:
         if shp.name == "Card3_Text":
             tb3 = shp
             break
     if not tb3:
-        tb3 = s10.shapes.add_textbox(left_c1 + Inches(0.40), top_r2 + Inches(0.30), card_w - Inches(0.80), card_h - Inches(0.60))
+        tb3 = s10.shapes.add_textbox(box3_left + Inches(0.35), box3_top + Inches(0.35), box3_w - Inches(0.70), box3_h - Inches(0.70))
         tb3.name = "Card3_Text"
     else:
-        tb3.left = left_c1 + Inches(0.40)
-        tb3.top = top_r2 + Inches(0.30)
-        tb3.width = card_w - Inches(0.80)
-        tb3.height = card_h - Inches(0.60)
+        tb3.left = box3_left + Inches(0.35)
+        tb3.top = box3_top + Inches(0.35)
+        tb3.width = box3_w - Inches(0.70)
+        tb3.height = box3_h - Inches(0.70)
         
     tf3 = tb3.text_frame
     tf3.word_wrap = True
@@ -250,88 +243,105 @@ def update_slide10():
         p_rem = tf3.paragraphs[-1]._p
         p_rem.getparent().remove(p_rem)
         
-    p3_title = tf3.add_paragraph()
-    p3_title.text = "Step 3A: TF-IDF Feature Extraction"
-    p3_title.font.name = "Segoe UI"
-    p3_title.font.size = Pt(20)
-    p3_title.font.bold = True
-    p3_title.font.color.rgb = c_navy
-    p3_title.space_after = Pt(8)
+    p3_0 = tf3.add_paragraph()
+    p3_0.text = "Step 3: Linear SVM Classification"
+    p3_0.font.name = "Segoe UI"
+    p3_0.font.size = Pt(21)
+    p3_0.font.bold = True
+    p3_0.font.color.rgb = c_navy
+    p3_0.space_after = Pt(10)
     
-    p3_b1 = tf3.add_paragraph()
-    p3_b1.text = "• Computes mathematical saliency: TF × log(N / DF)."
-    p3_b1.font.name = "Segoe UI"
-    p3_b1.font.size = Pt(15)
-    p3_b1.font.color.rgb = c_slate
-    p3_b1.space_after = Pt(6)
+    p3_1 = tf3.add_paragraph()
+    p3_1.text = "The Math: The SVM calculates: (Word Weight) × (SVM Category Score)."
+    p3_1.font.name = "Consolas"
+    p3_1.font.size = Pt(13.5)
+    p3_1.font.bold = True
+    p3_1.font.color.rgb = c_indigo
+    p3_1.space_after = Pt(10)
     
-    p3_kw = tf3.add_paragraph()
-    p3_kw.text = "Top Informative Keywords Identified for 'Technology':\n  • processor :  +0.35  (35% relative weight)\n  • macbook   :  +0.32  (32% relative weight)\n  • apple     :  +0.28  (28% relative weight)\n  • laptop    :  +0.24  (24% relative weight)\n  • graphics  :  +0.21  (21% relative weight)"
-    p3_kw.font.name = "Consolas"
-    p3_kw.font.size = Pt(13)
-    p3_kw.font.bold = True
-    p3_kw.font.color.rgb = c_indigo
+    p3_2 = tf3.add_paragraph()
+    p3_2.text = 'It sees strong Tech words like "m3", "macbook", and "processor".'
+    p3_2.font.name = "Segoe UI"
+    p3_2.font.size = Pt(14)
+    p3_2.font.color.rgb = c_slate
+    p3_2.space_after = Pt(10)
     
-    # 7. Text for Card 4 (Use Shape 15 / TextBox 47)
+    p3_3 = tf3.add_paragraph()
+    p3_3.text = "It calculates a probability distribution:"
+    p3_3.font.name = "Segoe UI"
+    p3_3.font.size = Pt(14)
+    p3_3.font.bold = True
+    p3_3.font.color.rgb = c_navy
+    p3_3.space_after = Pt(4)
+    
+    p3_4 = tf3.add_paragraph()
+    p3_4.text = "Tech (97.7%) vs. Business (0.4%) vs. Sport (0.2%)."
+    p3_4.font.name = "Consolas"
+    p3_4.font.size = Pt(15)
+    p3_4.font.bold = True
+    p3_4.font.color.rgb = c_emerald
+    
+    # 7. Text for Box 4 (Bottom-Right): Step 4: Live Model Prediction
     tb4 = s10.shapes[15]
-    tb4.left = left_c2 + Inches(0.40)
-    tb4.top = top_r2 + Inches(0.30)
-    tb4.width = card_w - Inches(0.80)
-    tb4.height = card_h - Inches(0.60)
+    tb4.left = box4_left + Inches(0.35)
+    tb4.top = box4_top + Inches(0.35)
+    tb4.width = box4_w - Inches(0.70)
+    tb4.height = box4_h - Inches(0.70)
     tf4 = tb4.text_frame
     tf4.word_wrap = True
     while len(tf4.paragraphs) > 0:
         p_rem = tf4.paragraphs[-1]._p
         p_rem.getparent().remove(p_rem)
         
-    p4_title = tf4.add_paragraph()
-    p4_title.text = "Step 3B: AI Multi-Model Evaluation"
-    p4_title.font.name = "Segoe UI"
-    p4_title.font.size = Pt(20)
-    p4_title.font.bold = True
-    p4_title.font.color.rgb = c_navy
-    p4_title.space_after = Pt(8)
+    p4_0 = tf4.add_paragraph()
+    p4_0.text = "Step 4: Live Model Prediction"
+    p4_0.font.name = "Segoe UI"
+    p4_0.font.size = Pt(21)
+    p4_0.font.bold = True
+    p4_0.font.color.rgb = c_navy
+    p4_0.space_after = Pt(8)
     
-    p4_b1 = tf4.add_paragraph()
-    p4_b1.text = "All 4 models evaluate the 10,000-dimensional vector:"
-    p4_b1.font.name = "Segoe UI"
-    p4_b1.font.size = Pt(14)
-    p4_b1.font.color.rgb = c_slate
-    p4_b1.space_after = Pt(6)
+    p4_1 = tf4.add_paragraph()
+    p4_1.text = "All 4 models evaluate the text simultaneously:"
+    p4_1.font.name = "Segoe UI"
+    p4_1.font.size = Pt(14)
+    p4_1.font.bold = True
+    p4_1.font.color.rgb = c_slate
+    p4_1.space_after = Pt(6)
     
     p4_m1 = tf4.add_paragraph()
-    p4_m1.text = "⭐ Linear SVM: Technology  (98.4% Confidence | 1.2 ms) [Winner]"
+    p4_m1.text = "⭐ Linear SVM: Tech (97.7%) [Champion]"
     p4_m1.font.name = "Segoe UI"
-    p4_m1.font.size = Pt(14)
+    p4_m1.font.size = Pt(15)
     p4_m1.font.bold = True
     p4_m1.font.color.rgb = c_emerald
     p4_m1.space_after = Pt(3)
     
     p4_m2 = tf4.add_paragraph()
-    p4_m2.text = "• DistilBERT:  Technology  (99.1% Confidence | 12.4 ms)"
+    p4_m2.text = "• DistilBERT: Tech (97.8%)"
     p4_m2.font.name = "Segoe UI"
     p4_m2.font.size = Pt(14)
     p4_m2.font.color.rgb = c_slate
     p4_m2.space_after = Pt(3)
     
     p4_m3 = tf4.add_paragraph()
-    p4_m3.text = "• Neural MLP:  Technology  (97.0% Confidence | 3.2 ms)"
+    p4_m3.text = "• Neural MLP: Tech (95.1%)"
     p4_m3.font.name = "Segoe UI"
     p4_m3.font.size = Pt(14)
     p4_m3.font.color.rgb = c_slate
     p4_m3.space_after = Pt(3)
     
     p4_m4 = tf4.add_paragraph()
-    p4_m4.text = "• Naive Bayes: Technology  (93.5% Confidence | 0.5 ms)"
+    p4_m4.text = "• Naive Bayes: Tech (92.1%)"
     p4_m4.font.name = "Segoe UI"
     p4_m4.font.size = Pt(14)
     p4_m4.font.color.rgb = c_slate
-    p4_m4.space_after = Pt(8)
+    p4_m4.space_after = Pt(10)
     
     p4_res = tf4.add_paragraph()
-    p4_res.text = "✔ 100% Unanimous Agreement: Technology is guaranteed."
+    p4_res.text = "✔ Result: 100% consensus across all architectures."
     p4_res.font.name = "Segoe UI"
-    p4_res.font.size = Pt(13)
+    p4_res.font.size = Pt(14)
     p4_res.font.bold = True
     p4_res.font.color.rgb = c_indigo
     
@@ -340,11 +350,11 @@ def update_slide10():
         notes_slide = s10.notes_slide
         tf_notes = notes_slide.notes_text_frame
         tf_notes.text = (
-            "Here is the machine learning pipeline in action on our Apple M3 MacBook text. "
-            "First, in Step 2A, we remove stopwords like 'the' and 'with' and extract 23 key tokens. "
-            "Next, in Step 2B, lemmatization standardizes words like 'delivers' into 'deliver' so our dictionary recognizes them. "
-            "In Step 3A, the TF-IDF vectorizer assigns mathematical weights to each word—notice how 'processor' and 'macbook' received high scores above 0.30. "
-            "Finally, in Step 3B, our 4 models score the text simultaneously. All 4 agree with over 93% confidence that this belongs to Technology, with our production Linear SVM making the call in just 1.2 milliseconds."
+            "Here is the mathematical progression across our 4-stage pipeline. "
+            "In Step 1, we take the raw Apple M3 MacBook text, strip noise, and lemmatize words like 'delivers' into 'deliver'. "
+            "In Step 2, TF-IDF vectorization assigns weights—because 'apple' is rare across general news but frequent in tech, it receives a high discriminative weight. "
+            "In Step 3, our Linear SVM takes these word weights and multiplies them against the hyperplane category scores, finding an overwhelming 97.7% probability for Technology. "
+            "Finally, in Step 4, all 4 of our tested models evaluate the text simultaneously and reach 100% consensus that this is Technology news."
         )
         print("Speaker notes added to Slide 10")
     except Exception as e:

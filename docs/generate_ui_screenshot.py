@@ -74,23 +74,22 @@ def generate_ui_screenshot():
     draw.rounded_rectangle([ta_x0, ta_y0, ta_x1, ta_y1], radius=12, fill=(248, 250, 252, 255), outline=(203, 213, 225, 255), width=2)
     
     sample_text = (
-        "Apple unveils new M3 MacBook laptop with ultra-fast processor.\n"
-        "The laptop delivers 22-hour battery life and high performance graphics.\n"
-        "Developers can build machine learning applications seamlessly."
+        "Apple unveils new M3 MacBook with ultra-fast processor.\n"
+        "The laptop delivers 22-hour battery life."
     )
-    ty = ta_y0 + 25
+    ty = ta_y0 + 35
     for line in sample_text.split("\n"):
-        draw.text((ta_x0 + 25, ty), line, fill=(51, 65, 85, 255), font=get_font(18, bold=False))
-        ty += 34
+        draw.text((ta_x0 + 25, ty), line, fill=(51, 65, 85, 255), font=get_font(19, bold=False))
+        ty += 40
         
     # Textarea metadata footer
-    draw.text((ta_x0 + 25, ta_y1 - 35), "Words: 28   Characters: 204   Extracted Tokens: 23   Pipeline Latency: 1.20 ms", fill=(100, 116, 139, 255), font=font_small)
+    draw.text((ta_x0 + 25, ta_y1 - 35), "Words: 15   Characters: 99   Extracted Tokens: 11   Pipeline Latency: 1.20 ms", fill=(100, 116, 139, 255), font=font_small)
     
     # Model Selector Radio Buttons inside Left Panel
     draw.text((left_x0 + 35, left_y0 + 475), "Select Active Inference Model:", fill=(15, 23, 42, 255), font=font_h3)
     
     models_info = [
-        ("Linear SVM (Champion)", "1.2 ms latency | 96.4% test accuracy | Platt-scaled probabilities", True),
+        ("Linear SVM (Champion)", "1.2 ms latency | 96.4% test accuracy | Platt-scaled probability: 97.7%", True),
         ("DistilBERT Transformer", "12.4 ms latency | 97.8% test accuracy | 66M parameters attention", False),
         ("Neural MLP Baseline", "3.2 ms latency | 95.1% test accuracy | 2-layer dense network", False),
         ("Naive Bayes Baseline", "0.5 ms latency | 92.1% test accuracy | Multinomial frequency", False),
@@ -138,9 +137,9 @@ def generate_ui_screenshot():
     # Latency badge
     draw.text((rx0 + 40, ry0 + 125), "Latency: 1.20 ms  |  Zero Data Leakage Pipeline", fill=(5, 150, 105, 255), font=font_mono)
     
-    # Right side of Header: Big Confidence
+    # Right side of Header: Big Confidence (97.7% matching user request & Box 3 & 4)
     draw.text((rx1 - 260, ry0 + 30), "CALIBRATED CONFIDENCE", fill=(100, 116, 139, 255), font=font_sub)
-    draw.text((rx1 - 260, ry0 + 58), "98.4%", fill=(15, 23, 42, 255), font=get_font(46, bold=True))
+    draw.text((rx1 - 260, ry0 + 58), "97.7%", fill=(15, 23, 42, 255), font=get_font(46, bold=True))
     
     # Divider line
     draw.line([rx0 + 40, ry0 + 165, rx1 - 40, ry0 + 165], fill=(241, 245, 249, 255), width=2)
@@ -149,29 +148,25 @@ def generate_ui_screenshot():
     draw.text((rx0 + 40, ry0 + 190), "5-CATEGORY PROBABILITY DISTRIBUTION", fill=(100, 116, 139, 255), font=font_sub)
     
     categories = [
-        ("Tech", 0.984, (79, 70, 229, 255)),       # Electric Indigo
-        ("Business", 0.011, (14, 165, 233, 255)),   # Sky Blue
-        ("Politics", 0.002, (234, 88, 12, 255)),    # Orange
-        ("Entertainment", 0.002, (236, 72, 153, 255)), # Pink
-        ("Sport", 0.001, (16, 185, 129, 255)),      # Emerald Green
+        ("Tech", 0.977, (79, 70, 229, 255)),       # Electric Indigo
+        ("Business", 0.014, (14, 165, 233, 255)),   # Sky Blue
+        ("Politics", 0.004, (234, 88, 12, 255)),    # Orange
+        ("Entertainment", 0.003, (236, 72, 153, 255)), # Pink
+        ("Sport", 0.002, (16, 185, 129, 255)),      # Emerald Green
     ]
     
     py = ry0 + 230
     bar_width_max = (rx1 - rx0) - 340
     for cat, prob, col in categories:
-        # Category label
         draw.text((rx0 + 40, py), cat, fill=(30, 41, 59, 255), font=font_body_bold)
         
-        # Background bar
         bx0 = rx0 + 180
         bx1 = bx0 + bar_width_max
         draw.rounded_rectangle([bx0, py + 4, bx1, py + 16], radius=6, fill=(241, 245, 249, 255))
         
-        # Fill bar
         fill_w = max(int(bar_width_max * prob), 8)
         draw.rounded_rectangle([bx0, py + 4, bx0 + fill_w, py + 16], radius=6, fill=col)
         
-        # Percentage text (placed to the right of the bar)
         prob_str = f"{prob * 100:.1f}%"
         draw.text((bx1 + 25, py), prob_str, fill=(15, 23, 42, 255), font=font_mono)
         
@@ -187,16 +182,15 @@ def generate_ui_screenshot():
     keywords = [
         ("processor", "+0.35 (35%)"),
         ("macbook", "+0.32 (32%)"),
+        ("m3", "+0.30 (30%)"),
         ("apple", "+0.28 (28%)"),
         ("laptop", "+0.24 (24%)"),
-        ("graphics", "+0.21 (21%)"),
-        ("developer", "+0.18 (18%)"),
+        ("battery", "+0.18 (18%)"),
     ]
     
     kw_x = rx0 + 40
     kw_y = ky + 45
     for word, wt in keywords:
-        # Calculate dynamic pill width
         w_bb = draw.textbbox((0, 0), word, font=font_body_bold)
         t_bb = draw.textbbox((0, 0), wt, font=font_small)
         pill_w = (w_bb[2] - w_bb[0]) + (t_bb[2] - t_bb[0]) + 45
@@ -204,7 +198,6 @@ def generate_ui_screenshot():
         draw.rounded_rectangle([kw_x, kw_y, kw_x + pill_w, kw_y + 44], radius=10, fill=(248, 250, 252, 255), outline=(203, 213, 225, 255), width=1)
         draw.text((kw_x + 14, kw_y + 11), word, fill=(15, 23, 42, 255), font=font_body_bold)
         
-        # Weight badge inside
         wb_x0 = kw_x + (w_bb[2] - w_bb[0]) + 24
         wb_w = (t_bb[2] - t_bb[0]) + 14
         draw.rounded_rectangle([wb_x0, kw_y + 8, wb_x0 + wb_w, kw_y + 36], radius=6, fill=(236, 254, 255, 255), outline=(165, 243, 252, 255), width=1)
@@ -219,12 +212,12 @@ def generate_ui_screenshot():
     dec_y = kw_y + 70
     draw.rounded_rectangle([rx0 + 40, dec_y, rx1 - 40, dec_y + 95], radius=12, fill=(240, 253, 244, 255), outline=(187, 247, 208, 255), width=2)
     draw.text((rx0 + 65, dec_y + 18), "AUTOMATED EDITORIAL ROUTING: TECHNOLOGY DESK", fill=(21, 128, 61, 255), font=get_font(16, bold=True))
-    draw.text((rx0 + 65, dec_y + 48), "Confidence (98.4%) exceeds the 80% automated threshold. Dispatched immediately without manual editor review.", fill=(22, 101, 52, 255), font=font_body)
+    draw.text((rx0 + 65, dec_y + 48), "Confidence (97.7%) exceeds the 80% automated threshold. Dispatched immediately without manual editor review.", fill=(22, 101, 52, 255), font=font_body)
     
     # Save image
     out_path = "docs/slide11_ui_screenshot.png"
     img.save(out_path, "PNG")
-    print(f"Generated polished UI screenshot: {out_path} ({W}x{H})")
+    print(f"Generated calibrated 97.7% UI screenshot: {out_path} ({W}x{H})")
     return out_path
 
 if __name__ == "__main__":
