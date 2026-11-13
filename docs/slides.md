@@ -300,13 +300,13 @@ Entertainment  ██████████████       386
 4. **TF-IDF:** Converted to 10,000-dimensional sparse feature vector.
 
 **Prediction & Consensus:**
-- 🏷️ **Predicted Category:** **Technology** (Confidence: **98.4%**)
-- 🔑 **Top Keywords:** `processor` (+0.35), `apple` (+0.28), `laptop` (+0.24), `developer` (+0.18)
+- 🏷️ **Predicted Category:** **Technology** (Confidence: **97.7%**)
+- 🔑 **Top Keywords:** `processor` (+0.35), `macbook` (+0.32), `apple` (+0.28), `battery` (+0.18)
 - 🤝 **4-Model Consensus:**
-  - **Linear SVM:** Tech (98.4% | 1.2 ms)
-  - **DistilBERT:** Tech (99.1% | 12.4 ms)
-  - **Neural MLP:** Tech (97.0% | 3.2 ms)
-  - **Naive Bayes:** Tech (93.5% | 0.5 ms)
+  - **Linear SVM:** Tech (97.7% | 1.2 ms) [Champion]
+  - **DistilBERT:** Tech (97.8% | 12.4 ms)
+  - **Neural MLP:** Tech (95.1% | 3.2 ms)
+  - **Naive Bayes:** Tech (92.1% | 0.5 ms)
   - *Result:* **100% agreement across all 4 architectures!**
 
 ---
