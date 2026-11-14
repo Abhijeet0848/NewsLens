@@ -53,9 +53,11 @@ def verify_polished(path):
     
     # 7. Slide 7
     s7_txt = get_slide_text(prs.slides[6])
-    assert "Step 1: Clean Text" in s7_txt
-    assert "Step 2: Remove Filler" in s7_txt
-    print("  Slide 7 (Pipeline): PASS - Simple English assembly line")
+    assert "Text Cleaning" in s7_txt
+    assert "Tokenization & Stopwords" in s7_txt
+    assert "Lemmatization" in s7_txt
+    assert "TF-IDF Vectorization" in s7_txt
+    print("  Slide 7 (Pipeline): PASS - Simple English assembly line with clean ASCII text")
     
     # 8. Slide 8
     s8_txt = get_slide_text(prs.slides[7])
