@@ -77,3 +77,4 @@ if __name__ == "__main__":
     verify("docs/NewsScope_Presentation_CruxTemplate.pptx")
     verify("docs/NewsScope_Presentation.pptx")
     print("\n🎉 ALL 4 CRITICAL FIXES VERIFIED 100% ACROSS BOTH PRESENTATION FILES! 🎉")
+

@@ -194,3 +194,4 @@ logo_dark.save("docs/logo-dark.png", "PNG")
 logo_dark.save(os.path.join(ARTIFACT_DIR, "logo-dark.png"), "PNG")
 print("Saved logo-dark.png")
 print("All PNG renders completed successfully!")
+

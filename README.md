@@ -64,20 +64,19 @@ User Input → Next.js Frontend → FastAPI Backend → scikit-learn Model
 
 ```bash
 # Clone
-git clone https://github.com/Abhijeet0848/NewsLens.git
-cd NewsLens
+git clone https://github.com/Abhijeet0848/NewsScope.git
+cd NewsScope
 
-# Install frontend
+# Install dependencies
 npm install
-
-# Install backend
 pip install -r requirements.txt
 
-# Run frontend
+# Run both Backend (FastAPI :8000) and Frontend (Next.js :3000) together
 npm run dev
 
-# Run backend (in another terminal)
-uvicorn api.index:app --port 8000 --reload
+# Or run separately if preferred:
+# npm run dev:backend   (FastAPI on http://127.0.0.1:8000)
+# npm run dev:frontend  (Next.js on http://localhost:3000)
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
