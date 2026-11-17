@@ -90,10 +90,8 @@ def load_artifacts(model_name: str):
 
     # Model resolution
     norm = model_name.lower().replace(" ", "_").replace("-", "_")
-    if norm in ("svm", "linear_svm", "linear_svc", "distilbert", "bert"):
+    if norm in ("svm", "linear_svm", "linear_svc"):
         candidates = ["linear_svm_model.joblib", "svm.joblib", "svm.pkl"]
-    elif norm in ("mlp", "neural_mlp", "neural_network"):
-        candidates = ["mlp_model.joblib", "mlp.joblib", "mlp.pkl"]
     elif norm in ("nb", "naive_bayes", "multinomial_nb"):
         candidates = ["naive_bayes_model.joblib", "naive_bayes.joblib", "nb.pkl"]
     elif norm in ("decision_tree", "tree", "dt"):

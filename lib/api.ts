@@ -207,8 +207,8 @@ function transformBackendResponse(data: any, originalText: string): Classificati
     keywords,
     explanation: {
       top_factors: keywords.map((k: any) => `Salient term: "${k.word}"`),
-      summary: `Classified as ${category} via ${data.model || "DistilBERT"}.`,
-      model_version: data.model || "DistilBERT",
+      summary: `Classified as ${category} via ${data.model || "Linear SVM"}.`,
+      model_version: data.model || "Linear SVM",
       linguistic_cues: ["BBC News 5-Class Evaluation"],
     },
     attention_tokens,

@@ -39,13 +39,17 @@ async def validation_exception_handler(request, exc: RequestValidationError):
 # -------------------------------------------------------------------
 MODEL_DIR = Path(__file__).parent.parent / "models"
 
-print(f"[startup] Loading vectorizer and Linear SVM from {MODEL_DIR}")
+print(f"[startup] Loading vectorizer and classifiers from {MODEL_DIR}")
 vectorizer = joblib.load(MODEL_DIR / "vectorizer.pkl")
 feature_names = vectorizer.get_feature_names_out()
 
 svm_model = joblib.load(MODEL_DIR / "svm.pkl")
 nb_model = joblib.load(MODEL_DIR / "nb.pkl") if (MODEL_DIR / "nb.pkl").exists() else svm_model
-_mlp_model = None
+
+dt_path = MODEL_DIR / "decision_tree.joblib"
+if not dt_path.exists():
+    dt_path = MODEL_DIR / "decision_tree.pkl"
+dt_model = joblib.load(dt_path) if dt_path.exists() else None
 
 # Resolve authentic class labels from label encoder
 le_path = MODEL_DIR / "label_encoder.pkl"
@@ -65,24 +69,13 @@ print(f"[startup] Models ready. Classes: {CLASSES}")
 
 
 def get_model(model_name: str):
-    global _mlp_model
     norm = (model_name or "linear-svm").lower().replace("_", "-")
-    if norm in ("neural-mlp", "mlp"):
-        if _mlp_model is None:
-            mlp_path = MODEL_DIR / "mlp.pkl"
-            if mlp_path.exists():
-                try:
-                    _mlp_model = joblib.load(mlp_path)
-                except Exception as e:
-                    print(f"[warning] Failed to load mlp.pkl: {e}. Falling back to svm_model.")
-                    _mlp_model = svm_model
-            else:
-                _mlp_model = svm_model
-        return _mlp_model, "Neural MLP"
+    if norm in ("decision-tree", "dt", "tree"):
+        if dt_model is not None:
+            return dt_model, "Decision Tree"
+        return svm_model, "Decision Tree (Fallback)"
     elif norm in ("naive-bayes", "nb"):
         return nb_model, "Multinomial Naive Bayes"
-    elif norm in ("distilbert", "bert", "transformer"):
-        return svm_model, "DistilBERT (Fine-tuned)"
     return svm_model, "Linear SVM (Calibrated)"
 
 
@@ -141,7 +134,7 @@ class ClassifyResponse(BaseModel):
 def health():
     return {
         "status": "ok",
-        "models": ["linear-svm", "naive-bayes", "neural-mlp"],
+        "models": ["linear-svm", "naive-bayes", "decision-tree"],
         "classes": CLASSES,
     }
 

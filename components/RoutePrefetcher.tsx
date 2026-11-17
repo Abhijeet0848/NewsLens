@@ -9,7 +9,11 @@ export function RoutePrefetcher() {
   const router = useRouter();
 
   React.useEffect(() => {
-    // Eagerly prefetch main routes on client idle
+    // Only prefetch in production. In development (next dev), prefetching
+    // triggers simultaneous on-demand compilation of all 5 routes,
+    // which spikes dev server CPU and causes navbar clicks to freeze.
+    if (process.env.NODE_ENV !== "production") return;
+
     if (typeof window !== "undefined" && "requestIdleCallback" in window) {
       window.requestIdleCallback(() => {
         ROUTES.forEach((route) => {

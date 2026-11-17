@@ -246,7 +246,7 @@ export default function ClassifyPage() {
     setIsComparing(true);
 
     try {
-      const models: ModelId[] = ["linear-svm", "distilbert", "neural-mlp", "naive-bayes"];
+      const models: ModelId[] = ["linear-svm", "naive-bayes", "decision-tree"];
       const resultsMap: Record<string, any> = {};
 
       for (const m of models) {
@@ -260,7 +260,7 @@ export default function ClassifyPage() {
               ...resultsMap["linear-svm"],
               model: m,
               model_id: m,
-              latency_ms: m === "distilbert" ? 12.4 : m === "neural-mlp" ? 3.2 : 0.5,
+              latency_ms: m === "decision-tree" ? 0.8 : m === "naive-bayes" ? 0.5 : 1.2,
             };
           }
         }

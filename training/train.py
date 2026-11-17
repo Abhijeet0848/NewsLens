@@ -19,7 +19,6 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.neural_network import MLPClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import (
     accuracy_score,
@@ -45,11 +44,14 @@ try:
     import nltk
     from nltk.corpus import stopwords
     from nltk.stem import WordNetLemmatizer
-    nltk.download("stopwords", quiet=True)
-    nltk.download("wordnet", quiet=True)
-    nltk.download("punkt", quiet=True)
-    nltk_stopwords = set(stopwords.words("english"))
-    lemmatizer = WordNetLemmatizer()
+    try:
+        nltk_stopwords = set(stopwords.words("english"))
+    except Exception:
+        nltk_stopwords = {"the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by", "is", "was", "are", "were"}
+    try:
+        lemmatizer = WordNetLemmatizer()
+    except Exception:
+        lemmatizer = None
 except Exception:
     nltk_stopwords = {"the", "a", "an", "and", "or", "but", "in", "on", "at", "to", "for", "of", "with", "by", "is", "was", "are", "were"}
     lemmatizer = None
@@ -166,11 +168,6 @@ def train_and_evaluate():
             "paradigm": "Maximum-Margin Hyperplane (Calibrated)",
             "model": CalibratedClassifierCV(LinearSVC(C=1.0, random_state=42, max_iter=2000), cv=5),
         },
-        "mlp": {
-            "name": "Multi-Layer Perceptron (MLP)",
-            "paradigm": "Feedforward Neural Network",
-            "model": MLPClassifier(hidden_layer_sizes=(128, 64), activation="relu", max_iter=250, random_state=42),
-        },
         "naive_bayes": {
             "name": "Multinomial Naive Bayes",
             "paradigm": "Generative Probabilistic",
@@ -256,43 +253,13 @@ def train_and_evaluate():
     # SVM
     joblib.dump(trained_models["svm"], os.path.join(MODELS_DIR, "svm.pkl"), compress=3)
 
-    # MLP
-    joblib.dump(trained_models["mlp"], os.path.join(MODELS_DIR, "mlp.pkl"), compress=3)
-
     # Naive Bayes
     joblib.dump(trained_models["naive_bayes"], os.path.join(MODELS_DIR, "nb.pkl"), compress=3)
 
     # Decision Tree
     joblib.dump(trained_models["decision_tree"], os.path.join(MODELS_DIR, "decision_tree.joblib"), compress=3)
 
-    # Add DistilBERT Fine-Tuned Benchmark (Transformer Reference Benchmark)
-    distilbert_cm = [
-        [98, 1, 1, 0, 2],
-        [1, 75, 0, 0, 1],
-        [2, 0, 80, 0, 1],
-        [0, 0, 0, 102, 0],
-        [1, 1, 0, 0, 79],
-    ]
-    distilbert_per_class = [
-        {"category": "Business", "precision": 0.9608, "recall": 0.9608, "f1_score": 0.9608, "support": 102},
-        {"category": "Entertainment", "precision": 0.9740, "recall": 0.9740, "f1_score": 0.9740, "support": 77},
-        {"category": "Politics", "precision": 0.9877, "recall": 0.9639, "f1_score": 0.9756, "support": 83},
-        {"category": "Sport", "precision": 1.0000, "recall": 1.0000, "f1_score": 1.0000, "support": 102},
-        {"category": "Tech", "precision": 0.9518, "recall": 0.9753, "f1_score": 0.9634, "support": 81},
-    ]
-    metrics_output["distilbert"] = {
-        "accuracy": 0.9775,
-        "f1_macro": 0.9748,
-        "precision": 0.9749,
-        "recall": 0.9748,
-        "latency_ms": 12.4,
-        "confusion_matrix": distilbert_cm,
-        "classes": classes,
-        "paradigm": "Transformer Attention / Deep Learning",
-        "per_class": distilbert_per_class
-    }
-
-    champ = metrics_output.get("svm", metrics_output.get("distilbert", {}))
+    champ = metrics_output.get("svm", {})
     if champ:
         metrics_output["accuracy"] = champ["accuracy"]
         metrics_output["f1_macro"] = champ["f1_macro"]
@@ -312,11 +279,9 @@ def train_and_evaluate():
             "categories": classes
         },
         "models": {
-            "naive_bayes": metrics_output["naive_bayes"],
             "linear_svm": metrics_output["svm"],
-            "mlp": metrics_output["mlp"],
+            "naive_bayes": metrics_output["naive_bayes"],
             "decision_tree": metrics_output["decision_tree"],
-            "distilbert": metrics_output["distilbert"]
         }
     }
     with open(EVAL_RESULTS_PATH, "w", encoding="utf-8") as f:

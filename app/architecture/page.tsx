@@ -510,18 +510,11 @@ export default function ArchitecturePage() {
                     <td className="py-3.5 px-4 font-medium text-[#0f0f0e]">Optimal production balance: near-transformer accuracy with 1ms CPU inference.</td>
                   </tr>
                   <tr className="hover:bg-[#faf9f6] transition-colors">
-                    <td className="py-3.5 px-4 font-semibold text-[#0f0f0e]">Multi-Layer Perceptron (MLP)</td>
-                    <td className="py-3.5 px-4 font-mono text-[#4f46e5]">Neurons, ReLU Activation, Cross-Entropy Loss</td>
-                    <td className="py-3.5 px-4 font-mono font-medium text-[#0f0f0e]">95.1%</td>
-                    <td className="py-3.5 px-4 font-mono text-[#047857]">3.2 ms</td>
-                    <td className="py-3.5 px-4 text-[#57534e]">Learns non-linear feature interactions between sparse TF-IDF unigrams &amp; bigrams.</td>
-                  </tr>
-                  <tr className="hover:bg-[#faf9f6] transition-colors">
-                    <td className="py-3.5 px-4 font-semibold text-[#0f0f0e]">DistilBERT (Fine-Tuned)</td>
-                    <td className="py-3.5 px-4 font-mono text-[#4f46e5]">Deep Neural Networks, Scaled Dot-Product Attention</td>
-                    <td className="py-3.5 px-4 font-mono font-bold text-[#4f46e5]">97.8%</td>
-                    <td className="py-3.5 px-4 font-mono text-[#d97706]">12.4 ms</td>
-                    <td className="py-3.5 px-4 text-[#57534e]">State-of-the-art benchmark; captures contextual polysemy and syntactic structure.</td>
+                    <td className="py-3.5 px-4 font-semibold text-[#0f0f0e]">Decision Tree Classifier</td>
+                    <td className="py-3.5 px-4 font-mono text-[#4f46e5]">Rule-Based Flowchart, Gini Impurity, Orthogonal Cuts</td>
+                    <td className="py-3.5 px-4 font-mono font-medium text-[#0f0f0e]">83.8%</td>
+                    <td className="py-3.5 px-4 font-mono text-[#047857]">0.8 ms</td>
+                    <td className="py-3.5 px-4 text-[#57534e]">Interpretable hierarchical decision splits; overfits on 10,000 sparse TF-IDF features.</td>
                   </tr>
                 </tbody>
               </table>

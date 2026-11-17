@@ -61,8 +61,8 @@ def main():
     # Evaluate models
     model_files = {
         "svm": ("svm.pkl", "Maximum-Margin Hyperplane (Calibrated)"),
-        "mlp": ("mlp.pkl", "Feedforward Neural Network"),
         "naive_bayes": ("nb.pkl", "Generative Probabilistic"),
+        "decision_tree": ("decision_tree.joblib", "Rule-Based Flowchart"),
     }
 
     metrics_out = {}

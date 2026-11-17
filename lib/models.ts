@@ -2,9 +2,8 @@ import rawMetrics from "@/data/metrics.json";
 
 export type ModelId =
   | "linear-svm"
-  | "distilbert"
-  | "neural-mlp"
-  | "naive-bayes";
+  | "naive-bayes"
+  | "decision-tree";
 
 export type ModelInfo = {
   id: ModelId;
@@ -19,9 +18,8 @@ export type ModelInfo = {
 
 const m: any = rawMetrics || {};
 const svmAcc = m.svm?.accuracy ?? m.accuracy ?? 0.964;
-const mlpAcc = m.mlp?.accuracy ?? 0.951;
 const nbAcc = m.naive_bayes?.accuracy ?? 0.921;
-const distilAcc = m.distilbert?.accuracy ?? 0.978;
+const dtAcc = m.decision_tree?.accuracy ?? 0.838;
 
 export const MODELS: Record<ModelId, ModelInfo> = {
   "linear-svm": {
@@ -32,27 +30,7 @@ export const MODELS: Record<ModelId, ModelInfo> = {
     accuracy: Number((svmAcc * 100).toFixed(1)),
     latency: m.svm?.latency_ms ?? 1.2,
     role: "champion",
-    description: "Best balance of speed and accuracy",
-  },
-  distilbert: {
-    id: "distilbert",
-    name: "DistilBERT",
-    subtitle: "Transformer Attention",
-    metric: `${(distilAcc * 100).toFixed(1)}%`,
-    accuracy: Number((distilAcc * 100).toFixed(1)),
-    latency: m.distilbert?.latency_ms ?? 12.4,
-    role: "baseline",
-    description: "Highest theoretical capacity, slower inference",
-  },
-  "neural-mlp": {
-    id: "neural-mlp",
-    name: "Neural MLP",
-    subtitle: "Multi-Layer Perceptron",
-    metric: `${(mlpAcc * 100).toFixed(1)}%`,
-    accuracy: Number((mlpAcc * 100).toFixed(1)),
-    latency: m.mlp?.latency_ms ?? 3.2,
-    role: "baseline",
-    description: "Non-linear neural baseline",
+    description: "Best balance of speed and accuracy (Our Winner ⭐)",
   },
   "naive-bayes": {
     id: "naive-bayes",
@@ -62,7 +40,17 @@ export const MODELS: Record<ModelId, ModelInfo> = {
     accuracy: Number((nbAcc * 100).toFixed(1)),
     latency: m.naive_bayes?.latency_ms ?? 0.5,
     role: "baseline",
-    description: "Fast probabilistic baseline",
+    description: "Fast probabilistic word-frequency baseline",
+  },
+  "decision-tree": {
+    id: "decision-tree",
+    name: "Decision Tree",
+    subtitle: "Rule-Based Flowchart",
+    metric: `${(dtAcc * 100).toFixed(1)}%`,
+    accuracy: Number((dtAcc * 100).toFixed(1)),
+    latency: m.decision_tree?.latency_ms ?? 0.8,
+    role: "baseline",
+    description: "Hierarchical Yes/No decision split baseline",
   },
 };
 

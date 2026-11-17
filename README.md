@@ -3,6 +3,7 @@
 An end-to-end machine learning system that classifies news articles into 5 BBC domains: **Business, Entertainment, Politics, Sport, and Technology**.
 
 **Live Demo:** [https://abhijeetkumar.dpdns.org](https://abhijeetkumar.dpdns.org)  
+**Google Colab Notebook:** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Abhijeet0848/NewsLens/blob/main/notebooks/NewsScope_Classifier.ipynb)  
 **Author:** Abhijeet Kumar  
 **Guide:** Project Guide, Department of Computer Applications  
 **Department:** Computer Applications  
@@ -12,12 +13,11 @@ An end-to-end machine learning system that classifies news articles into 5 BBC d
 
 ## 📊 Performance
 
-| Model | Accuracy | F1 Macro | Latency |
-|-------|----------|----------|---------|
-| **Linear SVM** ⭐ | **96.4%** | 0.963 | 1.2 ms |
-| Naive Bayes | 92.1% | 0.920 | 0.5 ms |
-| Neural MLP | 95.1% | 0.948 | 3.2 ms |
-| DistilBERT | 97.8% | 0.976 | 12.4 ms |
+| Model | Paradigm | Accuracy | F1 Macro | Latency | Role |
+|-------|----------|----------|----------|---------|------|
+| **Linear SVM** ⭐ | Max-Margin Hyperplane | **96.4%** | 0.963 | 1.2 ms | **Production Winner** |
+| **Naive Bayes** | Probabilistic Generative | **92.1%** | 0.920 | 0.5 ms | Fast Probabilistic Baseline |
+| **Decision Tree** | Rule-Based Flowchart | **83.8%** | 0.835 | 0.8 ms | Interpretable Tree Baseline |
 
 ## ✅ Live Test Results
 
@@ -56,7 +56,7 @@ User Input → Next.js Frontend → FastAPI Backend → scikit-learn Model
 - Top keyword saliency (TF-IDF weights)
 - Batch CSV upload for bulk processing
 - Analytics dashboard with model comparison
-- 4-model comparison (SVM, NB, MLP, DistilBERT)
+- 3-model comparison (Linear SVM, Naive Bayes, Decision Tree)
 - Mobile responsive, dark-mode ready
 - Handles edge cases (empty, gibberish, non-English)
 
