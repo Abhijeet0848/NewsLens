@@ -46,11 +46,6 @@ feature_names = vectorizer.get_feature_names_out()
 svm_model = joblib.load(MODEL_DIR / "svm.pkl")
 nb_model = joblib.load(MODEL_DIR / "nb.pkl") if (MODEL_DIR / "nb.pkl").exists() else svm_model
 
-dt_path = MODEL_DIR / "decision_tree.joblib"
-if not dt_path.exists():
-    dt_path = MODEL_DIR / "decision_tree.pkl"
-dt_model = joblib.load(dt_path) if dt_path.exists() else None
-
 # Resolve authentic class labels from label encoder
 le_path = MODEL_DIR / "label_encoder.pkl"
 if not le_path.exists():
@@ -70,11 +65,7 @@ print(f"[startup] Models ready. Classes: {CLASSES}")
 
 def get_model(model_name: str):
     norm = (model_name or "linear-svm").lower().replace("_", "-")
-    if norm in ("decision-tree", "dt", "tree"):
-        if dt_model is not None:
-            return dt_model, "Decision Tree"
-        return svm_model, "Decision Tree (Fallback)"
-    elif norm in ("naive-bayes", "nb"):
+    if norm in ("naive-bayes", "nb"):
         return nb_model, "Multinomial Naive Bayes"
     return svm_model, "Linear SVM (Calibrated)"
 

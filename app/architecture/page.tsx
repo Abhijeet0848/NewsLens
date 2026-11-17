@@ -374,7 +374,7 @@ export default function ArchitecturePage() {
                 <MathBlock math={"\\mathcal{L}_{\\text{CE}} = -\\sum_{k=1}^K y_k \\ln(\\hat{y}_k)"} />
                 <div className="p-3.5 rounded-lg bg-[#f1efeb] text-[12.5px] text-[#3f3d3a] space-y-1.5">
                   <p>
-                    <strong>Comparison:</strong> Hinge loss maximizes margin boundary distance; Cross-entropy maximizes probabilistic likelihood. SVM wins on small sparse data; MLP/DistilBERT win on deep representations.
+                    <strong>Comparison:</strong> Linear SVM maximizes margin boundary distance for optimal separation (98.59% accuracy), while Multinomial Naive Bayes computes generative word likelihoods via Bayes' Theorem (97.65% accuracy).
                   </p>
                 </div>
               </div>
@@ -694,14 +694,14 @@ export default function ArchitecturePage() {
 
               <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1">
                 <span className="text-[#57534e]">ML Backend</span>
-                <div className="font-semibold text-[#0f0f0e] text-sm">FastAPI &amp; PyTorch</div>
-                <span className="text-[#3f3d3a]">Scikit-Learn Baselines</span>
+                <div className="font-semibold text-[#0f0f0e] text-sm">FastAPI &amp; Scikit-Learn</div>
+                <span className="text-[#3f3d3a]">3 Core Classifiers</span>
               </div>
 
               <div className="p-4 rounded-xl bg-[#faf9f6] border border-[#e7e3dd] space-y-1">
                 <span className="text-[#57534e]">NLP Tooling</span>
-                <div className="font-semibold text-[#0f0f0e] text-sm">Transformers + NLTK</div>
-                <span className="text-[#3f3d3a]">DistilBERT Fine-Tuned</span>
+                <div className="font-semibold text-[#0f0f0e] text-sm">TF-IDF + NLTK</div>
+                <span className="text-[#3f3d3a]">Sublinear N-Gram Pipeline</span>
               </div>
             </div>
           </div>

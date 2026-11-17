@@ -90,14 +90,10 @@ def load_artifacts(model_name: str):
 
     # Model resolution
     norm = model_name.lower().replace(" ", "_").replace("-", "_")
-    if norm in ("svm", "linear_svm", "linear_svc"):
-        candidates = ["linear_svm_model.joblib", "svm.joblib", "svm.pkl"]
-    elif norm in ("nb", "naive_bayes", "multinomial_nb"):
-        candidates = ["naive_bayes_model.joblib", "naive_bayes.joblib", "nb.pkl"]
-    elif norm in ("decision_tree", "tree", "dt"):
-        candidates = ["decision_tree_model.joblib", "decision_tree.joblib"]
+    if norm in ("nb", "naive_bayes", "multinomial_nb"):
+        candidates = ["nb.pkl", "naive_bayes_model.joblib", "naive_bayes.joblib"]
     else:
-        candidates = ["linear_svm_model.joblib", "svm.joblib", "svm.pkl"]
+        candidates = ["svm.pkl", "linear_svm_model.joblib", "svm.joblib"]
 
     model = None
     for cand in candidates:
@@ -188,13 +184,7 @@ def predict(text: str, model_name: str = "svm") -> dict:
 
     latency_ms = max(1, round((time.perf_counter() - t_start) * 1000))
 
-    norm_model_name = "Linear SVM (Calibrated)" if "svm" in model_name.lower() else (
-        "Multi-Layer Perceptron (MLP)" if "mlp" in model_name.lower() else (
-            "Multinomial Naive Bayes" if "nb" in model_name.lower() or "bayes" in model_name.lower() else (
-                "Decision Tree" if "tree" in model_name.lower() else "DistilBERT Transformer"
-            )
-        )
-    )
+    norm_model_name = "Multinomial Naive Bayes" if "nb" in model_name.lower() or "bayes" in model_name.lower() else "Linear SVM (Calibrated)"
 
     return {
         "category": top_cat,

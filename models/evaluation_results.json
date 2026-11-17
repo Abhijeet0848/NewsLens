@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "trained_at": "2026-11-17 10:23:48",
+    "trained_at": "2026-11-17 23:41:52",
     "train_samples": 1701,
     "test_samples": 426,
     "categories": [
@@ -17,7 +17,7 @@
       "f1_macro": 0.985,
       "precision": 0.9838,
       "recall": 0.9864,
-      "latency_ms": 0.02,
+      "latency_ms": 0.1,
       "confusion_matrix": [
         [
           98,
@@ -106,7 +106,7 @@
       "f1_macro": 0.9757,
       "precision": 0.9743,
       "recall": 0.9778,
-      "latency_ms": 0.0,
+      "latency_ms": 0.01,
       "confusion_matrix": [
         [
           95,
@@ -186,95 +186,6 @@
           "precision": 0.9324,
           "recall": 1.0,
           "f1_score": 0.965,
-          "support": 69
-        }
-      ]
-    },
-    "decision_tree": {
-      "accuracy": 0.838,
-      "f1_macro": 0.8372,
-      "precision": 0.8398,
-      "recall": 0.8355,
-      "latency_ms": 0.0,
-      "confusion_matrix": [
-        [
-          84,
-          4,
-          6,
-          3,
-          4
-        ],
-        [
-          5,
-          62,
-          1,
-          2,
-          4
-        ],
-        [
-          7,
-          0,
-          70,
-          3,
-          1
-        ],
-        [
-          4,
-          4,
-          5,
-          87,
-          1
-        ],
-        [
-          8,
-          5,
-          0,
-          2,
-          54
-        ]
-      ],
-      "classes": [
-        "Business",
-        "Entertainment",
-        "Politics",
-        "Sport",
-        "Tech"
-      ],
-      "paradigm": "Hierarchical Non-Parametric",
-      "per_class": [
-        {
-          "category": "Business",
-          "precision": 0.7778,
-          "recall": 0.8317,
-          "f1_score": 0.8038,
-          "support": 101
-        },
-        {
-          "category": "Entertainment",
-          "precision": 0.8267,
-          "recall": 0.8378,
-          "f1_score": 0.8322,
-          "support": 74
-        },
-        {
-          "category": "Politics",
-          "precision": 0.8537,
-          "recall": 0.8642,
-          "f1_score": 0.8589,
-          "support": 81
-        },
-        {
-          "category": "Sport",
-          "precision": 0.8969,
-          "recall": 0.8614,
-          "f1_score": 0.8788,
-          "support": 101
-        },
-        {
-          "category": "Tech",
-          "precision": 0.8438,
-          "recall": 0.7826,
-          "f1_score": 0.812,
           "support": 69
         }
       ]

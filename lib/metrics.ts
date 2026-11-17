@@ -35,12 +35,7 @@ export const MODEL_PARADIGMS: Record<
   naive_bayes: {
     name: "Multinomial Naive Bayes",
     paradigm: "Generative Probabilistic",
-    badge: "Fast Baseline",
-  },
-  decision_tree: {
-    name: "Decision Tree",
-    paradigm: "Rule-Based Flowchart",
-    badge: "Interpretable Tree",
+    badge: "Probabilistic Baseline",
   },
 };
 

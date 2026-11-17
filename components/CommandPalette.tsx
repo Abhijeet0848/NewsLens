@@ -261,17 +261,6 @@ export function CommandPalette() {
                     </div>
                     <span className="text-xs font-mono text-[#0284c7]">Probabilistic</span>
                   </Command.Item>
-
-                  <Command.Item
-                    onSelect={() => handleSelectModel("decision-tree", "Decision Tree")}
-                    className="group flex cursor-pointer items-center justify-between rounded-xl px-3 py-2 text-sm text-[#3f3d3a] aria-selected:bg-[#f1efeb] aria-selected:text-[#0f0f0e] transition-colors"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Cpu aria-hidden="true" className="size-4 text-[#57534e] group-aria-selected:text-indigo-600" />
-                      <span className="font-medium">Switch Model: Decision Tree</span>
-                    </div>
-                    <span className="text-xs font-mono text-[#d97706]">Flowchart</span>
-                  </Command.Item>
                 </Command.Group>
 
                 {/* Group 3: Real BBC Samples */}

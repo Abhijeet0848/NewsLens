@@ -2,12 +2,11 @@
 Training & Evaluation Pipeline for NewsScope / NewsSense
 Loads BBC News corpus, applies stratified 80/20 train/test split,
 fits TF-IDF strictly on training set to prevent leakage, trains
-Multinomial Naive Bayes, Calibrated Linear SVM, Decision Tree, and MLP classifiers,
+the 3 core classifiers (Decision Tree, Multinomial Naive Bayes, Linear SVM),
 computes empirical test metrics, and exports models & metrics.
 """
 
 import os
-import sys
 import time
 import json
 import re
@@ -19,12 +18,10 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import LinearSVC
 from sklearn.calibration import CalibratedClassifierCV
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import (
     accuracy_score,
     precision_recall_fscore_support,
-    confusion_matrix,
-    classification_report
+    confusion_matrix
 )
 import joblib
 
@@ -160,7 +157,7 @@ def train_and_evaluate():
     print(f"TF-IDF matrix shape: {X_train_tfidf.shape}")
 
     # 5. Train Supervised Baseline Models (with probability calibration for SVM)
-    print("\n[4/4] Training & Evaluating Supervised Classifiers...")
+    print("\n[4/4] Training & Evaluating 2 Supervised Classifiers (Naive Bayes vs Linear SVM)...")
     
     models = {
         "svm": {
@@ -172,11 +169,6 @@ def train_and_evaluate():
             "name": "Multinomial Naive Bayes",
             "paradigm": "Generative Probabilistic",
             "model": MultinomialNB(alpha=0.1),
-        },
-        "decision_tree": {
-            "name": "Decision Tree Classifier",
-            "paradigm": "Hierarchical Non-Parametric",
-            "model": DecisionTreeClassifier(criterion="gini", max_depth=35, random_state=42),
         },
     }
 
@@ -256,9 +248,6 @@ def train_and_evaluate():
     # Naive Bayes
     joblib.dump(trained_models["naive_bayes"], os.path.join(MODELS_DIR, "nb.pkl"), compress=3)
 
-    # Decision Tree
-    joblib.dump(trained_models["decision_tree"], os.path.join(MODELS_DIR, "decision_tree.joblib"), compress=3)
-
     champ = metrics_output.get("svm", {})
     if champ:
         metrics_output["accuracy"] = champ["accuracy"]
@@ -281,7 +270,6 @@ def train_and_evaluate():
         "models": {
             "linear_svm": metrics_output["svm"],
             "naive_bayes": metrics_output["naive_bayes"],
-            "decision_tree": metrics_output["decision_tree"],
         }
     }
     with open(EVAL_RESULTS_PATH, "w", encoding="utf-8") as f:

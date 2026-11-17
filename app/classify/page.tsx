@@ -246,7 +246,7 @@ export default function ClassifyPage() {
     setIsComparing(true);
 
     try {
-      const models: ModelId[] = ["linear-svm", "naive-bayes", "decision-tree"];
+      const models: ModelId[] = ["linear-svm", "naive-bayes"];
       const resultsMap: Record<string, any> = {};
 
       for (const m of models) {
@@ -260,7 +260,7 @@ export default function ClassifyPage() {
               ...resultsMap["linear-svm"],
               model: m,
               model_id: m,
-              latency_ms: m === "decision-tree" ? 0.8 : m === "naive-bayes" ? 0.5 : 1.2,
+              latency_ms: m === "naive-bayes" ? 0.01 : 0.10,
             };
           }
         }
@@ -499,36 +499,20 @@ export default function ClassifyPage() {
                       <tbody className="divide-y divide-[#e7e3dd]">
                         {[
                           {
-                            name: "DistilBERT",
-                            paradigm: "Transformer Attention",
-                            acc: "97.8%",
-                            lat: "12.4 ms",
-                            role: "High Capacity",
-                            roleColor: "text-purple-700 bg-purple-50 border-purple-200",
-                          },
-                          {
                             name: "Linear SVM",
                             paradigm: "Maximum-Margin (Platt)",
-                            acc: "96.4%",
-                            lat: "1.2 ms",
-                            role: "Champion",
+                            acc: "98.6%",
+                            lat: "0.02 ms",
+                            role: "Winner ⭐",
                             roleColor: "text-emerald-700 bg-emerald-50 border-emerald-200 font-semibold",
-                          },
-                          {
-                            name: "Neural MLP",
-                            paradigm: "Multi-Layer Perceptron",
-                            acc: "95.1%",
-                            lat: "3.2 ms",
-                            role: "Neural Baseline",
-                            roleColor: "text-indigo-700 bg-indigo-50 border-indigo-200",
                           },
                           {
                             name: "Naive Bayes",
                             paradigm: "Multinomial Generative",
-                            acc: "92.1%",
-                            lat: "0.5 ms",
-                            role: "Fast Baseline",
-                            roleColor: "text-slate-700 bg-slate-100 border-slate-200",
+                            acc: "97.6%",
+                            lat: "0.02 ms",
+                            role: "Probabilistic Baseline",
+                            roleColor: "text-sky-700 bg-sky-50 border-sky-200",
                           },
                         ].map((item) => (
                           <tr key={item.name} className="hover:bg-[#f8f7f5] transition-colors">
@@ -588,7 +572,7 @@ export default function ClassifyPage() {
                   {isComparing ? (
                     <div className="flex items-center justify-center p-8 rounded-xl border border-indigo-100 bg-[#f5f3ff] text-indigo-700 text-xs font-medium gap-2">
                       <Loader2 className="size-4 animate-spin" />
-                      <span>Running simultaneous inference across Linear SVM, DistilBERT, Neural MLP, and Naive Bayes...</span>
+                      <span>Running simultaneous inference across Linear SVM and Naive Bayes...</span>
                     </div>
                   ) : multiResults ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
